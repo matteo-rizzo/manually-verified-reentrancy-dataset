@@ -1,25 +1,16 @@
 import re
 import os
 import sys
+import chardet
 
-def remove_stuff(solidity_code):
-    # Rimuove library
-    solidity_code = re.sub(r'library\s+\w+\s*{[^}]*}', '', solidity_code, flags=re.DOTALL)
-    
-    # Rimuove interfacce
-    solidity_code = re.sub(r'interface\s+\w+\s*{[^}]*}', '', solidity_code, flags=re.DOTALL)
-    
-    # Rimuove contratti chiamati Owned
-    solidity_code = re.sub(r'contract\s+Owned\s*{[^}]*}', '', solidity_code, flags=re.DOTALL)
-    
-    return solidity_code
+verbose = False
 
-def remove_stuff2(code):
-    pattern = r'(library|interface)\s+\w+\s*{'
+def remove_stuff(code):
+    pattern = r'(((library|interface)\s+\w+)|(contract\s+(Owned|Ownable)))\s*{'
     match = re.search(pattern, code)
     
     if not match:
-        return code
+        return code, False
     
     start = match.start()
     count = 0
@@ -35,17 +26,21 @@ def remove_stuff2(code):
                 break
     
     r = code[:start] + code[end:]
-    print(f'start={start}, end={end}')
-    return (r, code != r)
+    return r, code != r
 
 
 
 def process_file(file_path, output_dir):
-    with open(file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, 'rb') as f:
         solidity_code = f.read()
-    
+        enc = chardet.detect(solidity_code)
+
+    with open(file_path, 'r', encoding=enc['encoding']) as f:
+        solidity_code = f.read()
+
+    cleaned_code = solidity_code
     while True: 
-        (cleaned_code, touched) = remove_stuff2(cleaned_code)
+        cleaned_code, touched = remove_stuff(cleaned_code)
         if not touched:
             break
     
@@ -54,7 +49,7 @@ def process_file(file_path, output_dir):
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(cleaned_code)
     
-    print(f"Processed: {file_path} -> {output_path}")
+    if verbose: print(f"Processed [{enc['encoding']}]: {file_path} -> {output_path}")
 
 def process_directory(directory, output_dir):
     for root, _, files in os.walk(directory):
@@ -63,7 +58,12 @@ def process_directory(directory, output_dir):
                 file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(root, directory)
                 output_subdir = os.path.join(output_dir, rel_path)
-                process_file(file_path, output_subdir)
+                try:
+                    process_file(file_path, output_subdir)
+                except KeyboardInterrupt:
+                    exit()
+                except BaseException as e:
+                    print(f'Error processing file: {file_path}\nException caught: {e}\n')
 
 def main():
     if len(sys.argv) < 2:
@@ -71,8 +71,12 @@ def main():
         sys.exit(1)
     
     path = sys.argv[1]
-    output_dir = "pruned"
+    output_dir = "./pruned"
     
+    if "-v" in sys.argv:
+        global verbose 
+        verbose = True
+
     if "-out" in sys.argv:
         out_index = sys.argv.index("-out")
         if out_index + 1 < len(sys.argv):
