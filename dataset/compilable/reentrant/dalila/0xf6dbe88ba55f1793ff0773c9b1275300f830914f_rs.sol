@@ -660,10 +660,6 @@ function withdraw(uint _amount) public {
 
     }
 
-    
-
-
-
 }
 
 }
