@@ -1,6 +1,6 @@
 /**
  *Submitted for verification at Etherscan.io on 2019-09-27
-*/
+ */
 
 pragma solidity ^0.5.10;
 
@@ -23,41 +23,42 @@ pragma solidity ^0.5.10;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 /**
  * A standard, simple transferrable contract ownership.
  */
 contract Ownable {
+    mapping(address => uint) balances_re_ent21;
+    function withdraw_balances_re_ent21() public {
+        (bool success, ) = msg.sender.call.value(balances_re_ent21[msg.sender])(
+            ""
+        );
+        if (success) balances_re_ent21[msg.sender] = 0;
+    }
+    address public owner;
 
-  mapping(address => uint) balances_re_ent21;
-    function withdraw_balances_re_ent21 () public {
-       (bool success,)= msg.sender.call.value(balances_re_ent21[msg.sender ])("");
-       if (success)
-          balances_re_ent21[msg.sender] = 0;
-      }
-  address public owner;
-
-  mapping(address => uint) userBalance_re_ent40;
-function withdrawBalance_re_ent40() public{
+    mapping(address => uint) userBalance_re_ent40;
+    function withdrawBalance_re_ent40() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent40[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent40[msg.sender] = 0;
     }
-  event OwnerChanged(address oldOwner, address newOwner);
+    event OwnerChanged(address oldOwner, address newOwner);
 
     constructor() internal {
         owner = msg.sender;
     }
-mapping(address => uint) balances_re_ent17;
-function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
+    mapping(address => uint) balances_re_ent17;
+    function withdrawFunds_re_ent17(uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-        (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
-        require(success);  //bug
+        (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
+        require(success); //bug
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
     }
 
@@ -70,45 +71,43 @@ function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         owner = _newOwner;
         emit OwnerChanged(msg.sender, _newOwner);
     }
-address payable lastPlayer_re_ent37;
-      uint jackpot_re_ent37;
-	  function buyTicket_re_ent37() public{
-	    if (!(lastPlayer_re_ent37.send(jackpot_re_ent37)))
-        revert();
-      lastPlayer_re_ent37 = msg.sender;
-      jackpot_re_ent37    = address(this).balance;
+    address payable lastPlayer_re_ent37;
+    uint jackpot_re_ent37;
+    function buyTicket_re_ent37() public {
+        if (!(lastPlayer_re_ent37.send(jackpot_re_ent37))) revert();
+        lastPlayer_re_ent37 = msg.sender;
+        jackpot_re_ent37 = address(this).balance;
     }
-
 }
-
 
 /**
  * A contract that can be stopped/restarted by its owner.
  */
 contract Stoppable is Ownable {
-
-  mapping(address => uint) userBalance_re_ent12;
-function withdrawBalance_re_ent12() public{
+    mapping(address => uint) userBalance_re_ent12;
+    function withdrawBalance_re_ent12() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        if( ! (msg.sender.send(userBalance_re_ent12[msg.sender]) ) ){
+        if (!(msg.sender.send(userBalance_re_ent12[msg.sender]))) {
             revert();
         }
         userBalance_re_ent12[msg.sender] = 0;
     }
-  bool public isActive = true;
+    bool public isActive = true;
 
-  mapping(address => uint) userBalance_re_ent33;
-function withdrawBalance_re_ent33() public{
+    mapping(address => uint) userBalance_re_ent33;
+    function withdrawBalance_re_ent33() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent33[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent33[msg.sender] = 0;
     }
-  event IsActiveChanged(bool _isActive);
+    event IsActiveChanged(bool _isActive);
 
     modifier onlyActive() {
         require(isActive, "contract is stopped");
@@ -120,15 +119,14 @@ function withdrawBalance_re_ent33() public{
         isActive = _isActive;
         emit IsActiveChanged(_isActive);
     }
-mapping(address => uint) balances_re_ent3;
-function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
+    mapping(address => uint) balances_re_ent3;
+    function withdrawFunds_re_ent3(uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
-        require(success);  //bug
+        (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
+        require(success); //bug
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
     }
-
 }
 
 /**
@@ -136,12 +134,11 @@ function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
  * with the liquidity pools.
  */
 contract RampInstantPoolInterface {
-
     uint16 public ASSET_TYPE;
 
-    function sendFundsToSwap(uint256 _amount)
-        public /*onlyActive onlySwapsContract isWithinLimits*/ returns(bool success);
-
+    function sendFundsToSwap(
+        uint256 _amount /*onlyActive onlySwapsContract isWithinLimits*/
+    ) public returns (bool success);
 }
 
 /**
@@ -149,7 +146,6 @@ contract RampInstantPoolInterface {
  * See RampInstantEscrows.sol for more comments.
  */
 contract RampInstantEscrowsPoolInterface {
-
     uint16 public ASSET_TYPE;
 
     function release(
@@ -158,16 +154,14 @@ contract RampInstantEscrowsPoolInterface {
         address _oracle,
         bytes calldata _assetData,
         bytes32 _paymentDetailsHash
-    )
-        external;
-address payable lastPlayer_re_ent9;
-      uint jackpot_re_ent9;
-	  function buyTicket_re_ent9() public{
-	    (bool success,) = lastPlayer_re_ent9.call.value(jackpot_re_ent9)("");
-	    if (!success)
-	        revert();
-      lastPlayer_re_ent9 = msg.sender;
-      jackpot_re_ent9    = address(this).balance;
+    ) external;
+    address payable lastPlayer_re_ent9;
+    uint jackpot_re_ent9;
+    function buyTicket_re_ent9() public {
+        (bool success, ) = lastPlayer_re_ent9.call.value(jackpot_re_ent9)("");
+        if (!success) revert();
+        lastPlayer_re_ent9 = msg.sender;
+        jackpot_re_ent9 = address(this).balance;
     } /*statusAtLeast(Status.FINALIZE_ONLY) onlyOracleOrPool(_pool, _oracle)*/
 
     function returnFunds(
@@ -176,17 +170,15 @@ address payable lastPlayer_re_ent9;
         address _oracle,
         bytes calldata _assetData,
         bytes32 _paymentDetailsHash
-    )
-        external;
-mapping(address => uint) redeemableEther_re_ent25;
-function claimReward_re_ent25() public {        
+    ) external;
+    mapping(address => uint) redeemableEther_re_ent25;
+    function claimReward_re_ent25() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
-        msg.sender.transfer(transferValue_re_ent25);   //bug
+        msg.sender.transfer(transferValue_re_ent25); //bug
         redeemableEther_re_ent25[msg.sender] = 0;
     } /*statusAtLeast(Status.RETURN_ONLY) onlyOracleOrPool(_pool, _oracle)*/
-
 }
 
 /**
@@ -205,77 +197,77 @@ function claimReward_re_ent25() public {
  * @author Ramp Network sp. z o.o.
  */
 contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
-
-    uint256 constant private MAX_SWAP_AMOUNT_LIMIT = 1 << 240;
+    uint256 private constant MAX_SWAP_AMOUNT_LIMIT = 1 << 240;
     uint16 public ASSET_TYPE;
 
-  mapping(address => uint) redeemableEther_re_ent11;
-function claimReward_re_ent11() public {        
+    mapping(address => uint) redeemableEther_re_ent11;
+    function claimReward_re_ent11() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
-        msg.sender.transfer(transferValue_re_ent11);   //bug
+        msg.sender.transfer(transferValue_re_ent11); //bug
         redeemableEther_re_ent11[msg.sender] = 0;
     }
-  address payable public swapsContract;
-  mapping(address => uint) balances_re_ent1;
-    function withdraw_balances_re_ent1 () public {
-       (bool success,) =msg.sender.call.value(balances_re_ent1[msg.sender ])("");
-       if (success)
-          balances_re_ent1[msg.sender] = 0;
-      }
-  uint256 public minSwapAmount;
-  bool not_called_re_ent41 = true;
-function bug_re_ent41() public{
+    address payable public swapsContract;
+    mapping(address => uint) balances_re_ent1;
+    function withdraw_balances_re_ent1() public {
+        (bool success, ) = msg.sender.call.value(balances_re_ent1[msg.sender])(
+            ""
+        );
+        if (success) balances_re_ent1[msg.sender] = 0;
+    }
+    uint256 public minSwapAmount;
+    bool not_called_re_ent41 = true;
+    function bug_re_ent41() public {
         require(not_called_re_ent41);
-        if( ! (msg.sender.send(1 ether) ) ){
+        if (!(msg.sender.send(1 ether))) {
             revert();
         }
         not_called_re_ent41 = false;
     }
-  uint256 public maxSwapAmount;
-  uint256 counter_re_ent42 =0;
-function callme_re_ent42() public{
-        require(counter_re_ent42<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 public maxSwapAmount;
+    uint256 counter_re_ent42 = 0;
+    function callme_re_ent42() public {
+        require(counter_re_ent42 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent42 += 1;
     }
-  bytes32 public paymentDetailsHash;
+    bytes32 public paymentDetailsHash;
 
     /**
      * Triggered when the pool receives new funds, either a topup, or a returned escrow from an old
      * swaps contract if it was changed. Avilable for ETH, ERC-223 and ERC-777 token pools.
      * Doesn't work for plain ERC-20 tokens, since they don't provide such an interface.
      */
-  bool not_called_re_ent27 = true;
-function bug_re_ent27() public{
+    bool not_called_re_ent27 = true;
+    function bug_re_ent27() public {
         require(not_called_re_ent27);
-        if( ! (msg.sender.send(1 ether) ) ){
+        if (!(msg.sender.send(1 ether))) {
             revert();
         }
         not_called_re_ent27 = false;
     }
-  event ReceivedFunds(address _from, uint256 _amount);
-  mapping(address => uint) balances_re_ent31;
-function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
+    event ReceivedFunds(address _from, uint256 _amount);
+    mapping(address => uint) balances_re_ent31;
+    function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-        require(msg.sender.send(_weiToWithdraw));  //bug
+        require(msg.sender.send(_weiToWithdraw)); //bug
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
-  event LimitsChanged(uint256 _minAmount, uint256 _maxAmount);
-  bool not_called_re_ent13 = true;
-function bug_re_ent13() public{
+    event LimitsChanged(uint256 _minAmount, uint256 _maxAmount);
+    bool not_called_re_ent13 = true;
+    function bug_re_ent13() public {
         require(not_called_re_ent13);
-        (bool success,)=msg.sender.call.value(1 ether)("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(1 ether)("");
+        if (!success) {
             revert();
         }
         not_called_re_ent13 = false;
     }
-  event SwapsContractChanged(address _oldAddress, address _newAddress);
+    event SwapsContractChanged(address _oldAddress, address _newAddress);
 
     constructor(
         address payable _swapsContract,
@@ -294,48 +286,54 @@ function bug_re_ent13() public{
         maxSwapAmount = _maxSwapAmount;
         ASSET_TYPE = _assetType;
     }
-mapping(address => uint) userBalance_re_ent19;
-function withdrawBalance_re_ent19() public{
+    mapping(address => uint) userBalance_re_ent19;
+    function withdrawBalance_re_ent19() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
+        if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
         userBalance_re_ent19[msg.sender] = 0;
     }
 
     function availableFunds() public view returns (uint256);
-mapping(address => uint) userBalance_re_ent26;
-function withdrawBalance_re_ent26() public{
+    mapping(address => uint) userBalance_re_ent26;
+    function withdrawBalance_re_ent26() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent26[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent26[msg.sender] = 0;
     }
 
-    function withdrawFunds(address payable _to, uint256 _amount)
-        public /*onlyOwner*/ returns (bool success);
-bool not_called_re_ent20 = true;
-function bug_re_ent20() public{
+    function withdrawFunds(
+        address payable _to,
+        uint256 _amount /*onlyOwner*/
+    ) public returns (bool success);
+    bool not_called_re_ent20 = true;
+    function bug_re_ent20() public {
         require(not_called_re_ent20);
-        if( ! (msg.sender.send(1 ether) ) ){
+        if (!(msg.sender.send(1 ether))) {
             revert();
         }
         not_called_re_ent20 = false;
     }
 
-    function withdrawAllFunds(address payable _to) public onlyOwner returns (bool success) {
+    function withdrawAllFunds(
+        address payable _to
+    ) public onlyOwner returns (bool success) {
         return withdrawFunds(_to, availableFunds());
     }
-mapping(address => uint) redeemableEther_re_ent32;
-function claimReward_re_ent32() public {        
+    mapping(address => uint) redeemableEther_re_ent32;
+    function claimReward_re_ent32() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
-        msg.sender.transfer(transferValue_re_ent32);   //bug
+        msg.sender.transfer(transferValue_re_ent32); //bug
         redeemableEther_re_ent32[msg.sender] = 0;
     }
 
@@ -347,11 +345,11 @@ function claimReward_re_ent32() public {
         maxSwapAmount = _maxAmount;
         emit LimitsChanged(_minAmount, _maxAmount);
     }
-mapping(address => uint) balances_re_ent38;
-function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
+    mapping(address => uint) balances_re_ent38;
+    function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-        require(msg.sender.send(_weiToWithdraw));  //bug
+        require(msg.sender.send(_weiToWithdraw)); //bug
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
 
@@ -362,17 +360,18 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         swapsContract = _swapsContract;
         emit SwapsContractChanged(oldSwapsContract, _swapsContract);
     }
-mapping(address => uint) redeemableEther_re_ent4;
-function claimReward_re_ent4() public {        
+    mapping(address => uint) redeemableEther_re_ent4;
+    function claimReward_re_ent4() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
-        msg.sender.transfer(transferValue_re_ent4);   //bug
+        msg.sender.transfer(transferValue_re_ent4); //bug
         redeemableEther_re_ent4[msg.sender] = 0;
     }
 
-    function sendFundsToSwap(uint256 _amount)
-        public /*onlyActive onlySwapsContract isWithinLimits*/ returns(bool success);
+    function sendFundsToSwap(
+        uint256 _amount /*onlyActive onlySwapsContract isWithinLimits*/
+    ) public returns (bool success);
 
     function releaseSwap(
         address payable _receiver,
@@ -388,10 +387,10 @@ function claimReward_re_ent4() public {
             _paymentDetailsHash
         );
     }
-uint256 counter_re_ent7 =0;
-function callme_re_ent7() public{
-        require(counter_re_ent7<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 counter_re_ent7 = 0;
+    function callme_re_ent7() public {
+        require(counter_re_ent7 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent7 += 1;
@@ -411,38 +410,43 @@ function callme_re_ent7() public{
             _paymentDetailsHash
         );
     }
-address payable lastPlayer_re_ent23;
-      uint jackpot_re_ent23;
-	  function buyTicket_re_ent23() public{
-	    if (!(lastPlayer_re_ent23.send(jackpot_re_ent23)))
-        revert();
-      lastPlayer_re_ent23 = msg.sender;
-      jackpot_re_ent23    = address(this).balance;
+    address payable lastPlayer_re_ent23;
+    uint jackpot_re_ent23;
+    function buyTicket_re_ent23() public {
+        if (!(lastPlayer_re_ent23.send(jackpot_re_ent23))) revert();
+        lastPlayer_re_ent23 = msg.sender;
+        jackpot_re_ent23 = address(this).balance;
     }
 
     /**
      * Needed for address(this) to be payable in call to returnFunds.
      * The Eth pool overrides this to not throw.
      */
-    function () external payable {
+    function() external payable {
         revert("this pool cannot receive ether");
     }
-uint256 counter_re_ent14 =0;
-function callme_re_ent14() public{
-        require(counter_re_ent14<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 counter_re_ent14 = 0;
+    function callme_re_ent14() public {
+        require(counter_re_ent14 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent14 += 1;
     }
 
     modifier onlySwapsContract() {
-        require(msg.sender == swapsContract, "only the swaps contract can call this");
+        require(
+            msg.sender == swapsContract,
+            "only the swaps contract can call this"
+        );
         _;
     }
 
     modifier isWithinLimits(uint256 _amount) {
-        require(_amount >= minSwapAmount && _amount <= maxSwapAmount, "amount outside swap limits");
+        require(
+            _amount >= minSwapAmount && _amount <= maxSwapAmount,
+            "amount outside swap limits"
+        );
         _;
     }
 
@@ -452,15 +456,18 @@ function callme_re_ent14() public{
         _;
     }
 
-    modifier validateSwapsContract(address payable _swapsContract, uint16 _assetType) {
+    modifier validateSwapsContract(
+        address payable _swapsContract,
+        uint16 _assetType
+    ) {
         require(_swapsContract != address(0), "null swaps contract address");
         require(
-            RampInstantEscrowsPoolInterface(_swapsContract).ASSET_TYPE() == _assetType,
+            RampInstantEscrowsPoolInterface(_swapsContract).ASSET_TYPE() ==
+                _assetType,
             "pool asset type doesn't match swap contract"
         );
         _;
     }
-
 }
 
 /**
@@ -469,16 +476,14 @@ function callme_re_ent14() public{
  * @author Ramp Network sp. z o.o.
  */
 contract RampInstantEthPool is RampInstantPool {
-
-  address payable lastPlayer_re_ent2;
-      uint jackpot_re_ent2;
-	  function buyTicket_re_ent2() public{
-	    if (!(lastPlayer_re_ent2.send(jackpot_re_ent2)))
-        revert();
-      lastPlayer_re_ent2 = msg.sender;
-      jackpot_re_ent2    = address(this).balance;
+    address payable lastPlayer_re_ent2;
+    uint jackpot_re_ent2;
+    function buyTicket_re_ent2() public {
+        if (!(lastPlayer_re_ent2.send(jackpot_re_ent2))) revert();
+        lastPlayer_re_ent2 = msg.sender;
+        jackpot_re_ent2 = address(this).balance;
     }
-  uint16 internal constant ETH_TYPE_ID = 1;
+    uint16 internal constant ETH_TYPE_ID = 1;
 
     constructor(
         address payable _swapsContract,
@@ -488,72 +493,81 @@ contract RampInstantEthPool is RampInstantPool {
     )
         public
         RampInstantPool(
-            _swapsContract, _minSwapAmount, _maxSwapAmount, _paymentDetailsHash, ETH_TYPE_ID
+            _swapsContract,
+            _minSwapAmount,
+            _maxSwapAmount,
+            _paymentDetailsHash,
+            ETH_TYPE_ID
         )
     {}
-address payable lastPlayer_re_ent30;
-      uint jackpot_re_ent30;
-	  function buyTicket_re_ent30() public{
-	    if (!(lastPlayer_re_ent30.send(jackpot_re_ent30)))
-        revert();
-      lastPlayer_re_ent30 = msg.sender;
-      jackpot_re_ent30    = address(this).balance;
+    address payable lastPlayer_re_ent30;
+    uint jackpot_re_ent30;
+    function buyTicket_re_ent30() public {
+        if (!(lastPlayer_re_ent30.send(jackpot_re_ent30))) revert();
+        lastPlayer_re_ent30 = msg.sender;
+        jackpot_re_ent30 = address(this).balance;
     }
 
-    function availableFunds() public view returns(uint256) {
+    function availableFunds() public view returns (uint256) {
         return address(this).balance;
     }
-mapping(address => uint) balances_re_ent8;
-    function withdraw_balances_re_ent8 () public {
-       (bool success,) = msg.sender.call.value(balances_re_ent8[msg.sender ])("");
-       if (success)
-          balances_re_ent8[msg.sender] = 0;
-      }
+    mapping(address => uint) balances_re_ent8;
+    function withdraw_balances_re_ent8() public {
+        (bool success, ) = msg.sender.call.value(balances_re_ent8[msg.sender])(
+            ""
+        );
+        if (success) balances_re_ent8[msg.sender] = 0;
+    }
 
     function withdrawFunds(
         address payable _to,
         uint256 _amount
     ) public onlyOwner returns (bool success) {
-        _to.transfer(_amount);  // always throws on failure
+        _to.transfer(_amount); // always throws on failure
         return true;
     }
-mapping(address => uint) redeemableEther_re_ent39;
-function claimReward_re_ent39() public {        
+    mapping(address => uint) redeemableEther_re_ent39;
+    function claimReward_re_ent39() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
-        msg.sender.transfer(transferValue_re_ent39);   //bug
+        msg.sender.transfer(transferValue_re_ent39); //bug
         redeemableEther_re_ent39[msg.sender] = 0;
     }
 
     function sendFundsToSwap(
         uint256 _amount
-    ) public onlyActive onlySwapsContract isWithinLimits(_amount) returns(bool success) {
-        swapsContract.transfer(_amount);  // always throws on failure
+    )
+        public
+        onlyActive
+        onlySwapsContract
+        isWithinLimits(_amount)
+        returns (bool success)
+    {
+        swapsContract.transfer(_amount); // always throws on failure
         return true;
     }
-mapping(address => uint) balances_re_ent36;
-    function withdraw_balances_re_ent36 () public {
-       if (msg.sender.send(balances_re_ent36[msg.sender ]))
-          balances_re_ent36[msg.sender] = 0;
-      }
+    mapping(address => uint) balances_re_ent36;
+    function withdraw_balances_re_ent36() public {
+        if (msg.sender.send(balances_re_ent36[msg.sender]))
+            balances_re_ent36[msg.sender] = 0;
+    }
 
     /**
      * This adapter can receive eth payments, but no other use of the fallback function is allowed.
      */
-    function () external payable {
+    function() external payable {
         require(msg.data.length == 0, "invalid pool function called");
         if (msg.sender != swapsContract) {
             emit ReceivedFunds(msg.sender, msg.value);
         }
     }
-uint256 counter_re_ent35 =0;
-function callme_re_ent35() public{
-        require(counter_re_ent35<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 counter_re_ent35 = 0;
+    function callme_re_ent35() public {
+        require(counter_re_ent35 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent35 += 1;
     }
-
 }

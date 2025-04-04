@@ -1,50 +1,46 @@
 pragma solidity ^0.4.21;
 
-
 contract DSAuthority {
     function canCall(
-        address src, address dst, bytes4 sig
+        address src,
+        address dst,
+        bytes4 sig
     ) public view returns (bool);
 }
 
-
 contract DSAuthEvents {
-    event LogSetAuthority (address indexed authority);
-    event LogSetOwner     (address indexed owner);
+    event LogSetAuthority(address indexed authority);
+    event LogSetOwner(address indexed owner);
 }
 
-
 contract DSAuth is DSAuthEvents {
-    DSAuthority  public  authority;
-    address      public  owner;
+    DSAuthority public authority;
+    address public owner;
 
     function DSAuth() public {
         owner = msg.sender;
         LogSetOwner(msg.sender);
     }
 
-    function setOwner(address owner_)
-    public
-    auth
-    {
+    function setOwner(address owner_) public auth {
         owner = owner_;
         LogSetOwner(owner);
     }
 
-    function setAuthority(DSAuthority authority_)
-    public
-    auth
-    {
+    function setAuthority(DSAuthority authority_) public auth {
         authority = authority_;
         LogSetAuthority(authority);
     }
 
-    modifier auth {
+    modifier auth() {
         require(isAuthorized(msg.sender, msg.sig));
         _;
     }
 
-    function isAuthorized(address src, bytes4 sig) internal view returns (bool) {
+    function isAuthorized(
+        address src,
+        bytes4 sig
+    ) internal view returns (bool) {
         if (src == address(this)) {
             return true;
         } else if (src == owner) {
@@ -56,7 +52,6 @@ contract DSAuth is DSAuthEvents {
         }
     }
 }
-
 
 contract DSMath {
     function add(uint x, uint y) internal pure returns (uint z) {
@@ -126,59 +121,48 @@ contract DSMath {
     }
 }
 
-
 contract DSExec {
-    function tryExec( address target, bytes calldata, uint value)
-    internal
-    returns (bool call_ret)
-    {
+    function tryExec(
+        address target,
+        bytes calldata,
+        uint value
+    ) internal returns (bool call_ret) {
         return target.call.value(value)(calldata);
     }
-    function exec( address target, bytes calldata, uint value)
-    internal
-    {
-        if(!tryExec(target, calldata, value)) {
+    function exec(address target, bytes calldata, uint value) internal {
+        if (!tryExec(target, calldata, value)) {
             revert();
         }
     }
 
     // Convenience aliases
-    function exec( address t, bytes c )
-    internal
-    {
+    function exec(address t, bytes c) internal {
         exec(t, c, 0);
     }
-    function exec( address t, uint256 v )
-    internal
-    {
-        bytes memory c; exec(t, c, v);
+    function exec(address t, uint256 v) internal {
+        bytes memory c;
+        exec(t, c, v);
     }
-    function tryExec( address t, bytes c )
-    internal
-    returns (bool)
-    {
+    function tryExec(address t, bytes c) internal returns (bool) {
         return tryExec(t, c, 0);
     }
-    function tryExec( address t, uint256 v )
-    internal
-    returns (bool)
-    {
-        bytes memory c; return tryExec(t, c, v);
+    function tryExec(address t, uint256 v) internal returns (bool) {
+        bytes memory c;
+        return tryExec(t, c, v);
     }
 }
 
-
 contract DSNote {
     event LogNote(
-        bytes4   indexed  sig,
-        address  indexed  guy,
-        bytes32  indexed  foo,
-        bytes32  indexed  bar,
-        uint              wad,
-        bytes             fax
+        bytes4 indexed sig,
+        address indexed guy,
+        bytes32 indexed foo,
+        bytes32 indexed bar,
+        uint wad,
+        bytes fax
     ) anonymous;
 
-    modifier note {
+    modifier note() {
         bytes32 foo;
         bytes32 bar;
 
@@ -193,12 +177,10 @@ contract DSNote {
     }
 }
 
-
 contract DSStop is DSNote, DSAuth {
-
     bool public stopped;
 
-    modifier stoppable {
+    modifier stoppable() {
         require(!stopped);
         _;
     }
@@ -208,15 +190,12 @@ contract DSStop is DSNote, DSAuth {
     function start() public auth note {
         stopped = false;
     }
-
 }
-
 
 contract ERC20Events {
     event Approval(address indexed src, address indexed guy, uint wad);
     event Transfer(address indexed src, address indexed dst, uint wad);
 }
-
 
 contract ERC20 is ERC20Events {
     function totalSupply() public view returns (uint);
@@ -226,15 +205,16 @@ contract ERC20 is ERC20Events {
     function approve(address guy, uint wad) public returns (bool);
     function transfer(address dst, uint wad) public returns (bool);
     function transferFrom(
-        address src, address dst, uint wad
+        address src,
+        address dst,
+        uint wad
     ) public returns (bool);
 }
 
-
 contract DSTokenBase is ERC20, DSMath {
-    uint256                                            _supply;
-    mapping (address => uint256)                       _balances;
-    mapping (address => mapping (address => uint256))  _approvals;
+    uint256 _supply;
+    mapping(address => uint256) _balances;
+    mapping(address => mapping(address => uint256)) _approvals;
 
     function DSTokenBase(uint supply) public {
         _balances[msg.sender] = supply;
@@ -255,10 +235,11 @@ contract DSTokenBase is ERC20, DSMath {
         return transferFrom(msg.sender, dst, wad);
     }
 
-    function transferFrom(address src, address dst, uint wad)
-    public
-    returns (bool)
-    {
+    function transferFrom(
+        address src,
+        address dst,
+        uint wad
+    ) public returns (bool) {
         if (src != msg.sender) {
             _approvals[src][msg.sender] = sub(_approvals[src][msg.sender], wad);
         }
@@ -280,12 +261,9 @@ contract DSTokenBase is ERC20, DSMath {
     }
 }
 
-
-
 contract DSToken is DSTokenBase(0), DSStop {
-
-    bytes32  public  symbol;
-    uint256  public  decimals = 18; // standard token precision. override to customize
+    bytes32 public symbol;
+    uint256 public decimals = 18; // standard token precision. override to customize
 
     function DSToken(bytes32 symbol_) public {
         symbol = symbol_;
@@ -302,11 +280,11 @@ contract DSToken is DSTokenBase(0), DSStop {
         return super.approve(guy, wad);
     }
 
-    function transferFrom(address src, address dst, uint wad)
-        public
-        stoppable
-        returns (bool)
-    {
+    function transferFrom(
+        address src,
+        address dst,
+        uint wad
+    ) public stoppable returns (bool) {
         if (src != msg.sender && _approvals[src][msg.sender] != uint(-1)) {
             _approvals[src][msg.sender] = sub(_approvals[src][msg.sender], wad);
         }
@@ -351,7 +329,7 @@ contract DSToken is DSTokenBase(0), DSStop {
     }
 
     // Optional token name
-    bytes32   public  name = "";
+    bytes32 public name = "";
 
     function setName(bytes32 name_) public auth {
         name = name_;

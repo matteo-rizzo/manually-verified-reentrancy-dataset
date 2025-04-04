@@ -1,6 +1,5 @@
 pragma solidity ^0.4.0;
 
-
 contract Registrar {
     address public owner;
 
@@ -8,7 +7,10 @@ contract Registrar {
         owner = msg.sender;
     }
 
-    modifier onlyowner { if (msg.sender != owner) throw; _; }
+    modifier onlyowner() {
+        if (msg.sender != owner) throw;
+        _;
+    }
 
     function transferOwner(address newOwner) public onlyowner {
         owner = newOwner;
@@ -20,10 +22,9 @@ contract Registrar {
         parent = Registrar(parentAddress);
     }
 
-    mapping (bytes32 => bytes32) records;
-    mapping (bytes32 => string) stringRecords;
-    mapping (bytes32 => bool) recordExists;
-
+    mapping(bytes32 => bytes32) records;
+    mapping(bytes32 => string) stringRecords;
+    mapping(bytes32 => bool) recordExists;
 
     function set(string key, bytes32 value) public onlyowner {
         // Compute the fixed length key

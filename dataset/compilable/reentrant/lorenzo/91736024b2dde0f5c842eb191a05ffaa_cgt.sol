@@ -71,14 +71,18 @@ contract DSMath {
 contract OtcInterface {
     function sellAllAmount(address, uint, address, uint) public returns (uint);
     function buyAllAmount(address, uint, address, uint) public returns (uint);
-    function getPayAmount(address, address, uint) public constant returns (uint);
+    function getPayAmount(
+        address,
+        address,
+        uint
+    ) public constant returns (uint);
 }
 
 contract TokenInterface {
     function balanceOf(address) public returns (uint);
     function allowance(address, address) public returns (uint);
     function approve(address, uint) public;
-    function transfer(address,uint) public returns (bool);
+    function transfer(address, uint) public returns (bool);
     function transferFrom(address, address, uint) public returns (bool);
     function deposit() public payable;
     function withdraw(uint) public;
@@ -90,7 +94,13 @@ contract OasisDirectProxy is DSMath {
         require(msg.sender.call.value(wethAmt)());
     }
 
-    function sellAllAmount(OtcInterface otc, TokenInterface payToken, uint payAmt, TokenInterface buyToken, uint minBuyAmt) public returns (uint buyAmt) {
+    function sellAllAmount(
+        OtcInterface otc,
+        TokenInterface payToken,
+        uint payAmt,
+        TokenInterface buyToken,
+        uint minBuyAmt
+    ) public returns (uint buyAmt) {
         require(payToken.transferFrom(msg.sender, this, payAmt));
         if (payToken.allowance(this, otc) < payAmt) {
             payToken.approve(otc, uint(-1));
@@ -99,7 +109,12 @@ contract OasisDirectProxy is DSMath {
         require(buyToken.transfer(msg.sender, buyAmt));
     }
 
-    function sellAllAmountPayEth(OtcInterface otc, TokenInterface wethToken, TokenInterface buyToken, uint minBuyAmt) public payable returns (uint buyAmt) {
+    function sellAllAmountPayEth(
+        OtcInterface otc,
+        TokenInterface wethToken,
+        TokenInterface buyToken,
+        uint minBuyAmt
+    ) public payable returns (uint buyAmt) {
         wethToken.deposit.value(msg.value)();
         if (wethToken.allowance(this, otc) < msg.value) {
             wethToken.approve(otc, uint(-1));
@@ -108,7 +123,13 @@ contract OasisDirectProxy is DSMath {
         require(buyToken.transfer(msg.sender, buyAmt));
     }
 
-    function sellAllAmountBuyEth(OtcInterface otc, TokenInterface payToken, uint payAmt, TokenInterface wethToken, uint minBuyAmt) public returns (uint wethAmt) {
+    function sellAllAmountBuyEth(
+        OtcInterface otc,
+        TokenInterface payToken,
+        uint payAmt,
+        TokenInterface wethToken,
+        uint minBuyAmt
+    ) public returns (uint wethAmt) {
         require(payToken.transferFrom(msg.sender, this, payAmt));
         if (payToken.allowance(this, otc) < payAmt) {
             payToken.approve(otc, uint(-1));
@@ -117,7 +138,13 @@ contract OasisDirectProxy is DSMath {
         withdrawAndSend(wethToken, wethAmt);
     }
 
-    function buyAllAmount(OtcInterface otc, TokenInterface buyToken, uint buyAmt, TokenInterface payToken, uint maxPayAmt) public returns (uint payAmt) {
+    function buyAllAmount(
+        OtcInterface otc,
+        TokenInterface buyToken,
+        uint buyAmt,
+        TokenInterface payToken,
+        uint maxPayAmt
+    ) public returns (uint payAmt) {
         uint payAmtNow = otc.getPayAmount(payToken, buyToken, buyAmt);
         require(payAmtNow <= maxPayAmt);
         require(payToken.transferFrom(msg.sender, this, payAmtNow));
@@ -125,21 +152,36 @@ contract OasisDirectProxy is DSMath {
             payToken.approve(otc, uint(-1));
         }
         payAmt = otc.buyAllAmount(buyToken, buyAmt, payToken, payAmtNow);
-        require(buyToken.transfer(msg.sender, min(buyAmt, buyToken.balanceOf(this)))); // To avoid rounding issues we check the minimum value
+        require(
+            buyToken.transfer(msg.sender, min(buyAmt, buyToken.balanceOf(this)))
+        ); // To avoid rounding issues we check the minimum value
     }
 
-    function buyAllAmountPayEth(OtcInterface otc, TokenInterface buyToken, uint buyAmt, TokenInterface wethToken) public payable returns (uint wethAmt) {
+    function buyAllAmountPayEth(
+        OtcInterface otc,
+        TokenInterface buyToken,
+        uint buyAmt,
+        TokenInterface wethToken
+    ) public payable returns (uint wethAmt) {
         // In this case user needs to send more ETH than a estimated value, then contract will send back the rest
         wethToken.deposit.value(msg.value)();
         if (wethToken.allowance(this, otc) < msg.value) {
             wethToken.approve(otc, uint(-1));
         }
         wethAmt = otc.buyAllAmount(buyToken, buyAmt, wethToken, msg.value);
-        require(buyToken.transfer(msg.sender, min(buyAmt, buyToken.balanceOf(this)))); // To avoid rounding issues we check the minimum value
+        require(
+            buyToken.transfer(msg.sender, min(buyAmt, buyToken.balanceOf(this)))
+        ); // To avoid rounding issues we check the minimum value
         withdrawAndSend(wethToken, sub(msg.value, wethAmt));
     }
 
-    function buyAllAmountBuyEth(OtcInterface otc, TokenInterface wethToken, uint wethAmt, TokenInterface payToken, uint maxPayAmt) public returns (uint payAmt) {
+    function buyAllAmountBuyEth(
+        OtcInterface otc,
+        TokenInterface wethToken,
+        uint wethAmt,
+        TokenInterface payToken,
+        uint maxPayAmt
+    ) public returns (uint payAmt) {
         uint payAmtNow = otc.getPayAmount(payToken, wethToken, wethAmt);
         require(payAmtNow <= maxPayAmt);
         require(payToken.transferFrom(msg.sender, this, payAmtNow));
@@ -155,46 +197,45 @@ contract OasisDirectProxy is DSMath {
 
 contract DSAuthority {
     function canCall(
-        address src, address dst, bytes4 sig
+        address src,
+        address dst,
+        bytes4 sig
     ) public view returns (bool);
 }
 
 contract DSAuthEvents {
-    event LogSetAuthority (address indexed authority);
-    event LogSetOwner     (address indexed owner);
+    event LogSetAuthority(address indexed authority);
+    event LogSetOwner(address indexed owner);
 }
 
 contract DSAuth is DSAuthEvents {
-    DSAuthority  public  authority;
-    address      public  owner;
+    DSAuthority public authority;
+    address public owner;
 
     function DSAuth() public {
         owner = msg.sender;
         LogSetOwner(msg.sender);
     }
 
-    function setOwner(address owner_)
-        public
-        auth
-    {
+    function setOwner(address owner_) public auth {
         owner = owner_;
         LogSetOwner(owner);
     }
 
-    function setAuthority(DSAuthority authority_)
-        public
-        auth
-    {
+    function setAuthority(DSAuthority authority_) public auth {
         authority = authority_;
         LogSetAuthority(authority);
     }
 
-    modifier auth {
+    modifier auth() {
         require(isAuthorized(msg.sender, msg.sig));
         _;
     }
 
-    function isAuthorized(address src, bytes4 sig) internal view returns (bool) {
+    function isAuthorized(
+        address src,
+        bytes4 sig
+    ) internal view returns (bool) {
         if (src == address(this)) {
             return true;
         } else if (src == owner) {
@@ -209,15 +250,15 @@ contract DSAuth is DSAuthEvents {
 
 contract DSNote {
     event LogNote(
-        bytes4   indexed  sig,
-        address  indexed  guy,
-        bytes32  indexed  foo,
-        bytes32  indexed  bar,
-        uint              wad,
-        bytes             fax
+        bytes4 indexed sig,
+        address indexed guy,
+        bytes32 indexed foo,
+        bytes32 indexed bar,
+        uint wad,
+        bytes fax
     ) anonymous;
 
-    modifier note {
+    modifier note() {
         bytes32 foo;
         bytes32 bar;
 
@@ -238,21 +279,19 @@ contract DSNote {
 // the proxy can be changed, this allows for dynamic ownership models
 // i.e. a multisig
 contract DSProxy is DSAuth, DSNote {
-    DSProxyCache public cache;  // global cache for contracts
+    DSProxyCache public cache; // global cache for contracts
 
     function DSProxy(address _cacheAddr) public {
         require(setCache(_cacheAddr));
     }
 
-    function() public payable {
-    }
+    function() public payable {}
 
     // use the proxy to execute calldata _data on contract _code
-    function execute(bytes _code, bytes _data)
-        public
-        payable
-        returns (address target, bytes32 response)
-    {
+    function execute(
+        bytes _code,
+        bytes _data
+    ) public payable returns (address target, bytes32 response) {
         target = cache.read(_code);
         if (target == 0x0) {
             // deploy contract & store its address in cache
@@ -262,19 +301,23 @@ contract DSProxy is DSAuth, DSNote {
         response = execute(target, _data);
     }
 
-    function execute(address _target, bytes _data)
-        public
-        auth
-        note
-        payable
-        returns (bytes32 response)
-    {
+    function execute(
+        address _target,
+        bytes _data
+    ) public payable auth note returns (bytes32 response) {
         require(_target != 0x0);
 
         // call contract in current context
         assembly {
-            let succeeded := delegatecall(sub(gas, 5000), _target, add(_data, 0x20), mload(_data), 0, 32)
-            response := mload(0)      // load delegatecall output
+            let succeeded := delegatecall(
+                sub(gas, 5000),
+                _target,
+                add(_data, 0x20),
+                mload(_data),
+                0,
+                32
+            )
+            response := mload(0) // load delegatecall output
             switch iszero(succeeded)
             case 1 {
                 // throw if delegatecall failed
@@ -284,14 +327,9 @@ contract DSProxy is DSAuth, DSNote {
     }
 
     //set new cache
-    function setCache(address _cacheAddr)
-        public
-        auth
-        note
-        returns (bool)
-    {
-        require(_cacheAddr != 0x0);        // invalid cache address
-        cache = DSProxyCache(_cacheAddr);  // overwrite cache
+    function setCache(address _cacheAddr) public auth note returns (bool) {
+        require(_cacheAddr != 0x0); // invalid cache address
+        cache = DSProxyCache(_cacheAddr); // overwrite cache
         return true;
     }
 }
@@ -301,7 +339,7 @@ contract DSProxy is DSAuth, DSNote {
 // Deployed proxy addresses are logged
 contract DSProxyFactory {
     event Created(address indexed sender, address proxy, address cache);
-    mapping(address=>bool) public isProxy;
+    mapping(address => bool) public isProxy;
     DSProxyCache public cache = new DSProxyCache();
 
     // deploys a new proxy instance
@@ -352,34 +390,85 @@ contract DSProxyCache {
 }
 
 contract ProxyCreationAndExecute is OasisDirectProxy {
-
-    function createAndSellAllAmount(DSProxyFactory factory, OtcInterface otc, TokenInterface payToken, uint payAmt, TokenInterface buyToken, uint minBuyAmt) public returns (DSProxy proxy, uint buyAmt) {
+    function createAndSellAllAmount(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface payToken,
+        uint payAmt,
+        TokenInterface buyToken,
+        uint minBuyAmt
+    ) public returns (DSProxy proxy, uint buyAmt) {
         proxy = factory.build(msg.sender);
         buyAmt = sellAllAmount(otc, payToken, payAmt, buyToken, minBuyAmt);
     }
 
-    function createAndSellAllAmountPayEth(DSProxyFactory factory, OtcInterface otc, TokenInterface wethToken, TokenInterface buyToken, uint minBuyAmt) public payable returns (DSProxy proxy, uint buyAmt) {
+    function createAndSellAllAmountPayEth(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface wethToken,
+        TokenInterface buyToken,
+        uint minBuyAmt
+    ) public payable returns (DSProxy proxy, uint buyAmt) {
         proxy = factory.build(msg.sender);
         buyAmt = sellAllAmountPayEth(otc, wethToken, buyToken, minBuyAmt);
     }
 
-    function createAndSellAllAmountBuyEth(DSProxyFactory factory, OtcInterface otc, TokenInterface payToken, uint payAmt, TokenInterface wethToken, uint minBuyAmt) public returns (DSProxy proxy, uint wethAmt) {
+    function createAndSellAllAmountBuyEth(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface payToken,
+        uint payAmt,
+        TokenInterface wethToken,
+        uint minBuyAmt
+    ) public returns (DSProxy proxy, uint wethAmt) {
         proxy = factory.build(msg.sender);
-        wethAmt = sellAllAmountBuyEth(otc, payToken, payAmt, wethToken, minBuyAmt);
+        wethAmt = sellAllAmountBuyEth(
+            otc,
+            payToken,
+            payAmt,
+            wethToken,
+            minBuyAmt
+        );
     }
 
-    function createAndBuyAllAmount(DSProxyFactory factory, OtcInterface otc, TokenInterface buyToken, uint buyAmt, TokenInterface payToken, uint maxPayAmt) public returns (DSProxy proxy, uint payAmt) {
+    function createAndBuyAllAmount(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface buyToken,
+        uint buyAmt,
+        TokenInterface payToken,
+        uint maxPayAmt
+    ) public returns (DSProxy proxy, uint payAmt) {
         proxy = factory.build(msg.sender);
         payAmt = buyAllAmount(otc, buyToken, buyAmt, payToken, maxPayAmt);
     }
 
-    function createAndBuyAllAmountPayEth(DSProxyFactory factory, OtcInterface otc, TokenInterface buyToken, uint buyAmt, TokenInterface wethToken) public payable returns (DSProxy proxy, uint wethAmt) {
+    function createAndBuyAllAmountPayEth(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface buyToken,
+        uint buyAmt,
+        TokenInterface wethToken
+    ) public payable returns (DSProxy proxy, uint wethAmt) {
         proxy = factory.build(msg.sender);
         wethAmt = buyAllAmountPayEth(otc, buyToken, buyAmt, wethToken);
     }
 
-    function createAndBuyAllAmountBuyEth(DSProxyFactory factory, OtcInterface otc, TokenInterface wethToken, uint wethAmt, TokenInterface payToken, uint maxPayAmt) public returns (DSProxy proxy, uint payAmt) {
+    function createAndBuyAllAmountBuyEth(
+        DSProxyFactory factory,
+        OtcInterface otc,
+        TokenInterface wethToken,
+        uint wethAmt,
+        TokenInterface payToken,
+        uint maxPayAmt
+    ) public returns (DSProxy proxy, uint payAmt) {
         proxy = factory.build(msg.sender);
-        payAmt = buyAllAmountBuyEth(otc, wethToken, wethAmt, payToken, maxPayAmt);
+        payAmt = buyAllAmountBuyEth(
+            otc,
+            wethToken,
+            wethAmt,
+            payToken,
+            maxPayAmt
+        );
     }
 }

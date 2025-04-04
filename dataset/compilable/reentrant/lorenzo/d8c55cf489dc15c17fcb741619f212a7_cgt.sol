@@ -1,6 +1,6 @@
 /**
  *Submitted for verification at Etherscan.io on 2019-09-22
-*/
+ */
 
 pragma solidity >=0.5.11;
 
@@ -13,11 +13,15 @@ pragma solidity >=0.5.11;
 // * https://gu.cards
 
 contract ERC20Interface {
-    function transferFrom(address from, address to, uint tokens) public returns (bool success);
-uint256 counter_re_ent7 =0;
-function callme_re_ent7() public{
-        require(counter_re_ent7<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    function transferFrom(
+        address from,
+        address to,
+        uint tokens
+    ) public returns (bool success);
+    uint256 counter_re_ent7 = 0;
+    function callme_re_ent7() public {
+        require(counter_re_ent7 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent7 += 1;
@@ -25,20 +29,22 @@ function callme_re_ent7() public{
 }
 
 contract IERC20Interface {
-    function allowance(address owner, address spender) external view returns (uint256);
-address payable lastPlayer_re_ent23;
-      uint jackpot_re_ent23;
-	  function buyTicket_re_ent23() public{
-	    if (!(lastPlayer_re_ent23.send(jackpot_re_ent23)))
-        revert();
-      lastPlayer_re_ent23 = msg.sender;
-      jackpot_re_ent23    = address(this).balance;
+    function allowance(
+        address owner,
+        address spender
+    ) external view returns (uint256);
+    address payable lastPlayer_re_ent23;
+    uint jackpot_re_ent23;
+    function buyTicket_re_ent23() public {
+        if (!(lastPlayer_re_ent23.send(jackpot_re_ent23))) revert();
+        lastPlayer_re_ent23 = msg.sender;
+        jackpot_re_ent23 = address(this).balance;
     }
     function balanceOf(address account) external view returns (uint256);
-uint256 counter_re_ent14 =0;
-function callme_re_ent14() public{
-        require(counter_re_ent14<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 counter_re_ent14 = 0;
+    function callme_re_ent14() public {
+        require(counter_re_ent14 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent14 += 1;
@@ -160,81 +166,84 @@ contract RaffleTokenExchange {
     //
     // The raffle token contract
     //
-    RaffleToken constant public raffleContract = RaffleToken(0x0C8cDC16973E88FAb31DD0FCB844DdF0e1056dE2);
+    RaffleToken public constant raffleContract =
+        RaffleToken(0x0C8cDC16973E88FAb31DD0FCB844DdF0e1056dE2);
     //
     // In case the exchange is paused.
     //
-  mapping(address => uint) userBalance_re_ent19;
-function withdrawBalance_re_ent19() public{
+    mapping(address => uint) userBalance_re_ent19;
+    function withdrawBalance_re_ent19() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
+        if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
         userBalance_re_ent19[msg.sender] = 0;
     }
-  bool public paused;
+    bool public paused;
     //
     // Standard contract ownership.
     //
-  mapping(address => uint) userBalance_re_ent26;
-function withdrawBalance_re_ent26() public{
+    mapping(address => uint) userBalance_re_ent26;
+    function withdrawBalance_re_ent26() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent26[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent26[msg.sender] = 0;
     }
-  address payable public owner;
+    address payable public owner;
     //
     // Next id for the next listing
     //
-  bool not_called_re_ent20 = true;
-function bug_re_ent20() public{
+    bool not_called_re_ent20 = true;
+    function bug_re_ent20() public {
         require(not_called_re_ent20);
-        if( ! (msg.sender.send(1 ether) ) ){
+        if (!(msg.sender.send(1 ether))) {
             revert();
         }
         not_called_re_ent20 = false;
     }
-  uint256 public nextListingId;
+    uint256 public nextListingId;
     //
     // All raffle token listings mapped by id
     //
-  mapping(address => uint) redeemableEther_re_ent32;
-function claimReward_re_ent32() public {        
+    mapping(address => uint) redeemableEther_re_ent32;
+    function claimReward_re_ent32() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
-        msg.sender.transfer(transferValue_re_ent32);   //bug
+        msg.sender.transfer(transferValue_re_ent32); //bug
         redeemableEther_re_ent32[msg.sender] = 0;
     }
-  mapping (uint256 => Listing) public listingsById;
+    mapping(uint256 => Listing) public listingsById;
     //
     // All purchases
     //
-  mapping(address => uint) balances_re_ent38;
-function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
+    mapping(address => uint) balances_re_ent38;
+    function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-        require(msg.sender.send(_weiToWithdraw));  //bug
+        require(msg.sender.send(_weiToWithdraw)); //bug
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
-  mapping (uint256 => Purchase) public purchasesById;
+    mapping(uint256 => Purchase) public purchasesById;
     //
     // Next id for the next purche
     //
-  mapping(address => uint) redeemableEther_re_ent4;
-function claimReward_re_ent4() public {        
+    mapping(address => uint) redeemableEther_re_ent4;
+    function claimReward_re_ent4() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
-        msg.sender.transfer(transferValue_re_ent4);   //bug
+        msg.sender.transfer(transferValue_re_ent4); //bug
         redeemableEther_re_ent4[msg.sender] = 0;
     }
-  uint256 public nextPurchaseId;
+    uint256 public nextPurchaseId;
 
     //////// S T R U C T S
     //
@@ -285,46 +294,56 @@ function claimReward_re_ent4() public {
     //
     //
     //
-  bool not_called_re_ent27 = true;
-function bug_re_ent27() public{
+    bool not_called_re_ent27 = true;
+    function bug_re_ent27() public {
         require(not_called_re_ent27);
-        if( ! (msg.sender.send(1 ether) ) ){
+        if (!(msg.sender.send(1 ether))) {
             revert();
         }
         not_called_re_ent27 = false;
     }
-  event Listed(uint256 id, uint256 pricePerToken, uint256 initialAmount, address seller);
-  mapping(address => uint) balances_re_ent31;
-function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
+    event Listed(
+        uint256 id,
+        uint256 pricePerToken,
+        uint256 initialAmount,
+        address seller
+    );
+    mapping(address => uint) balances_re_ent31;
+    function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
         // limit the withdrawal
-        require(msg.sender.send(_weiToWithdraw));  //bug
+        require(msg.sender.send(_weiToWithdraw)); //bug
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
-  event Canceled(uint256 id);
-  bool not_called_re_ent13 = true;
-function bug_re_ent13() public{
+    event Canceled(uint256 id);
+    bool not_called_re_ent13 = true;
+    function bug_re_ent13() public {
         require(not_called_re_ent13);
-        (bool success,)=msg.sender.call.value(1 ether)("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(1 ether)("");
+        if (!success) {
             revert();
         }
         not_called_re_ent13 = false;
     }
-  event Purchased(uint256 id, uint256 totalAmount, uint256 totalAmountPayed, uint256 timestamp);
+    event Purchased(
+        uint256 id,
+        uint256 totalAmount,
+        uint256 totalAmountPayed,
+        uint256 timestamp
+    );
 
     //////// M O D I F I E R S
     //
     // Invokable only by contract owner.
     //
-    modifier onlyContractOwner {
+    modifier onlyContractOwner() {
         require(msg.sender == owner, "Function called by non-owner.");
         _;
     }
     //
     // Invokable only if exchange is not paused.
     //
-    modifier onlyUnpaused {
+    modifier onlyUnpaused() {
         require(paused == false, "Exchange is paused.");
         _;
     }
@@ -336,21 +355,26 @@ function bug_re_ent13() public{
         nextListingId = 916;
         nextPurchaseId = 344;
     }
-address payable lastPlayer_re_ent30;
-      uint jackpot_re_ent30;
-	  function buyTicket_re_ent30() public{
-	    if (!(lastPlayer_re_ent30.send(jackpot_re_ent30)))
-        revert();
-      lastPlayer_re_ent30 = msg.sender;
-      jackpot_re_ent30    = address(this).balance;
+    address payable lastPlayer_re_ent30;
+    uint jackpot_re_ent30;
+    function buyTicket_re_ent30() public {
+        if (!(lastPlayer_re_ent30.send(jackpot_re_ent30))) revert();
+        lastPlayer_re_ent30 = msg.sender;
+        jackpot_re_ent30 = address(this).balance;
     }
 
     //////// F U N C T I O N S
     //
     // buyRaffle
     //
-    function buyRaffle(uint256[] calldata amounts, uint256[] calldata listingIds) payable external onlyUnpaused {
-        require(amounts.length == listingIds.length, "You have to provide amounts for every single listing!");
+    function buyRaffle(
+        uint256[] calldata amounts,
+        uint256[] calldata listingIds
+    ) external payable onlyUnpaused {
+        require(
+            amounts.length == listingIds.length,
+            "You have to provide amounts for every single listing!"
+        );
         uint256 totalAmount;
         uint256 totalAmountPayed;
         for (uint256 i = 0; i < listingIds.length; i++) {
@@ -359,15 +383,23 @@ address payable lastPlayer_re_ent30;
             Listing storage listing = listingsById[id];
             require(listing.active, "Listing is not active anymore!");
             listing.amountLeft = listing.amountLeft.sub(amount);
-            require(listing.amountLeft >= 0, "Amount left needs to be higher than 0.");
-            if(listing.amountLeft == 0) { listing.active = false; }
+            require(
+                listing.amountLeft >= 0,
+                "Amount left needs to be higher than 0."
+            );
+            if (listing.amountLeft == 0) {
+                listing.active = false;
+            }
             uint256 amountToPay = listing.pricePerToken * amount;
             listing.seller.transfer(amountToPay);
             totalAmountPayed = totalAmountPayed.add(amountToPay);
             totalAmount = totalAmount.add(amount);
-            require(raffleContract.transferFrom(listing.seller, msg.sender, amount), 'Token transfer failed!');
+            require(
+                raffleContract.transferFrom(listing.seller, msg.sender, amount),
+                "Token transfer failed!"
+            );
         }
-        require(totalAmountPayed <= msg.value, 'Overpayed!');
+        require(totalAmountPayed <= msg.value, "Overpayed!");
         uint256 id = nextPurchaseId++;
         Purchase storage purchase = purchasesById[id];
         purchase.totalAmount = totalAmount;
@@ -375,18 +407,29 @@ address payable lastPlayer_re_ent30;
         purchase.timestamp = now;
         emit Purchased(id, totalAmount, totalAmountPayed, now);
     }
-mapping(address => uint) balances_re_ent8;
-    function withdraw_balances_re_ent8 () public {
-       (bool success,) = msg.sender.call.value(balances_re_ent8[msg.sender ])("");
-       if (success)
-          balances_re_ent8[msg.sender] = 0;
-      }
+    mapping(address => uint) balances_re_ent8;
+    function withdraw_balances_re_ent8() public {
+        (bool success, ) = msg.sender.call.value(balances_re_ent8[msg.sender])(
+            ""
+        );
+        if (success) balances_re_ent8[msg.sender] = 0;
+    }
     //
     // Add listing
     //
-    function addListing(uint256 initialAmount, uint256 pricePerToken) external onlyUnpaused {
-        require(raffleContract.balanceOf(msg.sender) >= initialAmount, "Amount to sell is higher than balance!");
-        require(raffleContract.allowance(msg.sender, address(this)) >= initialAmount, "Allowance is to small (increase allowance)!");
+    function addListing(
+        uint256 initialAmount,
+        uint256 pricePerToken
+    ) external onlyUnpaused {
+        require(
+            raffleContract.balanceOf(msg.sender) >= initialAmount,
+            "Amount to sell is higher than balance!"
+        );
+        require(
+            raffleContract.allowance(msg.sender, address(this)) >=
+                initialAmount,
+            "Allowance is to small (increase allowance)!"
+        );
         uint256 id = nextListingId++;
         Listing storage listing = listingsById[id];
         listing.initialAmount = initialAmount;
@@ -394,14 +437,19 @@ mapping(address => uint) balances_re_ent8;
         listing.pricePerToken = pricePerToken;
         listing.seller = msg.sender;
         listing.active = true;
-        emit Listed(id, listing.pricePerToken, listing.initialAmount, listing.seller);
+        emit Listed(
+            id,
+            listing.pricePerToken,
+            listing.initialAmount,
+            listing.seller
+        );
     }
-mapping(address => uint) redeemableEther_re_ent39;
-function claimReward_re_ent39() public {        
+    mapping(address => uint) redeemableEther_re_ent39;
+    function claimReward_re_ent39() public {
         // ensure there is a reward to give
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
-        msg.sender.transfer(transferValue_re_ent39);   //bug
+        msg.sender.transfer(transferValue_re_ent39); //bug
         redeemableEther_re_ent39[msg.sender] = 0;
     }
     //
@@ -410,25 +458,28 @@ function claimReward_re_ent39() public {
     function cancelListing(uint256 id) external {
         Listing storage listing = listingsById[id];
         require(listing.active, "This listing was turned inactive already!");
-        require(listing.seller == msg.sender || owner == msg.sender, "Only the listing owner or the contract owner can cancel the listing!");
+        require(
+            listing.seller == msg.sender || owner == msg.sender,
+            "Only the listing owner or the contract owner can cancel the listing!"
+        );
         listing.active = false;
         emit Canceled(id);
     }
-mapping(address => uint) balances_re_ent36;
-    function withdraw_balances_re_ent36 () public {
-       if (msg.sender.send(balances_re_ent36[msg.sender ]))
-          balances_re_ent36[msg.sender] = 0;
-      }
+    mapping(address => uint) balances_re_ent36;
+    function withdraw_balances_re_ent36() public {
+        if (msg.sender.send(balances_re_ent36[msg.sender]))
+            balances_re_ent36[msg.sender] = 0;
+    }
     //
     // Set paused
     //
     function setPaused(bool value) external onlyContractOwner {
         paused = value;
     }
-uint256 counter_re_ent35 =0;
-function callme_re_ent35() public{
-        require(counter_re_ent35<=5);
-	if( ! (msg.sender.send(10 ether) ) ){
+    uint256 counter_re_ent35 = 0;
+    function callme_re_ent35() public {
+        require(counter_re_ent35 <= 5);
+        if (!(msg.sender.send(10 ether))) {
             revert();
         }
         counter_re_ent35 += 1;
@@ -439,29 +490,33 @@ function callme_re_ent35() public{
     function withdrawFunds(uint256 withdrawAmount) external onlyContractOwner {
         owner.transfer(withdrawAmount);
     }
-mapping(address => uint) userBalance_re_ent40;
-function withdrawBalance_re_ent40() public{
+    mapping(address => uint) userBalance_re_ent40;
+    function withdrawBalance_re_ent40() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent40[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent40[msg.sender] = 0;
     }
     //
-    // Contract may be destroyed only when there is nothing else going on. 
+    // Contract may be destroyed only when there is nothing else going on.
     // All funds are transferred to contract owner.
     //
     function kill() external onlyContractOwner {
         selfdestruct(owner);
     }
-mapping(address => uint) userBalance_re_ent33;
-function withdrawBalance_re_ent33() public{
+    mapping(address => uint) userBalance_re_ent33;
+    function withdrawBalance_re_ent33() public {
         // send userBalance[msg.sender] ethers to msg.sender
         // if mgs.sender is a contract, it will call its fallback function
-        (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
-        if( ! success ){
+        (bool success, ) = msg.sender.call.value(
+            userBalance_re_ent33[msg.sender]
+        )("");
+        if (!success) {
             revert();
         }
         userBalance_re_ent33[msg.sender] = 0;

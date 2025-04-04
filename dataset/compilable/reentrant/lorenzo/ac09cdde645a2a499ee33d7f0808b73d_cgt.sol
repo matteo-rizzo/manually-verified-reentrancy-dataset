@@ -12,13 +12,18 @@ Author: Bogdan
 
 // ERC20 Interface: https://github.com/ethereum/EIPs/issues/20
 contract ERC20 {
-    function transfer(address _to, uint256 _value) public returns (bool success);
-    function balanceOf(address _owner) public constant returns (uint256 balance);
+    function transfer(
+        address _to,
+        uint256 _value
+    ) public returns (bool success);
+    function balanceOf(
+        address _owner
+    ) public constant returns (uint256 balance);
 }
 
 contract ICOSyndicate {
     // Store the amount of ETH deposited by each account.
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
     // Track whether the contract has bought the tokens yet.
     bool public bought_tokens;
     // Record ETH value of tokens currently held by contract.
@@ -76,16 +81,15 @@ contract ICOSyndicate {
             // Disallow token withdrawals if there are no tokens to withdraw.
             require(contract_token_balance != 0);
             // Store the user's token balance in a temporary variable.
-            uint256 tokens_to_withdraw = (balances[user] * contract_token_balance) / contract_eth_value;
+            uint256 tokens_to_withdraw = (balances[user] *
+                contract_token_balance) / contract_eth_value;
             // Update the value of tokens currently held by the contract.
             contract_eth_value -= balances[user];
             // Update the user's balance prior to sending to prevent recursive call.
             balances[user] = 0;
             // Send the funds.  Throws on failure to prevent loss of funds.
             require(token.transfer(user, tokens_to_withdraw));
-
         }
-
     }
 
     // Buys tokens in the crowdsale and rewards the caller, callable by anyone.
@@ -106,7 +110,7 @@ contract ICOSyndicate {
     }
 
     // Default function.  Called when a user sends ETH to the contract.
-    function () public payable {
+    function() public payable {
         // Disallow deposits if kill switch is active.
         require(!kill_switch);
         // Only allow deposits if the contract hasn't already purchased the tokens.

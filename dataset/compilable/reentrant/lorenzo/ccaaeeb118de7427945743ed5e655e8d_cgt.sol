@@ -1,6 +1,5 @@
 pragma solidity ^0.4.18;
 
-
 contract Ownable {
     address public owner;
 
@@ -18,7 +17,6 @@ contract Ownable {
             owner = newOwner;
         }
     }
-
 }
 
 contract SafeMath {
@@ -31,7 +29,7 @@ contract SafeMath {
     function safeDiv(uint a, uint b) internal returns (uint) {
         sAssert(b > 0);
         uint c = a / b;
-        sAssert(a == b * c + a % b);
+        sAssert(a == b * c + (a % b));
         return c;
     }
 
@@ -42,7 +40,7 @@ contract SafeMath {
 
     function safeAdd(uint a, uint b) internal returns (uint) {
         uint c = a + b;
-        sAssert(c>=a && c>=b);
+        sAssert(c >= a && c >= b);
         return c;
     }
 
@@ -75,16 +73,19 @@ contract ERC20 {
     function allowance(address owner, address spender) constant returns (uint);
 
     function transfer(address to, uint value) returns (bool ok);
-    function transferFrom(address from, address to, uint value) returns (bool ok);
+    function transferFrom(
+        address from,
+        address to,
+        uint value
+    ) returns (bool ok);
     function approve(address spender, uint value) returns (bool ok);
     event Transfer(address indexed from, address indexed to, uint value);
     event Approval(address indexed owner, address indexed spender, uint value);
 }
 
 contract StandardToken is ERC20, SafeMath {
-
     mapping(address => uint) balances;
-    mapping (address => mapping (address => uint)) allowed;
+    mapping(address => mapping(address => uint)) allowed;
 
     function transfer(address _to, uint _value) returns (bool success) {
         balances[msg.sender] = safeSub(balances[msg.sender], _value);
@@ -93,7 +94,11 @@ contract StandardToken is ERC20, SafeMath {
         return true;
     }
 
-    function transferFrom(address _from, address _to, uint _value) returns (bool success) {
+    function transferFrom(
+        address _from,
+        address _to,
+        uint _value
+    ) returns (bool success) {
         var _allowance = allowed[_from][msg.sender];
         balances[_to] = safeAdd(balances[_to], _value);
         balances[_from] = safeSub(balances[_from], _value);
@@ -112,21 +117,21 @@ contract StandardToken is ERC20, SafeMath {
         return true;
     }
 
-    function allowance(address _owner, address _spender) constant returns (uint remaining) {
+    function allowance(
+        address _owner,
+        address _spender
+    ) constant returns (uint remaining) {
         return allowed[_owner][_spender];
     }
-
 }
 
 /// @title Lianzhiliao
 contract LZLCoin is Ownable, StandardToken {
-
     string public name = "Lianzhiliao";
     string public symbol = "LZL";
-    uint public decimals = 18;                  // token has 18 digit precision
+    uint public decimals = 18; // token has 18 digit precision
 
-    uint public totalSupply = 1 * (10**9) * (10**18);  // 1 Billion Tokens
-
+    uint public totalSupply = 1 * (10 ** 9) * (10 ** 18); // 1 Billion Tokens
 
     //pd: prod, tkA: tokenAmount, etA: etherAmount
     event ET(address indexed _pd, uint _tkA, uint _etA);
@@ -144,8 +149,7 @@ contract LZLCoin is Ownable, StandardToken {
     }
 
     // Don't accept ethers - no payable modifier
-    function () payable{
-    }
+    function() payable {}
 
     /// @notice To transfer token contract ownership
     /// @param _newOwner The address of the new owner of this contract
@@ -156,9 +160,10 @@ contract LZLCoin is Ownable, StandardToken {
     }
 
     // Owner can transfer out any ERC20 tokens sent in by mistake
-    function transferAnyERC20Token(address tokenAddress, uint amount) onlyOwner returns (bool success)
-    {
+    function transferAnyERC20Token(
+        address tokenAddress,
+        uint amount
+    ) onlyOwner returns (bool success) {
         return ERC20(tokenAddress).transfer(owner, amount);
     }
-
 }

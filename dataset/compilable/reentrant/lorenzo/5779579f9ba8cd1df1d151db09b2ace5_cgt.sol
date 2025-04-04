@@ -7,7 +7,7 @@
 pragma solidity ^0.4.19;
 
 contract ReentrancyDAO {
-    mapping (address => uint) credit;
+    mapping(address => uint) credit;
     uint balance;
 
     function withdrawAll() public {
@@ -16,7 +16,7 @@ contract ReentrancyDAO {
             balance -= oCredit;
             // <yes> <report> REENTRANCY
             bool callResult = msg.sender.call.value(oCredit)();
-            require (callResult);
+            require(callResult);
             credit[msg.sender] = 0;
         }
     }

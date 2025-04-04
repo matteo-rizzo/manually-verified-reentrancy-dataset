@@ -1,9 +1,9 @@
 pragma solidity ^0.4.0;
 
 contract AbstractENS {
-    function owner(bytes32 node) constant returns(address);
-    function resolver(bytes32 node) constant returns(address);
-    function ttl(bytes32 node) constant returns(uint64);
+    function owner(bytes32 node) constant returns (address);
+    function resolver(bytes32 node) constant returns (address);
+    function ttl(bytes32 node) constant returns (uint64);
     function setOwner(bytes32 node, address owner);
     function setSubnodeOwner(bytes32 node, bytes32 label, address owner);
     function setResolver(bytes32 node, address resolver);
@@ -18,7 +18,7 @@ contract AbstractENS {
 contract ReverseRegistrar {
     AbstractENS public ens;
     bytes32 public rootNode;
-    
+
     /**
      * @dev Constructor
      * @param ensAddr The address of the ENS registry.
@@ -59,7 +59,9 @@ contract ReverseRegistrar {
      */
     function sha3HexAddress(address addr) private returns (bytes32 ret) {
         assembly {
-            let lookup := 0x3031323334353637383961626364656600000000000000000000000000000000
+            let
+                lookup
+            := 0x3031323334353637383961626364656600000000000000000000000000000000
             let i := 40
         loop:
             i := sub(i, 1)

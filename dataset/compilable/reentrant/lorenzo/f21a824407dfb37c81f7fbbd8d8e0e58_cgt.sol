@@ -5,81 +5,70 @@ pragma solidity ^0.4.11;
 //import "ds-exec/exec.sol";
 
 contract DSExec {
-    function tryExec( address target, bytes calldata, uint value)
-    internal
-    returns (bool call_ret)
-    {
+    function tryExec(
+        address target,
+        bytes calldata,
+        uint value
+    ) internal returns (bool call_ret) {
         return target.call.value(value)(calldata);
     }
-    function exec( address target, bytes calldata, uint value)
-    internal
-    {
-        if(!tryExec(target, calldata, value)) {
+    function exec(address target, bytes calldata, uint value) internal {
+        if (!tryExec(target, calldata, value)) {
             throw;
         }
     }
 
     // Convenience aliases
-    function exec( address t, bytes c )
-    internal
-    {
+    function exec(address t, bytes c) internal {
         exec(t, c, 0);
     }
-    function exec( address t, uint256 v )
-    internal
-    {
-        bytes memory c; exec(t, c, v);
+    function exec(address t, uint256 v) internal {
+        bytes memory c;
+        exec(t, c, v);
     }
-    function tryExec( address t, bytes c )
-    internal
-    returns (bool)
-    {
+    function tryExec(address t, bytes c) internal returns (bool) {
         return tryExec(t, c, 0);
     }
-    function tryExec( address t, uint256 v )
-    internal
-    returns (bool)
-    {
-        bytes memory c; return tryExec(t, c, v);
+    function tryExec(address t, uint256 v) internal returns (bool) {
+        bytes memory c;
+        return tryExec(t, c, v);
     }
 }
 
 //import "ds-auth/auth.sol";
 contract DSAuthority {
     function canCall(
-    address src, address dst, bytes4 sig
+        address src,
+        address dst,
+        bytes4 sig
     ) constant returns (bool);
 }
 
 contract DSAuthEvents {
-    event LogSetAuthority (address indexed authority);
-    event LogSetOwner     (address indexed owner);
+    event LogSetAuthority(address indexed authority);
+    event LogSetOwner(address indexed owner);
 }
 
 contract DSAuth is DSAuthEvents {
-    DSAuthority  public  authority;
-    address      public  owner;
+    DSAuthority public authority;
+    address public owner;
 
     function DSAuth() {
         owner = msg.sender;
         LogSetOwner(msg.sender);
     }
 
-    function setOwner(address owner_)
-    auth
-    {
+    function setOwner(address owner_) auth {
         owner = owner_;
         LogSetOwner(owner);
     }
 
-    function setAuthority(DSAuthority authority_)
-    auth
-    {
+    function setAuthority(DSAuthority authority_) auth {
         authority = authority_;
         LogSetAuthority(authority);
     }
 
-    modifier auth {
+    modifier auth() {
         assert(isAuthorized(msg.sender, msg.sig));
         _;
     }
@@ -104,21 +93,21 @@ contract DSAuth is DSAuthEvents {
 //import "ds-note/note.sol";
 contract DSNote {
     event LogNote(
-    bytes4   indexed  sig,
-    address  indexed  guy,
-    bytes32  indexed  foo,
-    bytes32  indexed  bar,
-    uint        wad,
-    bytes             fax
+        bytes4 indexed sig,
+        address indexed guy,
+        bytes32 indexed foo,
+        bytes32 indexed bar,
+        uint wad,
+        bytes fax
     ) anonymous;
 
-    modifier note {
+    modifier note() {
         bytes32 foo;
         bytes32 bar;
 
         assembly {
-        foo := calldataload(4)
-        bar := calldataload(36)
+            foo := calldataload(4)
+            bar := calldataload(36)
         }
 
         LogNote(msg.sig, msg.sender, foo, bar, msg.value, msg.data);
@@ -127,35 +116,33 @@ contract DSNote {
     }
 }
 
-
 //import "ds-math/math.sol";
 contract DSMath {
-
     /*
     standard uint256 functions
      */
 
-    function add(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function add(uint256 x, uint256 y) internal constant returns (uint256 z) {
         assert((z = x + y) >= x);
     }
 
-    function sub(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function sub(uint256 x, uint256 y) internal constant returns (uint256 z) {
         assert((z = x - y) <= x);
     }
 
-    function mul(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function mul(uint256 x, uint256 y) internal constant returns (uint256 z) {
         z = x * y;
         assert(x == 0 || z / x == y);
     }
 
-    function div(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function div(uint256 x, uint256 y) internal constant returns (uint256 z) {
         z = x / y;
     }
 
-    function min(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function min(uint256 x, uint256 y) internal constant returns (uint256 z) {
         return x <= y ? x : y;
     }
-    function max(uint256 x, uint256 y) constant internal returns (uint256 z) {
+    function max(uint256 x, uint256 y) internal constant returns (uint256 z) {
         return x >= y ? x : y;
     }
 
@@ -163,40 +150,38 @@ contract DSMath {
     uint128 functions (h is for half)
      */
 
-
-    function hadd(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hadd(uint128 x, uint128 y) internal constant returns (uint128 z) {
         assert((z = x + y) >= x);
     }
 
-    function hsub(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hsub(uint128 x, uint128 y) internal constant returns (uint128 z) {
         assert((z = x - y) <= x);
     }
 
-    function hmul(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hmul(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = x * y;
         assert(x == 0 || z / x == y);
     }
 
-    function hdiv(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hdiv(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = x / y;
     }
 
-    function hmin(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hmin(uint128 x, uint128 y) internal constant returns (uint128 z) {
         return x <= y ? x : y;
     }
-    function hmax(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function hmax(uint128 x, uint128 y) internal constant returns (uint128 z) {
         return x >= y ? x : y;
     }
-
 
     /*
     int256 functions
      */
 
-    function imin(int256 x, int256 y) constant internal returns (int256 z) {
+    function imin(int256 x, int256 y) internal constant returns (int256 z) {
         return x <= y ? x : y;
     }
-    function imax(int256 x, int256 y) constant internal returns (int256 z) {
+    function imax(int256 x, int256 y) internal constant returns (int256 z) {
         return x >= y ? x : y;
     }
 
@@ -206,26 +191,26 @@ contract DSMath {
 
     uint128 constant WAD = 10 ** 18;
 
-    function wadd(uint128 x, uint128 y) constant internal returns (uint128) {
+    function wadd(uint128 x, uint128 y) internal constant returns (uint128) {
         return hadd(x, y);
     }
 
-    function wsub(uint128 x, uint128 y) constant internal returns (uint128) {
+    function wsub(uint128 x, uint128 y) internal constant returns (uint128) {
         return hsub(x, y);
     }
 
-    function wmul(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function wmul(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = cast((uint256(x) * y + WAD / 2) / WAD);
     }
 
-    function wdiv(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function wdiv(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = cast((uint256(x) * WAD + y / 2) / y);
     }
 
-    function wmin(uint128 x, uint128 y) constant internal returns (uint128) {
+    function wmin(uint128 x, uint128 y) internal constant returns (uint128) {
         return hmin(x, y);
     }
-    function wmax(uint128 x, uint128 y) constant internal returns (uint128) {
+    function wmax(uint128 x, uint128 y) internal constant returns (uint128) {
         return hmax(x, y);
     }
 
@@ -235,23 +220,23 @@ contract DSMath {
 
     uint128 constant RAY = 10 ** 27;
 
-    function radd(uint128 x, uint128 y) constant internal returns (uint128) {
+    function radd(uint128 x, uint128 y) internal constant returns (uint128) {
         return hadd(x, y);
     }
 
-    function rsub(uint128 x, uint128 y) constant internal returns (uint128) {
+    function rsub(uint128 x, uint128 y) internal constant returns (uint128) {
         return hsub(x, y);
     }
 
-    function rmul(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function rmul(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = cast((uint256(x) * y + RAY / 2) / RAY);
     }
 
-    function rdiv(uint128 x, uint128 y) constant internal returns (uint128 z) {
+    function rdiv(uint128 x, uint128 y) internal constant returns (uint128 z) {
         z = cast((uint256(x) * RAY + y / 2) / y);
     }
 
-    function rpow(uint128 x, uint64 n) constant internal returns (uint128 z) {
+    function rpow(uint128 x, uint64 n) internal constant returns (uint128 z) {
         // This famous algorithm is called "exponentiation by squaring"
         // and calculates x^n with x as fixed-point and n as regular unsigned.
         //
@@ -278,40 +263,44 @@ contract DSMath {
         }
     }
 
-    function rmin(uint128 x, uint128 y) constant internal returns (uint128) {
+    function rmin(uint128 x, uint128 y) internal constant returns (uint128) {
         return hmin(x, y);
     }
-    function rmax(uint128 x, uint128 y) constant internal returns (uint128) {
+    function rmax(uint128 x, uint128 y) internal constant returns (uint128) {
         return hmax(x, y);
     }
 
-    function cast(uint256 x) constant internal returns (uint128 z) {
+    function cast(uint256 x) internal constant returns (uint128 z) {
         assert((z = uint128(x)) == x);
     }
-
 }
 
 //import "erc20/erc20.sol";
 contract ERC20 {
     function totalSupply() constant returns (uint supply);
-    function balanceOf( address who ) constant returns (uint value);
-    function allowance( address owner, address spender ) constant returns (uint _allowance);
+    function balanceOf(address who) constant returns (uint value);
+    function allowance(
+        address owner,
+        address spender
+    ) constant returns (uint _allowance);
 
-    function transfer( address to, uint value) returns (bool ok);
-    function transferFrom( address from, address to, uint value) returns (bool ok);
-    function approve( address spender, uint value ) returns (bool ok);
+    function transfer(address to, uint value) returns (bool ok);
+    function transferFrom(
+        address from,
+        address to,
+        uint value
+    ) returns (bool ok);
+    function approve(address spender, uint value) returns (bool ok);
 
-    event Transfer( address indexed from, address indexed to, uint value);
-    event Approval( address indexed owner, address indexed spender, uint value);
+    event Transfer(address indexed from, address indexed to, uint value);
+    event Approval(address indexed owner, address indexed spender, uint value);
 }
-
-
 
 //import "ds-token/base.sol";
 contract DSTokenBase is ERC20, DSMath {
-    uint256                                            _supply;
-    mapping (address => uint256)                       _balances;
-    mapping (address => mapping (address => uint256))  _approvals;
+    uint256 _supply;
+    mapping(address => uint256) _balances;
+    mapping(address => mapping(address => uint256)) _approvals;
 
     function DSTokenBase(uint256 supply) {
         _balances[msg.sender] = supply;
@@ -359,17 +348,14 @@ contract DSTokenBase is ERC20, DSMath {
 
         return true;
     }
-
 }
-
 
 //import "ds-stop/stop.sol";
 contract DSStop is DSAuth, DSNote {
-
     bool public stopped;
 
-    modifier stoppable {
-        assert (!stopped);
+    modifier stoppable() {
+        assert(!stopped);
         _;
     }
     function stop() auth note {
@@ -378,32 +364,31 @@ contract DSStop is DSAuth, DSNote {
     function start() auth note {
         stopped = false;
     }
-
 }
-
 
 //import "ds-token/token.sol";
 contract DSToken is DSTokenBase(0), DSStop {
+    bytes32 public symbol;
+    uint256 public decimals = 18; // standard token precision. override to customize
+    address public generator;
 
-    bytes32  public  symbol;
-    uint256  public  decimals = 18; // standard token precision. override to customize
-    address  public  generator;
-
-    modifier onlyGenerator {
-        if(msg.sender!=generator) throw;
+    modifier onlyGenerator() {
+        if (msg.sender != generator) throw;
         _;
     }
 
     function DSToken(bytes32 symbol_) {
         symbol = symbol_;
-        generator=msg.sender;
+        generator = msg.sender;
     }
 
     function transfer(address dst, uint wad) stoppable note returns (bool) {
         return super.transfer(dst, wad);
     }
     function transferFrom(
-    address src, address dst, uint wad
+        address src,
+        address dst,
+        uint wad
     ) stoppable note returns (bool) {
         return super.transferFrom(src, dst, wad);
     }
@@ -428,30 +413,30 @@ contract DSToken is DSTokenBase(0), DSStop {
     }
 
     // owner can transfer token even stop,
-    function generatorTransfer(address dst, uint wad) onlyGenerator note returns (bool) {
+    function generatorTransfer(
+        address dst,
+        uint wad
+    ) onlyGenerator note returns (bool) {
         return super.transfer(dst, wad);
     }
 
     // Optional token name
 
-    bytes32   public  name = "";
+    bytes32 public name = "";
 
     function setName(bytes32 name_) auth {
         name = name_;
     }
-
 }
 
 contract PassTokenReborn {
-
     DSToken public pass;
 
-    uint128 public constant TOTAL_SUPPLY = 10 ** 11 * 1 ether;  // 100 billion KEY in total
+    uint128 public constant TOTAL_SUPPLY = 10 ** 11 * 1 ether; // 100 billion KEY in total
 
     address public passFoundation; //multisig account , 4-of-6
 
     function PassTokenReborn(address _passFoundation) {
-
         require(_passFoundation != 0x0);
 
         passFoundation = _passFoundation;
