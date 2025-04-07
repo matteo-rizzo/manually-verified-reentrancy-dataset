@@ -26,13 +26,13 @@ Dependencies:
 END_COMMENT
 
 # Base directory containing subfolders with Solidity contracts
-BASE_DIR="dataset/raw/src"
+BASE_DIR="dataset/raw/preprocessed-unverified/reentrant"
 
 # Base output directory for ASTs
-OUTPUT_BASE_DIR="dataset/raw/ast"
+OUTPUT_BASE_DIR="logs/preprocessed-unverified-reentrant-ast"
 
 # Default solc version to use if no pragma is specified or if single compiler mode is selected
-DEFAULT_SOLC_VERSION="0.8.6"
+DEFAULT_SOLC_VERSION="0.4.0"
 USE_SINGLE_COMPILER=false
 
 # Minimum supported solc version
