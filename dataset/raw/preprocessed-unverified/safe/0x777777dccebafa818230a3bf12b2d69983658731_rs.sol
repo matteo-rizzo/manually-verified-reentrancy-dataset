@@ -1,0 +1,271 @@
+/**
+
+ *Submitted for verification at Etherscan.io on 2019-05-16
+
+*/
+
+
+
+/*
+
+
+
+ ▄▄▄▄▄▄   ▄███▄      ▄▄▄▄▄      ▄▄▄▄▀ 
+
+▀   ▄▄▀   █▀   ▀    █     ▀▄ ▀▀▀ █    
+
+ ▄▀▀   ▄▀ ██▄▄    ▄  ▀▀▀▀▄       █    
+
+ ▀▀▀▀▀▀   █▄   ▄▀  ▀▄▄▄▄▀       █     
+
+          ▀███▀                ▀      
+
+
+
+Don't get squeezed.
+
+*/
+
+pragma solidity ^0.5.2;
+
+
+
+
+
+
+
+
+
+
+
+contract ERC20 is Ownable {
+
+    using SafeMath for uint256;
+
+    mapping (address => uint256) private _balances;
+
+    mapping (address => mapping (address => uint256)) private _allowed;
+
+    uint256 private _totalSupply;
+
+    
+
+    event Transfer(address indexed from, address indexed to, uint tokens);
+
+    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+
+    
+
+    string public constant name = "Zest";
+
+    string public constant symbol = "Z";
+
+    uint8 public constant decimals = 18;
+
+    
+
+    bool minting;
+
+    
+
+    modifier currentlyMinting() {
+
+        require(minting);
+
+        _;
+
+    }
+
+    
+
+    constructor() public {
+
+        minting = true;
+
+    }
+
+
+
+    function totalSupply() public view returns (uint256) {
+
+        return _totalSupply;
+
+    }
+
+
+
+    function balanceOf(address account) public view returns (uint256) {
+
+        return _balances[account];
+
+    }
+
+
+
+    function allowance(address account, address spender) public view returns (uint256) {
+
+        return _allowed[account][spender];
+
+    }
+
+
+
+    function transfer(address to, uint256 value) public returns (bool) {
+
+        _transfer(msg.sender, to, value);
+
+        return true;
+
+    }
+
+
+
+    function approve(address spender, uint256 value) public returns (bool) {
+
+        _approve(msg.sender, spender, value);
+
+        return true;
+
+    }
+
+
+
+    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+
+        _transfer(from, to, value);
+
+        _approve(from, msg.sender, _allowed[from][msg.sender].sub(value));
+
+        return true;
+
+    }
+
+
+
+    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
+
+        _approve(msg.sender, spender, _allowed[msg.sender][spender].add(addedValue));
+
+        return true;
+
+    }
+
+
+
+    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
+
+        _approve(msg.sender, spender, _allowed[msg.sender][spender].sub(subtractedValue));
+
+        return true;
+
+    }
+
+    
+
+    function mint(address to, uint256 value) public onlyOwner currentlyMinting returns (bool) {
+
+        _mint(to, value);
+
+        return true;
+
+    }
+
+    
+
+    function burn(uint256 value) public {
+
+        _burn(msg.sender, value);
+
+    }
+
+    
+
+    function burnFrom(address from, uint256 value) public {
+
+        _burnFrom(from, value);
+
+    }
+
+    
+
+    function endMinting() onlyOwner public {
+
+        minting = false;
+
+    }
+
+
+
+    function _transfer(address from, address to, uint256 value) internal {
+
+        require(to != address(0));
+
+
+
+        _balances[from] = _balances[from].sub(value);
+
+        _balances[to] = _balances[to].add(value);
+
+        emit Transfer(from, to, value);
+
+    }
+
+
+
+    function _mint(address account, uint256 value) internal {
+
+        require(account != address(0));
+
+
+
+        _totalSupply = _totalSupply.add(value);
+
+        _balances[account] = _balances[account].add(value);
+
+        emit Transfer(address(0), account, value);
+
+    }
+
+
+
+    function _burn(address account, uint256 value) internal {
+
+        require(account != address(0));
+
+
+
+        _totalSupply = _totalSupply.sub(value);
+
+        _balances[account] = _balances[account].sub(value);
+
+        emit Transfer(account, address(0), value);
+
+    }
+
+
+
+    function _approve(address account, address spender, uint256 value) internal {
+
+        require(spender != address(0));
+
+        require(account != address(0));
+
+
+
+        _allowed[account][spender] = value;
+
+        emit Approval(account, spender, value);
+
+    }
+
+
+
+    function _burnFrom(address account, uint256 value) internal {
+
+        _burn(account, value);
+
+        _approve(account, msg.sender, _allowed[account][msg.sender].sub(value));
+
+    }
+
+}

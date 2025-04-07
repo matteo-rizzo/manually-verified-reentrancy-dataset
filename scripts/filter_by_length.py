@@ -1,3 +1,4 @@
+import argparse
 import os
 import shutil
 
@@ -37,12 +38,10 @@ def filter_by_length(input_dir, output_dir, max_lines=500):
 
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser(description="Filter Solidity files by line length.")
     parser.add_argument("input_dir", help="Path to input directory containing Solidity files")
     parser.add_argument("output_dir", help="Path to output log directory")
-    parser.add_argument("--max_lines", type=int, default=500, help="Maximum allowed lines per file")
+    parser.add_argument("--max_lines", type=int, default=250, help="Maximum allowed lines per file")
 
     args = parser.parse_args()
 

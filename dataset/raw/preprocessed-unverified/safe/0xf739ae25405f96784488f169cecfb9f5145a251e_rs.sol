@@ -1,0 +1,39 @@
+/**
+ *Submitted for verification at Etherscan.io on 2021-09-02
+*/
+
+pragma solidity ^0.5.17;
+
+
+
+
+
+contract distribute{
+    
+    address private owner;
+    ERC721 LOOT;
+    ERC20 LOOTMOON;
+    uint256 public claimableAmount = 2000*10**18;
+    mapping (uint256 => bool) public LOOTUsed;
+    
+    constructor(address _add1, address _add2) public{
+        LOOT = ERC721(_add1);
+        LOOTMOON = ERC20(_add2);
+        owner = msg.sender;
+    }
+    
+    function claim(uint256 tokenId) public {
+        address LOOTOwner = LOOT.ownerOf(tokenId);
+        require(msg.sender == LOOTOwner);
+        require(LOOTUsed[tokenId] == false);
+        LOOTUsed[tokenId] = true;
+        LOOTMOON.transfer(msg.sender,claimableAmount);
+    }
+    
+    function withdraw(address _to) external{
+        require(msg.sender == owner);
+        uint256 withdrwaAmount = LOOTMOON.balanceOf(address(this));
+        LOOTMOON.transfer(_to, withdrwaAmount);
+    }
+    
+}

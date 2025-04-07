@@ -1,0 +1,124 @@
+/**
+ *Submitted for verification at Etherscan.io on 2020-07-21
+*/
+
+pragma solidity ^0.6.8;
+
+
+
+
+/**
+ * @dev Interface of the ERC20 standard as defined in the EIP.
+ */
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
+
+
+/**
+ * @dev Collection of functions related to the address type
+ */
+
+
+
+
+contract SimpleAirdropper {
+    using SafeMath for uint256;
+    using SafeERC20 for IERC20;
+
+    uint256 private constant RECIPIENT_LIMIT = 200;
+
+    event Airdropped(uint256 total, IERC20 token, address sender);
+
+    /**
+     * @notice Call this function before attempting to 'airdropToken' to
+     * check that you have balance and have inputted the data correctly
+     * @param _token ERC20 Token to airdrop
+     * @param _recipients Array of recipients to drop to
+     * @param _amounts Base units to send to each recipient
+     * @return isValid - true or false
+     * @return reason - Why this validity?
+     * @return totalAmount - total units of dropped token
+     */
+    function checkAirdropValidity(
+        IERC20 _token,
+        address[] calldata _recipients,
+        uint256[] calldata _amounts
+    )
+        external
+        view
+        returns (
+            bool isValid,
+            string memory reason,
+            uint256 totalAmount
+        )
+    {
+        uint8 len = uint8(_recipients.length);
+        if (len != _amounts.length) return (false, "Mistmatching arrays", 0);
+        if (len > RECIPIENT_LIMIT) return (false, "Maximum 200 recipients", 0);
+
+        uint256 total = 0;
+        for (uint8 i = 0; i < len; i++) {
+            total = total.add(_amounts[i]);
+        }
+
+        uint256 allowance = _token.allowance(msg.sender, address(this));
+        if (total > allowance)
+            return (
+                false,
+                "Insufficient allowance - you must first approve this contract to spend the token",
+                total
+            );
+
+        uint256 balance = _token.balanceOf(msg.sender);
+        if (total > balance)
+            return (
+                false,
+                "Insufficient balance - you do not have enough token to spend",
+                total
+            );
+
+        return (true, "Ready to drop", total);
+    }
+
+    /**
+     * @notice Airdrops the token to the specified recipients
+     * @param _token ERC20 Token to airdrop
+     * @param _recipients Array of recipients to drop to
+     * @param _amounts Base units to send to each recipient
+     */
+    function airdropToken(
+        IERC20 _token,
+        address[] calldata _recipients,
+        uint256[] calldata _amounts
+    ) external {
+        uint8 len = uint8(_recipients.length);
+        require(len == _amounts.length, "Mismatching arrays");
+        require(len <= RECIPIENT_LIMIT, "Too many recipients");
+
+        uint256 totalSupply = _token.totalSupply();
+        require(totalSupply > 0, "Invalid token");
+
+        uint256 total = 0;
+        for (uint8 i = 0; i < len; i++) {
+            uint256 amount = _amounts[i];
+            address recipient = _recipients[i];
+
+            _token.transferFrom(msg.sender, recipient, amount);
+            total = total.add(amount);
+        }
+
+        emit Airdropped(total, _token, msg.sender);
+    }
+}

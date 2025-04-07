@@ -1,0 +1,1147 @@
+/**
+
+ *Submitted for verification at Etherscan.io on 2018-11-12
+
+*/
+
+
+
+pragma solidity ^0.4.24;
+
+
+
+
+
+
+
+contract PauserRole {
+
+  using Roles for Roles.Role;
+
+
+
+  event PauserAdded(address indexed account);
+
+  event PauserRemoved(address indexed account);
+
+
+
+  Roles.Role private pausers;
+
+
+
+  constructor() internal {
+
+    _addPauser(msg.sender);
+
+  }
+
+
+
+  modifier onlyPauser() {
+
+    require(isPauser(msg.sender));
+
+    _;
+
+  }
+
+
+
+  function isPauser(address account) public view returns (bool) {
+
+    return pausers.has(account);
+
+  }
+
+
+
+  function addPauser(address account) public onlyPauser {
+
+    _addPauser(account);
+
+  }
+
+
+
+  function renouncePauser() public {
+
+    _removePauser(msg.sender);
+
+  }
+
+
+
+  function _addPauser(address account) internal {
+
+    pausers.add(account);
+
+    emit PauserAdded(account);
+
+  }
+
+
+
+  function _removePauser(address account) internal {
+
+    pausers.remove(account);
+
+    emit PauserRemoved(account);
+
+  }
+
+}
+
+
+
+contract Pausable is PauserRole {
+
+  event Paused(address account);
+
+  event Unpaused(address account);
+
+
+
+  bool private _paused;
+
+
+
+  constructor() internal {
+
+    _paused = false;
+
+  }
+
+
+
+  /**
+
+   * @return true if the contract is paused, false otherwise.
+
+   */
+
+  function paused() public view returns(bool) {
+
+    return _paused;
+
+  }
+
+
+
+  /**
+
+   * @dev Modifier to make a function callable only when the contract is not paused.
+
+   */
+
+  modifier whenNotPaused() {
+
+    require(!_paused);
+
+    _;
+
+  }
+
+
+
+  /**
+
+   * @dev Modifier to make a function callable only when the contract is paused.
+
+   */
+
+  modifier whenPaused() {
+
+    require(_paused);
+
+    _;
+
+  }
+
+
+
+  /**
+
+   * @dev called by the owner to pause, triggers stopped state
+
+   */
+
+  function pause() public onlyPauser whenNotPaused {
+
+    _paused = true;
+
+    emit Paused(msg.sender);
+
+  }
+
+
+
+  /**
+
+   * @dev called by the owner to unpause, returns to normal state
+
+   */
+
+  function unpause() public onlyPauser whenPaused {
+
+    _paused = false;
+
+    emit Unpaused(msg.sender);
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+contract ERC20 is IERC20 {
+
+  using SafeMath for uint256;
+
+
+
+  mapping (address => uint256) private _balances;
+
+
+
+  mapping (address => mapping (address => uint256)) private _allowed;
+
+
+
+  uint256 private _totalSupply;
+
+
+
+  /**
+
+  * @dev Total number of tokens in existence
+
+  */
+
+  function totalSupply() public view returns (uint256) {
+
+    return _totalSupply;
+
+  }
+
+
+
+  /**
+
+  * @dev Gets the balance of the specified address.
+
+  * @param owner The address to query the balance of.
+
+  * @return An uint256 representing the amount owned by the passed address.
+
+  */
+
+  function balanceOf(address owner) public view returns (uint256) {
+
+    return _balances[owner];
+
+  }
+
+
+
+  /**
+
+   * @dev Function to check the amount of tokens that an owner allowed to a spender.
+
+   * @param owner address The address which owns the funds.
+
+   * @param spender address The address which will spend the funds.
+
+   * @return A uint256 specifying the amount of tokens still available for the spender.
+
+   */
+
+  function allowance(
+
+    address owner,
+
+    address spender
+
+   )
+
+    public
+
+    view
+
+    returns (uint256)
+
+  {
+
+    return _allowed[owner][spender];
+
+  }
+
+
+
+  /**
+
+  * @dev Transfer token for a specified address
+
+  * @param to The address to transfer to.
+
+  * @param value The amount to be transferred.
+
+  */
+
+  function transfer(address to, uint256 value) public returns (bool) {
+
+    _transfer(msg.sender, to, value);
+
+    return true;
+
+  }
+
+
+
+  /**
+
+   * @dev Approve the passed address to spend the specified amount of tokens on behalf of msg.sender.
+
+   * Beware that changing an allowance with this method brings the risk that someone may use both the old
+
+   * and the new allowance by unfortunate transaction ordering. One possible solution to mitigate this
+
+   * race condition is to first reduce the spender's allowance to 0 and set the desired value afterwards:
+
+   * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+
+   * @param spender The address which will spend the funds.
+
+   * @param value The amount of tokens to be spent.
+
+   */
+
+  function approve(address spender, uint256 value) public returns (bool) {
+
+    require(spender != address(0));
+
+
+
+    _allowed[msg.sender][spender] = value;
+
+    emit Approval(msg.sender, spender, value);
+
+    return true;
+
+  }
+
+
+
+  /**
+
+   * @dev Transfer tokens from one address to another
+
+   * @param from address The address which you want to send tokens from
+
+   * @param to address The address which you want to transfer to
+
+   * @param value uint256 the amount of tokens to be transferred
+
+   */
+
+  function transferFrom(
+
+    address from,
+
+    address to,
+
+    uint256 value
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(value <= _allowed[from][msg.sender]);
+
+
+
+    _allowed[from][msg.sender] = _allowed[from][msg.sender].sub(value);
+
+    _transfer(from, to, value);
+
+    return true;
+
+  }
+
+
+
+  /**
+
+   * @dev Increase the amount of tokens that an owner allowed to a spender.
+
+   * approve should be called when allowed_[_spender] == 0. To increment
+
+   * allowed value is better to use this function to avoid 2 calls (and wait until
+
+   * the first transaction is mined)
+
+   * From MonolithDAO Token.sol
+
+   * @param spender The address which will spend the funds.
+
+   * @param addedValue The amount of tokens to increase the allowance by.
+
+   */
+
+  function increaseAllowance(
+
+    address spender,
+
+    uint256 addedValue
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(spender != address(0));
+
+
+
+    _allowed[msg.sender][spender] = (
+
+      _allowed[msg.sender][spender].add(addedValue));
+
+    emit Approval(msg.sender, spender, _allowed[msg.sender][spender]);
+
+    return true;
+
+  }
+
+
+
+  /**
+
+   * @dev Decrease the amount of tokens that an owner allowed to a spender.
+
+   * approve should be called when allowed_[_spender] == 0. To decrement
+
+   * allowed value is better to use this function to avoid 2 calls (and wait until
+
+   * the first transaction is mined)
+
+   * From MonolithDAO Token.sol
+
+   * @param spender The address which will spend the funds.
+
+   * @param subtractedValue The amount of tokens to decrease the allowance by.
+
+   */
+
+  function decreaseAllowance(
+
+    address spender,
+
+    uint256 subtractedValue
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(spender != address(0));
+
+
+
+    _allowed[msg.sender][spender] = (
+
+      _allowed[msg.sender][spender].sub(subtractedValue));
+
+    emit Approval(msg.sender, spender, _allowed[msg.sender][spender]);
+
+    return true;
+
+  }
+
+
+
+  /**
+
+  * @dev Transfer token for a specified addresses
+
+  * @param from The address to transfer from.
+
+  * @param to The address to transfer to.
+
+  * @param value The amount to be transferred.
+
+  */
+
+  function _transfer(address from, address to, uint256 value) internal {
+
+    require(value <= _balances[from]);
+
+    require(to != address(0));
+
+
+
+    _balances[from] = _balances[from].sub(value);
+
+    _balances[to] = _balances[to].add(value);
+
+    emit Transfer(from, to, value);
+
+  }
+
+
+
+  /**
+
+   * @dev Internal function that mints an amount of the token and assigns it to
+
+   * an account. This encapsulates the modification of balances such that the
+
+   * proper events are emitted.
+
+   * @param account The account that will receive the created tokens.
+
+   * @param value The amount that will be created.
+
+   */
+
+  function _mint(address account, uint256 value) internal {
+
+    require(account != 0);
+
+    _totalSupply = _totalSupply.add(value);
+
+    _balances[account] = _balances[account].add(value);
+
+    emit Transfer(address(0), account, value);
+
+  }
+
+
+
+  /**
+
+   * @dev Internal function that burns an amount of the token of a given
+
+   * account.
+
+   * @param account The account whose tokens will be burnt.
+
+   * @param value The amount that will be burnt.
+
+   */
+
+  function _burn(address account, uint256 value) internal {
+
+    require(account != 0);
+
+    require(value <= _balances[account]);
+
+
+
+    _totalSupply = _totalSupply.sub(value);
+
+    _balances[account] = _balances[account].sub(value);
+
+    emit Transfer(account, address(0), value);
+
+  }
+
+
+
+  /**
+
+   * @dev Internal function that burns an amount of the token of a given
+
+   * account, deducting from the sender's allowance for said account. Uses the
+
+   * internal burn function.
+
+   * @param account The account whose tokens will be burnt.
+
+   * @param value The amount that will be burnt.
+
+   */
+
+  function _burnFrom(address account, uint256 value) internal {
+
+    require(value <= _allowed[account][msg.sender]);
+
+
+
+    // Should https://github.com/OpenZeppelin/zeppelin-solidity/issues/707 be accepted,
+
+    // this function needs to emit an event with the updated approval.
+
+    _allowed[account][msg.sender] = _allowed[account][msg.sender].sub(
+
+      value);
+
+    _burn(account, value);
+
+  }
+
+}
+
+
+
+contract ERC20Pausable is ERC20, Pausable {
+
+
+
+  function transfer(
+
+    address to,
+
+    uint256 value
+
+  )
+
+    public
+
+    whenNotPaused
+
+    returns (bool)
+
+  {
+
+    return super.transfer(to, value);
+
+  }
+
+
+
+  function transferFrom(
+
+    address from,
+
+    address to,
+
+    uint256 value
+
+  )
+
+    public
+
+    whenNotPaused
+
+    returns (bool)
+
+  {
+
+    return super.transferFrom(from, to, value);
+
+  }
+
+
+
+  function approve(
+
+    address spender,
+
+    uint256 value
+
+  )
+
+    public
+
+    whenNotPaused
+
+    returns (bool)
+
+  {
+
+    return super.approve(spender, value);
+
+  }
+
+
+
+  function increaseAllowance(
+
+    address spender,
+
+    uint addedValue
+
+  )
+
+    public
+
+    whenNotPaused
+
+    returns (bool success)
+
+  {
+
+    return super.increaseAllowance(spender, addedValue);
+
+  }
+
+
+
+  function decreaseAllowance(
+
+    address spender,
+
+    uint subtractedValue
+
+  )
+
+    public
+
+    whenNotPaused
+
+    returns (bool success)
+
+  {
+
+    return super.decreaseAllowance(spender, subtractedValue);
+
+  }
+
+}
+
+
+
+contract IndividualLockableToken is ERC20Pausable, Ownable{
+
+  using SafeMath for uint256;
+
+
+
+  event LockTimeSetted(address indexed holder, uint256 old_release_time, uint256 new_release_time);
+
+  event Locked(address indexed holder, uint256 locked_balance_change, uint256 total_locked_balance, uint256 release_time);
+
+
+
+  struct lockState {
+
+    uint256 locked_balance;
+
+    uint256 release_time;
+
+  }
+
+
+
+  // default lock period
+
+  uint256 public lock_period = 24 weeks;
+
+
+
+  mapping(address => lockState) internal userLock;
+
+
+
+  // Specify the time that a particular person's lock will be released
+
+  function setReleaseTime(address _holder, uint256 _release_time)
+
+    public
+
+    onlyOwner
+
+    returns (bool)
+
+  {
+
+    require(_holder != address(0));
+
+	require(_release_time >= block.timestamp);
+
+
+
+	uint256 old_release_time = userLock[_holder].release_time;
+
+
+
+	userLock[_holder].release_time = _release_time;
+
+	emit LockTimeSetted(_holder, old_release_time, userLock[_holder].release_time);
+
+	return true;
+
+  }
+
+  
+
+  // Returns the point at which token holder's lock is released
+
+  function getReleaseTime(address _holder)
+
+    public
+
+    view
+
+    returns (uint256)
+
+  {
+
+    require(_holder != address(0));
+
+
+
+	return userLock[_holder].release_time;
+
+  }
+
+
+
+  // Unlock a specific person. Free trading even with a lock balance
+
+  function clearReleaseTime(address _holder)
+
+    public
+
+    onlyOwner
+
+    returns (bool)
+
+  {
+
+    require(_holder != address(0));
+
+    require(userLock[_holder].release_time > 0);
+
+
+
+	uint256 old_release_time = userLock[_holder].release_time;
+
+
+
+	userLock[_holder].release_time = 0;
+
+	emit LockTimeSetted(_holder, old_release_time, userLock[_holder].release_time);
+
+	return true;
+
+  }
+
+
+
+  // Increase the lock balance of a specific person.
+
+  // If you only want to increase the balance, the release_time must be specified in advance.
+
+  function increaseLockBalance(address _holder, uint256 _value)
+
+    public
+
+    onlyOwner
+
+    returns (bool)
+
+  {
+
+	require(_holder != address(0));
+
+	require(_value > 0);
+
+	require(balanceOf(_holder) >= _value);
+
+	
+
+	if (userLock[_holder].release_time == 0) {
+
+		userLock[_holder].release_time = block.timestamp + lock_period;
+
+	}
+
+	
+
+	userLock[_holder].locked_balance = (userLock[_holder].locked_balance).add(_value);
+
+	emit Locked(_holder, _value, userLock[_holder].locked_balance, userLock[_holder].release_time);
+
+	return true;
+
+  }
+
+
+
+  // Decrease the lock balance of a specific person.
+
+  function decreaseLockBalance(address _holder, uint256 _value)
+
+    public
+
+    onlyOwner
+
+    returns (bool)
+
+  {
+
+	require(_holder != address(0));
+
+	require(_value > 0);
+
+	require(userLock[_holder].locked_balance >= _value);
+
+
+
+	userLock[_holder].locked_balance = (userLock[_holder].locked_balance).sub(_value);
+
+	emit Locked(_holder, _value, userLock[_holder].locked_balance, userLock[_holder].release_time);
+
+	return true;
+
+  }
+
+
+
+  // Clear the lock.
+
+  function clearLock(address _holder)
+
+    public
+
+    onlyOwner
+
+    returns (bool)
+
+  {
+
+	require(_holder != address(0));
+
+	require(userLock[_holder].release_time > 0);
+
+
+
+	userLock[_holder].locked_balance = 0;
+
+	userLock[_holder].release_time = 0;
+
+	emit Locked(_holder, 0, userLock[_holder].locked_balance, userLock[_holder].release_time);
+
+	return true;
+
+  }
+
+
+
+  // Check the amount of the lock
+
+  function getLockedBalance(address _holder)
+
+    public
+
+    view
+
+    returns (uint256)
+
+  {
+
+    if(block.timestamp >= userLock[_holder].release_time) return uint256(0);
+
+    return userLock[_holder].locked_balance;
+
+  }
+
+
+
+  // Check your remaining balance
+
+  function getFreeBalance(address _holder)
+
+    public
+
+    view
+
+    returns (uint256)
+
+  {
+
+    if(block.timestamp >= userLock[_holder].release_time) return balanceOf(_holder);
+
+    return balanceOf(_holder).sub(userLock[_holder].locked_balance);
+
+  }
+
+
+
+  // transfer overrride
+
+  function transfer(
+
+    address _to,
+
+    uint256 _value
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(getFreeBalance(msg.sender) >= _value);
+
+    return super.transfer(_to, _value);
+
+  }
+
+
+
+  // transferFrom overrride
+
+  function transferFrom(
+
+    address _from,
+
+    address _to,
+
+    uint256 _value
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(getFreeBalance(_from) >= _value);
+
+    return super.transferFrom(_from, _to, _value);
+
+  }
+
+
+
+  // approve overrride
+
+  function approve(
+
+    address _spender,
+
+    uint256 _value
+
+  )
+
+    public
+
+    returns (bool)
+
+  {
+
+    require(getFreeBalance(msg.sender) >= _value);
+
+    return super.approve(_spender, _value);
+
+  }
+
+
+
+  // increaseAllowance overrride
+
+  function increaseAllowance(
+
+    address _spender,
+
+    uint _addedValue
+
+  )
+
+    public
+
+    returns (bool success)
+
+  {
+
+    require(getFreeBalance(msg.sender) >= allowance(msg.sender, _spender).add(_addedValue));
+
+    return super.increaseAllowance(_spender, _addedValue);
+
+  }
+
+  
+
+  // decreaseAllowance overrride
+
+  function decreaseAllowance(
+
+    address _spender,
+
+    uint _subtractedValue
+
+  )
+
+    public
+
+    returns (bool success)
+
+  {
+
+	uint256 oldValue = allowance(msg.sender, _spender);
+
+	
+
+    if (_subtractedValue < oldValue) {
+
+      require(getFreeBalance(msg.sender) >= oldValue.sub(_subtractedValue));	  
+
+    }    
+
+    return super.decreaseAllowance(_spender, _subtractedValue);
+
+  }
+
+}
+
+
+
+contract WorldPay is IndividualLockableToken {
+
+  using SafeMath for uint256;
+
+
+
+  string public constant name = "WORLD Pay";
+
+  string public constant symbol = "WOPS";
+
+  uint8  public constant decimals = 18;
+
+
+
+  // 36,523,000,000 
+
+  uint256 public constant INITIAL_SUPPLY = 36523000000 * (10 ** uint256(decimals));
+
+
+
+  constructor()
+
+    public
+
+  {
+
+	_mint(msg.sender, INITIAL_SUPPLY);
+
+  }
+
+}

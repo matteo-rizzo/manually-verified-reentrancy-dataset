@@ -1,0 +1,193 @@
+/**
+ *Submitted for verification at Etherscan.io on 2020-12-31
+*/
+
+// SPDX-License-Identifier: UNLICENSED
+// This contract locks TRY team and marketing tokens, on a vesting schedule.
+
+pragma solidity 0.7.4;
+
+contract TRYTEAMLOCKContract {
+
+    event Received(address, uint);
+    event onDeposit(address, uint256, uint256);
+    event onWithdraw(address, uint256);
+
+    using SafeMath for uint256;
+
+    struct VestingPeriod {
+      uint256 epoch;
+      uint256 amount;
+    }
+
+    struct UserTokenInfo {
+      uint256 deposited; // incremented on successful deposit
+      uint256 withdrawn; // incremented on successful withdrawl
+      VestingPeriod[] vestingPeriods; // added to on successful deposit
+    }
+
+    // map erc20 token to user address to release schedule
+    mapping(address => mapping(address => UserTokenInfo)) tokenUserMap;
+
+    struct LiquidityTokenomics {
+      uint256[] epochs;
+      mapping (uint256 => uint256) releaseMap; // map epoch -> amount withdrawable
+    }
+
+    // map erc20 token to release schedule
+    mapping(address => LiquidityTokenomics) tokenEpochMap;
+
+    
+    // Fast mapping to prevent array iteration in solidity
+    mapping(address => bool) public lockedTokenLookup;
+
+    // A dynamically-sized array of currently locked tokens
+    address[] public lockedTokens;
+    
+    // fee variables
+    uint256 public feeNumerator;
+    uint256 public feeDenominator;
+    
+    address public feeReserveAddress;
+    address public owner;
+    //address public allowToDepWith = address(0);
+    
+    constructor() {                  
+      feeNumerator = 0;
+      feeDenominator = 1000;
+      feeReserveAddress = address(0x76EFf89CDe6ff68103E76dD492e8b25a058fcB2B);
+      owner = address(0x76EFf89CDe6ff68103E76dD492e8b25a058fcB2B);
+      
+    }
+
+    receive() external payable {
+        emit Received(msg.sender, msg.value);
+    }
+    
+    modifier onlyOwner {
+      require(msg.sender == owner, "You are not the owner");
+      _;
+    }
+    
+  
+    
+   /* function updateallowToDepWith(address usr) public onlyOwner returns(address){
+        allowToDepWith = usr;
+        return allowToDepWith;
+    }*/
+    
+    function updateFee(uint256 numerator, uint256 denominator) onlyOwner public {
+      feeNumerator = numerator;
+      feeDenominator = denominator;
+    }
+    
+    function calculateFee(uint256 amount) public view returns (uint256){
+      require(amount >= feeDenominator, 'Deposit is too small');    
+      uint256 amountInLarge = amount.mul(feeDenominator.sub(feeNumerator));
+      uint256 amountIn = amountInLarge.div(feeDenominator);
+      uint256 fee = amount.sub(amountIn);
+      return (fee);
+    }
+    
+
+    function depositToken(address token, uint256 amount, uint256 unlock_date, address withdrawWallet) public payable  {
+      require(unlock_date < 10000000000, 'Enter an unix timestamp in seconds, not miliseconds');
+      require(amount > 0, 'Your attempting to trasfer 0 tokens');
+      uint256 allowance = IERC20(token).allowance(msg.sender, address(this));
+      require(allowance >= amount, 'You need to set a higher allowance');
+      require(token != address(0), '0x0 wallet cannot be used');
+      require(withdrawWallet != address(0), '0x0 wallet cannot be used to withdraw tokens');
+      // charge a fee
+      uint256 fee = calculateFee(amount);
+      uint256 amountIn = amount.sub(fee);
+      require(IERC20(token).transferFrom(msg.sender, address(this), amountIn), 'Transfer failed');
+      require(IERC20(token).transferFrom(msg.sender, address(feeReserveAddress), fee), 'Transfer failed');
+      if (!lockedTokenLookup[token]) {
+        lockedTokens.push(token);
+        lockedTokenLookup[token] = true;
+      }
+      LiquidityTokenomics storage liquidityTokenomics = tokenEpochMap[token];
+      // amount is required to be above 0 in the start of this block, therefore this works
+      if (liquidityTokenomics.releaseMap[unlock_date] > 0) {
+        liquidityTokenomics.releaseMap[unlock_date] = liquidityTokenomics.releaseMap[unlock_date].add(amountIn);
+      } else {
+        liquidityTokenomics.epochs.push(unlock_date);
+        liquidityTokenomics.releaseMap[unlock_date] = amountIn;
+      }
+      UserTokenInfo storage uto = tokenUserMap[token][withdrawWallet];
+      uto.deposited = uto.deposited.add(amountIn);
+      VestingPeriod[] storage vp = uto.vestingPeriods;
+      vp.push(VestingPeriod(unlock_date, amountIn));
+      
+      emit onDeposit(token, amount, unlock_date);
+    }
+
+    function withdrawToken(address token, uint256 amount) public  {
+      require(amount > 0, 'Your attempting to withdraw 0 tokens');
+      require(token != address(0), '0x0 wallet cannot be used');
+      uint256 withdrawable = getWithdrawableBalance(token, msg.sender);
+      UserTokenInfo storage uto = tokenUserMap[token][msg.sender];
+      uto.withdrawn = uto.withdrawn.add(amount);
+      require(amount <= withdrawable, 'Your attempting to withdraw more than you have available');
+      require(IERC20(token).transfer(msg.sender, amount), 'Transfer failed');
+      emit onWithdraw(token, amount);
+    }
+
+    function getWithdrawableBalance(address token, address user) public view returns (uint256) {
+      UserTokenInfo storage uto = tokenUserMap[token][address(user)];
+      uint arrayLength = uto.vestingPeriods.length;
+      uint256 withdrawable = 0;
+      for (uint i=0; i<arrayLength; i++) {
+        VestingPeriod storage vestingPeriod = uto.vestingPeriods[i];
+        if (vestingPeriod.epoch < block.timestamp) {
+          withdrawable = withdrawable.add(vestingPeriod.amount);
+        }
+      }
+      withdrawable = withdrawable.sub(uto.withdrawn);
+      return withdrawable;
+    }
+    
+    function getUserTokenInfo (address token, address user) public view returns (uint256, uint256, uint256) {
+      UserTokenInfo storage uto = tokenUserMap[address(token)][address(user)];
+      uint256 deposited = uto.deposited;
+      uint256 withdrawn = uto.withdrawn;
+      uint256 length = uto.vestingPeriods.length;
+      return (deposited, withdrawn, length);
+    }
+
+    function getUserVestingAtIndex (address token, address user, uint index) public view returns (uint256, uint256) {
+      UserTokenInfo storage uto = tokenUserMap[address(token)][address(user)];
+      VestingPeriod storage vp = uto.vestingPeriods[index];
+      return (vp.epoch, vp.amount);
+    }
+
+    function getTokenReleaseLength (address token) public view returns (uint256) {
+      LiquidityTokenomics storage liquidityTokenomics = tokenEpochMap[address(token)];
+      return liquidityTokenomics.epochs.length;
+    }
+
+    function getTokenReleaseAtIndex (address token, uint index) public view returns (uint256, uint256) {
+      LiquidityTokenomics storage liquidityTokenomics = tokenEpochMap[address(token)];
+      uint256 epoch = liquidityTokenomics.epochs[index];
+      uint256 amount = liquidityTokenomics.releaseMap[epoch];
+      return (epoch, amount);
+    }
+    
+    function lockedTokensLength() external view returns (uint) {
+        return lockedTokens.length;
+    }
+}
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */

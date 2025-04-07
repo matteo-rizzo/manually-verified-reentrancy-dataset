@@ -1,0 +1,71 @@
+/**
+
+ *Submitted for verification at Etherscan.io on 2019-04-29
+
+*/
+
+
+
+pragma solidity 0.4.24;
+
+
+
+
+
+
+
+contract Timelock {
+
+    ERC20Token public token;
+
+    address public beneficiary;
+
+    uint256 public releaseTime;
+
+
+
+    event TokenReleased(address beneficiary, uint256 amount);
+
+
+
+    constructor(
+
+        address _token,
+
+        address _beneficiary,
+
+        uint256 _releaseTime
+
+    ) public {
+
+        require(_releaseTime > now);
+
+        require(_beneficiary != 0x0);
+
+        token = ERC20Token(_token);
+
+        beneficiary = _beneficiary;
+
+        releaseTime = _releaseTime;
+
+    }
+
+
+
+    function release() public returns(bool success) {
+
+        require(now >= releaseTime);
+
+        uint256 amount = token.balanceOf(this);
+
+        require(amount > 0);
+
+        token.transfer(beneficiary, amount);
+
+        emit TokenReleased(beneficiary, amount);
+
+        return true;
+
+    }
+
+}

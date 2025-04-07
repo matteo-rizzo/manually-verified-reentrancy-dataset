@@ -1,0 +1,145 @@
+/**
+ *Submitted for verification at Etherscan.io on 2020-11-20
+*/
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.12;
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
+
+
+
+
+
+
+
+
+/*
+ * @dev Provides information about the current execution context, including the
+ * sender of the transaction and its data. While these are generally available
+ * via msg.sender and msg.data, they should not be accessed in such a direct
+ * manner, since when dealing with GSN meta-transactions the account sending and
+ * paying for execution may not be the actual sender (as far as an application
+ * is concerned).
+ *
+ * This contract is only required for intermediate, library-like contracts.
+ */
+abstract contract Context {
+    function _msgSender() internal view virtual returns (address payable) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes memory) {
+        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+        return msg.data;
+    }
+}
+
+contract Ownable is Context {
+    address private _owner;
+
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+    /**
+     * @dev Initializes the contract setting the deployer as the initial owner.
+     */
+    constructor () internal {
+        address msgSender = _msgSender();
+        _owner = msgSender;
+        emit OwnershipTransferred(address(0), msgSender);
+    }
+
+    /**
+     * @dev Returns the address of the current owner.
+     */
+    function owner() public view returns (address) {
+        return _owner;
+    }
+
+    /**
+     * @dev Throws if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        require(_owner == _msgSender(), "Ownable: caller is not the owner");
+        _;
+    }
+
+    /**
+     * @dev Leaves the contract without owner. It will not be possible to call
+     * `onlyOwner` functions anymore. Can only be called by the current owner.
+     *
+     * NOTE: Renouncing ownership will leave the contract without an owner,
+     * thereby removing any functionality that is only available to the owner.
+     */
+    function renounceOwnership() public virtual onlyOwner {
+        emit OwnershipTransferred(_owner, address(0));
+        _owner = address(0);
+    }
+
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Can only be called by the current owner.
+     */
+    function transferOwnership(address newOwner) public virtual onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        emit OwnershipTransferred(_owner, newOwner);
+        _owner = newOwner;
+    }
+}
+
+
+
+
+
+contract Lock3rV1Helper is Ownable{
+    using SafeMath for uint;
+
+    IChainLinkFeed public constant FASTGAS = IChainLinkFeed(0x169E633A2D1E6c10dD91238Ba11c4A708dfEF37C);
+    IMiniLock3r public LK3R;
+    IUniswapV2SlidingOracle public constant UV2SO = IUniswapV2SlidingOracle(0x061a92584Bc5bc2d91C08818993Ce1411DD34913);
+    address public constant WETH = address(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
+
+    uint constant public MAX = 15;
+    uint constant public BASE = 10;
+    uint constant public SWAP = 300000;
+    uint constant public TARGETBOND = 250e18; //Incentivises bigger holdings
+    
+    function quote(uint eth) public view returns (uint) {
+        return UV2SO.current(address(WETH), eth, address(LK3R));
+    }
+    
+    function setToken(address lockertoken) public onlyOwner{
+        LK3R = IMiniLock3r(lockertoken);
+    }
+
+    function getFastGas() external view returns (uint) {
+        return uint(FASTGAS.latestAnswer());
+    }
+
+    function bonds(address locker) public view returns (uint) {
+        return LK3R.bonds(locker, address(LK3R)).add(LK3R.votes(locker));
+    }
+
+    function getQuoteLimitFor(address origin, uint gasUsed) public view returns (uint) {
+        uint _min = quote((gasUsed.add(SWAP)).mul(uint(FASTGAS.latestAnswer())));
+        uint _boost = _min.mul(MAX).div(BASE); // increase by 2.5
+        uint _bond = Math.min(bonds(origin), TARGETBOND);
+        return Math.max(_min, _boost.mul(_bond).div(TARGETBOND));
+    }
+
+    function getQuoteLimit(uint gasUsed) external view returns (uint) {
+        return getQuoteLimitFor(tx.origin, gasUsed);
+    }
+}
