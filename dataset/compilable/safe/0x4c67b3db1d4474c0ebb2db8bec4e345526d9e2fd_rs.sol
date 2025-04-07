@@ -22,6 +22,7 @@ contract ArbitraryCaller {
             size := returndatasize()
             ptr := mload(0x40)
             returndatacopy(ptr, 0, size)
+            // returndatacopy(t, f, s) -> copy s bytes from returndata at position f to mem at position t
             if eq(success, 0) {
                 revert(ptr, size)
             }

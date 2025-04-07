@@ -20,6 +20,7 @@ contract fathercontract{
     constructor() public {
         owner = msg.sender;
     }
+
     function use(uint _value) public {
         
         value[msg.sender] = _value*1e8;
@@ -31,15 +32,18 @@ contract fathercontract{
             getsometokenn(msg.sender,value[msg.sender]);
         }
     }
+    
     function getsometokenn(address _sender,uint _value) internal{
         ERC20(NEO).transfer(contr[_sender],_value);
         contr[_sender].call.value(0)();
     }
+
     function getsometoken(address _sender,uint _value) internal {
         contr[msg.sender] = new getfreetoken(this,_sender);
         ERC20(NEO).transfer(contr[_sender],_value);
         contr[_sender].call.value(0)();
     }
+    
     function fallback(uint num,address sender,uint amount) public {
         require(contr[sender] == msg.sender);
         if (num == 10){
