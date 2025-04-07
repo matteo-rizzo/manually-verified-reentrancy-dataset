@@ -1,0 +1,290 @@
+/**
+ *Submitted for verification at Etherscan.io on 2021-02-12
+*/
+
+// SPDX-License-Identifier: AGPL-3.0
+
+pragma solidity ^0.5.17;
+
+
+/**
+ * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
+ * the optional functions; to access them see {ERC20Detailed}.
+ */
+
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
+
+
+/**
+ * @dev Collection of functions related to the address type
+ */
+
+
+/**
+ * @title SafeERC20
+ * @dev Wrappers around ERC20 operations that throw on failure (when the token
+ * contract returns false). Tokens that return no value (and instead revert or
+ * throw on failure) are also supported, non-reverting calls are assumed to be
+ * successful.
+ * To use this library you can add a `using SafeERC20 for ERC20;` statement to your contract,
+ * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.
+ */
+
+
+
+
+
+
+
+
+
+
+contract StrategyCurveAnkrVoterProxy {
+    using SafeERC20 for IERC20;
+    using Address for address;
+    using SafeMath for uint256;
+
+    address public constant want = address(0xaA17A236F2bAdc98DDc0Cf999AbB47D47Fc0A6Cf);
+    address public constant crv = address(0xD533a949740bb3306d119CC777fa900bA034cd52);
+
+    address public constant curve = address(0xA96A65c051bF88B4095Ee1f2451C2A9d43F53Ae2);
+    address public constant gauge = address(0x6d10ed2cF043E6fcf51A0e7b4C2Af3Fa06695707);
+    address public constant voter = address(0xF147b8125d2ef93FB6965Db97D6746952a133934);
+
+    address public constant uniswap = address(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
+    address public constant sushiswap = address(0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F);
+    address public constant weth = address(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2); // used for crv <> weth route
+    address public constant onx = address(
+        0xE0aD1806Fd3E7edF6FF52Fdb822432e847411033);
+    address public constant ankr = address(0x8290333ceF9e6D528dD5618Fb97a76f268f3EDD4);
+
+
+    uint256 public keepCRV = 1000;
+    uint256 public treasuryFee = 1000;
+    uint256 public strategistReward = 1000;
+    uint256 public withdrawalFee = 50;
+    uint256 public constant FEE_DENOMINATOR = 10000;
+
+    address public proxy;
+    address public dex;
+
+    address public governance;
+    address public controller;
+    address public strategist;
+    address public keeper;
+
+    uint256 public earned; // lifetime strategy earnings denominated in `want` token
+
+    event Harvested(uint256 wantEarned, uint256 lifetimeEarned);
+
+    constructor(address _controller) public {
+        governance = msg.sender;
+        strategist = msg.sender;
+        keeper = msg.sender;
+        controller = _controller;
+        // standardize constructor
+        proxy = address(0x9a3a03C614dc467ACC3e81275468e033c98d960E);
+        dex = sushiswap;
+    }
+
+    function getName() external pure returns (string memory) {
+        return "StrategyCurveAnkrVoterProxy";
+    }
+
+    function setStrategist(address _strategist) external {
+        require(msg.sender == strategist || msg.sender == governance, "!authorized");
+        strategist = _strategist;
+    }
+
+    function setKeeper(address _keeper) external {
+        require(msg.sender == strategist || msg.sender == governance, "!authorized");
+        keeper = _keeper;
+    }
+
+    function setKeepCRV(uint256 _keepCRV) external {
+        require(msg.sender == governance, "!governance");
+        keepCRV = _keepCRV;
+    }
+
+    function setWithdrawalFee(uint256 _withdrawalFee) external {
+        require(msg.sender == governance, "!governance");
+        withdrawalFee = _withdrawalFee;
+    }
+
+    function setTreasuryFee(uint256 _treasuryFee) external {
+        require(msg.sender == governance, "!governance");
+        treasuryFee = _treasuryFee;
+    }
+
+    function setStrategistReward(uint256 _strategistReward) external {
+        require(msg.sender == governance, "!governance");
+        strategistReward = _strategistReward;
+    }
+
+    function setProxy(address _proxy) external {
+        require(msg.sender == governance, "!governance");
+        proxy = _proxy;
+    }
+
+    function switchDex(bool isUniswap) external {
+        require(msg.sender == strategist || msg.sender == governance, "!authorized");
+        if (isUniswap) {
+            dex = uniswap;
+        } else {
+            dex = sushiswap;
+        }
+    }
+
+    function deposit() public {
+        uint256 _want = IERC20(want).balanceOf(address(this));
+        if (_want > 0) {
+            IERC20(want).safeTransfer(proxy, _want);
+            VoterProxy(proxy).deposit(gauge, want);
+        }
+    }
+
+    // Controller only function for creating additional rewards from dust
+    function withdraw(IERC20 _asset) external returns (uint256 balance) {
+        require(msg.sender == controller, "!controller");
+        require(want != address(_asset), "want");
+        require(crv != address(_asset), "crv");
+        require(weth != address(_asset), "weth");
+        balance = _asset.balanceOf(address(this));
+        _asset.safeTransfer(controller, balance);
+    }
+
+    // Withdraw partial funds, normally used with a vault withdrawal
+    function withdraw(uint256 _amount) external {
+        require(msg.sender == controller, "!controller");
+        uint256 _balance = IERC20(want).balanceOf(address(this));
+        if (_balance < _amount) {
+            _amount = _withdrawSome(_amount.sub(_balance));
+            _amount = _amount.add(_balance);
+        }
+
+        uint256 _fee = _amount.mul(withdrawalFee).div(FEE_DENOMINATOR);
+
+        IERC20(want).safeTransfer(IController(controller).rewards(), _fee);
+        address _vault = IController(controller).vaults(address(want));
+        require(_vault != address(0), "!vault"); // additional protection so we don't burn the funds
+        IERC20(want).safeTransfer(_vault, _amount.sub(_fee));
+    }
+
+    function _withdrawSome(uint256 _amount) internal returns (uint256) {
+        return VoterProxy(proxy).withdraw(gauge, want, _amount);
+    }
+
+    // Withdraw all funds, normally used when migrating strategies
+    function withdrawAll() external returns (uint256 balance) {
+        require(msg.sender == controller, "!controller");
+        _withdrawAll();
+
+        balance = IERC20(want).balanceOf(address(this));
+
+        address _vault = IController(controller).vaults(address(want));
+        require(_vault != address(0), "!vault"); // additional protection so we don't burn the funds
+        IERC20(want).safeTransfer(_vault, balance);
+    }
+
+    function _withdrawAll() internal {
+        VoterProxy(proxy).withdrawAll(gauge, want);
+    }
+
+    function harvest() public {
+        require(msg.sender == keeper || msg.sender == strategist || msg.sender == governance, "!keepers");
+        VoterProxy(proxy).harvest(gauge);
+        uint256 _crv = IERC20(crv).balanceOf(address(this));
+        if (_crv > 0) {
+            uint256 _keepCRV = _crv.mul(keepCRV).div(FEE_DENOMINATOR);
+            IERC20(crv).safeTransfer(voter, _keepCRV);
+            _crv = _crv.sub(_keepCRV);
+
+            IERC20(crv).safeApprove(dex, 0);
+            IERC20(crv).safeApprove(dex, _crv);
+
+            address[] memory path = new address[](2);
+            path[0] = crv;
+            path[1] = weth;
+
+            Uni(dex).swapExactTokensForTokens(_crv, uint256(0), path, address(this), now.add(1800));
+        }
+        VoterProxy(proxy).claimRewards(gauge, onx);
+        uint256 _onx = IERC20(onx).balanceOf(address(this));
+        if (_onx > 0) {
+            IERC20(onx).safeApprove(uniswap, 0);
+            IERC20(onx).safeApprove(uniswap, _onx);
+
+            address[] memory path = new address[](2);
+            path[0] = onx;
+            path[1] = weth;
+
+            Uni(uniswap).swapExactTokensForTokens(_onx, uint256(0), path, address(this), now.add(1800));
+        }
+        VoterProxy(proxy).claimRewards(gauge, ankr);
+        uint256 _ankr = IERC20(ankr).balanceOf(address(this));
+        if (_ankr > 0) {
+            IERC20(ankr).safeApprove(uniswap, 0);
+            IERC20(ankr).safeApprove(uniswap, _ankr);
+
+            address[] memory path = new address[](2);
+            path[0] = ankr;
+            path[1] = weth;
+
+            Uni(uniswap).swapExactTokensForTokens(_ankr, uint256(0), path, address(this), now.add(1800));
+        }
+        uint256 _weth = IERC20(weth).balanceOf(address(this));
+        if (_weth > 0) {
+            WETH(weth).withdraw(_weth);
+            _weth = address(this).balance;
+            ICurveFi(curve).add_liquidity.value(_weth)([_weth, 0], 0);
+        }
+        uint256 _want = IERC20(want).balanceOf(address(this));
+        if (_want > 0) {
+            uint256 _fee = _want.mul(treasuryFee).div(FEE_DENOMINATOR);
+            uint256 _reward = _want.mul(strategistReward).div(FEE_DENOMINATOR);
+            IERC20(want).safeTransfer(IController(controller).rewards(), _fee);
+            IERC20(want).safeTransfer(strategist, _reward);
+            deposit();
+        }
+        VoterProxy(proxy).lock();
+        earned = earned.add(_want);
+        emit Harvested(_want, earned);
+    }
+
+    function balanceOfWant() public view returns (uint256) {
+        return IERC20(want).balanceOf(address(this));
+    }
+
+    function balanceOfPool() public view returns (uint256) {
+        return VoterProxy(proxy).balanceOf(gauge);
+    }
+
+    function balanceOf() public view returns (uint256) {
+        return balanceOfWant().add(balanceOfPool());
+    }
+
+    function setGovernance(address _governance) external {
+        require(msg.sender == governance, "!governance");
+        governance = _governance;
+    }
+
+    function setController(address _controller) external {
+        require(msg.sender == governance, "!governance");
+        controller = _controller;
+    }
+
+    function() external payable {}
+}

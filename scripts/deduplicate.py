@@ -60,5 +60,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    deduplicate_files(args.folder, dry_run=args.dry_run, move_duplicates=args.move_duplicates,
-                      duplicate_folder=args.duplicate_folder)
+    deduplicate_files(
+        args.folder,
+        dry_run=args.dry_run,
+        move_duplicates=args.move_duplicates,
+        duplicate_folder=args.duplicate_folder
+    )

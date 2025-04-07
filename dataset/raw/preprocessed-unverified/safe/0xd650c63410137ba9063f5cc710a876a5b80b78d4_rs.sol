@@ -1,0 +1,190 @@
+/**
+ *Submitted for verification at Etherscan.io on 2021-04-09
+*/
+
+pragma solidity ^0.6.2;
+
+
+
+
+
+contract Context {
+    // Empty internal constructor, to prevent people from mistakenly deploying
+    // an instance of this contract, which should be used via inheritance.
+    constructor () internal { }
+
+    function _msgSender() internal view virtual returns (address payable) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes memory) {
+        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+        return msg.data;
+    }
+}
+
+contract Ownable is Context {
+    address private _owner;
+
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+    constructor () internal {
+        address msgSender = _msgSender();
+        _owner = msgSender;
+        emit OwnershipTransferred(address(0), msgSender);
+    }
+
+    function owner() public view returns (address) {
+        return _owner;
+    }
+
+    modifier onlyOwner() {
+        require(_owner == _msgSender(), "Ownable: caller is not the owner");
+        _;
+    }
+
+    function renounceOwnership() public virtual onlyOwner {
+        emit OwnershipTransferred(_owner, address(0));
+        _owner = address(0);
+    }
+
+    function transferOwnership(address newOwner) public virtual onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        emit OwnershipTransferred(_owner, newOwner);
+        _owner = newOwner;
+    }
+}
+
+/**
+ * @title RevoVesting
+ * @dev A token holder contract that can release its token balance gradually like a
+ * typical vesting scheme, with a cliff and vesting period.
+ */
+contract RevoVesting is Ownable {
+
+    using SafeMath for uint256;
+
+    event TokensReleased(address token, uint256 amount);
+
+    // Durations and timestamps are expressed in UNIX time, the same units as block.timestamp.
+    uint256 private _cliff;
+    uint256 private _start;
+    uint256 private _duration;
+
+    mapping (address => uint256) private _released;
+
+    IRevoTokenContract private revoToken;
+    address private tokenAddress;
+
+    /**
+     * @dev Creates a vesting contract that vests its balance of any ERC20 token to the
+     * owner, gradually in a linear fashion until start + duration. By then all
+     * of the balance will have vested.
+     * @param cliffDuration duration in seconds of the cliff in which tokens will begin to vest
+     * @param start the time (as Unix time) at which point vesting starts
+     * @param duration duration in seconds of the period in which the tokens will vest
+     */
+     
+    constructor(address revoTokenAddress, uint256 start, uint256 cliffDuration, uint256 duration) public {
+        revoToken = IRevoTokenContract(revoTokenAddress);
+        tokenAddress = revoTokenAddress;
+        
+        start = start == 0 ? now : start;
+
+        // solhint-disable-next-line max-line-length
+        require(cliffDuration <= duration, "TokenVesting: cliff is longer than duration");
+        require(duration > 0, "TokenVesting: duration is 0");
+        // solhint-disable-next-line max-line-length
+        require(start.add(duration) > block.timestamp, "TokenVesting: final time is before current time");
+
+        _duration = duration;
+        _cliff = start.add(cliffDuration);
+        _start = start;
+    }
+
+
+    /**
+     * @return the beneficiary of the tokens.
+     */
+    function beneficiary() public view returns (address) {
+        return owner();
+    }
+
+    /**
+     * @return the cliff time of the token vesting.
+     */
+    function cliff() public view returns (uint256) {
+        return _cliff;
+    }
+
+    /**
+     * @return the start time of the token vesting.
+     */
+    function start() public view returns (uint256) {
+        return _start;
+    }
+
+    /**
+     * @return the duration of the token vesting.
+     */
+    function duration() public view returns (uint256) {
+        return _duration;
+    }
+
+    /**
+     * @return the amount of the token released.
+     */
+    function released() public view returns (uint256) {
+        return _released[tokenAddress];
+    }
+
+    /**
+     * @notice Transfers vested tokens to beneficiary.
+     */
+    function release() public onlyOwner {
+        uint256 unreleased = releasableAmount();
+
+        require(unreleased > 0, "TokenVesting: no tokens are due");
+
+        _released[address(tokenAddress)] = _released[address(tokenAddress)].add(unreleased);
+
+        revoToken.transfer(owner(), unreleased);
+
+        emit TokensReleased(address(tokenAddress), unreleased);
+    }
+
+    /**
+     * @dev Calculates the amount that has already vested but hasn't been released yet.
+     */
+    function releasableAmount() public view returns (uint256) {
+        return vestedAmount().sub(_released[address(tokenAddress)]);
+    }
+
+    /**
+     * @dev Calculates the amount that has already vested.
+     */
+    function vestedAmount() public view returns (uint256) {
+        uint256 currentBalance = revoToken.balanceOf(address(this));
+        uint256 totalBalance = currentBalance.add(_released[address(tokenAddress)]);
+
+        if (block.timestamp < _cliff) {
+            return 0;
+        } else if (block.timestamp >= _start.add(_duration)) {
+            return totalBalance;
+        } else {
+            return totalBalance.mul(block.timestamp.sub(_start)).div(_duration);
+        }
+    }
+    
+    function getRemainingSeconds() public view returns(uint256){
+        return _start.add(_duration).sub(block.timestamp);
+    }
+    
+    function getRemainingDays() public view returns(uint256){
+        return _start.add(_duration).sub(block.timestamp).div(86400);
+    }
+    
+    function getCurrentBalance() public view returns(uint256){
+        return revoToken.balanceOf(address(this));
+    }
+}

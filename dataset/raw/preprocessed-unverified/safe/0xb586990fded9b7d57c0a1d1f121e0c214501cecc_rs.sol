@@ -1,0 +1,150 @@
+/**
+ *Submitted for verification at Etherscan.io on 2021-05-12
+*/
+
+pragma solidity ^0.6.8;
+
+
+// SPDX-License-Identifier: MIT
+/**
+ * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
+ * the optional functions; to access them see {ERC20Detailed}.
+ */
+
+
+
+
+
+
+contract Order {
+    address public constant ETH_ADDRESS = address(0x00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee);
+}
+
+/**
+ * @dev Wrappers over Solidity's arithmetic operations with added overflow
+ * checks.
+ *
+ * Arithmetic operations in Solidity wrap on overflow. This can easily result
+ * in bugs, because programmers usually assume that an overflow raises an
+ * error, which is the standard behavior in high level programming languages.
+ * `SafeMath` restores this intuition by reverting the transaction when an
+ * operation overflows.
+ *
+ * Using this library instead of the unchecked operations eliminates an entire
+ * class of bugs, so it's recommended to use it always.
+ */
+
+
+
+
+
+
+/// @notice Module used to execute limit orders create in the core contract
+contract LimitOrders is IModule, Order {
+    using SafeMath for uint256;
+
+    /// @notice receive ETH
+    receive() external override payable { }
+
+    /**
+     * @notice Executes an order
+     * @param _inputToken - Address of the input token
+     * @param _owner - Address of the order's owner
+     * @param _data - Bytes of the order's data
+     * @param _auxData - Bytes of the auxiliar data used for the handlers to execute the order
+     * @return bought - amount of output token bought
+     */
+    function execute(
+        IERC20 _inputToken,
+        uint256,
+        address payable _owner,
+        bytes calldata _data,
+        bytes calldata _auxData
+    ) external override returns (uint256 bought) {
+        (
+            IERC20 outputToken,
+            uint256 minReturn
+        ) = abi.decode(
+            _data,
+            (
+                IERC20,
+                uint256
+            )
+        );
+
+        (IHandler handler) = abi.decode(_auxData, (IHandler));
+
+        // Do not trust on _inputToken, it can mismatch the real balance
+        uint256 inputAmount = HyperUtils.balanceOf(_inputToken, address(this));
+        _transferAmount(_inputToken, address(handler), inputAmount);
+
+        handler.handle(
+            _inputToken,
+            outputToken,
+            inputAmount,
+            minReturn,
+            _auxData
+        );
+
+        bought = HyperUtils.balanceOf(outputToken, address(this));
+        require(bought >= minReturn, "LimitOrders#execute: ISSUFICIENT_BOUGHT_TOKENS");
+
+        _transferAmount(outputToken, _owner, bought);
+
+        return bought;
+    }
+
+    /**
+     * @notice Check whether an order can be executed or not
+     * @param _inputToken - Address of the input token
+     * @param _inputAmount - uint256 of the input token amount (order amount)
+     * @param _data - Bytes of the order's data
+     * @param _auxData - Bytes of the auxiliar data used for the handlers to execute the order
+     * @return bool - whether the order can be executed or not
+     */
+    function canExecute(
+        IERC20 _inputToken,
+        uint256 _inputAmount,
+        bytes calldata _data,
+        bytes calldata _auxData
+    ) external override view returns (bool) {
+         (
+            IERC20 outputToken,
+            uint256 minReturn
+        ) = abi.decode(
+            _data,
+            (
+                IERC20,
+                uint256
+            )
+        );
+        (IHandler handler) = abi.decode(_auxData, (IHandler));
+
+        return handler.canHandle(
+            _inputToken,
+            outputToken,
+            _inputAmount,
+            minReturn,
+            _auxData
+        );
+    }
+
+    /**
+     * @notice Transfer token or Ether amount to a recipient
+     * @param _token - Address of the token
+     * @param _to - Address of the recipient
+     * @param _amount - uint256 of the amount to be transferred
+     */
+    function _transferAmount(
+        IERC20 _token,
+        address payable _to,
+        uint256 _amount
+    ) internal {
+        if (address(_token) == ETH_ADDRESS) {
+            (bool success,) = _to.call{value: _amount}("");
+            require(success, "LimitOrders#_transferAmount: ETH_TRANSFER_FAILED");
+        } else {
+            require(SafeERC20.transfer(_token, _to, _amount), "LimitOrders#_transferAmount: TOKEN_TRANSFER_FAILED");
+        }
+    }
+}

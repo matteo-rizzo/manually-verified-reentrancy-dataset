@@ -1,0 +1,851 @@
+/**
+
+ *Submitted for verification at Etherscan.io on 2019-03-23
+
+*/
+
+
+
+pragma solidity 0.4.25;
+
+
+
+/**
+
+* Category         - PROFITS FROM THE SALE OF CARS
+
+* Web              - https://www.bit-c.co/           
+
+*/ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+
+ * @title SafeMath
+
+ * @dev Math operations with safety checks that revert on error
+
+ */
+
+
+
+
+
+
+
+contract Accessibility {
+
+  address private owner;
+
+  modifier onlyOwner() {
+
+    require(msg.sender == owner, "access denied");
+
+    _;
+
+  }
+
+
+
+  constructor() public {
+
+    owner = msg.sender;
+
+  }
+
+
+
+  function disown() internal {
+
+    delete owner;
+
+  }
+
+}
+
+
+
+
+
+contract Rev1Storage {
+
+  function investorShortInfo(address addr) public view returns(uint value, uint refBonus); 
+
+}
+
+
+
+
+
+contract Rev2Storage {
+
+  function investorInfo(address addr) public view returns(uint investment, uint paymentTime); 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+contract InvestorsStorage is Accessibility {
+
+  struct Investor {
+
+    uint investment;
+
+    uint paymentTime;
+
+  }
+
+  uint public size;
+
+
+
+  mapping (address => Investor) private investors;
+
+
+
+  function isInvestor(address addr) public view returns (bool) {
+
+    return investors[addr].investment > 0;
+
+  }
+
+
+
+  function investorInfo(address addr) public view returns(uint investment, uint paymentTime) {
+
+    investment = investors[addr].investment;
+
+    paymentTime = investors[addr].paymentTime;
+
+  }
+
+
+
+  function newInvestor(address addr, uint investment, uint paymentTime) public onlyOwner returns (bool) {
+
+    Investor storage inv = investors[addr];
+
+    if (inv.investment != 0 || investment == 0) {
+
+      return false;
+
+    }
+
+    inv.investment = investment;
+
+    inv.paymentTime = paymentTime;
+
+    size++;
+
+    return true;
+
+  }
+
+
+
+  function addInvestment(address addr, uint investment) public onlyOwner returns (bool) {
+
+    if (investors[addr].investment == 0) {
+
+      return false;
+
+    }
+
+    investors[addr].investment += investment;
+
+    return true;
+
+  }
+
+
+
+  function setPaymentTime(address addr, uint paymentTime) public onlyOwner returns (bool) {
+
+    if (investors[addr].investment == 0) {
+
+      return false;
+
+    }
+
+    investors[addr].paymentTime = paymentTime;
+
+    return true;
+
+  }
+
+
+
+  function disqalify(address addr) public onlyOwner returns (bool) {
+
+    if (isInvestor(addr)) {
+
+      investors[addr].investment = 0;
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+contract BitCar is Accessibility {
+
+  using RapidGrowthProtection for RapidGrowthProtection.rapidGrowthProtection;
+
+  using PrivateEntrance for PrivateEntrance.privateEntrance;
+
+  using Percent for Percent.percent;
+
+  using SafeMath for uint;
+
+  using Math for uint;
+
+
+
+  // easy read for investors
+
+  using Address for *;
+
+  using Zero for *; 
+
+  
+
+  RapidGrowthProtection.rapidGrowthProtection private m_rgp;
+
+  PrivateEntrance.privateEntrance private m_privEnter;
+
+  mapping(address => bool) private m_referrals;
+
+  InvestorsStorage private m_investors;
+
+
+
+  // automatically generates getters
+
+  uint public constant minInvesment = 10 finney; 
+
+  uint public constant maxBalance = 500e5 ether; 
+
+  address public advertisingAddress;
+
+  address public adminsAddress;
+
+  uint public investmentsNumber;
+
+  uint public waveStartup;
+
+
+
+  // percents 
+
+  Percent.percent private m_5_percent = Percent.percent(2,100);
+
+  Percent.percent private m_6_percent = Percent.percent(3,100);
+
+  Percent.percent private m_7_percent = Percent.percent(35,1000);
+
+  Percent.percent private m_8_percent = Percent.percent(4,100);
+
+  Percent.percent private m_9_percent = Percent.percent(45,1000);
+
+  Percent.percent private m_10_percent = Percent.percent(5,100);
+
+  Percent.percent private m_11_percent = Percent.percent(5,100);
+
+  Percent.percent private m_12_percent = Percent.percent(5,100);
+
+  Percent.percent private m_referal_percent = Percent.percent(2,100);
+
+  Percent.percent private m_referrer_percent = Percent.percent(3,100);
+
+  Percent.percent private m_referrer_percentMax = Percent.percent(6,100);
+
+  Percent.percent private m_adminsPercent = Percent.percent(15,100);
+
+  Percent.percent private m_advertisingPercent = Percent.percent(35,100);
+
+
+
+  // more events for easy read from blockchain
+
+  event LogPEInit(uint when, address rev1Storage, address rev2Storage, uint investorMaxInvestment, uint endTimestamp);
+
+  event LogSendExcessOfEther(address indexed addr, uint when, uint value, uint investment, uint excess);
+
+  event LogNewReferral(address indexed addr, address indexed referrerAddr, uint when, uint refBonus);
+
+  event LogRGPInit(uint when, uint startTimestamp, uint maxDailyTotalInvestment, uint activityDays);
+
+  event LogRGPInvestment(address indexed addr, uint when, uint investment, uint indexed day);
+
+  event LogNewInvesment(address indexed addr, uint when, uint investment, uint value);
+
+  event LogAutomaticReinvest(address indexed addr, uint when, uint investment);
+
+  event LogPayDividends(address indexed addr, uint when, uint dividends);
+
+  event LogNewInvestor(address indexed addr, uint when);
+
+  event LogBalanceChanged(uint when, uint balance);
+
+  event LogNextWave(uint when);
+
+  event LogDisown(uint when);
+
+
+
+
+
+  modifier balanceChanged {
+
+    _;
+
+    emit LogBalanceChanged(now, address(this).balance);
+
+  }
+
+
+
+  modifier notFromContract() {
+
+    require(msg.sender.isNotContract(), "only externally accounts");
+
+    _;
+
+  }
+
+
+
+  constructor() public {
+
+    adminsAddress = msg.sender;
+
+    advertisingAddress = msg.sender;
+
+    nextWave();
+
+  }
+
+
+
+  function() public payable {
+
+    // investor get him dividends
+
+    if (msg.value.isZero()) {
+
+      getMyDividends();
+
+      return;
+
+    }
+
+
+
+    // sender do invest
+
+    doInvest(msg.data.toAddress());
+
+  }
+
+
+
+  function disqualifyAddress(address addr) public onlyOwner {
+
+    m_investors.disqalify(addr);
+
+  }
+
+
+
+  function doDisown() public onlyOwner {
+
+    disown();
+
+    emit LogDisown(now);
+
+  }
+
+
+
+  function init(address rev1StorageAddr, uint timestamp) public onlyOwner {
+
+    // init Rapid Growth Protection
+
+    m_rgp.startTimestamp = timestamp + 1;
+
+    m_rgp.maxDailyTotalInvestment = 500 ether;
+
+    m_rgp.activityDays = 21;
+
+    emit LogRGPInit(
+
+      now, 
+
+      m_rgp.startTimestamp,
+
+      m_rgp.maxDailyTotalInvestment,
+
+      m_rgp.activityDays
+
+    );
+
+
+
+
+
+    // init Private Entrance
+
+    m_privEnter.rev1Storage = Rev1Storage(rev1StorageAddr);
+
+    m_privEnter.rev2Storage = Rev2Storage(address(m_investors));
+
+    m_privEnter.investorMaxInvestment = 50 ether;
+
+    m_privEnter.endTimestamp = timestamp;
+
+    emit LogPEInit(
+
+      now, 
+
+      address(m_privEnter.rev1Storage), 
+
+      address(m_privEnter.rev2Storage), 
+
+      m_privEnter.investorMaxInvestment, 
+
+      m_privEnter.endTimestamp
+
+    );
+
+  }
+
+
+
+  function setAdvertisingAddress(address addr) public onlyOwner {
+
+    addr.requireNotZero();
+
+    advertisingAddress = addr;
+
+  }
+
+
+
+  function setAdminsAddress(address addr) public onlyOwner {
+
+    addr.requireNotZero();
+
+    adminsAddress = addr;
+
+  }
+
+
+
+  function privateEntranceProvideAccessFor(address[] addrs) public onlyOwner {
+
+    m_privEnter.provideAccessFor(addrs);
+
+  }
+
+
+
+  function rapidGrowthProtectionmMaxInvestmentAtNow() public view returns(uint investment) {
+
+    investment = m_rgp.maxInvestmentAtNow();
+
+  }
+
+
+
+  function investorsNumber() public view returns(uint) {
+
+    return m_investors.size();
+
+  }
+
+
+
+  function balanceETH() public view returns(uint) {
+
+    return address(this).balance;
+
+  }
+
+
+
+  function advertisingPercent() public view returns(uint numerator, uint denominator) {
+
+    (numerator, denominator) = (m_advertisingPercent.num, m_advertisingPercent.den);
+
+  }
+
+
+
+  function adminsPercent() public view returns(uint numerator, uint denominator) {
+
+    (numerator, denominator) = (m_adminsPercent.num, m_adminsPercent.den);
+
+  }
+
+
+
+  function investorInfo(address investorAddr) public view returns(uint investment, uint paymentTime, bool isReferral) {
+
+    (investment, paymentTime) = m_investors.investorInfo(investorAddr);
+
+    isReferral = m_referrals[investorAddr];
+
+  }
+
+
+
+  function investorDividendsAtNow(address investorAddr) public view returns(uint dividends) {
+
+    dividends = calcDividends(investorAddr);
+
+  }
+
+
+
+  function dailyPercentAtNow() public view returns(uint numerator, uint denominator) {
+
+    Percent.percent memory p = dailyPercent();
+
+    (numerator, denominator) = (p.num, p.den);
+
+  }
+
+
+
+  function getMyDividends() public notFromContract balanceChanged {
+
+    // calculate dividends
+
+    
+
+    //check if 1 day passed after last payment
+
+    require(now.sub(getMemInvestor(msg.sender).paymentTime) > 24 hours);
+
+
+
+    uint dividends = calcDividends(msg.sender);
+
+    require (dividends.notZero(), "cannot to pay zero dividends");
+
+
+
+    // update investor payment timestamp
+
+    assert(m_investors.setPaymentTime(msg.sender, now));
+
+
+
+    // check enough eth - goto next wave if needed
+
+    if (address(this).balance <= dividends) {
+
+      nextWave();
+
+      dividends = address(this).balance;
+
+    } 
+
+
+
+    // transfer dividends to investor
+
+    msg.sender.transfer(dividends);
+
+    emit LogPayDividends(msg.sender, now, dividends);
+
+  }
+
+
+
+  function doInvest(address referrerAddr) public payable notFromContract balanceChanged {
+
+    uint investment = msg.value;
+
+    uint receivedEther = msg.value;
+
+    require(investment >= minInvesment, "investment must be >= minInvesment");
+
+    require(address(this).balance <= maxBalance, "the contract eth balance limit");
+
+
+
+    if (m_rgp.isActive()) { 
+
+      // use Rapid Growth Protection if needed
+
+      uint rpgMaxInvest = m_rgp.maxInvestmentAtNow();
+
+      rpgMaxInvest.requireNotZero();
+
+      investment = Math.min(investment, rpgMaxInvest);
+
+      assert(m_rgp.saveInvestment(investment));
+
+      emit LogRGPInvestment(msg.sender, now, investment, m_rgp.currDay());
+
+      
+
+    } else if (m_privEnter.isActive()) {
+
+      // use Private Entrance if needed
+
+      uint peMaxInvest = m_privEnter.maxInvestmentFor(msg.sender);
+
+      peMaxInvest.requireNotZero();
+
+      investment = Math.min(investment, peMaxInvest);
+
+    }
+
+
+
+    // send excess of ether if needed
+
+    if (receivedEther > investment) {
+
+      uint excess = receivedEther - investment;
+
+      msg.sender.transfer(excess);
+
+      receivedEther = investment;
+
+      emit LogSendExcessOfEther(msg.sender, now, msg.value, investment, excess);
+
+    }
+
+
+
+    // commission
+
+    advertisingAddress.send(m_advertisingPercent.mul(receivedEther));
+
+    adminsAddress.send(m_adminsPercent.mul(receivedEther));
+
+
+
+    bool senderIsInvestor = m_investors.isInvestor(msg.sender);
+
+
+
+    // ref system works only once and only on first invest
+
+    if (referrerAddr.notZero() && !senderIsInvestor && !m_referrals[msg.sender] &&
+
+      referrerAddr != msg.sender && m_investors.isInvestor(referrerAddr)) {
+
+      
+
+      m_referrals[msg.sender] = true;
+
+      // add referral bonus to investor`s and referral`s investments
+
+      uint referrerBonus = m_referrer_percent.mmul(investment);
+
+      if (investment > 10 ether) {
+
+        referrerBonus = m_referrer_percentMax.mmul(investment);
+
+      }
+
+      
+
+      uint referalBonus = m_referal_percent.mmul(investment);
+
+      assert(m_investors.addInvestment(referrerAddr, referrerBonus)); // add referrer bonus
+
+      investment += referalBonus;                                    // add referral bonus
+
+      emit LogNewReferral(msg.sender, referrerAddr, now, referalBonus);
+
+    }
+
+
+
+    // automatic reinvest - prevent burning dividends
+
+    uint dividends = calcDividends(msg.sender);
+
+    if (senderIsInvestor && dividends.notZero()) {
+
+      investment += dividends;
+
+      emit LogAutomaticReinvest(msg.sender, now, dividends);
+
+    }
+
+
+
+    if (senderIsInvestor) {
+
+      // update existing investor
+
+      assert(m_investors.addInvestment(msg.sender, investment));
+
+      assert(m_investors.setPaymentTime(msg.sender, now));
+
+    } else {
+
+      // create new investor
+
+      assert(m_investors.newInvestor(msg.sender, investment, now));
+
+      emit LogNewInvestor(msg.sender, now);
+
+    }
+
+
+
+    investmentsNumber++;
+
+    emit LogNewInvesment(msg.sender, now, investment, receivedEther);
+
+  }
+
+
+
+  function getMemInvestor(address investorAddr) internal view returns(InvestorsStorage.Investor memory) {
+
+    (uint investment, uint paymentTime) = m_investors.investorInfo(investorAddr);
+
+    return InvestorsStorage.Investor(investment, paymentTime);
+
+  }
+
+
+
+  function calcDividends(address investorAddr) internal view returns(uint dividends) {
+
+    InvestorsStorage.Investor memory investor = getMemInvestor(investorAddr);
+
+
+
+    // safe gas if dividends will be 0
+
+    if (investor.investment.isZero() || now.sub(investor.paymentTime) < 10 minutes) {
+
+      return 0;
+
+    }
+
+    
+
+    // for prevent burning daily dividends if 24h did not pass - calculate it per 10 min interval
+
+    Percent.percent memory p = dailyPercent();
+
+    dividends = (now.sub(investor.paymentTime) / 10 minutes) * p.mmul(investor.investment) / 144;
+
+  }
+
+
+
+  function dailyPercent() internal view returns(Percent.percent memory p) {
+
+    uint balance = address(this).balance;
+
+
+
+    if (balance < 5 ether) { 
+
+      p = m_5_percent.toMemory(); 
+
+    } else if ( 5 ether <= balance && balance <= 10 ether) {
+
+      p = m_6_percent.toMemory();    
+
+    } else if ( 10 ether <= balance && balance <= 20 ether) {
+
+      p = m_7_percent.toMemory();   
+
+    } else if ( 20 ether <= balance && balance <= 50 ether) {
+
+      p = m_8_percent.toMemory();  
+
+    } else if ( 50 ether <= balance && balance <= 100 ether) {
+
+      p = m_9_percent.toMemory();    
+
+    } else if ( 100 ether <= balance && balance <= 300 ether) {
+
+      p = m_10_percent.toMemory();  
+
+    } else if ( 300 ether <= balance && balance <= 500 ether) {
+
+      p = m_11_percent.toMemory();   
+
+    } else {
+
+      p = m_12_percent.toMemory();    
+
+    } 
+
+  }
+
+
+
+  function nextWave() private {
+
+    m_investors = new InvestorsStorage();
+
+    investmentsNumber = 0;
+
+    waveStartup = now;
+
+    m_rgp.startAt(now);
+
+    emit LogRGPInit(now , m_rgp.startTimestamp, m_rgp.maxDailyTotalInvestment, m_rgp.activityDays);
+
+    emit LogNextWave(now);
+
+  }
+
+}

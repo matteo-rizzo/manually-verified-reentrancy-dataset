@@ -1,0 +1,55 @@
+/**
+ *Submitted for verification at Etherscan.io on 2020-10-09
+*/
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.7.1;
+pragma experimental ABIEncoderV2;
+
+
+// 
+/******************************************************************************\
+* Author: Nick Mudge <nick@perfectabstractions.com> (https://twitter.com/mudgen)
+/******************************************************************************/
+
+
+// 
+/******************************************************************************\
+* Author: Nick Mudge <nick@perfectabstractions.com> (https://twitter.com/mudgen)
+*
+* Implementation of internal diamondCut function.
+/******************************************************************************/
+
+
+// 
+/******************************************************************************\
+* Author: Nick Mudge <nick@perfectabstractions.com> (https://twitter.com/mudgen)
+*
+* Implementation of diamondCut external function.
+/******************************************************************************/
+contract DiamondCutFacet is IDiamondCut {
+    // Standard diamondCut external function
+    /// @notice Add/replace/remove any number of functions and optionally execute
+    ///         a function with delegatecall
+    /// @param _diamondCut Contains the facet addresses and function selectors
+    /// @param _init The address of the contract or facet to execute _calldata
+    /// @param _calldata A function call, including function selector and arguments
+    ///                  _calldata is executed with delegatecall on _init
+    function diamondCut(
+        FacetCut[] calldata _diamondCut,
+        address _init,
+        bytes calldata _calldata
+    ) external override {
+        LibDiamond.enforceIsContractOwner();
+        for (uint256 facetIndex; facetIndex < _diamondCut.length; facetIndex++) {
+            LibDiamond.addReplaceRemoveFacetSelectors(
+                _diamondCut[facetIndex].facetAddress,
+                _diamondCut[facetIndex].action,
+                _diamondCut[facetIndex].functionSelectors
+            );
+        }
+        emit DiamondCut(_diamondCut, _init, _calldata);
+        LibDiamond.initializeDiamondCut(_init, _calldata);
+    }
+}
