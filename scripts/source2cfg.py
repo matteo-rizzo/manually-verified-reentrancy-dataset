@@ -4,6 +4,8 @@ import os
 import re
 import subprocess
 from glob import glob
+from pathlib import Path
+from typing import Optional, Tuple, Set, List, Dict, Any
 
 import solcx
 from rich.logging import RichHandler
@@ -17,139 +19,167 @@ logging.basicConfig(
 )
 logger = logging.getLogger("rich")
 
-# Base directory containing subfolders with Solidity contracts
-BASE_DIR = "dataset/raw/src"
+# Directories
+INPUT_DIR = Path("dataset/verified/gt_reentrant/safe")
+OUTPUT_DIR = Path("logs/verified-safe-cfg")
+DEFAULT_SOLC_VERSION = "0.4.24"
 
-# Base output directory for CFGs
-OUTPUT_BASE_DIR = "dataset/raw/cfg"
 
-
-def version_to_tuple(version_str):
+def version_to_tuple(version_str: str) -> Optional[Tuple[int, ...]]:
     """Convert a version string (e.g., '0.4.9') into a tuple of integers."""
     try:
         return tuple(map(int, version_str.split('.')))
     except Exception as e:
-        logger.error(f"Error converting version string '{version_str}' to tuple: {e}")
+        logger.error(f"Error converting version string '{version_str}' to tuple: {e}", exc_info=True)
         return None
 
 
-def install_required_solc_version(sol_file):
+def install_required_solc_version(sol_file: Path) -> None:
     """
-    Parse the Solidity file for its version pragma, install the required solc version,
-    and set it (also updating the SOLC_VERSION env variable).
-    If the version is less than 0.4.11 (unsupported by py-solc-x), log an error and raise an exception.
+    Parses the Solidity file for its version pragma, installs the required solc version,
+    and sets it (updating the SOLC_VERSION environment variable).
+
+    Raises:
+        solcx.exceptions.UnsupportedVersionError if the version is below 0.4.11.
     """
     version_pattern = re.compile(
         r"^\s*pragma\s+solidity\s+([^;]+?)\s*;",
         re.IGNORECASE | re.MULTILINE
     )
-    # Open the file with errors='replace' to handle non-UTF-8 bytes.
-    with open(sol_file, "r", encoding="utf-8", errors="replace") as f:
-        content = f.read()
+
+    try:
+        content = sol_file.read_text(encoding="utf-8", errors="replace")
+    except Exception as e:
+        logger.error(f"Error reading {sol_file}: {e}", exc_info=True)
+        raise
+
     match = version_pattern.search(content)
     if match:
-        # Preserve the original spacing for parsing.
         version_constraint = match.group(1).replace(" ", "")
-
-        # Handle caret (^) syntax: e.g. "^0.5.0" -> "0.5.0"
+        # Handle caret syntax: e.g., "^0.5.0" -> "0.5.0"
         if version_constraint.startswith("^"):
             version = version_constraint[1:].strip()
         else:
-            # Split into tokens (for cases like ">=0.4.21 <0.6.0")
             tokens = version_constraint.split()
             if len(tokens) > 1:
-                # Look for a lower-bound operator (>= or >).
-                lower_bound_match = re.search(r">=?\s*([\d]+\.[\d]+\.[\d]+)", version_constraint)
-                if lower_bound_match:
-                    version = lower_bound_match.group(1)
-                else:
-                    # Fallback: use the first token and strip any comparison operators.
-                    token = tokens[0]
-                    version = re.sub(r"^[><=]+", "", token).strip()
+                lower_bound_match = re.search(r">=?\s*(\d+\.\d+\.\d+)", version_constraint)
+                version = lower_bound_match.group(1) if lower_bound_match else re.sub(r"^[><=]+", "", tokens[0]).strip()
             else:
-                # Single token: remove any leading operators.
                 version = re.sub(r"^[><=^]+", "", version_constraint).strip()
 
-        # Now we have a version string, e.g. "0.4.21"
         vt = version_to_tuple(version)
         if vt is None or vt < (0, 4, 11):
-            logger.error(
-                f"File {sol_file} requires solc version {version}, which is unsupported by py-solc-x. Skipping file.")
-            raise solcx.exceptions.UnsupportedVersionError("py-solc-x does not support solc versions <0.4.11")
+            msg = (f"File {sol_file} requires solc version {version}, which is unsupported by py-solc-x. "
+                   f"Trying default version {DEFAULT_SOLC_VERSION}.")
+            logger.warning(msg)
+            version = DEFAULT_SOLC_VERSION
 
-        # Check installed versions.
-        installed_versions = [str(v) for v in solcx.get_installed_solc_versions()]
+        # Check installed versions and install if necessary.
+        installed_versions = {str(v) for v in solcx.get_installed_solc_versions()}
         if version not in installed_versions:
             logger.info(f"Installing solc version {version} for {sol_file}...")
             solcx.install_solc(version)
         else:
             logger.info(f"solc version {version} already installed for {sol_file}.")
-        solcx.set_solc_version(version)
-        os.environ["SOLC_VERSION"] = version
-        logger.info(f"Set SOLC_VERSION environment variable to {version}.")
     else:
+        version = DEFAULT_SOLC_VERSION
         logger.warning(f"No Solidity version pragma found in {sol_file}. Using default solc version.")
+        logger.info(f"Installing solc version {version} for {sol_file}...")
+        solcx.install_solc(version)
+
+    solcx.set_solc_version(version)
+    os.environ["SOLC_VERSION"] = version
+    logger.info(f"Set SOLC_VERSION environment variable to {version}.")
 
 
-def generate_function_cfgs(sol_file):
-    """Generate function-level CFGs using Slither."""
+def generate_function_cfgs(sol_file: Path) -> bool:
+    """Generate function-level CFGs using Slither for the specified Solidity file."""
     try:
         install_required_solc_version(sol_file)
-    except solcx.exceptions.UnsupportedVersionError:
-        # Skip this file by returning False.
+    except Exception as e:
+        logger.error(f"Error installing required solc version for {sol_file}: {e}", exc_info=True)
         return False
 
     logger.info(f"Generating function-level CFGs for {sol_file}...")
     try:
-        subprocess.run(["slither", sol_file, "--print", "cfg"], check=True)
+        subprocess.run(
+            ["slither", str(sol_file), "--print", "cfg"],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error generating CFG for {sol_file}: {e}")
+        logger.error(
+            f"Error generating CFG for {sol_file}. Return code: {e.returncode}\n"
+            f"stdout: {e.stdout}\n"
+            f"stderr: {e.stderr}",
+            exc_info=True
+        )
         return False
     return True
 
 
-def parse_dot_file(dot_file):
-    """Parse a DOT file and return its nodes and edges."""
-    nodes = set()
-    edges = []
-    with open(dot_file, "r") as f:
-        for line in f:
-            if "->" in line:  # Edge
-                parts = line.split("->")
-                src = parts[0].strip().strip('"')
-                dst = parts[1].strip().strip('";')
-                edges.append((src, dst))
-                nodes.add(src)
-                nodes.add(dst)
-            elif "[" in line:  # Node
-                node = line.split("[")[0].strip().strip('"')
-                nodes.add(node)
+def parse_dot_file(dot_file: Path) -> Tuple[Set[str], List[Tuple[str, str]]]:
+    """
+    Parse a DOT file and return its nodes and edges.
+
+    Returns:
+        A tuple containing a set of nodes and a list of edge tuples (source, target).
+    """
+    nodes: Set[str] = set()
+    edges: List[Tuple[str, str]] = []
+    try:
+        with dot_file.open("r") as f:
+            for line in f:
+                if "->" in line:
+                    parts = line.split("->")
+                    src = parts[0].strip().strip('"')
+                    dst = parts[1].strip().strip('";')
+                    edges.append((src, dst))
+                    nodes.update({src, dst})
+                elif "[" in line:
+                    node = line.split("[")[0].strip().strip('"')
+                    nodes.add(node)
+    except Exception as e:
+        logger.error(f"Error parsing DOT file {dot_file}: {e}", exc_info=True)
     return nodes, edges
 
 
-def combine_cfgs(sol_file):
-    """Combine individual function-level CFGs into a single graph."""
-    nodes = set()
-    edges = []
+def combine_cfgs(sol_file: Path) -> Dict[str, Any]:
+    """
+    Combine individual function-level CFGs (DOT files) into a single graph.
+
+    Returns:
+        A dictionary with combined nodes and edges.
+    """
+    nodes: Set[str] = set()
+    edges: List[Tuple[str, str]] = []
     for dotfile in glob(f"{sol_file}-*.dot"):
-        fn_nodes, fn_edges = parse_dot_file(dotfile)
+        dot_path = Path(dotfile)
+        fn_nodes, fn_edges = parse_dot_file(dot_path)
         nodes.update(fn_nodes)
         edges.extend(fn_edges)
-    return {"nodes": list(nodes), "edges": [{"source": src, "target": dst} for src, dst in edges]}
+    return {
+        "nodes": list(nodes),
+        "edges": [{"source": src, "target": dst} for src, dst in edges]
+    }
 
 
-def save_json(cfg, output_file):
+def save_json(cfg: Dict[str, Any], output_file: Path) -> None:
     """Save the CFG to a JSON file."""
-    with open(output_file, "w") as f:
-        json.dump(cfg, f, indent=2)
+    try:
+        with output_file.open("w") as f:
+            json.dump(cfg, f, indent=2)
+    except Exception as e:
+        logger.error(f"Error saving JSON to {output_file}: {e}", exc_info=True)
 
 
-def generate_combined_cfg(sol_file, output_dir):
+def generate_combined_cfg(sol_file: Path, output_dir: Path) -> None:
     """Generate and save the combined CFG for a Solidity file."""
-    filename = os.path.basename(sol_file)
-    contract_name = os.path.splitext(filename)[0]
-    output_json = os.path.join(output_dir, f"{contract_name}-combined.json")
-    os.makedirs(output_dir, exist_ok=True)
+    contract_name = sol_file.stem
+    output_json = output_dir / f"{contract_name}.json"
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     if not generate_function_cfgs(sol_file):
         logger.error(f"Skipping {sol_file} due to compilation errors or unsupported solc version.")
@@ -159,22 +189,23 @@ def generate_combined_cfg(sol_file, output_dir):
     combined_cfg = combine_cfgs(sol_file)
     logger.info(f"Saving combined CFG to {output_json}...")
     save_json(combined_cfg, output_json)
+
+    # Cleanup temporary DOT files.
     for dotfile in glob(f"{sol_file}-*.dot"):
-        os.remove(dotfile)
+        try:
+            Path(dotfile).unlink()
+        except Exception as e:
+            logger.error(f"Failed to remove {dotfile}: {e}", exc_info=True)
     logger.info(f"Combined CFG generated and saved to {output_json}")
 
 
-def process_directory(base_dir, output_base):
-    """Process all Solidity files in the directory recursively."""
-    for root, _, files in os.walk(base_dir):
-        output_dir = os.path.join(output_base, f"cfg_{os.path.basename(root)}")
-        for file in files:
-            if file.endswith(".sol"):
-                sol_file = os.path.join(root, file)
-                logger.info(f"Processing file: {sol_file}")
-                generate_combined_cfg(sol_file, output_dir)
+def process_directory(base_dir: Path, output_base: Path) -> None:
+    """Recursively process all Solidity files in the directory."""
+    for sol_file in base_dir.rglob("*.sol"):
+        logger.info(f"Processing file: {sol_file}")
+        generate_combined_cfg(sol_file, output_base)
 
 
 if __name__ == "__main__":
-    process_directory(BASE_DIR, OUTPUT_BASE_DIR)
-    logger.info(f"All contracts processed. Combined CFGs are stored in {OUTPUT_BASE_DIR}")
+    process_directory(INPUT_DIR, OUTPUT_DIR)
+    logger.info(f"All contracts processed. CFGs are stored in {OUTPUT_DIR}")

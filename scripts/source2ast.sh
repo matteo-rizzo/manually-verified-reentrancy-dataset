@@ -13,7 +13,7 @@ This script processes Solidity files to generate their Abstract Syntax Trees (AS
 The script supports an option to use a single specified solc version for all files instead of extracting the pragma version from each file.
 
 Usage:
-    ./script_name.sh [-v solc_version] [-s]
+    ./source2ast.sh [-v solc_version] [-s]
 
 Options:
     -v solc_version   Specify the solc version to use (default: 0.8.6)
@@ -26,13 +26,13 @@ Dependencies:
 END_COMMENT
 
 # Base directory containing subfolders with Solidity contracts
-BASE_DIR="dataset/raw/preprocessed-unverified/reentrant"
+BASE_DIR="dataset/verified/gt_reentrant/safe"
 
 # Base output directory for ASTs
-OUTPUT_BASE_DIR="logs/preprocessed-unverified-reentrant-ast"
+OUTPUT_BASE_DIR="logs/verified-safe-ast"
 
 # Default solc version to use if no pragma is specified or if single compiler mode is selected
-DEFAULT_SOLC_VERSION="0.4.0"
+DEFAULT_SOLC_VERSION="0.4.22"
 USE_SINGLE_COMPILER=false
 
 # Minimum supported solc version
@@ -136,7 +136,7 @@ process_file() {
     # Extract filename without extension and prepare output filename
     local filename=$(basename -- "$sol_file")
     local contract_name="${filename%.*}"
-    local output_file="$output_dir/$contract_name.ast.json"
+    local output_file="$output_dir/$contract_name.json"
 
     # Compile contract to get AST using the appropriate AST option and process it
     echo "Processing $sol_file with solc version $solc_version..."
