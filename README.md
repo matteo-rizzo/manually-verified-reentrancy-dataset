@@ -77,7 +77,7 @@ Below is a brief overview of the scripts included in `scripts/`:
    python scripts/merge_studies.py
 
    # Deduplicate
-   python scripts/deduplicate.py
+   python scripts/filter_duplicates.py
 
    # Filter compilable
    bash scripts/filter_compilable_contracts.sh
