@@ -21,6 +21,7 @@ contract ModifierEntrancy {
         require(
             keccak256(abi.encodePacked("Nu Token")) ==
                 Bank(msg.sender).supportsToken()
+                // questa E' una reentrancy perché non conosciamo l'implementazione di Bank
         );
         _;
     }

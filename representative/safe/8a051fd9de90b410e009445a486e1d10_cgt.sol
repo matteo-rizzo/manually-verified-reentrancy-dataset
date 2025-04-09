@@ -1,17 +1,15 @@
-/*
- * @source: https://github.com/SmartContractSecurity/SWC-registry/blob/master/test_cases/reentracy/modifier_reentrancy.sol
- * @author: -
- * @vulnerable_at_lines: 15
- */
-
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.0;
 
 contract ModifierEntrancy {
     mapping(address => uint) public tokenBalance;
     string constant name = "Nu Token";
+    Bank bank;
+
+    constructor() public {
+        bank = new Bank();
+    }
 
     //If a contract has a zero balance and supports the token give them some token
-    // <yes> <report> REENTRANCY
     function airDrop() public hasNoBalance supportsToken {
         tokenBalance[msg.sender] += 20;
     }
@@ -19,11 +17,13 @@ contract ModifierEntrancy {
     //Checks that the contract responds the way we want
     modifier supportsToken() {
         require(
-            keccak256(abi.encodePacked("Nu Token")) ==
-                Bank(msg.sender).supportsToken()
+            keccak256(abi.encodePacked("Nu Token")) 
+            == bank.supportsToken()
+            // bank è una ISTANZA che non cambia mai, quindi non è codice sconociuto e pertanto non è rientrante
         );
         _;
     }
+
     //Checks that the caller has a zero balance
     modifier hasNoBalance() {
         require(tokenBalance[msg.sender] == 0);
@@ -32,9 +32,7 @@ contract ModifierEntrancy {
 }
 
 contract Bank {
-    function supportsToken() external pure returns (bytes32) {
-        return (keccak256(abi.encodePacked("Nu Token")));
+    function supportsToken() external returns (bytes32) {
+        return keccak256(abi.encodePacked("Nu Token"));
     }
 }
-
-
