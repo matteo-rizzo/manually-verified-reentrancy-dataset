@@ -50,7 +50,10 @@ def process_directory(input_dir: str, output_dir: str):
     for filename in os.listdir(input_dir):
         if filename.lower().endswith('.sol'):
             input_path = os.path.join(input_dir, filename)
-            output_path = os.path.join(output_dir, filename)
+            output_filename = filename
+            if "_" in output_filename:
+                output_filename = output_filename.split("_")[0] + ".sol"
+            output_path = os.path.join(output_dir, output_filename)
             try:
                 with open(input_path, 'r', encoding='utf-8') as infile:
                     solidity_code = infile.read()
