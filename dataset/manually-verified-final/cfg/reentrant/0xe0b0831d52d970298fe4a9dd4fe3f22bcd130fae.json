@@ -1,0 +1,263 @@
+{
+  "nodes": [
+    "6",
+    "LENGTH History",
+    "7",
+    "REF_13(address)",
+    "REF_1(",
+    "5",
+    "4[label=\"True\"]",
+    "4",
+    "LastMsg.Time",
+    "REF_15(uint256)",
+    "7[label=\"False\"]",
+    "REF_15(uint256) (",
+    "REF_19(Log.Message) (",
+    "REF_11(uint256)",
+    "6[label=\"True\"]",
+    "LastMsg.Sender",
+    "LastMsg.Val",
+    "REF_4(uint256)",
+    "2",
+    "TMP_8(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:",
+    "6[label=\"False\"]",
+    "1",
+    "acc) = REF_11 - _am\"]",
+    "REF_18",
+    "acc.balance",
+    "acc.unlockTime",
+    "acc) = REF_1 + msg.value\"]",
+    "LastMsg) := _adr(address)\"]",
+    "acc) := now(uint256)\"]",
+    "acc) := _unlockTime(uint256)\"]",
+    "LastMsg) := _val(uint256)\"]",
+    "REF_8(uint256)",
+    "3[label=\"True\"]",
+    "REF_13(address) (",
+    "REF_6(uint256)",
+    "LastMsg.Data",
+    "HIGH_LEVEL_CALL, dest:LogFile(Log), function:AddMessage, arguments:",
+    "3",
+    "History) := TMP_14(uint256)",
+    "REF_3(uint256) (",
+    "REF_4(uint256) (",
+    "REF_14(uint256) (",
+    "REF_16(string)",
+    "REF_3(uint256)",
+    "REF_14(uint256)",
+    "REF_18(uint256) (",
+    "Acc[msg.sender]",
+    "LastMsg) := now(uint256)\"]",
+    "REF_1(uint256)",
+    "0",
+    "LastMsg) := _data(string)\"]",
+    "REF_7(uint256)",
+    "REF_19(Log.Message)",
+    "REF_16(string) (",
+    "REF_0(PG_bank.Holder)",
+    "History) := LastMsg(Log.Message)\"]",
+    "acc = Acc",
+    "History[TMP_13]",
+    "8",
+    "REF_5(PG_bank.Holder)",
+    "REF_11("
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_5(PG_bank.Holder)",
+      "target": "Acc[msg.sender]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "acc.balance"
+    },
+    {
+      "source": "REF_7(uint256)",
+      "target": "acc.balance"
+    },
+    {
+      "source": "REF_8(uint256)",
+      "target": "acc.unlockTime"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4[label=\"True\"]"
+    },
+    {
+      "source": "3",
+      "target": "6[label=\"False\"]"
+    },
+    {
+      "source": "REF_11(uint256)",
+      "target": "acc.balance"
+    },
+    {
+      "source": "REF_11(",
+      "target": "acc) = REF_11 - _am\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_13(address)",
+      "target": "LastMsg.Sender"
+    },
+    {
+      "source": "REF_13(address) (",
+      "target": "LastMsg) := _adr(address)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_14(uint256)",
+      "target": "LastMsg.Time"
+    },
+    {
+      "source": "REF_14(uint256) (",
+      "target": "LastMsg) := now(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_15(uint256)",
+      "target": "LastMsg.Val"
+    },
+    {
+      "source": "REF_15(uint256) (",
+      "target": "LastMsg) := _val(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_16(string)",
+      "target": "LastMsg.Data"
+    },
+    {
+      "source": "REF_16(string) (",
+      "target": "LastMsg) := _data(string)\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_18",
+      "target": "LENGTH History"
+    },
+    {
+      "source": "REF_18(uint256) (",
+      "target": "History) := TMP_14(uint256)"
+    },
+    {
+      "source": "REF_19(Log.Message)",
+      "target": "History[TMP_13]"
+    },
+    {
+      "source": "REF_19(Log.Message) (",
+      "target": "History) := LastMsg(Log.Message)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(PG_bank.Holder)",
+      "target": "Acc[msg.sender]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_1(uint256)",
+      "target": "acc.balance"
+    },
+    {
+      "source": "REF_1(",
+      "target": "acc) = REF_1 + msg.value\"]"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "REF_3(uint256)",
+      "target": "acc.unlockTime"
+    },
+    {
+      "source": "REF_3(uint256) (",
+      "target": "acc) := _unlockTime(uint256)\"]"
+    },
+    {
+      "source": "6",
+      "target": "8"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "acc.unlockTime"
+    },
+    {
+      "source": "REF_4(uint256) (",
+      "target": "acc) := now(uint256)\"]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    "6",
+    "TMP_0(bool) = HIGH_LEVEL_CALL, dest:amIOnTheFork(AmIOnTheFork), function:forked, arguments:",
+    "2[label=\"True\"]",
+    "2",
+    "3",
+    "5",
+    "1",
+    "4",
+    "TMP_7(bool) = LOW_LEVEL_CALL, dest:etcDestination, function:call, arguments:",
+    "3[label=\"False\"]",
+    "TMP_2(bool) = LOW_LEVEL_CALL, dest:ethDestination, function:call, arguments:",
+    "0"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "2",
+      "target": "6"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    }
+  ]
+}

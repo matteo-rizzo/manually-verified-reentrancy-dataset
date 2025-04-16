@@ -1,0 +1,314 @@
+Switched global version to 0.6.0
+JSON AST (compact format):
+
+
+======= dataset/manually-verified-final/safe/0xf5ae40418a5d1ddcf5f8d667343b61b9020c2c1f.sol =======
+{
+  "absolutePath": "dataset/manually-verified-final/safe/0xf5ae40418a5d1ddcf5f8d667343b61b9020c2c1f.sol",
+  "exportedSymbols":
+  {
+    "Storage":
+    [
+      19
+    ]
+  },
+  "id": 20,
+  "nodeType": "SourceUnit",
+  "nodes":
+  [
+    {
+      "id": 1,
+      "literals":
+      [
+        "solidity",
+        ">=",
+        "0.4",
+        ".22",
+        "<",
+        "0.7",
+        ".0"
+      ],
+      "nodeType": "PragmaDirective",
+      "src": "0:32:0"
+    },
+    {
+      "abstract": false,
+      "baseContracts": [],
+      "contractDependencies": [],
+      "contractKind": "contract",
+      "documentation": null,
+      "fullyImplemented": true,
+      "id": 19,
+      "linearizedBaseContracts":
+      [
+        19
+      ],
+      "name": "Storage",
+      "nodeType": "ContractDefinition",
+      "nodes":
+      [
+        {
+          "constant": false,
+          "functionSelector": "61bc221a",
+          "id": 4,
+          "name": "counter",
+          "nodeType": "VariableDeclaration",
+          "overrides": null,
+          "scope": 19,
+          "src": "57:26:0",
+          "stateVariable": true,
+          "storageLocation": "default",
+          "typeDescriptions":
+          {
+            "typeIdentifier": "t_uint256",
+            "typeString": "uint256"
+          },
+          "typeName":
+          {
+            "id": 2,
+            "name": "uint256",
+            "nodeType": "ElementaryTypeName",
+            "src": "57:7:0",
+            "typeDescriptions":
+            {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            }
+          },
+          "value":
+          {
+            "argumentTypes": null,
+            "hexValue": "31",
+            "id": 3,
+            "isConstant": false,
+            "isLValue": false,
+            "isPure": true,
+            "kind": "number",
+            "lValueRequested": false,
+            "nodeType": "Literal",
+            "src": "82:1:0",
+            "subdenomination": null,
+            "typeDescriptions":
+            {
+              "typeIdentifier": "t_rational_1_by_1",
+              "typeString": "int_const 1"
+            },
+            "value": "1"
+          },
+          "visibility": "public"
+        },
+        {
+          "body":
+          {
+            "id": 17,
+            "nodeType": "Block",
+            "src": "118:84:0",
+            "statements":
+            [
+              {
+                "expression":
+                {
+                  "argumentTypes": null,
+                  "arguments":
+                  [
+                    {
+                      "argumentTypes": null,
+                      "commonType":
+                      {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "id": 10,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression":
+                      {
+                        "argumentTypes": null,
+                        "id": 8,
+                        "name": "counter",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 4,
+                        "src": "136:7:0",
+                        "typeDescriptions":
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "<",
+                      "rightExpression":
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "33",
+                        "id": 9,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "number",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "146:1:0",
+                        "subdenomination": null,
+                        "typeDescriptions":
+                        {
+                          "typeIdentifier": "t_rational_3_by_1",
+                          "typeString": "int_const 3"
+                        },
+                        "value": "3"
+                      },
+                      "src": "136:11:0",
+                      "typeDescriptions":
+                      {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    {
+                      "argumentTypes": null,
+                      "hexValue": "4578706972656420636f756e74657220636f6e7472616374",
+                      "id": 11,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "string",
+                      "lValueRequested": false,
+                      "nodeType": "Literal",
+                      "src": "149:26:0",
+                      "subdenomination": null,
+                      "typeDescriptions":
+                      {
+                        "typeIdentifier": "t_stringliteral_c0260ff59b7af113c0812fbd40e257cf05544f7f942e76d8f09e107352e265b4",
+                        "typeString": "literal_string \"Expired counter contract\""
+                      },
+                      "value": "Expired counter contract"
+                    }
+                  ],
+                  "expression":
+                  {
+                    "argumentTypes":
+                    [
+                      {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      {
+                        "typeIdentifier": "t_stringliteral_c0260ff59b7af113c0812fbd40e257cf05544f7f942e76d8f09e107352e265b4",
+                        "typeString": "literal_string \"Expired counter contract\""
+                      }
+                    ],
+                    "id": 7,
+                    "name": "require",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations":
+                    [
+                      37,
+                      38
+                    ],
+                    "referencedDeclaration": 38,
+                    "src": "128:7:0",
+                    "typeDescriptions":
+                    {
+                      "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                      "typeString": "function (bool,string memory) pure"
+                    }
+                  },
+                  "id": 12,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": false,
+                  "kind": "functionCall",
+                  "lValueRequested": false,
+                  "names": [],
+                  "nodeType": "FunctionCall",
+                  "src": "128:48:0",
+                  "tryCall": false,
+                  "typeDescriptions":
+                  {
+                    "typeIdentifier": "t_tuple$__$",
+                    "typeString": "tuple()"
+                  }
+                },
+                "id": 13,
+                "nodeType": "ExpressionStatement",
+                "src": "128:48:0"
+              },
+              {
+                "expression":
+                {
+                  "argumentTypes": null,
+                  "id": 15,
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": false,
+                  "lValueRequested": false,
+                  "nodeType": "UnaryOperation",
+                  "operator": "++",
+                  "prefix": false,
+                  "src": "186:9:0",
+                  "subExpression":
+                  {
+                    "argumentTypes": null,
+                    "id": 14,
+                    "name": "counter",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 4,
+                    "src": "186:7:0",
+                    "typeDescriptions":
+                    {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "typeDescriptions":
+                  {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "id": 16,
+                "nodeType": "ExpressionStatement",
+                "src": "186:9:0"
+              }
+            ]
+          },
+          "documentation": null,
+          "functionSelector": "d09de08a",
+          "id": 18,
+          "implemented": true,
+          "kind": "function",
+          "modifiers": [],
+          "name": "increment",
+          "nodeType": "FunctionDefinition",
+          "overrides": null,
+          "parameters":
+          {
+            "id": 5,
+            "nodeType": "ParameterList",
+            "parameters": [],
+            "src": "108:2:0"
+          },
+          "returnParameters":
+          {
+            "id": 6,
+            "nodeType": "ParameterList",
+            "parameters": [],
+            "src": "118:0:0"
+          },
+          "scope": 19,
+          "src": "90:112:0",
+          "stateMutability": "nonpayable",
+          "virtual": false,
+          "visibility": "public"
+        }
+      ],
+      "scope": 20,
+      "src": "34:170:0"
+    }
+  ],
+  "src": "0:204:0"
+}

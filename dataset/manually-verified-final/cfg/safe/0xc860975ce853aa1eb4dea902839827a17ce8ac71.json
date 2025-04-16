@@ -1,0 +1,34 @@
+{
+  "nodes": [
+    "0",
+    "2",
+    "HIGH_LEVEL_CALL, dest:dripper(DripLike), function:dripDev, arguments:",
+    "3",
+    "1",
+    "HIGH_LEVEL_CALL, dest:dripper(DripLike), function:dripUser, arguments:",
+    "HIGH_LEVEL_CALL, dest:dripper(DripLike), function:dripReservoir, arguments:",
+    "HIGH_LEVEL_CALL, dest:dripper(DripLike), function:dripBackstop, arguments:"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    }
+  ]
+}

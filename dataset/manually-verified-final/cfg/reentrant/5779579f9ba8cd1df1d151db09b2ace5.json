@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    "3[label=\"True\"]",
+    "6",
+    "7",
+    "3",
+    "5",
+    "REF_3(uint256) (",
+    "4",
+    "REF_4(",
+    "REF_3(uint256)",
+    "credit",
+    "REF_0(uint256)",
+    "7[label=\"False\"]",
+    "0",
+    "credit[msg.sender]",
+    "oCredit = credit",
+    "TMP_2(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:",
+    "REF_4(uint256)",
+    "2",
+    "1",
+    "credit) := 0(uint256)\"]",
+    "credit) = REF_4 + msg.value\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "credit[msg.sender]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_3(uint256)",
+      "target": "credit[msg.sender]"
+    },
+    {
+      "source": "REF_3(uint256) (",
+      "target": "credit) := 0(uint256)\"]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "credit[msg.sender]"
+    },
+    {
+      "source": "REF_4(",
+      "target": "credit) = REF_4 + msg.value\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    }
+  ]
+}

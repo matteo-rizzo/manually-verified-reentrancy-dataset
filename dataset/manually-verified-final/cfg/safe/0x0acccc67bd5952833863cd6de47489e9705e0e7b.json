@@ -1,0 +1,267 @@
+{
+  "nodes": [
+    "MultiERC20Transfer(msg.sender,_addresses",
+    "REF_5(address)",
+    "3",
+    "REF_11(uint256)",
+    "1",
+    "TMP_17(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.sub(uint256,uint256), arguments:",
+    "3[label=\"False\"]",
+    "REF_7",
+    "TMP_30(bool) = HIGH_LEVEL_CALL, dest:_token(ERC20), function:transferFrom, arguments:",
+    "REF_0",
+    "_amounts[i]",
+    "REF_8(address)",
+    "4",
+    "REF_9(uint256)",
+    "10",
+    "5",
+    "11",
+    "REF_6(uint256)",
+    "_safeERC20Transfer(_token,_addresses",
+    "LENGTH _addresses",
+    "9",
+    "4[label=\"True\"]",
+    "7",
+    "8",
+    "5[label=\"True\"]",
+    "REF_2(uint256)",
+    "6[label=\"True\"]",
+    "toReturn = SafeMath.sub(toReturn,_amounts",
+    "REF_1(address)",
+    "6",
+    "REF_4(uint256)",
+    "MultiTransfer(msg.sender,msg.value,_addresses",
+    "TMP_43(bool) = LOW_LEVEL_CALL, dest:destination, function:call, arguments:",
+    "0",
+    "2",
+    "TMP_38(bool) = LOW_LEVEL_CALL, dest:destination, function:call, arguments:",
+    "_addresses[i]",
+    "2[label=\"False\"]",
+    "REF_10(address)",
+    "_safeTransfer(_addresses",
+    "5[label=\"False\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4[label=\"True\"]"
+    },
+    {
+      "source": "3",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "4",
+      "target": "6"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "3",
+      "target": "10"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "REF_0",
+      "target": "LENGTH _addresses"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "REF_1(address)",
+      "target": "_addresses[i]"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "_amounts[i]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "_amounts[i]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "REF_5(address)",
+      "target": "_addresses[i]"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "_amounts[i]"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "5"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "REF_7",
+      "target": "LENGTH _addresses"
+    },
+    {
+      "source": "4",
+      "target": "5[label=\"True\"]"
+    },
+    {
+      "source": "4",
+      "target": "2[label=\"False\"]"
+    },
+    {
+      "source": "REF_8(address)",
+      "target": "_addresses[i]"
+    },
+    {
+      "source": "REF_9(uint256)",
+      "target": "_amounts[i]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_10(address)",
+      "target": "_addresses[i]"
+    },
+    {
+      "source": "REF_11(uint256)",
+      "target": "_amounts[i]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    }
+  ]
+}

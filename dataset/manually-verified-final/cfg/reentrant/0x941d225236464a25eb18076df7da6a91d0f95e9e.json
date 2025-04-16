@@ -1,0 +1,201 @@
+{
+  "nodes": [
+    "REF_13(Log.Message)",
+    "6",
+    "LENGTH History",
+    "5",
+    "4",
+    "REF_2(uint256)",
+    "LastMsg.Time",
+    "TMP_7(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:",
+    "_am <= balances",
+    "balances) = REF_0 + msg.value\"]",
+    "REF_0(",
+    "REF_0(uint256)",
+    "REF_9(uint256) (",
+    "History) := TMP_11(uint256)",
+    "LastMsg.Sender",
+    "LastMsg.Val",
+    "2",
+    "REF_13(Log.Message) (",
+    "1",
+    "6[label=\"False\"]",
+    "REF_8(uint256) (",
+    "LastMsg) := _adr(address)\"]",
+    "LastMsg) := _val(uint256)\"]",
+    "REF_10(string) (",
+    "REF_8(uint256)",
+    "REF_7(address) (",
+    "3[label=\"True\"]",
+    "LastMsg.Data",
+    "History[TMP_10]",
+    "3",
+    "balances",
+    "REF_5(uint256)",
+    "REF_12",
+    "5[label=\"False\"]",
+    "LastMsg) := now(uint256)\"]",
+    "0",
+    "LastMsg) := _data(string)\"]",
+    "HIGH_LEVEL_CALL, dest:TransferLog(Log), function:AddMessage, arguments:",
+    "REF_7(address)",
+    "2[label=\"True\"]",
+    "REF_10(string)",
+    "balances) = REF_5 - _am\"]",
+    "REF_5(",
+    "REF_9(uint256)",
+    "REF_12(uint256) (",
+    "History) := LastMsg(Log.Message)\"]",
+    "balances[msg.sender]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7(address)",
+      "target": "LastMsg.Sender"
+    },
+    {
+      "source": "REF_7(address) (",
+      "target": "LastMsg) := _adr(address)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_8(uint256)",
+      "target": "LastMsg.Time"
+    },
+    {
+      "source": "REF_8(uint256) (",
+      "target": "LastMsg) := now(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_9(uint256)",
+      "target": "LastMsg.Val"
+    },
+    {
+      "source": "REF_9(uint256) (",
+      "target": "LastMsg) := _val(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_10(string)",
+      "target": "LastMsg.Data"
+    },
+    {
+      "source": "REF_10(string) (",
+      "target": "LastMsg) := _data(string)\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_12",
+      "target": "LENGTH History"
+    },
+    {
+      "source": "REF_12(uint256) (",
+      "target": "History) := TMP_11(uint256)"
+    },
+    {
+      "source": "REF_13(Log.Message)",
+      "target": "History[TMP_10]"
+    },
+    {
+      "source": "REF_13(Log.Message) (",
+      "target": "History) := LastMsg(Log.Message)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "balances[msg.sender]"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "6[label=\"False\"]"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "REF_5(uint256)",
+      "target": "balances[msg.sender]"
+    },
+    {
+      "source": "REF_5(",
+      "target": "balances) = REF_5 - _am\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "balances[msg.sender]"
+    },
+    {
+      "source": "REF_0(",
+      "target": "balances) = REF_0 + msg.value\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    }
+  ]
+}

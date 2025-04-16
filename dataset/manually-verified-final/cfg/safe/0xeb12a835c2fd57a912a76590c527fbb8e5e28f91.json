@@ -1,0 +1,210 @@
+{
+  "nodes": [
+    "HIGH_LEVEL_CALL, dest:govm(WGOVM), function:burn, arguments:",
+    "3",
+    "TMP_32(bool) = HIGH_LEVEL_CALL, dest:govm(WGOVM), function:mint, arguments:",
+    "1",
+    "TMP_30(bool) = HIGH_LEVEL_CALL, dest:govm(WGOVM), function:transferFrom, arguments:",
+    "TMP_17(bytes32) = LIBRARY_CALL, dest:ECDSA, function:ECDSA.toEthSignedMessageHash(bytes32), arguments:",
+    "3[label=\"False\"]",
+    "13[label=\"True\"]",
+    "3[label=\"True\"]",
+    "TMP_25(uint256) = HIGH_LEVEL_CALL, dest:govm(WGOVM), function:allowance, arguments:",
+    "REF_0",
+    "4",
+    "2[label=\"True\"]",
+    "10[label=\"True\"]",
+    "10",
+    "5",
+    "11",
+    "14",
+    "11[label=\"False\"]",
+    "TMP_21(bool) = HIGH_LEVEL_CALL, dest:govm(WGOVM), function:mint, arguments:",
+    "9",
+    "15",
+    "LENGTH signature",
+    "7",
+    "8",
+    "12",
+    "6",
+    "14[label=\"False\"]",
+    "13",
+    "0",
+    "2",
+    "17",
+    "16",
+    "TMP_18(address) = LIBRARY_CALL, dest:ECDSA, function:ECDSA.recover(bytes32,bytes), arguments:",
+    "HIGH_LEVEL_CALL, dest:govm(WGOVM), function:transferOwnership, arguments:",
+    "5[label=\"False\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0",
+      "target": "LENGTH signature"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10[label=\"True\"]"
+    },
+    {
+      "source": "9",
+      "target": "11[label=\"False\"]"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "12",
+      "target": "13[label=\"True\"]"
+    },
+    {
+      "source": "12",
+      "target": "14[label=\"False\"]"
+    },
+    {
+      "source": "13",
+      "target": "14"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "15",
+      "target": "16"
+    },
+    {
+      "source": "16",
+      "target": "17"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    }
+  ]
+}

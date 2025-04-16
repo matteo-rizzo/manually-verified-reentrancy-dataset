@@ -1,0 +1,655 @@
+{
+  "nodes": [
+    "REF_14",
+    "REF_20(uint256)",
+    "1",
+    "REF_15(uint256)",
+    "3[label=\"False\"]",
+    "TMP_32(bool) = HIGH_LEVEL_CALL, dest:instance(ERC20Interface), function:transfer, arguments:",
+    "signers(address",
+    "3[label=\"True\"]",
+    "7[label=\"False\"]",
+    "10[label=\"True\"]",
+    "2[label=\"True\"]",
+    "10",
+    "11",
+    "14",
+    "9",
+    "recentSequenceIds[i]",
+    "4[label=\"True\"]",
+    "signers[i]",
+    "7",
+    "REF_13(address)",
+    "LENGTH signature",
+    "8",
+    "REF_17(uint256)",
+    "8[label=\"True\"]",
+    "12",
+    "8[label=\"False\"]",
+    "6",
+    "14[label=\"False\"]",
+    "9[label=\"False\"]",
+    "0",
+    "REF_22(uint256)",
+    "TMP_13(bool) = LOW_LEVEL_CALL, dest:parentAddress, function:call, arguments:",
+    "REF_18(uint256)",
+    "20",
+    "LENGTH allowedSigners",
+    "2[label=\"False\"]",
+    "sequenceId < recentSequenceIds",
+    "18[label=\"False\"]",
+    "LENGTH signers",
+    "3",
+    "recentSequenceIds[lowestValueIndex]",
+    "recentSequenceIds) := sequenceId(uint256)\"]",
+    "REF_19(uint256)",
+    "14[label=\"True\"]",
+    "REF_7",
+    "13[label=\"True\"]",
+    "highestSequenceId = recentSequenceIds",
+    "REF_21(uint256)",
+    "TMP_6(uint256) = HIGH_LEVEL_CALL, dest:instance(ERC20Interface), function:balanceOf, arguments:",
+    "4",
+    "recentSequenceIds",
+    "5",
+    "7[label=\"True\"]",
+    "19",
+    "signers",
+    "11[label=\"False\"]",
+    "REF_12",
+    "TMP_8(bool) = HIGH_LEVEL_CALL, dest:instance(ERC20Interface), function:transfer, arguments:",
+    "15",
+    "15[label=\"False\"]",
+    "5[label=\"True\"]",
+    "6[label=\"True\"]",
+    "6[label=\"False\"]",
+    "17[label=\"True\"]",
+    "13",
+    "2",
+    "17",
+    "REF_20(uint256) (",
+    "sequenceId > (recentSequenceIds",
+    "16",
+    "REF_16(uint256)",
+    "4[label=\"False\"]",
+    "18",
+    "TMP_25(bool) = LOW_LEVEL_CALL, dest:toAddress, function:call, arguments:",
+    "TMP_1(bool) = LOW_LEVEL_CALL, dest:parentAddress, function:call, arguments:",
+    "5[label=\"False\"]",
+    "HIGH_LEVEL_CALL, dest:forwarder(Forwarder), function:flushTokens, arguments:"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "4[label=\"False\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10[label=\"True\"]"
+    },
+    {
+      "source": "9",
+      "target": "11[label=\"False\"]"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "12",
+      "target": "13[label=\"True\"]"
+    },
+    {
+      "source": "12",
+      "target": "14[label=\"False\"]"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "20"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "3",
+      "target": "13"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "REF_15(uint256)",
+      "target": "recentSequenceIds[i]"
+    },
+    {
+      "source": "6",
+      "target": "7[label=\"True\"]"
+    },
+    {
+      "source": "6",
+      "target": "8[label=\"False\"]"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "REF_16(uint256)",
+      "target": "recentSequenceIds[i]"
+    },
+    {
+      "source": "REF_17(uint256)",
+      "target": "recentSequenceIds[lowestValueIndex]"
+    },
+    {
+      "source": "9",
+      "target": "10[label=\"True\"]"
+    },
+    {
+      "source": "9",
+      "target": "11[label=\"False\"]"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "12",
+      "target": "5"
+    },
+    {
+      "source": "REF_18(uint256)",
+      "target": "recentSequenceIds[lowestValueIndex]"
+    },
+    {
+      "source": "13",
+      "target": "14[label=\"True\"]"
+    },
+    {
+      "source": "13",
+      "target": "15[label=\"False\"]"
+    },
+    {
+      "source": "15",
+      "target": "16"
+    },
+    {
+      "source": "REF_19(uint256)",
+      "target": "recentSequenceIds[lowestValueIndex]"
+    },
+    {
+      "source": "16",
+      "target": "17[label=\"True\"]"
+    },
+    {
+      "source": "16",
+      "target": "18[label=\"False\"]"
+    },
+    {
+      "source": "18",
+      "target": "19"
+    },
+    {
+      "source": "REF_20(uint256)",
+      "target": "recentSequenceIds[lowestValueIndex]"
+    },
+    {
+      "source": "REF_20(uint256) (",
+      "target": "recentSequenceIds) := sequenceId(uint256)\"]"
+    },
+    {
+      "source": "20",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "7"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4[label=\"True\"]"
+    },
+    {
+      "source": "3",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "8"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5[label=\"True\"]"
+    },
+    {
+      "source": "4",
+      "target": "6[label=\"False\"]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "8",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "9"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "REF_12",
+      "target": "LENGTH signers"
+    },
+    {
+      "source": "4",
+      "target": "5[label=\"True\"]"
+    },
+    {
+      "source": "4",
+      "target": "2[label=\"False\"]"
+    },
+    {
+      "source": "REF_13(address)",
+      "target": "signers[i]"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "3",
+      "target": "10"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "REF_21(uint256)",
+      "target": "recentSequenceIds[i]"
+    },
+    {
+      "source": "6",
+      "target": "7[label=\"True\"]"
+    },
+    {
+      "source": "6",
+      "target": "8[label=\"False\"]"
+    },
+    {
+      "source": "REF_22(uint256)",
+      "target": "recentSequenceIds[i]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "11"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5[label=\"True\"]"
+    },
+    {
+      "source": "4",
+      "target": "6[label=\"False\"]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8[label=\"True\"]"
+    },
+    {
+      "source": "7",
+      "target": "9[label=\"False\"]"
+    },
+    {
+      "source": "9",
+      "target": "10"
+    },
+    {
+      "source": "11",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_14",
+      "target": "LENGTH signature"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10[label=\"True\"]"
+    },
+    {
+      "source": "9",
+      "target": "11[label=\"False\"]"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7",
+      "target": "LENGTH allowedSigners"
+    },
+    {
+      "source": "1",
+      "target": "2[label=\"True\"]"
+    },
+    {
+      "source": "1",
+      "target": "3[label=\"False\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    }
+  ]
+}

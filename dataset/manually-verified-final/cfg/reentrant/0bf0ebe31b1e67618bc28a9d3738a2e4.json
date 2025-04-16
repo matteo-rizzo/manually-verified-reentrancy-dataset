@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    "TMP_0(uint256) = HIGH_LEVEL_CALL, dest:mainDAO(DAO), function:balanceOf, arguments:",
+    "TMP_7(",
+    "3[label=\"True\"]",
+    "TMP_1(bool) = HIGH_LEVEL_CALL, dest:mainDAO(DAO), function:transferFrom, arguments:",
+    "3",
+    "TMP_6(uint256) = HIGH_LEVEL_CALL, dest:mainDAO(DAO), function:balanceOf, arguments:",
+    "2",
+    "1",
+    "TMP_8(uint256) = HIGH_LEVEL_CALL, dest:mainDAO(DAO), function:totalSupply, arguments:",
+    "4",
+    "TMP_9(",
+    "4[label=\"False\"]",
+    "0"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "4[label=\"False\"]"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "nodes": [
+    "ERC20(NEO).transfer(contr",
+    "6",
+    "7",
+    "REF_13(address)",
+    "5",
+    "4[label=\"True\"]",
+    "REF_0(uint256) (",
+    "4",
+    "REF_2(uint256)",
+    "TMP_25(bool) = HIGH_LEVEL_CALL, dest:TMP_23(ERC20), function:transfer, arguments:",
+    "value[sender]",
+    "REF_0(uint256)",
+    "contr[msg.sender]",
+    "7[label=\"False\"]",
+    "REF_21(uint256)",
+    "6[label=\"True\"]",
+    "REF_4(uint256)",
+    "contr) := TMP_12(getfreetoken)\"]",
+    "2",
+    "contr",
+    "TMP_16(bool) = LOW_LEVEL_CALL, dest:REF_14, function:call, arguments:",
+    "1",
+    "REF_11(address)",
+    "REF_3(address)",
+    "TMP_8(bool) = HIGH_LEVEL_CALL, dest:TMP_7(ERC20), function:transfer, arguments:",
+    "REF_8(address)",
+    "TMP_2(bool) = HIGH_LEVEL_CALL, dest:TMP_1(ERC20), function:transferFrom, arguments:",
+    "TMP_10(bool) = LOW_LEVEL_CALL, dest:REF_8, function:call, arguments:",
+    "ERC20(NEO).transferFrom(msg.sender,this,value",
+    "REF_21(uint256) (",
+    "value) := 0(uint256)\"]",
+    "value[msg.sender]",
+    "3[label=\"True\"]",
+    "require(bool)(contr",
+    "getsometoken(msg.sender,value",
+    "REF_11(address) (",
+    "3",
+    "TMP_31(uint256) = HIGH_LEVEL_CALL, dest:TMP_30(ERC20), function:balanceOf, arguments:",
+    "HIGH_LEVEL_CALL, dest:TMP_37(father), function:fallback, arguments:",
+    "getsometokenn(msg.sender,value",
+    "REF_5(uint256)",
+    "REF_17(address)",
+    "a = (amount - value",
+    "TMP_35(bool) = HIGH_LEVEL_CALL, dest:TMP_32(ERC20), function:transfer, arguments:",
+    "5[label=\"False\"]",
+    "0",
+    "contr[sender]",
+    "TMP_27(bool) = HIGH_LEVEL_CALL, dest:TMP_26(ERC20), function:transfer, arguments:",
+    "REF_7(address)",
+    "TMP_34(uint256) = HIGH_LEVEL_CALL, dest:TMP_33(ERC20), function:balanceOf, arguments:",
+    "REF_18(uint256)",
+    "REF_14(address)",
+    "TMP_14(bool) = HIGH_LEVEL_CALL, dest:TMP_13(ERC20), function:transfer, arguments:",
+    "value) := TMP_0(uint256)\"]",
+    "value",
+    "contr[_sender]",
+    "8"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7(address)",
+      "target": "contr[_sender]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_8(address)",
+      "target": "contr[_sender]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_11(address)",
+      "target": "contr[msg.sender]"
+    },
+    {
+      "source": "REF_11(address) (",
+      "target": "contr) := TMP_12(getfreetoken)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_13(address)",
+      "target": "contr[_sender]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_14(address)",
+      "target": "contr[_sender]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6[label=\"True\"]"
+    },
+    {
+      "source": "5",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "value[msg.sender]"
+    },
+    {
+      "source": "REF_0(uint256) (",
+      "target": "value) := TMP_0(uint256)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "value[msg.sender]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_3(address)",
+      "target": "contr[msg.sender]"
+    },
+    {
+      "source": "3",
+      "target": "4[label=\"True\"]"
+    },
+    {
+      "source": "3",
+      "target": "5[label=\"False\"]"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "value[msg.sender]"
+    },
+    {
+      "source": "4",
+      "target": "6"
+    },
+    {
+      "source": "REF_5(uint256)",
+      "target": "value[msg.sender]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_17(address)",
+      "target": "contr[sender]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3[label=\"True\"]"
+    },
+    {
+      "source": "2",
+      "target": "7[label=\"False\"]"
+    },
+    {
+      "source": "REF_18(uint256)",
+      "target": "value[sender]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_21(uint256)",
+      "target": "value[sender]"
+    },
+    {
+      "source": "REF_21(uint256) (",
+      "target": "value) := 0(uint256)\"]"
+    },
+    {
+      "source": "6",
+      "target": "8"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    }
+  ]
+}
