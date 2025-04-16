@@ -20,9 +20,9 @@ logging.basicConfig(
 logger = logging.getLogger("rich")
 
 # Directories
-INPUT_DIR = Path("dataset/verified/gt_reentrant/safe")
-OUTPUT_DIR = Path("logs/verified-safe-cfg")
-DEFAULT_SOLC_VERSION = "0.4.24"
+INPUT_DIR = Path("dataset/manually-verified-final/safe")
+OUTPUT_DIR = Path("logs/cfg/safe")
+DEFAULT_SOLC_VERSION = "0.5.6"
 
 
 def version_to_tuple(version_str: str) -> Optional[Tuple[int, ...]]:

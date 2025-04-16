@@ -26,17 +26,17 @@ Dependencies:
 END_COMMENT
 
 # Base directory containing subfolders with Solidity contracts
-BASE_DIR="dataset/verified/gt_reentrant/safe"
+BASE_DIR="dataset/manually-verified-final"
 
 # Base output directory for ASTs
-OUTPUT_BASE_DIR="logs/verified-safe-ast"
+OUTPUT_BASE_DIR="logs"
 
 # Default solc version to use if no pragma is specified or if single compiler mode is selected
-DEFAULT_SOLC_VERSION="0.4.22"
-USE_SINGLE_COMPILER=false
+DEFAULT_SOLC_VERSION="0.6.0"
+USE_SINGLE_COMPILER=true
 
 # Minimum supported solc version
-MIN_SUPPORTED_SOLC_VERSION="0.3.6"
+MIN_SUPPORTED_SOLC_VERSION="0.4.22"
 
 # Function to display usage information
 usage() {
