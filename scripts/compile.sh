@@ -94,7 +94,6 @@ process_file() {
     fi
 }
 
-
 process_directory() {
     local dir=$1
     local output_base=$2
@@ -115,14 +114,20 @@ if [ "$USE_SINGLE_COMPILER" = true ]; then
     check_and_install_solc_version "$DEFAULT_SOLC_VERSION"
     solc-select use "$DEFAULT_SOLC_VERSION"
 else
-    current_version=$(solc --version | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)
+    if solc --version &>/dev/null; then
+        current_version=$(solc --version | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | head -n 1)
+    else
+        current_version=""
+    fi
 fi
 
 echo "🔍 Scanning and compiling contracts..."
 process_directory "$BASE_DIR" "$OUTPUT_BASE_DIR"
 
-if [ "$USE_SINGLE_COMPILER" = false ]; then
+if [ "$USE_SINGLE_COMPILER" = false ] && [ -n "$current_version" ]; then
     solc-select use "$current_version"
+else
+    echo "⚠️ No previous solc version set, skipping reset."
 fi
 
 echo "✅ Done! Compilable contracts are in: $OUTPUT_BASE_DIR"
