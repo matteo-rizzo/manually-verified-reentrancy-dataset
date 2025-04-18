@@ -1,18 +1,4 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
-
-
-
-
 library SafeMath {
-
-    
 
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -20,15 +6,9 @@ library SafeMath {
 
         require(c >= a, "SafeMath: addition overflow");
 
-
-
         return c;
 
     }
-
-
-
-    
 
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -36,23 +16,11 @@ library SafeMath {
 
         uint256 c = a - b;
 
-
-
         return c;
 
     }
 
-
-
-    
-
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-
-        
-
-        
-
-        
 
         if (a == 0) {
 
@@ -60,41 +28,23 @@ library SafeMath {
 
         }
 
-
-
         uint256 c = a * b;
 
         require(c / a == b, "SafeMath: multiplication overflow");
-
-
 
         return c;
 
     }
 
-
-
-    
-
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-
-        
 
         require(b > 0, "SafeMath: division by zero");
 
         uint256 c = a / b;
 
-        
-
-
-
         return c;
 
     }
-
-
-
-    
 
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -106,15 +56,9 @@ library SafeMath {
 
 }
 
-
-
-
-
 contract PrimalityTest {
 
     mapping ( uint => uint ) balance;
-
-
 
     function deposit(uint256 n) public payable {
 
@@ -122,11 +66,7 @@ contract PrimalityTest {
 
     }
 
-
-
     event NotPrime(uint n); 
-
-
 
     function factor(uint p, uint q) public {
 
@@ -146,13 +86,7 @@ contract PrimalityTest {
 
     }
 
-
-
     function isStillPrime(uint n) public view returns(uint confidence) {
-
-        
-
-        
 
         return balance[n];
 

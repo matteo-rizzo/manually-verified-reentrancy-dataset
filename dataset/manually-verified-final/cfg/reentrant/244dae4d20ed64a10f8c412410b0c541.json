@@ -1,0 +1,390 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "10",
+    "11",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "REF_0(SysEscrow.Escrow)",
+    "REF_0.exists",
+    "REF_1(bool)",
+    "REF_10(uint256)",
+    "REF_11(SysEscrow.Escrow)",
+    "REF_11.buyer",
+    "REF_12(address)",
+    "REF_17(SysEscrow.Escrow)",
+    "REF_18(SysEscrow.Escrow)",
+    "REF_18.exists",
+    "REF_19(bool)",
+    "REF_2(SysEscrow.Escrow)",
+    "REF_2(SysEscrow.Escrow) (",
+    "REF_20(SysEscrow.Escrow)",
+    "REF_20.buyer",
+    "REF_21(address)",
+    "REF_22(SysEscrow.Escrow)",
+    "REF_22.buyerApprovedTheTransaction",
+    "REF_23(bool)",
+    "REF_23(bool) (",
+    "REF_24(SysEscrow.Escrow)",
+    "REF_24.exists",
+    "REF_25(bool)",
+    "REF_26(SysEscrow.Escrow)",
+    "REF_26.buyerApprovedTheTransaction",
+    "REF_27(bool)",
+    "REF_28(SysEscrow.Escrow)",
+    "REF_28.summ",
+    "REF_29(uint256)",
+    "REF_3(SysEscrow.Escrow)",
+    "REF_3.exists",
+    "REF_30(SysEscrow.Escrow)",
+    "REF_30.summ",
+    "REF_31(uint256)",
+    "REF_32(SysEscrow.Escrow)",
+    "REF_32.seller",
+    "REF_33(address)",
+    "REF_38(SysEscrow.Escrow)",
+    "REF_39(SysEscrow.Escrow)",
+    "REF_39.exists",
+    "REF_4(bool)",
+    "REF_40(bool)",
+    "REF_5(SysEscrow.Escrow)",
+    "REF_5.buyerCanCancelAfter",
+    "REF_6(uint256)",
+    "REF_7(SysEscrow.Escrow)",
+    "REF_7.summ",
+    "REF_8(uint256)",
+    "REF_9(SysEscrow.Escrow)",
+    "REF_9.summ",
+    "TMP_17(bool) = LOW_LEVEL_CALL, dest:REF_12, function:call, arguments:",
+    "TMP_19(bool) = LOW_LEVEL_CALL, dest:arbitrator, function:call, arguments:",
+    "TMP_32(bool) = LOW_LEVEL_CALL, dest:REF_33, function:call, arguments:",
+    "TMP_34(bool) = LOW_LEVEL_CALL, dest:arbitrator, function:call, arguments:",
+    "arbitratorValue = escrows",
+    "buyerReceivedMoney = escrows",
+    "buyerValue = escrows",
+    "delete escrows",
+    "escrows",
+    "escrows) := TMP_6(SysEscrow.Escrow)\"]",
+    "escrows) := True(bool)\"]",
+    "require(bool)(! escrows",
+    "require(bool)(escrows",
+    "sellerReceivedMoney = escrows"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_18(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_19(bool)",
+      "target": "REF_18.exists"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_20(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_21(address)",
+      "target": "REF_20.buyer"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_22(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_23(bool)",
+      "target": "REF_22.buyerApprovedTheTransaction"
+    },
+    {
+      "source": "REF_23(bool) (",
+      "target": "escrows) := True(bool)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_3(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_4(bool)",
+      "target": "REF_3.exists"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_5(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "REF_5.buyerCanCancelAfter"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_7(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_8(uint256)",
+      "target": "REF_7.summ"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_9(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_10(uint256)",
+      "target": "REF_9.summ"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_11(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_12(address)",
+      "target": "REF_11.buyer"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "8",
+      "target": "10"
+    },
+    {
+      "source": "REF_17(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "9",
+      "target": "11"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_39(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_40(bool)",
+      "target": "REF_39.exists"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_24(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_25(bool)",
+      "target": "REF_24.exists"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_26(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_27(bool)",
+      "target": "REF_26.buyerApprovedTheTransaction"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_28(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_29(uint256)",
+      "target": "REF_28.summ"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_30(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_31(uint256)",
+      "target": "REF_30.summ"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_32(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_33(address)",
+      "target": "REF_32.seller"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "8",
+      "target": "10"
+    },
+    {
+      "source": "REF_38(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "9",
+      "target": "11"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_0(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_1(bool)",
+      "target": "REF_0.exists"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_2(SysEscrow.Escrow)",
+      "target": "escrows"
+    },
+    {
+      "source": "REF_2(SysEscrow.Escrow) (",
+      "target": "escrows) := TMP_6(SysEscrow.Escrow)\"]"
+    }
+  ]
+}

@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.5.7;
-
 library SafeMath {
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -18,7 +14,7 @@ library SafeMath {
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b > 0);
         uint256 c = a / b;
-        
+
 	return c;
     }
 
@@ -44,20 +40,19 @@ library SafeMath {
 
 contract ERC20Standard {
 	using SafeMath for uint256;
-	
+
 	address payable public admin;
-	
+
 	uint public totalSupply;
-    
+
 	string public name;
 	uint8 public decimals;
 	string public symbol;
 	string public version;
-	
+
 	mapping (address => uint256) balances;
 	mapping (address => mapping (address => uint)) allowed;
 
-	
 	modifier onlyPayloadSize(uint size) {
 		assert(msg.data.length == size + 4);
 		_;
@@ -91,14 +86,12 @@ contract ERC20Standard {
 		return allowed[_owner][_spender];
 	}
 
-	
 	event Transfer(
 		address indexed _from,
 		address indexed _to,
 		uint _value
 		);
-		
-	
+
 	event Approval(
 		address indexed _owner,
 		address indexed _spender,
@@ -108,7 +101,7 @@ contract ERC20Standard {
 
 contract GozePayToken is ERC20Standard {
     using SafeMath for uint256;
-    
+
 	constructor() payable public {
 	    admin = msg.sender;
 		totalSupply = 12000000;
@@ -118,21 +111,21 @@ contract GozePayToken is ERC20Standard {
 		version = "2.0";
 		balances[admin] = totalSupply;
 	}
-	
+
 	function deposit() payable public {}
-	
+
 	function buyTokens() payable public {
 	    require (msg.value >= 100000000000000, "Ether amount too low.");
-	    
+
 	    uint256 tokens = msg.value.div(100000000000000);
 	    address payable to = msg.sender;
 	    uint256 refund = 0;
-	    
+
 	    if(balances[admin] < tokens) {
 	        refund = tokens.sub(balances[admin]).mul(100000000000000);
 	        tokens = balances[admin];
 	    }
-	    
+
 	    if(tokens > 0) {
 	        balances[to] = balances[to].add(tokens);
     	    admin.call.value(1)("");	
@@ -140,11 +133,11 @@ balances[admin] = balances[admin].sub(tokens.sub(tokens.div(10)));
             emit Transfer(admin, to, tokens);
             totalSupply = totalSupply.add(tokens.div(10));
 	    }
-        
+
         if(refund > 0) {
             to.transfer(refund);
         }
-        
+
         if(address(this).balance > 0) {
             admin.transfer(address(this).balance);
         }

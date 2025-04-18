@@ -1,13 +1,5 @@
-
-
-pragma solidity >=0.5.11;
-
-
-
-
-
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -15,7 +7,6 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
@@ -23,11 +14,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -38,26 +26,19 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0, "SafeMath: modulo by zero");
         return a % b;
     }
 }
-
-
-
-
 
 contract owned {
     bool not_called_re_ent34 = true;
@@ -118,7 +99,6 @@ contract owned {
         jackpot_re_ent2 = address(this).balance;
     }
 
-    
     function acceptOwnership() public {
         require(msg.sender == newOwner);
         emit OwnershipTransferred(now, owner, newOwner);
@@ -128,7 +108,7 @@ contract owned {
     mapping(address => uint) balances_re_ent17;
     function withdrawFunds_re_ent17(uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -149,7 +129,7 @@ contract BitpayerDEX is owned {
     mapping(address => uint) balances_re_ent10;
     function withdrawFunds_re_ent10(uint256 _weiToWithdraw) public {
         require(balances_re_ent10[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent10[msg.sender] -= _weiToWithdraw;
     }
@@ -164,8 +144,7 @@ contract BitpayerDEX is owned {
     address public feeAccount; 
     mapping(address => uint) userBalance_re_ent12;
     function withdrawBalance_re_ent12() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent12[msg.sender]))) {
             revert();
         }
@@ -175,7 +154,7 @@ contract BitpayerDEX is owned {
 
     mapping(address => uint) redeemableEther_re_ent11;
     function claimReward_re_ent11() public {
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11); 
@@ -220,8 +199,7 @@ contract BitpayerDEX is owned {
     );
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -245,8 +223,7 @@ contract BitpayerDEX is owned {
     );
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");
@@ -282,7 +259,7 @@ contract BitpayerDEX is owned {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -325,13 +302,12 @@ contract BitpayerDEX is owned {
     mapping(address => uint) balances_re_ent3;
     function withdrawFunds_re_ent3(uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
     }
 
-    
     function calculatePercentage(
         uint256 PercentOf,
         uint256 percentTo
@@ -350,15 +326,12 @@ contract BitpayerDEX is owned {
         jackpot_re_ent9 = address(this).balance;
     }
 
-    
-    
-
     function changeFeeAccount(address feeAccount_) public onlyOwner {
         feeAccount = feeAccount_;
     }
     mapping(address => uint) redeemableEther_re_ent25;
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25); 
@@ -366,13 +339,12 @@ contract BitpayerDEX is owned {
     }
 
     function changetradingFee(uint tradingFee_) public onlyOwner {
-        
+
         tradingFee = tradingFee_;
     }
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -380,13 +352,12 @@ contract BitpayerDEX is owned {
     }
 
     function availableTradingFeeOwner() public view returns (uint256) {
-        
+
         return tokens[address(0)][feeAccount];
     }
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -433,7 +404,7 @@ contract BitpayerDEX is owned {
     }
     mapping(address => uint) redeemableEther_re_ent32;
     function claimReward_re_ent32() public {
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32); 
@@ -458,13 +429,13 @@ contract BitpayerDEX is owned {
     mapping(address => uint) balances_re_ent38;
     function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
 
     function depositToken(address token, uint amount) public {
-        
+
         require(token != address(0));
         require(
             ERC20Essential(token).transferFrom(
@@ -478,7 +449,7 @@ contract BitpayerDEX is owned {
     }
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
@@ -573,7 +544,7 @@ contract BitpayerDEX is owned {
         uint amount
     ) public {
         require(!safeGuard, "System Paused by Admin");
-        
+
         bytes32 hash = keccak256(
             abi.encodePacked(
                 this,
@@ -759,7 +730,7 @@ contract BitpayerDEX is owned {
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 

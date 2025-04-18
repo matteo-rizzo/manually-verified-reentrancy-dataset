@@ -1,8 +1,3 @@
-
-
-pragma solidity ^0.5.12;
-
-
 library SafeMath {
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -37,7 +32,6 @@ library SafeMath {
     }
 }
 
-
 contract ERC20 {
     using SafeMath for uint256;
 
@@ -49,35 +43,29 @@ contract ERC20 {
 
     uint256 internal _totalSupply;
 
-    
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
-    
     function balanceOf(address owner) public view returns (uint256) {
         return _balances[owner];
     }
 
-    
     function allowance(address owner, address spender) public view returns (uint256) {
         return _allowed[owner][spender];
     }
 
-    
     function transfer(address to, uint256 value) public returns (bool) {
         _transfer(msg.sender, to, value);
         return true;
     }
 
-    
     function approve(address spender, uint256 value) public returns (bool) {
         _allowed[msg.sender][spender] = value;
         emit Approval(msg.sender, spender, value);
         return true;
     }
 
-    
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
         _transfer(from, to, value);
         _allowed[msg.sender][to] = _allowed[msg.sender][to].sub(value);
@@ -112,8 +100,6 @@ contract ERC20Mintable is ERC20 {
     }
 }
 
-
-
 contract ILendingPoolAddressesProvider {
 
     function getLendingPool() public view returns (address);
@@ -133,7 +119,6 @@ contract ILendingPoolAddressesProvider {
 
     function getTokenDistributor() public view returns (address);
     function setTokenDistributor(address _tokenDistributor) public;
-
 
     function getFeeProvider() public view returns (address);
     function setFeeProviderImpl(address _feeProvider) public;
@@ -209,8 +194,6 @@ interface PriceOracle {
     function getUnderlyingPrice(address) external view returns (uint256);
 }
 
-
-
 interface CErc20 {
 
     function borrow(uint256) external returns (uint256);
@@ -222,7 +205,6 @@ interface CErc20 {
     function repayBorrow(uint256) external returns (uint256);
 }
 
-
 interface CEth {
     function mint() external payable;
 
@@ -232,7 +214,6 @@ interface CEth {
 
     function supplyRatePerBlock() external view returns (uint256);
 }
-
 
 interface Comptroller {
     function markets(address) external returns (bool, uint256);
@@ -249,8 +230,6 @@ interface Comptroller {
     function oracle() external view returns(address);
 }
 
-
-
 interface Exchange {
     function trade(
         address src,
@@ -262,28 +241,21 @@ interface Exchange {
         address walletId )external payable returns(uint);
 }
 
-
-
-
 contract tCDPConstants {
     uint256 constant dust = 1e6; 
     ERC20 constant Dai = ERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F); 
 
-    
     Comptroller constant comptroller = Comptroller(0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B);
     CEth constant cEth = CEth(0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5);
     CErc20 constant cDai = CErc20(0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643);
 
-    
     ILendingPoolAddressesProvider constant addressesProvider = ILendingPoolAddressesProvider(0x24a42fD28C976A61Df5D00D0599C34c4f90748c8);
     uint16 constant REFERRAL = 47; 
 
-    
     Exchange constant kyberNetwork = Exchange(0x818E6FECD516Ecc3849DAf6845e3EC868087B755);
     address constant etherAddr = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
     address constant ref = 0xD0533664013a82c31584B7FFDB215139f38Ad77A;
 
-    
     uint256 constant targetRatio = 0.4e18; 
     uint256 constant upperBound = 444444444444444444; 
     uint256 constant lowerBound = 363636363636363636; 
@@ -372,12 +344,12 @@ contract tCDP is ERC20Mintable, tCDPConstants{
             Dai.transfer(msg.sender, tokenToBorrow);
         }
         else{
-            
+
             ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
             lendingPool.deposit.value(amount)(etherAddr, amount, REFERRAL);
-            
+
             lendingPool.borrow(address(Dai), tokenToBorrow, 2, REFERRAL);
-            
+
             Dai.transfer(msg.sender, tokenToBorrow);
         }
 
@@ -396,12 +368,12 @@ contract tCDP is ERC20Mintable, tCDPConstants{
             require(cEth.redeemUnderlying(tokenToDraw) == 0, "redeem failed");
         }
         else {
-            
+
             ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
             address lendingPoolCoreAddress = addressesProvider.getLendingPoolCore();
-            
+
             lendingPool.repay(address(Dai), tokenToRepay, address(this));
-            
+
             IAToken aETH = IAToken(ILendingPoolCore(lendingPoolCoreAddress).getReserveATokenAddress(etherAddr));
             aETH.redeem(tokenToDraw);
         }
@@ -412,7 +384,6 @@ contract tCDP is ERC20Mintable, tCDPConstants{
 
     function() external payable{}
 
-    
     function findBestRate() public view returns (bool) {
         return AaveDaiAPR().mul(targetRatio).div(1e18).add(CompoundEthAPR()) > CompoundDaiAPR().mul(targetRatio).div(1e18).add(AaveEthAPR());
     }
@@ -465,14 +436,14 @@ contract tCDP is ERC20Mintable, tCDPConstants{
             require(cDai.repayBorrow(income) == 0, "repay failed");
         }
         else {
-            
+
             address lendingPoolCoreAddress = addressesProvider.getLendingPoolCore();
             IAToken aETH = IAToken(ILendingPoolCore(lendingPoolCoreAddress).getReserveATokenAddress(etherAddr));
             aETH.redeem(amount);
             uint256 income = kyberNetwork.trade.value(amount)(etherAddr, amount, address(Dai), address(this), 1e28, 1, ref);
-            
+
             ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
-            
+
             lendingPool.repay(address(Dai), income, address(this));
         }
     }
@@ -488,11 +459,11 @@ contract tCDP is ERC20Mintable, tCDPConstants{
             cEth.mint.value(income)();
         }
         else {
-            
+
             ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
             lendingPool.borrow(address(Dai), amount, 2, REFERRAL);
             uint256 income = kyberNetwork.trade(address(Dai), amount, etherAddr, address(this), 1e28, 1, ref);
-            
+
             lendingPool.deposit.value(income)(etherAddr, income, REFERRAL);
         }
     }

@@ -1,36 +1,24 @@
-pragma solidity ^0.5.4;
-
-
-
 interface IERC20 {
-    
+
     function totalSupply() external view returns (uint256);
 
-    
     function balanceOf(address account) external view returns (uint256);
 
-    
     function transfer(address recipient, uint256 amount) external returns (bool);
 
-    
     function allowance(address owner, address spender) external view returns (uint256);
 
-    
     function approve(address spender, uint256 amount) external returns (bool);
 
-    
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -38,7 +26,6 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
@@ -46,11 +33,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -61,43 +45,34 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0, "SafeMath: modulo by zero");
         return a % b;
     }
 }
 
-
 library Address {
-    
+
     function isContract(address account) internal view returns (bool) {
-        
-        
-        
 
         uint256 size;
-        
+
         assembly { size := extcodesize(account) }
         return size > 0;
     }
 
-    
     function toPayable(address account) internal pure returns (address payable) {
         return address(uint160(account));
     }
 }
-
 
 library SafeERC20 {
     using SafeMath for uint256;
@@ -112,10 +87,7 @@ library SafeERC20 {
     }
 
     function safeApprove(IERC20 token, address spender, uint256 value) internal {
-        
-        
-        
-        
+
         require((value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeERC20: approve from non-zero to non-zero allowance"
         );
@@ -132,76 +104,19 @@ library SafeERC20 {
         callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
-    
     function callOptionalReturn(IERC20 token, bytes memory data) private {
-        
-        
 
-        
-        
-        
-        
-        
         require(address(token).isContract(), "SafeERC20: call to non-contract");
 
-        
         (bool success, bytes memory returndata) = address(token).call(data);
         require(success, "SafeERC20: low-level call failed");
 
         if (returndata.length > 0) { 
-            
+
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }
 }
-
-
-contract Ownable {
-    address private _owner;
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-    
-    constructor () internal {
-        _owner = msg.sender;
-        emit OwnershipTransferred(address(0), _owner);
-    }
-
-    
-    function owner() public view returns (address) {
-        return _owner;
-    }
-
-    
-    modifier onlyOwner() {
-        require(isOwner());
-        _;
-    }
-
-    
-    function isOwner() public view returns (bool) {
-        return msg.sender == _owner;
-    }
-
-    
-    function renounceOwnership() public onlyOwner {
-        emit OwnershipTransferred(_owner, address(0));
-        _owner = address(0);
-    }
-
-    
-    function transferOwnership(address newOwner) public onlyOwner {
-        _transferOwnership(newOwner);
-    }
-
-    
-    function _transferOwnership(address newOwner) internal {
-        require(newOwner != address(0));
-        emit OwnershipTransferred(_owner, newOwner);
-        _owner = newOwner;
-    }
-}
-
 
 contract TrustlessOTC is Ownable {
     using SafeMath for uint256;

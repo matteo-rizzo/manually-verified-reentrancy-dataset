@@ -1,9 +1,3 @@
-
-
-pragma solidity ^0.4.11;
-
-
-
 contract DSExec {
     function tryExec(
         address target,
@@ -18,7 +12,6 @@ contract DSExec {
         }
     }
 
-    
     function exec(address t, bytes c) internal {
         exec(t, c, 0);
     }
@@ -34,7 +27,6 @@ contract DSExec {
         return tryExec(t, c, v);
     }
 }
-
 
 contract DSAuthority {
     function canCall(
@@ -90,7 +82,6 @@ contract DSAuth is DSAuthEvents {
     }
 }
 
-
 contract DSNote {
     event LogNote(
         bytes4 indexed sig,
@@ -116,9 +107,7 @@ contract DSNote {
     }
 }
 
-
 contract DSMath {
-    
 
     function add(uint256 x, uint256 y) internal constant returns (uint256 z) {
         assert((z = x + y) >= x);
@@ -144,8 +133,6 @@ contract DSMath {
         return x >= y ? x : y;
     }
 
-    
-
     function hadd(uint128 x, uint128 y) internal constant returns (uint128 z) {
         assert((z = x + y) >= x);
     }
@@ -170,16 +157,12 @@ contract DSMath {
         return x >= y ? x : y;
     }
 
-    
-
     function imin(int256 x, int256 y) internal constant returns (int256 z) {
         return x <= y ? x : y;
     }
     function imax(int256 x, int256 y) internal constant returns (int256 z) {
         return x >= y ? x : y;
     }
-
-    
 
     uint128 constant WAD = 10 ** 18;
 
@@ -206,8 +189,6 @@ contract DSMath {
         return hmax(x, y);
     }
 
-    
-
     uint128 constant RAY = 10 ** 27;
 
     function radd(uint128 x, uint128 y) internal constant returns (uint128) {
@@ -227,20 +208,6 @@ contract DSMath {
     }
 
     function rpow(uint128 x, uint64 n) internal constant returns (uint128 z) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
         z = n % 2 != 0 ? x : RAY;
 
@@ -265,7 +232,6 @@ contract DSMath {
     }
 }
 
-
 contract ERC20 {
     function totalSupply() constant returns (uint supply);
     function balanceOf(address who) constant returns (uint value);
@@ -285,7 +251,6 @@ contract ERC20 {
     event Transfer(address indexed from, address indexed to, uint value);
     event Approval(address indexed owner, address indexed spender, uint value);
 }
-
 
 contract DSTokenBase is ERC20, DSMath {
     uint256 _supply;
@@ -340,7 +305,6 @@ contract DSTokenBase is ERC20, DSMath {
     }
 }
 
-
 contract DSStop is DSAuth, DSNote {
     bool public stopped;
 
@@ -355,7 +319,6 @@ contract DSStop is DSAuth, DSNote {
         stopped = false;
     }
 }
-
 
 contract DSToken is DSTokenBase(0), DSStop {
     bytes32 public symbol;
@@ -402,15 +365,12 @@ contract DSToken is DSTokenBase(0), DSStop {
         _supply = sub(_supply, wad);
     }
 
-    
     function generatorTransfer(
         address dst,
         uint wad
     ) onlyGenerator note returns (bool) {
         return super.transfer(dst, wad);
     }
-
-    
 
     bytes32 public name = "";
 

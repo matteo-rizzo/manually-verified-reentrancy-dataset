@@ -1,0 +1,232 @@
+{
+  "attributes": {
+    "exportedSymbols": {
+      "HaiLinHanSC": [
+        16
+      ]
+    }
+  },
+  "children": [
+    {
+      "attributes": {
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".25",
+          "<",
+          "0.6",
+          ".0"
+        ]
+      },
+      "id": 1,
+      "name": "PragmaDirective",
+      "src": "2:32:0"
+    },
+    {
+      "attributes": {
+        "baseContracts": [
+          null
+        ],
+        "contractDependencies": [
+          null
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          16
+        ],
+        "name": "HaiLinHanSC",
+        "scope": 17
+      },
+      "children": [
+        {
+          "attributes": {
+            "anonymous": false,
+            "documentation": null,
+            "name": "Added"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "indexed": false,
+                    "name": "product_info",
+                    "scope": 5,
+                    "stateVariable": false,
+                    "storageLocation": "default",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 2,
+                      "name": "ElementaryTypeName",
+                      "src": "71:6:0"
+                    }
+                  ],
+                  "id": 3,
+                  "name": "VariableDeclaration",
+                  "src": "71:19:0"
+                }
+              ],
+              "id": 4,
+              "name": "ParameterList",
+              "src": "70:21:0"
+            }
+          ],
+          "id": 5,
+          "name": "EventDefinition",
+          "src": "59:33:0"
+        },
+        {
+          "attributes": {
+            "constant": false,
+            "documentation": null,
+            "implemented": true,
+            "isConstructor": false,
+            "modifiers": [
+              null
+            ],
+            "name": "Add",
+            "payable": false,
+            "scope": 16,
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "product_info",
+                    "scope": 15,
+                    "stateVariable": false,
+                    "storageLocation": "memory",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 6,
+                      "name": "ElementaryTypeName",
+                      "src": "112:6:0"
+                    }
+                  ],
+                  "id": 7,
+                  "name": "VariableDeclaration",
+                  "src": "112:26:0"
+                }
+              ],
+              "id": 8,
+              "name": "ParameterList",
+              "src": "111:28:0"
+            },
+            {
+              "attributes": {
+                "parameters": [
+                  null
+                ]
+              },
+              "children": [],
+              "id": 9,
+              "name": "ParameterList",
+              "src": "147:0:0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "isStructConstructorCall": false,
+                        "lValueRequested": false,
+                        "names": [
+                          null
+                        ],
+                        "type": "tuple()",
+                        "type_conversion": false
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_string_memory_ptr",
+                                "typeString": "string memory"
+                              }
+                            ],
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 5,
+                            "type": "function (string memory)",
+                            "value": "Added"
+                          },
+                          "id": 10,
+                          "name": "Identifier",
+                          "src": "156:5:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 7,
+                            "type": "string memory",
+                            "value": "product_info"
+                          },
+                          "id": 11,
+                          "name": "Identifier",
+                          "src": "162:12:0"
+                        }
+                      ],
+                      "id": 12,
+                      "name": "FunctionCall",
+                      "src": "156:19:0"
+                    }
+                  ],
+                  "id": 13,
+                  "name": "EmitStatement",
+                  "src": "151:24:0"
+                }
+              ],
+              "id": 14,
+              "name": "Block",
+              "src": "147:32:0"
+            }
+          ],
+          "id": 15,
+          "name": "FunctionDefinition",
+          "src": "99:80:0"
+        }
+      ],
+      "id": 16,
+      "name": "ContractDefinition",
+      "src": "35:146:0"
+    }
+  ],
+  "id": 17,
+  "name": "SourceUnit",
+  "src": "2:179:0"
+}

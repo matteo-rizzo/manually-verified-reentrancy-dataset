@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.4.25;
-
 contract Piggy_Bank
 {
     function Put(uint _unlockTime)
@@ -52,7 +48,6 @@ contract Piggy_Bank
         LogFile = Log(log);
     }
 }
-
 
 contract Log 
 {

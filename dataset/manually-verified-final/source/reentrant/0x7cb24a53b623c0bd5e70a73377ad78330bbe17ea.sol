@@ -1,8 +1,3 @@
-
-
-pragma solidity ^0.5.16;
-
-
 library SafeMath {
     function add(uint a, uint b) internal pure returns (uint) {
         uint c = a + b;
@@ -33,36 +28,11 @@ library SafeMath {
         return div(a, b, "SafeMath: division by zero");
     }
     function div(uint a, uint b, string memory errorMessage) internal pure returns (uint) {
-        
+
         require(b > 0, errorMessage);
         uint c = a / b;
 
         return c;
-    }
-}
-
-
-contract Ownable {
-    address public owner;
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    
-    constructor() public {
-        owner = msg.sender;
-    }
-
-
-    
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-
-    
-    function transferOwnership(address newOwner) public onlyOwner {
-        require(newOwner != address(0));
-        emit OwnershipTransferred(owner, newOwner);
-        owner = newOwner;
     }
 }
 
@@ -86,7 +56,6 @@ contract JTN is Ownable{
     event AddAdviser(address indexed down, address indexed up);
     event Withdraw(address indexed to, uint256 value);
     event GovWithdraw(address indexed to, uint256 value);
-
 
     uint constant private minInvestmentLimit = 10 finney;
     uint constant private vipBasePrice = 1 ether;

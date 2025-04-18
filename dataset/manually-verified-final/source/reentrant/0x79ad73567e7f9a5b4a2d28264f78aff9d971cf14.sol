@@ -1,7 +1,3 @@
-
-
-
-pragma solidity >=0.6.8;
 contract _50Win {
     struct Bet {
         address creator;
@@ -10,7 +6,7 @@ contract _50Win {
         uint256 value;
         uint256 betFor; 
     }
-    
+
     address private _chef;
     mapping(address => Bet) public Bets;
     address[] public BetLUT;
@@ -18,18 +14,18 @@ contract _50Win {
     uint256 public _tipsRate;
     uint256 public _refRate;
     uint256 public _cancelFee;
-    
+
     event NewBet (address creator, uint256 betFor, uint256 value, uint256 time);
     event CancelBet (address creator, uint256 betFor, uint256 value);
     event WinBet (address indexed creator, address indexed joiner, address indexed ref, uint256 betFor, uint256 win, uint256 value, uint256 time);
-    
+
     constructor () public {
         _chef = msg.sender;
         _tipsRate=500; _cancelFee=100; _refRate=100;
     }
-    
+
     function toss() internal view returns(uint256) { return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, block.gaslimit, block.coinbase, block.number)))%2; }
-    
+
     function send(address to, uint256 amt, uint256 tips, address ref) private returns (bool){
         (bool sentTo,) = address(to).call{value : amt-tips}("");
         if(tips>0) {
@@ -38,14 +34,14 @@ contract _50Win {
                 (bool sentRef,) = address(ref).call{value : refEarn}("");
                 if(sentRef) tips -= refEarn;
             }
-            
+
             (bool sentFee,) = address(_chef).call{value : tips}("");
             _chefTips += tips;
             return sentTo&&sentFee;
         }
         return sentTo;
     }
-    
+
     function removeBet(address addr) private {
         for (uint256 i = 0; i < BetLUT.length; i++) {
             if (BetLUT[i] == addr) {
@@ -56,7 +52,7 @@ contract _50Win {
             }
         }
     }
-    
+
     function createBet (uint256 betFor, address ref) public payable {
         require(msg.value > 0, "Cant bet for zero"); require(betFor < 2, "BetFor 1 or 0");
         require(msg.sender != ref, "!self ref");require(Bets[msg.sender].value == 0, "You have a pending bet");
@@ -64,7 +60,7 @@ contract _50Win {
         BetLUT.push(msg.sender);
         emit NewBet(msg.sender, betFor, msg.value, block.timestamp);
     }
-    
+
     function cancelBet () public payable {
         require(Bets[msg.sender].value > 0, "You have no pending bet");
         uint256 fee = Bets[msg.sender].value * _cancelFee/10000;
@@ -72,7 +68,7 @@ contract _50Win {
         removeBet(msg.sender);
         emit CancelBet (msg.sender, Bets[msg.sender].betFor, Bets[msg.sender].value);
     }
-    
+
     function takeBet (address with) public payable {
         require(tx.origin == msg.sender, "Humans only");
         Bet memory bet = Bets[with];
@@ -83,13 +79,13 @@ contract _50Win {
         uint256 winNum = toss();
         if(winNum==bet.betFor) require(send(with, win, tips, bet.referrer), 'Reward failed');
         else require(send(msg.sender, win, tips, bet.referrer), 'Reward failed');
-        
+
         removeBet(with);
         emit WinBet (with, msg.sender, bet.referrer, bet.betFor, winNum, msg.value, block.timestamp);
     }
-    
+
     function countBets() public view returns (uint256) { return BetLUT.length; }
-    
+
     function chefTips() public view returns (uint256) { require(msg.sender==_chef, "!chef"); return _chefTips; }
     function setTipRate(uint256 rate) public { require(msg.sender==_chef, "!chef");require(rate <= 1500, "hey chef! don't be greedy");_tipsRate = rate; }
     function setRefRate(uint256 rate) public { require(msg.sender==_chef, "!chef");require(rate <= 1500, "nax 15%");_refRate = rate; }

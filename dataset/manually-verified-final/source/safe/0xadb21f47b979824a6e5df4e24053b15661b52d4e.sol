@@ -1,40 +1,21 @@
-
-pragma solidity >=0.4.22 <0.8.0;
-
-
-
-
-
-
 interface IERC20 {
-    
+
     function totalSupply() external view returns (uint256);
 
-    
     function balanceOf(address account) external view returns (uint256);
 
-    
     function transfer(address recipient, uint256 amount) external returns (bool);
 
-    
     function allowance(address owner, address spender) external view returns (uint256);
 
-    
     function approve(address spender, uint256 amount) external returns (bool);
 
-    
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
-
- 
-
-
 
 contract PhilanthropyLocker {
     IERC20 private _token;
@@ -45,7 +26,7 @@ contract PhilanthropyLocker {
         _token = IERC20(address(0x95DA1E3eECaE3771ACb05C145A131Dca45C67FD4));
         _beneficiary = address(0x253cfB1F4a54a4154FbD4300a7756aD8BCb005c8);
         _releaseTime = 1630540800;
-        
+
     }
 
     function token() public view returns (IERC20) {

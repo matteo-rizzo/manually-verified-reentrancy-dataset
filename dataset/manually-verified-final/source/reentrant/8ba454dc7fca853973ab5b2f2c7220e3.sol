@@ -1,59 +1,9 @@
-pragma solidity ^ 0.4.13;
-
 contract MigrationAgent {
     function migrateFrom(address _from, uint256 _value);
 }
 
 contract PreZeusToken {
     function balanceOf(address _owner) constant returns(uint256 balance);
-}
-
-contract Owned {
-
-    address public owner;
-    address public newOwner;
-    address public oracle;
-    address public btcOracle;
-
-    function Owned() payable {
-        owner = msg.sender;
-    }
-
-    modifier onlyOwner {
-        require(owner == msg.sender);
-        _;
-    }
-
-    modifier onlyOwnerOrOracle {
-        require(owner == msg.sender || oracle == msg.sender);
-        _;
-    }
-
-    modifier onlyOwnerOrBtcOracle {
-        require(owner == msg.sender || btcOracle == msg.sender);
-        _;
-    }
-
-    function changeOwner(address _owner) onlyOwner external {
-        require(_owner != 0);
-        newOwner = _owner;
-    }
-
-    function confirmOwner() external {
-        require(newOwner == msg.sender);
-        owner = newOwner;
-        delete newOwner;
-    }
-
-    function changeOracle(address _oracle) onlyOwner external {
-        require(_oracle != 0);
-        oracle = _oracle;
-    }
-
-    function changeBtcOracle(address _btcOracle) onlyOwner external {
-        require(_btcOracle != 0);
-        btcOracle = _btcOracle;
-    }
 }
 
 contract KnownContract {
@@ -130,7 +80,6 @@ contract Crowdsale is Owned, Stateful {
 
     function Crowdsale() payable Owned() {}
 
-    
     function emitTokens(address _investor, uint _tokenPriceUSDWEI, uint _usdwei) internal returns(uint tokensToEmit);
 
     function emitAdditionalTokens() internal;
@@ -241,7 +190,6 @@ contract Crowdsale is Owned, Stateful {
         setState(State.PreSale);
     }
 
-
     function finishPreSale() public onlyOwner {
         require(state == State.PreSale);
         bool isSent = beneficiary.call.gas(3000000).value(this.balance)();
@@ -308,7 +256,6 @@ contract Crowdsale is Owned, Stateful {
         setState(State.CrowdsaleCompleted);
     }
 
-
     function setEtherPriceUSDWEI(uint _etherPriceUSDWEI) external onlyOwnerOrOracle {
         etherPriceUSDWEI = _etherPriceUSDWEI;
     }
@@ -318,7 +265,6 @@ contract Crowdsale is Owned, Stateful {
         beneficiary = _beneficiary;
     }
 
-    
     function withdrawBack() external saleFailedState {
         returnInvestmentsToInternal(msg.sender);
     }
@@ -436,7 +382,6 @@ contract MigratableToken is Token {
         migrationHost = _address;
     }
 
-    
     function migrateInvestorFromHost(address _address) external onlyOwner {
         require(migrationHost != 0 && state != State.SaleFailed && migratedInvestors[_address] == false);
         PreZeusToken preZeus = PreZeusToken(migrationHost);
@@ -456,7 +401,6 @@ contract MigratableToken is Token {
         Transfer(this, _address, tokensToTransfer);
     }
 
-    
     function migrate() external {
         require(migrationAgent != 0);
         uint value = balances[msg.sender];

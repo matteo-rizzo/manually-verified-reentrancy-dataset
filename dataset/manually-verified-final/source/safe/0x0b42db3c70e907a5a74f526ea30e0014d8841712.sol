@@ -1,14 +1,4 @@
-
-
-
-
-pragma solidity 0.4.25;
-
-
-
 contract EternalStorage {
-
-
 
     mapping(bytes32 => uint256) internal uintStorage;
 
@@ -22,19 +12,11 @@ contract EternalStorage {
 
     mapping(bytes32 => int256) internal intStorage;
 
-
-
 }
-
-
 
 contract UpgradeabilityOwnerStorage {
 
-  
-
     address private _upgradeabilityOwner;
-
-    
 
     function upgradeabilityOwner() public view returns (address) {
 
@@ -42,27 +24,15 @@ contract UpgradeabilityOwnerStorage {
 
     }
 
-
-
-    
-
     function setUpgradeabilityOwner(address newUpgradeabilityOwner) internal {
 
         _upgradeabilityOwner = newUpgradeabilityOwner;
 
     }
 
-
-
 }
 
-
-
 contract Proxy {
-
-
-
-    
 
     function () public payable {
 
@@ -72,21 +42,15 @@ contract Proxy {
 
         bytes memory data = msg.data;
 
-
-
         assembly {
 
             let result := delegatecall(gas, _impl, add(data, 0x20), mload(data), 0, 0)
 
             let size := returndatasize
 
-
-
             let ptr := mload(0x40)
 
             returndatacopy(ptr, 0, size)
-
-
 
             switch result
 
@@ -98,35 +62,21 @@ contract Proxy {
 
     }
 
-
-
-    
-
     function implementation() public view returns (address);
 
 }
 
-
-
 contract UpgradeabilityStorage {
-
-  
 
     string internal _version;
 
-    
-
     address internal _implementation;
-
-    
 
     function version() public view returns (string) {
 
         return _version;
 
     }
-
-    
 
     function implementation() public view returns (address) {
 
@@ -136,17 +86,9 @@ contract UpgradeabilityStorage {
 
 }
 
-
-
 contract UpgradeabilityProxy is Proxy, UpgradeabilityStorage {
 
-  
-
     event Upgraded(string version, address indexed implementation);
-
-
-
-    
 
     function _upgradeTo(string version, address implementation) internal {
 
@@ -162,27 +104,15 @@ contract UpgradeabilityProxy is Proxy, UpgradeabilityStorage {
 
 }
 
-
-
 contract OwnedUpgradeabilityProxy is UpgradeabilityOwnerStorage, UpgradeabilityProxy {
 
-    
-
     event ProxyOwnershipTransferred(address previousOwner, address newOwner);
-
-
-
-    
 
     function OwnedUpgradeabilityProxy(address _owner) public {
 
         setUpgradeabilityOwner(_owner);
 
     }
-
-
-
-    
 
     modifier onlyProxyOwner() {
 
@@ -192,19 +122,11 @@ contract OwnedUpgradeabilityProxy is UpgradeabilityOwnerStorage, UpgradeabilityP
 
     }
 
-
-
-    
-
     function proxyOwner() public view returns (address) {
 
         return upgradeabilityOwner();
 
     }
-
-
-
-    
 
     function transferProxyOwnership(address newOwner) public onlyProxyOwner {
 
@@ -216,19 +138,11 @@ contract OwnedUpgradeabilityProxy is UpgradeabilityOwnerStorage, UpgradeabilityP
 
     }
 
-
-
-    
-
     function upgradeTo(string version, address implementation) public onlyProxyOwner {
 
         _upgradeTo(version, implementation);
 
     }
-
-
-
-    
 
     function upgradeToAndCall(string version, address implementation, bytes data) payable public onlyProxyOwner {
 
@@ -240,14 +154,8 @@ contract OwnedUpgradeabilityProxy is UpgradeabilityOwnerStorage, UpgradeabilityP
 
 }
 
-
-
 contract BraveMultisender is OwnedUpgradeabilityProxy, EternalStorage {
 
-
-
     function BraveMultisender(address _owner) public OwnedUpgradeabilityProxy(_owner) {}
-
-
 
 }

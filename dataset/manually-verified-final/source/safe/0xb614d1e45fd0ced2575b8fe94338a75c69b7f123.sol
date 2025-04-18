@@ -1,24 +1,12 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract owned {
 
     address public owner;
-
-
 
     constructor() public {
 
         owner = msg.sender;
 
     }
-
-
 
     modifier onlyOwner {
 
@@ -28,8 +16,6 @@ contract owned {
 
     }
 
-
-
     function transferOwnership(address newOwner) onlyOwner public {
 
         owner = newOwner;
@@ -38,15 +24,9 @@ contract owned {
 
 }
 
-
-
 interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes calldata ) external; }
 
-
-
 contract TokenERC20 {
-
-    
 
     string public name = "KryptoBot";
 
@@ -54,39 +34,17 @@ contract TokenERC20 {
 
     uint8 public decimals = 18;
 
-    
-
     uint256 public totalSupply = 21000000;
-
-
-
-    
 
     mapping (address => uint256) public balanceOf;
 
     mapping (address => mapping (address => uint256)) public allowance;
 
-
-
-    
-
     event Transfer(address indexed from, address indexed to, uint256 value);
-
-    
-
-    
 
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
-
-
-    
-
     event Burn(address indexed from, uint256 value);
-
-
-
-    
 
     constructor(
 
@@ -108,47 +66,25 @@ contract TokenERC20 {
 
     }
 
-
-
-    
-
     function _transfer(address _from, address _to, uint _value) internal {
-
-        
 
         require(_to != address(0x0));
 
-        
-
         require(balanceOf[_from] >= _value);
-
-        
 
         require(balanceOf[_to] + _value > balanceOf[_to]);
 
-        
-
         uint previousBalances = balanceOf[_from] + balanceOf[_to];
 
-        
-
         balanceOf[_from] -= _value;
-
-        
 
         balanceOf[_to] += _value;
 
         emit Transfer(_from, _to, _value);
 
-        
-
         assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
 
     }
-
-
-
-    
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
 
@@ -157,10 +93,6 @@ contract TokenERC20 {
         return true;
 
     }
-
-
-
-    
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
 
@@ -174,10 +106,6 @@ contract TokenERC20 {
 
     }
 
-
-
-    
-
     function approve(address _spender, uint256 _value) public
 
         returns (bool success) {
@@ -189,10 +117,6 @@ contract TokenERC20 {
         return true;
 
     }
-
-
-
-    
 
     function approveAndCall(address _spender, uint256 _value, bytes memory _extraData)
 
@@ -212,10 +136,6 @@ contract TokenERC20 {
 
     }
 
-
-
-    
-
     function burn(uint256 _value) public returns (bool success) {
 
         require(balanceOf[msg.sender] >= _value);   
@@ -229,10 +149,6 @@ contract TokenERC20 {
         return true;
 
     }
-
-
-
-    
 
     function burnFrom(address _from, uint256 _value) public returns (bool success) {
 
@@ -254,37 +170,15 @@ contract TokenERC20 {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 contract MyAdvancedToken is owned, TokenERC20 {
-
-
 
     uint256 public sellPrice;
 
     uint256 public buyPrice;
 
-
-
     mapping (address => bool) public frozenAccount;
 
-
-
-    
-
     event FrozenFunds(address target, bool frozen);
-
-
-
-    
 
     constructor(
 
@@ -295,10 +189,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
         string memory tokenSymbol
 
     ) TokenERC20(initialSupply, tokenName, tokenSymbol) public {}
-
-
-
-    
 
     function _transfer(address _from, address _to, uint _value) internal {
 
@@ -320,14 +210,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
 
     }
 
-
-
-    
-
-    
-
-    
-
     function mintToken(address target, uint256 mintedAmount) onlyOwner public {
 
         balanceOf[target] += mintedAmount;
@@ -340,14 +222,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
 
     }
 
-
-
-    
-
-    
-
-    
-
     function freezeAccount(address target, bool freeze) onlyOwner public {
 
         frozenAccount[target] = freeze;
@@ -355,14 +229,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
         emit FrozenFunds(target, freeze);
 
     }
-
-
-
-    
-
-    
-
-    
 
     function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner public {
 
@@ -372,10 +238,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
 
     }
 
-
-
-    
-
     function buy() payable public {
 
         uint amount = msg.value / buyPrice;                 
@@ -383,12 +245,6 @@ contract MyAdvancedToken is owned, TokenERC20 {
         _transfer(address(this), msg.sender, amount);       
 
     }
-
-
-
-    
-
-    
 
     function sell(uint256 amount) public {
 

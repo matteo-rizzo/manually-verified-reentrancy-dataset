@@ -1,35 +1,3 @@
-pragma solidity ^0.4.19;
-
-contract Ownable {
-  address public owner;
-
-
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-
-  
-  function Ownable() {
-    owner = msg.sender;
-  }
-
-
-  
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-
-  
-  function transferOwnership(address newOwner) onlyOwner public {
-    require(newOwner != address(0));
-    OwnershipTransferred(owner, newOwner);
-    owner = newOwner;
-  }
-
-}
-
-
 contract ERC20Basic {
   uint256 public totalSupply;
   function balanceOf(address who) public view returns (uint256);
@@ -37,9 +5,8 @@ contract ERC20Basic {
   event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-
 library KeysUtils {
-    
+
     struct Object {
         uint32 gasPriceGwei;
         uint32 gasLimit;
@@ -59,10 +26,7 @@ library KeysUtils {
 
     function toKey(address _address, uint _timestamp, uint _gasLimit, uint _gasPrice) internal pure returns (bytes32 result) {
         result = 0x0000000000000000000000000000000000000000000000000000000000000000;
-        
-        
-        
-        
+
         assembly {
             result := or(result, mul(_address, 0x1000000000000000000000000))
             result := or(result, mul(and(_timestamp, 0xffffffff), 0x10000000000000000))
@@ -103,39 +67,31 @@ contract TransferToken is Ownable {
     }
 }
 
-
 contract JouleProxyAPI {
-    
+
     function callback(address _contract) public;
 }
 
 contract CheckableContract {
     event Checked();
-    
+
     function check() public;
 }
-
 
 contract JouleAPI {
     event Invoked(address indexed _address, bool _status, uint _usedGas);
     event Registered(address indexed _address, uint _timestamp, uint _gasLimit, uint _gasPrice);
 
-    
     function register(address _address, uint _timestamp, uint _gasLimit, uint _gasPrice) external payable returns (uint);
 
-    
     function invoke() public returns (uint);
 
-    
     function invokeTop() public returns (uint);
 
-    
     function getPrice(uint _gasLimit, uint _gasPrice) external view returns (uint);
 
-    
     function getCount() public view returns (uint);
 
-    
     function getTop() external view returns (
         address contractAddress,
         uint timestamp,
@@ -143,7 +99,6 @@ contract JouleAPI {
         uint gasPrice
     );
 
-    
     function getTop(uint _count) external view returns (
         address[] addresses,
         uint[] timestamps,
@@ -151,31 +106,23 @@ contract JouleAPI {
         uint[] gasPrices
     );
 
-    
     function getVersion() external view returns (bytes8);
 }
 
-
-
 contract usingConsts {
     uint constant GWEI = 0.001 szabo;
-    
+
     uint constant IDLE_GAS = 22273;
     uint constant MAX_GAS = 4000000;
-    
-    bytes8 constant VERSION = 0x0100001300000000;
-    
-    
-    
-    
-}
 
+    bytes8 constant VERSION = 0x0100001300000000;
+
+}
 
 contract JouleIndex {
     using KeysUtils for bytes32;
     uint constant YEAR = 0x1DFE200;
 
-    
     mapping (bytes32 => bytes32) index;
     bytes32 head;
 
@@ -254,13 +201,13 @@ contract JouleIndex {
             return 0;
         }
         if (year > _high) {
-            
+
             (low, high) = fromValue(index[_high]);
-            
+
             (low, high) = fromValue(index[high]);
-            
+
             (low, high) = fromValue(index[high]);
-            
+
             (low, high) = fromValue(index[high]);
             return index[high];
         }
@@ -276,7 +223,7 @@ contract JouleIndex {
                     return key;
                 }
             }
-            
+
             assembly {
                 year := sub(year, 0x1DFE200)
             }
@@ -295,11 +242,11 @@ contract JouleIndex {
         bytes32 high;
 
         if (week > _high) {
-            
+
             (low, high) = fromValue(index[_high]);
-            
+
             (low, high) = fromValue(index[high]);
-            
+
             (low, high) = fromValue(index[high]);
             return index[high];
         }
@@ -313,14 +260,12 @@ contract JouleIndex {
                 }
             }
 
-            
             assembly {
                 week := sub(week, 604800)
             }
         }
         return 0;
     }
-
 
     function findFloorKeyHour(uint _timestamp, bytes32 _low, bytes32 _high) view internal returns (bytes32) {
         bytes32 hour = toKey(_timestamp, 1 hours);
@@ -332,9 +277,9 @@ contract JouleIndex {
         bytes32 high;
 
         if (hour > _high) {
-            
+
             (low, high) = fromValue(index[_high]);
-            
+
             (low, high) = fromValue(index[high]);
             return index[high];
         }
@@ -348,7 +293,6 @@ contract JouleIndex {
                 }
             }
 
-            
             assembly {
                 hour := sub(hour, 3600)
             }
@@ -366,7 +310,7 @@ contract JouleIndex {
         bytes32 high;
 
         if (minute > _high) {
-            
+
             (low, high) = fromValue(index[_high]);
             return index[high];
         }
@@ -380,7 +324,6 @@ contract JouleIndex {
                 }
             }
 
-            
             assembly {
                 minute := sub(minute, 60)
             }
@@ -412,10 +355,6 @@ contract JouleIndex {
 
     function findFloorKey(uint _timestamp) view public returns (bytes32) {
 
-
-
-
-
         bytes32 yearLow;
         bytes32 yearHigh;
         (yearLow, yearHigh) = fromValue(head);
@@ -424,9 +363,7 @@ contract JouleIndex {
     }
 
     function toKey(uint _timestamp, uint rounder) pure internal returns (bytes32 result) {
-        
-        
-        
+
         assembly {
             result := or(mul(rounder, 0x100000000), mul(div(_timestamp, rounder), rounder))
         }
@@ -445,12 +382,10 @@ contract JouleIndex {
         }
     }
 
-
     function toKey(uint timestamp) pure internal returns (bytes32) {
         return bytes32(timestamp);
     }
 }
-
 
 contract JouleContractHolder is usingConsts {
     using KeysUtils for bytes32;
@@ -475,20 +410,19 @@ contract JouleContractHolder is usingConsts {
         }
         bytes32 previous = index.findFloorKey(_timestamp);
 
-        
         require(previous != id);
-        
+
         require(objects[id] == 0);
 
         uint prevTimestamp = previous.getTimestamp();
 
         uint headTimestamp = head.getTimestamp();
-        
+
         if (prevTimestamp < headTimestamp) {
             objects[id] = head;
             head = id;
         }
-        
+
         else {
             objects[id] = objects[previous];
             objects[previous] = id;
@@ -543,7 +477,7 @@ contract JouleContractHolder is usingConsts {
         gasLimit = obj.gasLimit;
         gasPrice = obj.gasPriceGwei * GWEI;
     }
-    
+
         function getNext(address _contractAddress,
                      uint _timestamp,
                      uint _gasLimit,
@@ -569,7 +503,6 @@ contract JouleContractHolder is usingConsts {
 
 }
 
-
 contract Joule is JouleAPI, JouleContractHolder {
     function register(address _address, uint _timestamp, uint _gasLimit, uint _gasPrice) external payable returns (uint) {
         uint price = this.getPrice(_gasLimit, _gasPrice);
@@ -578,7 +511,7 @@ contract Joule is JouleAPI, JouleContractHolder {
         require(_timestamp > now);
         require(_timestamp < 0x100000000);
         require(_gasLimit < MAX_GAS);
-        
+
         require(_gasPrice > GWEI);
         require(_gasPrice < 0x100000000 * GWEI);
 
@@ -653,13 +586,11 @@ contract Joule is JouleAPI, JouleContractHolder {
         return amount;
     }
 
-
     function invokeCallback(address _contract, uint _gas) internal returns (bool) {
         return _contract.call.gas(_gas)(0x919840ad);
     }
 
 }
-
 
 contract JouleBehindProxy is Joule, Ownable, TransferToken {
     address public proxy;
@@ -753,8 +684,6 @@ contract JouleProxy is JouleProxyAPI, JouleAPI, Ownable, TransferToken {
     ) {
         (contractAddress, timestamp, gasLimit, gasPrice) = joule.getNext(_contractAddress, _timestamp, _gasLimit, _gasPrice);
     }
-
-
 
     function getTop(uint _count) external view returns (
         address[] _addresses,

@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
-
 interface IERC20 {
 
     function transfer(address to, uint256 value) external returns (bool);
@@ -25,8 +17,6 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
 }
-
-
 
 contract ERC20 is IERC20 {
 
@@ -160,8 +150,6 @@ contract ERC20 is IERC20 {
 
 }
 
-
-
 contract ERC20Detailed is IERC20 {
 
     string private _name;
@@ -199,8 +187,6 @@ contract ERC20Detailed is IERC20 {
     }
 
 }
-
-
 
 library SafeMath {
 
@@ -259,8 +245,6 @@ library SafeMath {
     }
 
 }
-
-
 
 contract WINEToken is ERC20, ERC20Detailed {
 

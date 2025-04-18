@@ -1,5 +1,3 @@
-pragma solidity ^0.4.11;
-
 library SafeMath {
   function mul(uint256 a, uint256 b) internal constant returns (uint256) {
     uint256 c = a * b;
@@ -8,9 +6,9 @@ library SafeMath {
   }
 
   function div(uint256 a, uint256 b) internal constant returns (uint256) {
-    
+
     uint256 c = a / b;
-    
+
     return c;
   }
 
@@ -30,32 +28,6 @@ contract Crowdsale {
   function buyTokens(address _recipient) payable;
 }
 
-contract Ownable {
-  address public owner;
-
-
-  
-  function Ownable() {
-    owner = msg.sender;
-  }
-
-
-  
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-
-  
-  function transferOwnership(address newOwner) onlyOwner {
-    if (newOwner != address(0)) {
-      owner = newOwner;
-    }
-  }
-
-}
-
 contract Preallocation is Ownable {
     using SafeMath for uint;
 
@@ -72,7 +44,6 @@ contract Preallocation is Ownable {
 
     event InvestmentSucceeded(uint value);
     event InvestmentFailed();
-
 
     function Preallocation(address _investor, uint _maxBalance) {
         investor = _investor;

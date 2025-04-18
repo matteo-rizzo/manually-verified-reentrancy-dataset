@@ -1,55 +1,28 @@
-pragma solidity ^0.4.0;
-
-
-
-
-
-
-
-
-
-
-
 contract multiowned {
-    
 
-    
     struct PendingState {
         uint yetNeeded;
         uint ownersDone;
         uint index;
     }
 
-    
-
-    
-    
     event Confirmation(address owner, bytes32 operation);
     event Revoke(address owner, bytes32 operation);
-    
+
     event OwnerChanged(address oldOwner, address newOwner);
     event OwnerAdded(address newOwner);
     event OwnerRemoved(address oldOwner);
-    
+
     event RequirementChanged(uint newRequirement);
 
-    
-
-    
     modifier onlyowner() {
         if (isOwner(msg.sender)) _;
     }
-    
-    
-    
+
     modifier onlymanyowners(bytes32 _operation) {
         if (confirmAndCheck(_operation)) _;
     }
 
-    
-
-    
-    
     function multiowned(address[] _owners, uint _required) {
         m_numOwners = _owners.length + 1;
         m_owners[1] = uint(msg.sender);
@@ -61,10 +34,9 @@ contract multiowned {
         m_required = _required;
     }
 
-    
     function revoke(bytes32 _operation) external {
         uint ownerIndex = m_ownerIndex[uint(msg.sender)];
-        
+
         if (ownerIndex == 0) return;
         uint ownerIndexBit = 2 ** ownerIndex;
         var pending = m_pending[_operation];
@@ -75,7 +47,6 @@ contract multiowned {
         }
     }
 
-    
     function changeOwner(
         address _from,
         address _to
@@ -126,7 +97,6 @@ contract multiowned {
         RequirementChanged(_newRequired);
     }
 
-    
     function getOwner(uint ownerIndex) external constant returns (address) {
         return address(m_owners[ownerIndex + 1]);
     }
@@ -142,45 +112,41 @@ contract multiowned {
         var pending = m_pending[_operation];
         uint ownerIndex = m_ownerIndex[uint(_owner)];
 
-        
         if (ownerIndex == 0) return false;
 
-        
         uint ownerIndexBit = 2 ** ownerIndex;
         return !(pending.ownersDone & ownerIndexBit == 0);
     }
 
-    
-
     function confirmAndCheck(bytes32 _operation) internal returns (bool) {
-        
+
         uint ownerIndex = m_ownerIndex[uint(msg.sender)];
-        
+
         if (ownerIndex == 0) return;
 
         var pending = m_pending[_operation];
-        
+
         if (pending.yetNeeded == 0) {
-            
+
             pending.yetNeeded = m_required;
-            
+
             pending.ownersDone = 0;
             pending.index = m_pendingIndex.length++;
             m_pendingIndex[pending.index] = _operation;
         }
-        
+
         uint ownerIndexBit = 2 ** ownerIndex;
-        
+
         if (pending.ownersDone & ownerIndexBit == 0) {
             Confirmation(msg.sender, _operation);
-            
+
             if (pending.yetNeeded <= 1) {
-                
+
                 delete m_pendingIndex[m_pending[_operation].index];
                 delete m_pending[_operation];
                 return true;
             } else {
-                
+
                 pending.yetNeeded--;
                 pending.ownersDone |= ownerIndexBit;
             }
@@ -211,64 +177,47 @@ contract multiowned {
         delete m_pendingIndex;
     }
 
-    
-
-    
     uint public m_required;
-    
+
     uint public m_numOwners;
 
-    
     uint[256] m_owners;
     uint constant c_maxOwners = 250;
-    
+
     mapping(uint => uint) m_ownerIndex;
-    
+
     mapping(bytes32 => PendingState) m_pending;
     bytes32[] m_pendingIndex;
 }
 
-
-
-
 contract daylimit is multiowned {
-    
 
-    
     modifier limitedDaily(uint _value) {
         if (underLimit(_value)) _;
     }
 
-    
-
-    
     function daylimit(uint _limit) {
         m_dailyLimit = _limit;
         m_lastDay = today();
     }
-    
+
     function setDailyLimit(
         uint _newLimit
     ) external onlymanyowners(sha3(msg.data)) {
         m_dailyLimit = _newLimit;
     }
-    
+
     function resetSpentToday() external onlymanyowners(sha3(msg.data)) {
         m_spentToday = 0;
     }
 
-    
-
-    
-    
     function underLimit(uint _value) internal onlyowner returns (bool) {
-        
+
         if (today() > m_lastDay) {
             m_spentToday = 0;
             m_lastDay = today();
         }
-        
-        
+
         if (
             m_spentToday + _value >= m_spentToday &&
             m_spentToday + _value <= m_dailyLimit
@@ -278,28 +227,22 @@ contract daylimit is multiowned {
         }
         return false;
     }
-    
+
     function today() private constant returns (uint) {
         return now / 1 days;
     }
-
-    
 
     uint public m_dailyLimit;
     uint public m_spentToday;
     uint public m_lastDay;
 }
 
-
 contract multisig {
-    
 
-    
-    
     event Deposit(address _from, uint value);
-    
+
     event SingleTransact(address owner, uint value, address to, bytes data);
-    
+
     event MultiTransact(
         address owner,
         bytes32 operation,
@@ -307,7 +250,7 @@ contract multisig {
         address to,
         bytes data
     );
-    
+
     event ConfirmationNeeded(
         bytes32 operation,
         address initiator,
@@ -316,9 +259,6 @@ contract multisig {
         bytes data
     );
 
-    
-
-    
     function changeOwner(address _from, address _to) external;
     function execute(
         address _to,
@@ -328,57 +268,42 @@ contract multisig {
     function confirm(bytes32 _h) returns (bool);
 }
 
-
-
-
 contract Wallet is multisig, multiowned, daylimit {
-    
 
-    
     struct Transaction {
         address to;
         uint value;
         bytes data;
     }
 
-    
-
-    
-    
     function Wallet(
         address[] _owners,
         uint _required,
         uint _daylimit
     ) multiowned(_owners, _required) daylimit(_daylimit) {}
 
-    
     function kill(address _to) external onlymanyowners(sha3(msg.data)) {
         suicide(_to);
     }
 
-    
     function() payable {
-        
+
         if (msg.value > 0) Deposit(msg.sender, msg.value);
     }
 
-    
-    
-    
-    
     function execute(
         address _to,
         uint _value,
         bytes _data
     ) external onlyowner returns (bytes32 _r) {
-        
+
         if (underLimit(_value)) {
             SingleTransact(msg.sender, _value, _to, _data);
-            
+
             _to.call.value(_value)(_data);
             return 0;
         }
-        
+
         _r = sha3(msg.data, block.number);
         if (!confirm(_r) && m_txs[_r].to == 0) {
             m_txs[_r].to = _to;
@@ -388,8 +313,6 @@ contract Wallet is multisig, multiowned, daylimit {
         }
     }
 
-    
-    
     function confirm(bytes32 _h) onlymanyowners(_h) returns (bool) {
         if (m_txs[_h].to != 0) {
             m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);
@@ -405,16 +328,11 @@ contract Wallet is multisig, multiowned, daylimit {
         }
     }
 
-    
-
     function clearPending() internal {
         uint length = m_pendingIndex.length;
         for (uint i = 0; i < length; ++i) delete m_txs[m_pendingIndex[i]];
         super.clearPending();
     }
 
-    
-
-    
     mapping(bytes32 => Transaction) m_txs;
 }

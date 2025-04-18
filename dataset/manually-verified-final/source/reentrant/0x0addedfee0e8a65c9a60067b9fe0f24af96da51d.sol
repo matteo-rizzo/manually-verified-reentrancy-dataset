@@ -1,22 +1,3 @@
-
-
-pragma solidity >=0.6.1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 library SafeMath {
     function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
         c = a + b;
@@ -35,10 +16,6 @@ library SafeMath {
         c = a / b;
     }
 }
-
-
-
-
 
 interface ERC20Interface {
     function totalSupply() external view returns (uint256);
@@ -65,10 +42,6 @@ interface ERC20Interface {
     );
 }
 
-
-
-
-
 interface ApproveAndCallFallBack {
     function receiveApproval(
         address from,
@@ -78,49 +51,9 @@ interface ApproveAndCallFallBack {
     ) external;
 }
 
-
-
-
-
-contract Owned {
-    address public owner;
-    address public newOwner;
-
-    event OwnershipTransferred(address indexed _from, address indexed _to);
-
-    constructor() public {
-        owner = msg.sender;
-    }
-
-    modifier onlyOwner {
-        require(msg.sender == owner, "unauthorised call");
-        _;
-    }
-
-    function transferOwnership(address _newOwner) public onlyOwner {
-        newOwner = _newOwner;
-    }
-    function acceptOwnership() public {
-        require(msg.sender == newOwner, "unauthorised call");
-        emit OwnershipTransferred(owner, newOwner);
-        owner = newOwner;
-        newOwner = address(0);
-    }
-}
-
-
-
-
-
 interface MedianiserInterface {
     function peek() external view returns (bytes32, bool);
 }
-
-
-
-
-
-
 
 contract PEG is ERC20Interface, Owned {
     using SafeMath for uint256;
@@ -154,11 +87,6 @@ contract PEG is ERC20Interface, Owned {
     event NoAdjustment();
     event FailedAdjustment();
 
-    
-    
-    
-    
-    
     constructor(
         address medianiserAddress,
         uint256 setTimeBetweenPriceAdjustments
@@ -183,21 +111,10 @@ contract PEG is ERC20Interface, Owned {
         emit Transfer(address(0), address(this), _totalSupply);
     }
 
-    
-    
-    
-    
-    
     function totalSupply() public view override returns (uint256) {
         return _totalSupply;
     }
 
-    
-    
-    
-    
-    
-    
     function balanceOf(address owner)
         public
         view
@@ -207,13 +124,6 @@ contract PEG is ERC20Interface, Owned {
         return balances[owner];
     }
 
-    
-    
-    
-    
-    
-    
-    
     function transfer(address to, uint256 tokens)
         public
         canTriggerPriceAdjustment
@@ -230,12 +140,6 @@ contract PEG is ERC20Interface, Owned {
         return true;
     }
 
-    
-    
-    
-    
-    
-    
     function burn(uint256 tokens) public canTriggerPriceAdjustment returns (bool success) {
         _totalSupply = _totalSupply.sub(tokens);
         balances[msg.sender] = balances[msg.sender].sub(tokens);
@@ -244,13 +148,6 @@ contract PEG is ERC20Interface, Owned {
         return true;
     }
 
-    
-    
-    
-    
-    
-    
-    
     function approve(address spender, uint256 tokens)
         public
         canTriggerPriceAdjustment
@@ -262,14 +159,6 @@ contract PEG is ERC20Interface, Owned {
         return true;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     function transferFrom(address from, address to, uint256 tokens)
         public
         canTriggerPriceAdjustment
@@ -287,13 +176,6 @@ contract PEG is ERC20Interface, Owned {
         return true;
     }
 
-    
-    
-    
-    
-    
-    
-    
     function allowance(address owner, address spender)
         public
         view
@@ -303,14 +185,6 @@ contract PEG is ERC20Interface, Owned {
         return allowed[owner][spender];
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     function approveAndCall(address spender, uint256 tokens, bytes memory data)
         public
         canTriggerPriceAdjustment
@@ -327,26 +201,16 @@ contract PEG is ERC20Interface, Owned {
         return true;
     }
 
-    
-    
-    
-    
     receive () external payable {
         getPEG();
     }
 
-    
     modifier canTriggerPriceAdjustment {
         _;
         if (now >= lastPriceAdjustment + timeBetweenPriceAdjustments)
             priceFeedAdjustment();
     }
 
-    
-    
-    
-    
-    
     function getNextPriceAdjustmentTime()
         public
         view
@@ -356,12 +220,6 @@ contract PEG is ERC20Interface, Owned {
         else return lastPriceAdjustment + timeBetweenPriceAdjustments - now;
     }
 
-    
-    
-    
-    
-    
-    
     function getPEG()
         public
         payable
@@ -380,13 +238,6 @@ contract PEG is ERC20Interface, Owned {
         return (true, amountReceivedPEG);
     }
 
-    
-    
-    
-    
-    
-    
-    
     function getEther(uint256 amountGivenPEG)
         public
         canTriggerPriceAdjustment
@@ -409,12 +260,6 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         return (true, amountReceivedEther);
     }
 
-    
-    
-    
-    
-    
-    
     function getPoolBalances()
         public
         view
@@ -423,21 +268,10 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         return (address(this).balance, balanceOf(address(this)));
     }
 
-    
-    
-    
-    
-    
     function inflateEtherPool() public payable returns (bool success) {
         return true;
     }
 
-    
-    
-    
-    
-    
-    
     function getOraclePriceETH_USD()
         public
         view
@@ -448,11 +282,6 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         return (uint256(price), priceIsValid);
     }
 
-    
-    
-    
-    
-    
     function priceFeedAdjustment() private returns (uint256 newPoolPEG) {
         uint256 feedPrice;
         bool priceIsValid;
@@ -489,13 +318,6 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         lastPriceAdjustment = now;
     }
 
-    
-    
-    
-    
-    
-    
-    
     function transferAnyERC20Token(address tokenAddress, uint256 tokens)
         public
         onlyOwner

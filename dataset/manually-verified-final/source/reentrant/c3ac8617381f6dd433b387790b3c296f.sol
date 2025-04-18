@@ -1,14 +1,7 @@
-pragma solidity ^0.4.24;
-
-
-
-
 library SafeMath {
-    
+
     function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -18,21 +11,16 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         return a / b;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         assert(b <= a);
         return a - b;
     }
 
-    
     function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
         c = a + b;
         assert(c >= a);
@@ -40,18 +28,12 @@ library SafeMath {
     }
 }
 
-
-
-
 contract ERC20Basic {
     function totalSupply() public view returns (uint256);
     function balanceOf(address who) public view returns (uint256);
     function transfer(address to, uint256 value) public returns (bool);
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
-
-
-
 
 contract ERC20 is ERC20Basic {
     function allowance(
@@ -72,9 +54,6 @@ contract ERC20 is ERC20Basic {
         uint256 value
     );
 }
-
-
-
 
 library SafeERC20 {
     function safeTransfer(
@@ -98,8 +77,6 @@ library SafeERC20 {
         require(token.approve(spender, value));
     }
 }
-
-
 
 contract SpecialERC20 {
     function transfer(address to, uint256 value) public;
@@ -174,7 +151,6 @@ contract DecentralizedExchanges {
         );
     }
 
-    
     function createPurchaseOrder(
         bool isSpecialERC20,
         uint eth,
@@ -218,7 +194,6 @@ contract DecentralizedExchanges {
         emit Order(hash);
     }
 
-    
     function createSellOrder(
         bool isSpecialERC20,
         address token,
@@ -292,7 +267,6 @@ contract DecentralizedExchanges {
         }
     }
 
-    
     function sell(bytes32 hash, uint amount) public {
         OrderInfo storage info = orderInfos[hash];
         bool find = false;
@@ -306,7 +280,6 @@ contract DecentralizedExchanges {
             require(find);
         }
 
-        
         require(info.fill < info.eth);
         require(info.expires >= now);
 
@@ -315,14 +288,13 @@ contract DecentralizedExchanges {
         uint remainAmount = remain.mul(info.amount).div(info.eth);
 
         uint tradeAmount = remainAmount < amount ? remainAmount : amount;
-        
+
         ERC20(info.token).safeTransferFrom(msg.sender, this, tradeAmount);
 
         uint total = info.eth.mul(tradeAmount).div(info.amount);
 
         msg.sender.transfer(total);
 
-        
         if (info.isSpecialERC20) {
             SpecialERC20(info.token).transfer(info.owner, tradeAmount);
         } else {
@@ -341,7 +313,6 @@ contract DecentralizedExchanges {
         );
     }
 
-    
     function purchase(bytes32 hash, uint amount) public payable {
         OrderInfo storage info = orderInfos[hash];
         bool find = false;
@@ -355,7 +326,6 @@ contract DecentralizedExchanges {
             require(find);
         }
 
-        
         require(info.fill < info.amount);
         require(info.expires >= now);
 
@@ -367,7 +337,7 @@ contract DecentralizedExchanges {
 
         require(msg.value >= total);
         if (msg.value > total) {
-            
+
             msg.sender.transfer(msg.value - total);
         }
 

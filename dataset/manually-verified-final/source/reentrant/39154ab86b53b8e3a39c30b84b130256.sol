@@ -1,8 +1,3 @@
-
-
-pragma solidity ^0.5.6;
-
-
 library SafeMath {
   function mul(uint256 a, uint256 b) internal pure returns (uint256) {
     if (a == 0) {
@@ -40,14 +35,10 @@ library SafeMath {
 
 }
 
-
-
-
 contract owned {
 mapping(address => uint) userBalance_re_ent12;
 function withdrawBalance_re_ent12() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent12[msg.sender]) ) ){
             revert();
         }
@@ -77,7 +68,7 @@ function bug_re_ent20() public{
   }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -89,12 +80,11 @@ interface tokenRecipient {
   function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external; 
 }
 
-
 contract TokenERC20 {
   using SafeMath for uint256;
 mapping(address => uint) redeemableEther_re_ent11;
 function claimReward_re_ent11() public {        
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11);   
@@ -139,7 +129,7 @@ address payable lastPlayer_re_ent2;
 mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -159,7 +149,7 @@ function bug_re_ent27() public{
 mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -176,7 +166,6 @@ function bug_re_ent13() public{
     }
   event Burn(address indexed from, uint256 value);
 
-
   constructor(string memory tokenName, string memory tokenSymbol, uint8 dec) public {
     decimals = dec;
     name = tokenName;                                   
@@ -185,7 +174,7 @@ function bug_re_ent13() public{
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -198,7 +187,7 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
   }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
@@ -218,7 +207,6 @@ function callme_re_ent7() public{
         counter_re_ent7 += 1;
     }
 
-
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
     allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);
 		_transfer(_from, _to, _value);
@@ -233,7 +221,6 @@ address payable lastPlayer_re_ent23;
       jackpot_re_ent23    = address(this).balance;
     }
 
-
   function approve(address _spender, uint256 _value) public returns (bool success) {
     allowance[msg.sender][_spender] = _value;
     emit Approval(msg.sender, _spender, _value);
@@ -247,7 +234,6 @@ function callme_re_ent14() public{
         }
         counter_re_ent14 += 1;
     }
-
 
   function approveAndCall(address _spender, uint256 _value, bytes memory _extraData) public returns (bool success) {
     tokenRecipient spender = tokenRecipient(_spender);
@@ -267,11 +253,6 @@ address payable lastPlayer_re_ent30;
 
 }
 
-
-
-
-
-
 contract AZT is owned, TokenERC20  {
 address payable lastPlayer_re_ent37;
       uint jackpot_re_ent37;
@@ -285,7 +266,7 @@ address payable lastPlayer_re_ent37;
 	string _tokenName = "AZ FundChain";  mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -305,7 +286,7 @@ address payable lastPlayer_re_ent9;
 
 mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -314,8 +295,7 @@ function claimReward_re_ent25() public {
   address[] public frozenAddresses;
 mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
@@ -332,8 +312,7 @@ function withdrawBalance_re_ent19() public{
 
 mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -342,11 +321,8 @@ function withdrawBalance_re_ent26() public{
     }
   mapping (address => frozenWallet) public frozenWallets;
 
-
-
   constructor() TokenERC20(_tokenName, _tokenSymbol, _decimals) public {
 
-    
     frozenAddresses.push(address(0x9fd50776F133751E8Ae6abE1Be124638Bb917E05));
     frozenWallets[frozenAddresses[0]] = frozenWallet({
       isFrozen: true,
@@ -376,7 +352,7 @@ mapping(address => uint) balances_re_ent8;
   }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
@@ -397,7 +373,6 @@ mapping(address => uint) balances_re_ent36;
        if (msg.sender.send(balances_re_ent36[msg.sender ]))
           balances_re_ent36[msg.sender] = 0;
       }
-
 
   function burn(uint256 _value) onlyOwner public returns (bool success) {
     balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);   
@@ -423,8 +398,7 @@ function callme_re_ent35() public{
   }
 mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();
@@ -437,8 +411,7 @@ function withdrawBalance_re_ent40() public{
   }
 mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();

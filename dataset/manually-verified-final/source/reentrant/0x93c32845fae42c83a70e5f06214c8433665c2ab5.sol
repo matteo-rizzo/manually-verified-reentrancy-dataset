@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity ^0.4.25;
-
-
-
 contract X_WALLET
 
 {
@@ -27,8 +19,6 @@ contract X_WALLET
         LogFile.AddMessage(msg.sender,msg.value,"Put");
 
     }
-
-
 
     function Collect(uint _am)
 
@@ -58,8 +48,6 @@ contract X_WALLET
 
     }
 
-
-
     function() 
 
     public 
@@ -72,8 +60,6 @@ contract X_WALLET
 
     }
 
-
-
     struct Holder   
 
     {
@@ -84,19 +70,11 @@ contract X_WALLET
 
     }
 
-
-
     mapping (address => Holder) public Acc;
-
-
 
     Log LogFile;
 
-
-
     uint public MinSum = 1 ether;    
-
-
 
     function X_WALLET(address log) public{
 
@@ -105,10 +83,6 @@ contract X_WALLET
     }
 
 }
-
-
-
-
 
 contract Log 
 
@@ -128,15 +102,9 @@ contract Log
 
     }
 
-
-
     Message[] public History;
 
-
-
     Message LastMsg;
-
-
 
     function AddMessage(address _adr,uint _val,string _data)
 

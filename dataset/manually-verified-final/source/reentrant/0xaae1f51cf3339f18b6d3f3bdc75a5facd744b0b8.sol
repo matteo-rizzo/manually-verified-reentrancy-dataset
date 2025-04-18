@@ -1,35 +1,33 @@
-pragma solidity ^0.4.19;
-
 contract DEP_BANK 
 {
     mapping (address=>uint256) public balances;   
-   
+
     uint public MinSum;
-    
+
     LogFile Log;
-    
+
     bool intitalized;
-    
+
     function SetMinSum(uint _val)
     public
     {
         if(intitalized)throw;
         MinSum = _val;
     }
-    
+
     function SetLogFile(address _log)
     public
     {
         if(intitalized)throw;
         Log = LogFile(_log);
     }
-    
+
     function Initialized()
     public
     {
         intitalized = true;
     }
-    
+
     function Deposit()
     public
     payable
@@ -37,7 +35,7 @@ contract DEP_BANK
         balances[msg.sender]+= msg.value;
         Log.AddMessage(msg.sender,msg.value,"Put");
     }
-    
+
     function Collect(uint _am)
     public
     payable
@@ -51,16 +49,15 @@ contract DEP_BANK
             }
         }
     }
-    
+
     function() 
     public 
     payable
     {
         Deposit();
     }
-    
-}
 
+}
 
 contract LogFile
 {
@@ -71,11 +68,11 @@ contract LogFile
         uint Val;
         uint  Time;
     }
-    
+
     Message[] public History;
-    
+
     Message LastMsg;
-    
+
     function AddMessage(address _adr,uint _val,string _data)
     public
     {

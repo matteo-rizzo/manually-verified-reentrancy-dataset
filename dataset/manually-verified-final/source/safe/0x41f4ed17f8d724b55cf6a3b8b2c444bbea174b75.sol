@@ -1,12 +1,4 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract LauWarmContract {
-
-    
 
     address public owner;
 
@@ -14,15 +6,11 @@ contract LauWarmContract {
 
     mapping (address => address) public account;
 
-    
-
     constructor () public {
 
       owner=msg.sender;
 
     }
-
-	
 
 	modifier isOwner() {
 
@@ -44,8 +32,6 @@ contract LauWarmContract {
 
     event Process(address sender, address from, address to, uint amount, string mac);
 
-    
-
     function allow(address operator,address walletAddr) public isOwner{
 
         allowed[operator]=true;
@@ -54,15 +40,11 @@ contract LauWarmContract {
 
     }
 
-
-
     function disallow(address operator) public isOwner{
 
         allowed[operator]=false;
 
     }
-
-
 
     function process(address to,uint amount, string memory mac) public {
 
@@ -79,9 +61,5 @@ contract LauWarmContract {
      return ;
 
     }
-
-    
-
-   
 
 }

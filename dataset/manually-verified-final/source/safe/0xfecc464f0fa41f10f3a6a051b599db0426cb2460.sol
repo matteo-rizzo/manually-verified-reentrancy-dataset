@@ -1,18 +1,4 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
- 
-
-
-
 contract TokenERC20 {
-
-    
 
     string public name;
 
@@ -20,33 +6,15 @@ contract TokenERC20 {
 
     uint8 public decimals = 18;
 
-     
-
     uint256 public totalSupply;
-
-
-
-    
 
     mapping (address => uint256) public balanceOf;
 
     mapping (address => mapping (address => uint256)) public allowance;
 
-
-
-     
-
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-  
-
-     
-
     event Burn(address indexed from, uint256 value);
-
-
-
-    
 
     constructor(
 
@@ -68,10 +36,6 @@ contract TokenERC20 {
 
     }
 
-
-
-   
-
     function _transfer(address _from, address _to, uint _value) internal {
 
         require(_to != address(0x0));
@@ -92,10 +56,6 @@ contract TokenERC20 {
 
     }
 
-
-
-    
-
     function transfer(address _to, uint256 _value) public returns (bool success) {
 
         _transfer(msg.sender, _to, _value);
@@ -103,12 +63,6 @@ contract TokenERC20 {
         return true;
 
     }
-
-
-
-     
-
-    
 
     function burn(uint256 _value) public returns (bool success) {
 
@@ -123,9 +77,5 @@ contract TokenERC20 {
         return true;
 
     }
-
-
-
-    
 
 }

@@ -1,8 +1,3 @@
-
-
-pragma solidity 0.5.0;
-
-
 contract EtherStore {
 
     uint256 public withdrawalLimit = 1 ether;
@@ -15,9 +10,9 @@ contract EtherStore {
 
     function withdrawFunds (uint256 _weiToWithdraw) public {
         require(balances[msg.sender] >= _weiToWithdraw);
-        
+
         require(_weiToWithdraw <= withdrawalLimit);
-        
+
         require(now >= lastWithdrawTime[msg.sender] + 1 weeks);
         (bool success, bytes memory data) = msg.sender.call.value(_weiToWithdraw)("");
         require(success);

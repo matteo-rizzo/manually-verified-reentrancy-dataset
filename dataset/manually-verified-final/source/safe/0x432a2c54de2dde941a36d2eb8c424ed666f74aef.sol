@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract ERC20 {
     uint256 public totalSupply;
     function balanceOf(address _owner) view public  returns (uint256 balance);
@@ -53,7 +49,6 @@ library SafeMath {
     return a < b ? a : b;
   }
 
-
 }
 
 contract Token is ERC20 {
@@ -83,7 +78,7 @@ contract Token is ERC20 {
         balances[_to] = balances[_to].add(_value);
         emit Transfer(msg.sender, _to, _value);
         return true;
-        
+
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
@@ -115,5 +110,5 @@ contract MerculetToken is Token {
     constructor () public Token(10000000000,18,'Merculet','MVP')  {
 
     }
-    
+
 }

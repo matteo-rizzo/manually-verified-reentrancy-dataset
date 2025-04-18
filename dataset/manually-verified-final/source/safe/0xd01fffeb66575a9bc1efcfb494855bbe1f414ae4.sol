@@ -1,9 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract Token{
 
     uint256 public totalSupply;
@@ -26,8 +20,6 @@ contract Token{
 
 }
 
-
-
 contract FSCToken is Token{
 
     string public chinaName;
@@ -43,8 +35,6 @@ contract FSCToken is Token{
     mapping(address=>uint256) balances;
 
     mapping (address => mapping (address => uint256)) allowed;
-
-    
 
     constructor(uint256 _initialAmount, string memory _tokenName,string memory _chinaName,uint8 _decimalUnits, string memory _tokenSymbol) public{
 
@@ -63,8 +53,6 @@ contract FSCToken is Token{
         owner=msg.sender;
 
     }
-
-    
 
     function _transfer(address _from, address _to, uint _value) internal {
 
@@ -86,8 +74,6 @@ contract FSCToken is Token{
 
     }    
 
-    
-
     function transfer(address _to, uint256 _value) public returns (bool success) {
 
         _transfer(msg.sender, _to, _value);
@@ -95,8 +81,6 @@ contract FSCToken is Token{
         return true;
 
     }
-
-    
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
 
@@ -110,15 +94,11 @@ contract FSCToken is Token{
 
     }
 
-    
-
     function balanceOf(address _owner) public view returns (uint256 balance) {
 
         return balances[_owner];
 
     }
-
-    
 
     function approve(address _spender, uint256 _value) public returns (bool success)   
 
@@ -132,15 +112,11 @@ contract FSCToken is Token{
 
     }
 
-
-
     function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
 
         return allowed[_owner][_spender];
 
     }  
-
-    
 
     function burn(uint256 _value) public returns (bool success) {
 
@@ -157,8 +133,6 @@ contract FSCToken is Token{
         return true;
 
     }    
-
-    
 
     function burnFrom(address _from, uint256 _value) public returns (bool success) {
 
@@ -179,7 +153,5 @@ contract FSCToken is Token{
         return true;
 
     }
-
-    
 
 }

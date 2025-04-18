@@ -1,6 +1,3 @@
-
-pragma solidity ^0.5.16;
-
 interface IERC20 {
     function totalSupply() external view returns (uint);
     function balanceOf(address account) external view returns (uint);
@@ -140,7 +137,7 @@ library SafeMath {
         return div(a, b, "SafeMath: division by zero");
     }
     function div(uint a, uint b, string memory errorMessage) internal pure returns (uint) {
-        
+
         require(b > 0, errorMessage);
         uint c = a / b;
 
@@ -152,7 +149,7 @@ library Address {
     function isContract(address account) internal view returns (bool) {
         bytes32 codehash;
         bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-        
+
         assembly { codehash := extcodehash(account) }
         return (codehash != 0x0 && codehash != accountHash);
     }
@@ -179,12 +176,11 @@ library SafeERC20 {
     function callOptionalReturn(IERC20 token, bytes memory data) private {
         require(address(token).isContract(), "SafeERC20: call to non-contract");
 
-        
         (bool success, bytes memory returndata) = address(token).call(data);
         require(success, "SafeERC20: low-level call failed");
 
         if (returndata.length > 0) { 
-            
+
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }
@@ -194,7 +190,7 @@ contract OnitContract is ERC20, ERC20Detailed {
   using SafeERC20 for IERC20;
   using Address for address;
   using SafeMath for uint;
-  
+
   address public governance;
   mapping (address => bool) public minters;
   uint256 private _initSeedRound = 150;
@@ -208,17 +204,17 @@ contract OnitContract is ERC20, ERC20Detailed {
       require(minters[msg.sender], "!minter");
       _mint(account, amount);
   }
-  
+
   function setGovernance(address _governance) public {
       require(msg.sender == governance, "!governance");
       governance = _governance;
   }
-  
+
   function addMinter(address _minter) public {
       require(msg.sender == governance, "!governance");
       minters[_minter] = true;
   }
-  
+
   function removeMinter(address _minter) public {
       require(msg.sender == governance, "!governance");
       minters[_minter] = false;

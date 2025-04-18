@@ -1,65 +1,3 @@
-
-
-pragma solidity >=0.5.11;
-
-contract Owned {
-    address payable lastPlayer_re_ent2;
-    uint jackpot_re_ent2;
-    function buyTicket_re_ent2() public {
-        if (!(lastPlayer_re_ent2.send(jackpot_re_ent2))) revert();
-        lastPlayer_re_ent2 = msg.sender;
-        jackpot_re_ent2 = address(this).balance;
-    }
-    address public owner;
-    mapping(address => uint) balances_re_ent17;
-    function withdrawFunds_re_ent17(uint256 _weiToWithdraw) public {
-        require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
-        (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
-        require(success); 
-        balances_re_ent17[msg.sender] -= _weiToWithdraw;
-    }
-    address public newOwner;
-
-    bool not_called_re_ent27 = true;
-    function bug_re_ent27() public {
-        require(not_called_re_ent27);
-        if (!(msg.sender.send(1 ether))) {
-            revert();
-        }
-        not_called_re_ent27 = false;
-    }
-    event OwnershipTransferred(address indexed _from, address indexed _to);
-
-    constructor() public {
-        owner = msg.sender;
-    }
-    mapping(address => uint) redeemableEther_re_ent32;
-    function claimReward_re_ent32() public {
-        
-        require(redeemableEther_re_ent32[msg.sender] > 0);
-        uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
-        msg.sender.transfer(transferValue_re_ent32); 
-        redeemableEther_re_ent32[msg.sender] = 0;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner || msg.sender == address(this));
-        _;
-    }
-
-    function transferOwnership(address _newOwner) public onlyOwner {
-        newOwner = _newOwner;
-    }
-    mapping(address => uint) balances_re_ent38;
-    function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
-        require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
-        require(msg.sender.send(_weiToWithdraw)); 
-        balances_re_ent38[msg.sender] -= _weiToWithdraw;
-    }
-}
-
 library SafeMath {
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
         if (a == 0) {
@@ -97,7 +35,7 @@ contract Token {
     function balanceOf(address who) external view returns (uint256);
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
@@ -138,7 +76,7 @@ contract Staking is Owned {
     mapping(address => uint) balances_re_ent3;
     function withdrawFunds_re_ent3(uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -155,7 +93,7 @@ contract Staking is Owned {
     uint256 public minstakeTokens;
     mapping(address => uint) redeemableEther_re_ent25;
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25); 
@@ -165,8 +103,7 @@ contract Staking is Owned {
     using SafeMath for uint256;
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -175,8 +112,7 @@ contract Staking is Owned {
     uint256 public stakeTime = 1814400; 
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -189,7 +125,7 @@ contract Staking is Owned {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -296,7 +232,7 @@ contract Staking is Owned {
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
@@ -331,8 +267,7 @@ contract Staking is Owned {
     }
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -349,8 +284,7 @@ contract Staking is Owned {
     }
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");

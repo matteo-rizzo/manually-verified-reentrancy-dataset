@@ -1,6 +1,3 @@
-
-
-pragma solidity >=0.4.23;
 pragma experimental ABIEncoderV2;
 
 contract DSProxyCache {
@@ -16,7 +13,7 @@ contract DSProxyCache {
             target := create(0, add(_code, 0x20), mload(_code))
             switch iszero(extcodesize(target))
             case 1 {
-                
+
                 revert(0, 0)
             }
         }

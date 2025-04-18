@@ -1,6 +1,3 @@
-pragma solidity ^0.4.12;
-
-
 contract DAO {
     function balanceOf(address addr) returns (uint);
     function transferFrom(address from, address to, uint balance) returns (bool);

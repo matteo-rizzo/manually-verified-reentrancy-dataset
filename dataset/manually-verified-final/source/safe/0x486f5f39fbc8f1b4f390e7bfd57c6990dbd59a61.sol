@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract EthereumJS {
     string public constant name = "EthereumJS";
     string public constant symbol = "ETJS";

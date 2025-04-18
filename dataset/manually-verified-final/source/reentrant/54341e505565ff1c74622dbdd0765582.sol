@@ -1,5 +1,3 @@
-pragma solidity ^0.4.18;
-
 interface ERC20 {
     function balanceOf(
         address _owner
@@ -79,7 +77,6 @@ contract Distribution {
             uint256 tokens = actualTotalTokens.mul(contributorExpectedTokens) /
                 expectedTotalTokens;
 
-            
             if (tokens < tokensRemaining) {
                 return tokens;
             } else {

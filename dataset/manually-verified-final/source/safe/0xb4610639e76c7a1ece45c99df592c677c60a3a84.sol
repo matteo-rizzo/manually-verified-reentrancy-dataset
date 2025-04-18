@@ -1,25 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-pragma solidity >=0.4.24;
-
 interface TokenLike {
     function balanceOf(address) external view returns (uint256);
     function approve(address, uint256) external;

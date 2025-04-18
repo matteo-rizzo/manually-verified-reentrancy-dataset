@@ -1,18 +1,8 @@
-
-
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
-
 interface TokenWithBalance {
 
 	function balanceOf(address tokenOwner) external view returns (uint balance);
 
 }
-
-
 
 interface TokenWithAllowance {
 
@@ -20,17 +10,11 @@ interface TokenWithAllowance {
 
 }
 
-
-
 contract DolomiteTokenReader {
-
-
 
 	function balancesOf(address owner, address[] memory tokens) public view returns (address[] memory, uint[] memory) {
 
 		uint[] memory balances = new uint[](tokens.length);
-
-
 
     for (uint i = 0; i < tokens.length; i++) {
 
@@ -38,19 +22,13 @@ contract DolomiteTokenReader {
 
     }
 
-
-
     return (tokens, balances);
 
 	}
 
-
-
 	function balancesFor(address token, address[] memory owners) public view returns (address[] memory, uint[] memory) {
 
 		uint[] memory balances = new uint[](owners.length);
-
-
 
 		for (uint i = 0; i < owners.length; i++) {
 
@@ -58,19 +36,13 @@ contract DolomiteTokenReader {
 
 		}
 
-
-
 		return (owners, balances);
 
 	}
 
-
-
 	function allowances(address owner, address spender, address[] memory tokens) public view returns (address[] memory, uint[] memory) {
 
 		uint[] memory allowances = new uint[](tokens.length);
-
-
 
 		for (uint i = 0; i < tokens.length; i++) {
 
@@ -78,19 +50,9 @@ contract DolomiteTokenReader {
 
 		}
 
-
-
 		return (tokens, allowances);
 
 	}
-
-
-
-	
-
-	
-
-
 
 	function _balanceOf(address owner, address token) internal view returns (uint) {
 
@@ -99,8 +61,6 @@ contract DolomiteTokenReader {
 		return TokenWithBalance(token).balanceOf(owner);
 
 	}
-
-
 
 	function _allowance(address owner, address spender, address token) internal view returns (uint) {
 

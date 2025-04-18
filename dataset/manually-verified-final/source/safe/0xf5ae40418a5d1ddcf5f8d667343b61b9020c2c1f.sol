@@ -1,5 +1,3 @@
-pragma solidity >=0.4.22 <0.7.0;
-
 contract Storage {
     uint256 public counter = 1;
 

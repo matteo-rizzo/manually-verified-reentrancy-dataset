@@ -1,28 +1,18 @@
-
-
-pragma solidity >=0.4.23 <0.6.0;
-
-
 contract GlobalEntropy {
-    
+
     using SafeMath for uint;
     string public name;
     string public symbol;
     uint8 public decimals = 18;
     uint256 public totalSupply;
 
-    
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 
-
-    
     uint256 initialSupply = 3100000;
     string tokenName = 'Global entropy';
     string tokenSymbol = 'ETV';
@@ -33,7 +23,6 @@ contract GlobalEntropy {
         symbol = tokenSymbol;                               
     }
 
-    
     function _transfer(address _from, address _to, uint _value) internal {
         require(_to != address(0));
         require(balanceOf[_from] >= _value);
@@ -95,7 +84,7 @@ library SafeMath {
         return div(a, b, "SafeMath: division by zero");
     }
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        
+
         require(b > 0, errorMessage);
         uint256 c = a / b;
 

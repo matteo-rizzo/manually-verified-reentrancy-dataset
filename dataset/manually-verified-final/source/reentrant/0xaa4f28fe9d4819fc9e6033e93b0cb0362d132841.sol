@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.4.25;
-
 contract C_Bank
 {
     function Put(uint _unlockTime)
@@ -13,7 +9,6 @@ contract C_Bank
         acc.unlockTime = _unlockTime>now?_unlockTime:now;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
-
 
     function Collect(uint _am)
     public
@@ -53,7 +48,6 @@ contract C_Bank
         LogFile = Log(log);
     }
 }
-
 
 contract Log 
 {

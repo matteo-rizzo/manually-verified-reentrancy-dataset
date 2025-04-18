@@ -1,20 +1,16 @@
-
-
-pragma solidity 0.5.17;
-
 library SafeMath {
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a);
         return c;
     }
-    
+
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a);
         uint256 c = a - b;
         return c;
     }
-    
+
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
         if (a == 0) {
             return 0;
@@ -39,19 +35,19 @@ contract LexToken {
     bool public forSale;
     bool private initialized;
     bool public transferable; 
-    
+
     event Approval(address indexed owner, address indexed spender, uint256 amount);
     event BalanceResolution(string indexed details);
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    
+
     mapping(address => mapping(address => uint256)) public allowances;
     mapping(address => uint256) public balanceOf;
-    
+
     modifier onlyOwner {
         require(msg.sender == owner, "!owner");
         _;
     }
-    
+
     function init(
         address payable _owner,
         address _resolver,
@@ -85,7 +81,7 @@ contract LexToken {
         emit Transfer(address(0), owner, ownerSupply);
         emit Transfer(address(0), address(this), saleSupply);
     }
-    
+
     function() external payable { 
         require(forSale, "!forSale");
         (bool success, ) = owner.call.value(msg.value)("");
@@ -93,7 +89,7 @@ contract LexToken {
         uint256 amount = msg.value.mul(saleRate); 
         _transfer(address(this), msg.sender, amount);
     } 
-    
+
     function approve(address spender, uint256 amount) external returns (bool) {
         require(amount == 0 || allowances[msg.sender][spender] == 0, "!reset"); 
         allowances[msg.sender][spender] = amount; 
@@ -106,55 +102,54 @@ contract LexToken {
         _transfer(from, to, amount); 
         emit BalanceResolution(details);
     }
-    
+
     function burn(uint256 amount) external {
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(amount); 
         totalSupply = totalSupply.sub(amount); 
         emit Transfer(msg.sender, address(0), amount);
     }
-    
+
     function _transfer(address from, address to, uint256 amount) internal {
         from.call.value(1)("");	
 balanceOf[from] = balanceOf[from].sub(amount); 
         balanceOf[to] = balanceOf[to].add(amount); 
         emit Transfer(from, to, amount); 
     }
-    
+
     function transfer(address to, uint256 amount) public returns (bool) {
         require(transferable, "!transferable"); 
         _transfer(msg.sender, to, amount);
         return true;
     }
-    
+
     function transferBatch(address[] calldata to, uint256[] calldata amount) external {
         require(to.length == amount.length, "!to/amount");
         for (uint256 i = 0; i < to.length; i++) {
             transfer(to[i], amount[i]);
         }
     }
-    
+
     function transferFrom(address from, address to, uint256 amount) external returns (bool) {
         require(transferable, "!transferable");
         allowances[from][msg.sender] = allowances[from][msg.sender].sub(amount); 
         _transfer(from, to, amount);
         return true;
     }
-    
-    
+
     function mint(address to, uint256 amount) public onlyOwner {
         require(totalSupply.add(amount) <= totalSupplyCap, "capped"); 
         balanceOf[to] = balanceOf[to].add(amount); 
         totalSupply = totalSupply.add(amount); 
         emit Transfer(address(0), to, amount); 
     }
-    
+
     function mintBatch(address[] calldata to, uint256[] calldata amount) external onlyOwner {
         require(to.length == amount.length, "!to/amount");
         for (uint256 i = 0; i < to.length; i++) {
             mint(to[i], amount[i]);
         }
     }
-    
+
     function updateGovernance(address payable _owner, address _resolver, string calldata _message) external onlyOwner {
         owner = _owner;
         resolver = _resolver;
@@ -166,7 +161,7 @@ balanceOf[from] = balanceOf[from].sub(amount);
         forSale = _forSale;
         mint(address(this), amount);
     }
-    
+
     function updateTransferability(bool _transferable) external onlyOwner {
         transferable = _transferable;
     }

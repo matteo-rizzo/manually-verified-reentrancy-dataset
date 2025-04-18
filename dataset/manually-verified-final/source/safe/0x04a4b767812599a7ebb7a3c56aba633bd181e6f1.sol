@@ -1,9 +1,3 @@
-
-
-pragma solidity >= 0.4.24 < 0.6.0;
-
-
-
 interface IERC20 {
     function totalSupply() external view returns (uint256);
     function balanceOf(address who) external view returns (uint256);
@@ -11,18 +5,16 @@ interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
-
 contract VIM is IERC20 {
     string public name = "VIMUSAY";
     string public symbol = "VIM";
     uint8 public decimals = 8;
-    
+
     uint256 companyAmount;
 
     uint256 _totalSupply;
     mapping(address => uint256) balances;
 
-    
     address public owner;
     address public company;
 
@@ -30,7 +22,7 @@ contract VIM is IERC20 {
         require(owner == msg.sender);
         _;
     }
-    
+
     constructor() public {
         owner = msg.sender;
 
@@ -40,16 +32,16 @@ contract VIM is IERC20 {
         _totalSupply   = toWei(3500000000);  
 
         require(_totalSupply == companyAmount );
-        
+
         balances[owner] = _totalSupply;
 
         emit Transfer(address(0), owner, balances[owner]);
-        
+
         transfer(company, companyAmount);
 
         require(balances[owner] == 0);
     }
-    
+
     function totalSupply() public view returns (uint) {
         return _totalSupply;
     }
@@ -57,15 +49,14 @@ contract VIM is IERC20 {
     function balanceOf(address who) public view returns (uint256) {
         return balances[who];
     }
-    
+
     function transfer(address to, uint256 value) public returns (bool success) {
         require(msg.sender != to);
         require(to != owner);
         require(value > 0);
-        
+
         require( balances[msg.sender] >= value );
         require( balances[to] + value >= balances[to] );    
-
 
         balances[msg.sender] -= value;
         balances[to] += value;
@@ -73,11 +64,11 @@ contract VIM is IERC20 {
         emit Transfer(msg.sender, to, value);
         return true;
     }
-    
+
     function burnCoins(uint256 value) public {
         require(balances[msg.sender] >= value);
         require(_totalSupply >= value);
-        
+
         balances[msg.sender] -= value;
         _totalSupply -= value;
 

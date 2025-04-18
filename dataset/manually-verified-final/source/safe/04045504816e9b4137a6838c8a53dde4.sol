@@ -1,5 +1,3 @@
-pragma solidity ^0.4.15;
-
 contract generic_holder {
     address owner;
 
@@ -8,7 +6,6 @@ contract generic_holder {
         _;
     }
 
-    
     function generic_holder() {
         owner = msg.sender;
     }

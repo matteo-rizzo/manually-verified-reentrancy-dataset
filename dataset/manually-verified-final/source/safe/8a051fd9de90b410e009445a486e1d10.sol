@@ -1,5 +1,3 @@
-pragma solidity ^0.5.0;
-
 contract ModifierEntrancy {
     mapping(address => uint) public tokenBalance;
     string constant name = "Nu Token";
@@ -9,12 +7,10 @@ contract ModifierEntrancy {
         bank = new Bank();
     }
 
-    
     function airDrop() public hasNoBalance supportsToken {
         tokenBalance[msg.sender] += 20;
     }
 
-    
     modifier supportsToken() {
         require(
             keccak256(abi.encodePacked("Nu Token")) == bank.supportsToken()
@@ -22,7 +18,6 @@ contract ModifierEntrancy {
         _;
     }
 
-    
     modifier hasNoBalance() {
         require(tokenBalance[msg.sender] == 0);
         _;

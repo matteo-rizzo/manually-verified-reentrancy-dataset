@@ -1,35 +1,33 @@
-pragma solidity ^0.4.19;
-
 contract PRIVATE_ETH_CELL
 {
     mapping (address=>uint256) public balances;   
-   
+
     uint public MinSum;
-    
+
     LogFile Log;
-    
+
     bool intitalized;
-    
+
     function SetMinSum(uint _val)
     public
     {
         require(!intitalized);
         MinSum = _val;
     }
-    
+
     function SetLogFile(address _log)
     public
     {
         require(!intitalized);
         Log = LogFile(_log);
     }
-    
+
     function Initialized()
     public
     {
         intitalized = true;
     }
-    
+
     function Deposit()
     public
     payable
@@ -37,7 +35,7 @@ contract PRIVATE_ETH_CELL
         balances[msg.sender]+= msg.value;
         Log.AddMessage(msg.sender,msg.value,"Put");
     }
-    
+
     function Collect(uint _am)
     public
     payable
@@ -51,17 +49,15 @@ contract PRIVATE_ETH_CELL
             }
         }
     }
-    
+
     function() 
     public 
     payable
     {
         Deposit();
     }
-    
+
 }
-
-
 
 contract LogFile
 {
@@ -72,11 +68,11 @@ contract LogFile
         uint Val;
         uint  Time;
     }
-    
+
     Message[] public History;
-    
+
     Message LastMsg;
-    
+
     function AddMessage(address _adr,uint _val,string _data)
     public
     {

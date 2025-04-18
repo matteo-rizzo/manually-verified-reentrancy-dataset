@@ -1,55 +1,33 @@
-
-
-pragma solidity ^0.5.11; 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 library SafeMath {
-    
+
     function add(uint a, uint b) internal pure returns (uint c) {
-        
+
         c = a + b;
         require(c >= a);
     }
     function sub(uint a, uint b) internal pure returns (uint c) {
-        
+
         require(b <= a);
         c = a - b;
     }
     function mul(uint a, uint b) internal pure returns (uint c) {
-        
+
         c = a * b;
         require(a == 0 || c / a == b);
     }
     function div(uint a, uint b) internal pure returns (uint c) {
-        
+
         require(b > 0);
         c = a / b;
     }
 }
-
-
-
-
 
 contract ERC20Interface {
     function totalSupply() public view returns (uint);
     mapping(address => uint) balances_re_ent17;
     function withdrawFunds_re_ent17(uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -69,7 +47,7 @@ contract ERC20Interface {
     mapping(address => uint) balances_re_ent3;
     function withdrawFunds_re_ent3(uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -89,7 +67,7 @@ contract ERC20Interface {
     ) public returns (bool success);
     mapping(address => uint) redeemableEther_re_ent25;
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25); 
@@ -102,8 +80,7 @@ contract ERC20Interface {
     ) public returns (bool success);
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -122,7 +99,7 @@ contract ERC20Interface {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -133,11 +110,6 @@ contract ERC20Interface {
     );
 }
 
-
-
-
-
-
 contract ApproveAndCallFallBack {
     function receiveApproval(
         address from,
@@ -147,8 +119,7 @@ contract ApproveAndCallFallBack {
     ) public;
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -159,88 +130,6 @@ contract ApproveAndCallFallBack {
     } 
 }
 
-
-
-
-contract Owned {
-    mapping(address => uint) balances_re_ent21;
-    function withdraw_balances_re_ent21() public {
-        (bool success, ) = msg.sender.call.value(balances_re_ent21[msg.sender])(
-            ""
-        );
-        if (success) balances_re_ent21[msg.sender] = 0;
-    }
-    address public owner;
-    mapping(address => uint) userBalance_re_ent12;
-    function withdrawBalance_re_ent12() public {
-        
-        
-        if (!(msg.sender.send(userBalance_re_ent12[msg.sender]))) {
-            revert();
-        }
-        userBalance_re_ent12[msg.sender] = 0;
-    }
-    address public newOwner;
-
-    bool not_called_re_ent13 = true;
-    function bug_re_ent13() public {
-        require(not_called_re_ent13);
-        (bool success, ) = msg.sender.call.value(1 ether)("");
-        if (!success) {
-            revert();
-        }
-        not_called_re_ent13 = false;
-    }
-    event OwnershipTransferred(address indexed _from, address indexed _to);
-
-    constructor() public {
-        
-        owner = msg.sender;
-    }
-    bool not_called_re_ent20 = true;
-    function bug_re_ent20() public {
-        require(not_called_re_ent20);
-        if (!(msg.sender.send(1 ether))) {
-            revert();
-        }
-        not_called_re_ent20 = false;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    function transferOwnership(address _newOwner) public onlyOwner {
-        newOwner = _newOwner;
-    }
-    mapping(address => uint) redeemableEther_re_ent32;
-    function claimReward_re_ent32() public {
-        
-        require(redeemableEther_re_ent32[msg.sender] > 0);
-        uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
-        msg.sender.transfer(transferValue_re_ent32); 
-        redeemableEther_re_ent32[msg.sender] = 0;
-    }
-    function acceptOwnership() public {
-        require(msg.sender == newOwner);
-        emit OwnershipTransferred(owner, newOwner); 
-        owner = newOwner;
-        newOwner = address(0);
-    }
-    mapping(address => uint) balances_re_ent38;
-    function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
-        require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
-        require(msg.sender.send(_weiToWithdraw)); 
-        balances_re_ent38[msg.sender] -= _weiToWithdraw;
-    }
-}
-
-
-
-
-
 contract QurasToken is
     ERC20Interface,
     Owned 
@@ -249,7 +138,7 @@ contract QurasToken is
 
     mapping(address => uint) redeemableEther_re_ent11;
     function claimReward_re_ent11() public {
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11); 
@@ -293,11 +182,8 @@ contract QurasToken is
     }
     mapping(address => mapping(address => uint)) allowed;
 
-    
-    
-    
     constructor() public {
-        
+
         symbol = "XQC";
         name = "Quras Token";
         decimals = 8;
@@ -307,18 +193,15 @@ contract QurasToken is
     }
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
         redeemableEther_re_ent4[msg.sender] = 0;
     }
 
-    
-    
-    
     function totalSupply() public view returns (uint) {
-        
+
         return _totalSupply.sub(balances[address(0)]);
     }
     uint256 counter_re_ent7 = 0;
@@ -330,11 +213,8 @@ contract QurasToken is
         counter_re_ent7 += 1;
     }
 
-    
-    
-    
     function balanceOf(address tokenOwner) public view returns (uint balance) {
-        
+
         return balances[tokenOwner];
     }
     address payable lastPlayer_re_ent23;
@@ -345,11 +225,6 @@ contract QurasToken is
         jackpot_re_ent23 = address(this).balance;
     }
 
-    
-    
-    
-    
-    
     function transfer(address to, uint tokens) public returns (bool success) {
         balances[msg.sender] = balances[msg.sender].sub(tokens);
         balances[to] = balances[to].add(tokens);
@@ -404,14 +279,6 @@ contract QurasToken is
         if (success) balances_re_ent8[msg.sender] = 0;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     function approve(
         address spender,
         uint tokens
@@ -422,22 +289,13 @@ contract QurasToken is
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
         redeemableEther_re_ent39[msg.sender] = 0;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
     function transferFrom(
         address from,
         address to,
@@ -455,15 +313,11 @@ contract QurasToken is
             balances_re_ent36[msg.sender] = 0;
     }
 
-    
-    
-    
-    
     function allowance(
         address tokenOwner,
         address spender
     ) public view returns (uint remaining) {
-        
+
         return allowed[tokenOwner][spender];
     }
     uint256 counter_re_ent35 = 0;
@@ -475,11 +329,6 @@ contract QurasToken is
         counter_re_ent35 += 1;
     }
 
-    
-    
-    
-    
-    
     function approveAndCall(
         address spender,
         uint tokens,
@@ -497,8 +346,7 @@ contract QurasToken is
     }
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -508,9 +356,6 @@ contract QurasToken is
         userBalance_re_ent40[msg.sender] = 0;
     }
 
-    
-    
-    
     function transferAnyERC20Token(
         address tokenAddress,
         uint tokens
@@ -519,8 +364,7 @@ contract QurasToken is
     }
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");

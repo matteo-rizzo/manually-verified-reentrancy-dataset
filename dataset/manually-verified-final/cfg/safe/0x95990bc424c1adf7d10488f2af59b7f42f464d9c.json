@@ -1,0 +1,1902 @@
+{
+  "nodes": [
+    "! doubleSpenderByWallet",
+    "! fraudulentByOrderHash",
+    "! fraudulentByPaymentHash",
+    "! fraudulentByTradeHash",
+    "! registeredServicesMap",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "LENGTH REF_13",
+    "LENGTH REF_50",
+    "LENGTH doubleSpenderWallets",
+    "LENGTH fraudulentOrderHashes",
+    "LENGTH fraudulentPaymentHashes",
+    "LENGTH fraudulentTradeHashes",
+    "REF_0(Servable.ServiceInfo)",
+    "REF_0.registered",
+    "REF_1(bool)",
+    "REF_10",
+    "REF_10(mapping(bytes32 => bool))",
+    "REF_100",
+    "REF_100(uint256) (",
+    "REF_101(bytes32)",
+    "REF_101(bytes32) (",
+    "REF_11(bool)",
+    "REF_11(bool) (",
+    "REF_12(Servable.ServiceInfo)",
+    "REF_12.actionsList",
+    "REF_13",
+    "REF_13(bytes32",
+    "REF_15",
+    "REF_15(uint256) (",
+    "REF_16(bytes32)",
+    "REF_16(bytes32) (",
+    "REF_17(Servable.ServiceInfo)",
+    "REF_17.actionsEnabledMap",
+    "REF_18",
+    "REF_18(mapping(bytes32 => bool))",
+    "REF_19(bool)",
+    "REF_2(Servable.ServiceInfo)",
+    "REF_2.registered",
+    "REF_20(Servable.ServiceInfo)",
+    "REF_20.actionsEnabledMap",
+    "REF_21",
+    "REF_21(mapping(bytes32 => bool))",
+    "REF_22(bool)",
+    "REF_22(bool) (",
+    "REF_23(Servable.ServiceInfo)",
+    "REF_23.registered",
+    "REF_24(bool)",
+    "REF_25(Servable.ServiceInfo)",
+    "REF_25.activationTimestamp",
+    "REF_26(uint256)",
+    "REF_27(Servable.ServiceInfo)",
+    "REF_27.actionsEnabledMap",
+    "REF_28",
+    "REF_28(mapping(bytes32 => bool))",
+    "REF_29(bool)",
+    "REF_3(bool)",
+    "REF_3(bool) (",
+    "REF_31(Servable.ServiceInfo)",
+    "REF_31.registered",
+    "REF_32(bool)",
+    "REF_33(Servable.ServiceInfo)",
+    "REF_33.registered",
+    "REF_34(bool)",
+    "REF_34(bool) (",
+    "REF_35(Servable.ServiceInfo)",
+    "REF_35.activationTimestamp",
+    "REF_36(uint256)",
+    "REF_36(uint256) (",
+    "REF_37(Servable.ServiceInfo)",
+    "REF_37.registered",
+    "REF_38(bool)",
+    "REF_39(Servable.ServiceInfo)",
+    "REF_39.registered",
+    "REF_4(Servable.ServiceInfo)",
+    "REF_4.registered",
+    "REF_40(bool)",
+    "REF_40(bool) (",
+    "REF_41(Servable.ServiceInfo)",
+    "REF_41.registered",
+    "REF_42(bool)",
+    "REF_43(Servable.ServiceInfo)",
+    "REF_43.actionsEnabledMap",
+    "REF_44",
+    "REF_44(mapping(bytes32 => bool))",
+    "REF_45(bool)",
+    "REF_46(Servable.ServiceInfo)",
+    "REF_46.actionsEnabledMap",
+    "REF_47",
+    "REF_47(mapping(bytes32 => bool))",
+    "REF_48(bool)",
+    "REF_48(bool) (",
+    "REF_49(Servable.ServiceInfo)",
+    "REF_49.actionsList",
+    "REF_5(bool)",
+    "REF_50",
+    "REF_50(bytes32",
+    "REF_52",
+    "REF_52(uint256) (",
+    "REF_53(bytes32)",
+    "REF_53(bytes32) (",
+    "REF_54(Servable.ServiceInfo)",
+    "REF_54.actionsEnabledMap",
+    "REF_55",
+    "REF_55(mapping(bytes32 => bool))",
+    "REF_56(bool)",
+    "REF_57(Servable.ServiceInfo)",
+    "REF_57.actionsEnabledMap",
+    "REF_58",
+    "REF_58(mapping(bytes32 => bool))",
+    "REF_59(bool)",
+    "REF_59(bool) (",
+    "REF_6(Servable.ServiceInfo)",
+    "REF_6.actionsEnabledMap",
+    "REF_60(Servable.ServiceInfo)",
+    "REF_60.registered",
+    "REF_61(bool)",
+    "REF_62(Servable.ServiceInfo)",
+    "REF_62.activationTimestamp",
+    "REF_63(uint256)",
+    "REF_64(Servable.ServiceInfo)",
+    "REF_64.actionsEnabledMap",
+    "REF_65",
+    "REF_65(mapping(bytes32 => bool))",
+    "REF_66(bool)",
+    "REF_68(Servable.ServiceInfo)",
+    "REF_68.registered",
+    "REF_69(bool)",
+    "REF_7",
+    "REF_7(mapping(bytes32 => bool))",
+    "REF_70(Servable.ServiceInfo)",
+    "REF_70.registered",
+    "REF_71(bool)",
+    "REF_71(bool) (",
+    "REF_72(Servable.ServiceInfo)",
+    "REF_72.activationTimestamp",
+    "REF_73(uint256)",
+    "REF_73(uint256) (",
+    "REF_74(bool)",
+    "REF_75",
+    "REF_76(bool)",
+    "REF_78",
+    "REF_78(uint256) (",
+    "REF_79(address)",
+    "REF_79(address) (",
+    "REF_8(bool)",
+    "REF_80(bool)",
+    "REF_80(bool) (",
+    "REF_81",
+    "REF_82(bool)",
+    "REF_83(bool)",
+    "REF_84(bool)",
+    "REF_84(bool) (",
+    "REF_86",
+    "REF_86(uint256) (",
+    "REF_87(bytes32)",
+    "REF_87(bytes32) (",
+    "REF_88",
+    "REF_89(bool)",
+    "REF_9(Servable.ServiceInfo)",
+    "REF_9.actionsEnabledMap",
+    "REF_90(bool)",
+    "REF_91(bool)",
+    "REF_91(bool) (",
+    "REF_93",
+    "REF_93(uint256) (",
+    "REF_94(bytes32)",
+    "REF_94(bytes32) (",
+    "REF_95",
+    "REF_96(bool)",
+    "REF_97(bool)",
+    "REF_98(bool)",
+    "REF_98(bool) (",
+    "doubleSpenderByWallet",
+    "doubleSpenderByWallet) := True(bool)\"]",
+    "doubleSpenderWallets",
+    "doubleSpenderWallets) := TMP_241(uint256)",
+    "doubleSpenderWallets) := wallet(address)\"]",
+    "fraudulentByOrderHash",
+    "fraudulentByOrderHash) := True(bool)\"]",
+    "fraudulentByPaymentHash",
+    "fraudulentByPaymentHash) := True(bool)\"]",
+    "fraudulentByTradeHash",
+    "fraudulentByTradeHash) := True(bool)\"]",
+    "fraudulentOrderHashes",
+    "fraudulentOrderHashes) := TMP_247(uint256)",
+    "fraudulentOrderHashes) := hash(bytes32)\"]",
+    "fraudulentPaymentHashes",
+    "fraudulentPaymentHashes) := TMP_259(uint256)",
+    "fraudulentPaymentHashes) := hash(bytes32)\"]",
+    "fraudulentTradeHashes",
+    "fraudulentTradeHashes) := TMP_253(uint256)",
+    "fraudulentTradeHashes) := hash(bytes32)\"]",
+    "isRegisteredActiveService(service) && registeredServicesMap",
+    "isRegisteredService(service) && block.timestamp >= registeredServicesMap",
+    "registeredServicesMap",
+    "registeredServicesMap) := False(bool)\"]",
+    "registeredServicesMap) := TMP_122(uint256)",
+    "registeredServicesMap) := TMP_140(uint256)\"]",
+    "registeredServicesMap) := TMP_193(uint256)",
+    "registeredServicesMap) := TMP_211(uint256)\"]",
+    "registeredServicesMap) := True(bool)\"]",
+    "registeredServicesMap) := actionHash(bytes32)\"]",
+    "require(bool)(! registeredServicesMap",
+    "require(bool)(registeredServicesMap"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_68(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_69(bool)",
+      "target": "REF_68.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "REF_70(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_71(bool)",
+      "target": "REF_70.registered"
+    },
+    {
+      "source": "REF_71(bool) (",
+      "target": "registeredServicesMap) := True(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_72(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_73(uint256)",
+      "target": "REF_72.activationTimestamp"
+    },
+    {
+      "source": "REF_73(uint256) (",
+      "target": "registeredServicesMap) := TMP_211(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_75",
+      "target": "LENGTH doubleSpenderWallets"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_64(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_65(mapping(bytes32 => bool))",
+      "target": "REF_64.actionsEnabledMap"
+    },
+    {
+      "source": "REF_66(bool)",
+      "target": "REF_65"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_74(bool)",
+      "target": "doubleSpenderByWallet"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_31(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_32(bool)",
+      "target": "REF_31.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "REF_33(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_34(bool)",
+      "target": "REF_33.registered"
+    },
+    {
+      "source": "REF_34(bool) (",
+      "target": "registeredServicesMap) := True(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_35(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_36(uint256)",
+      "target": "REF_35.activationTimestamp"
+    },
+    {
+      "source": "REF_36(uint256) (",
+      "target": "registeredServicesMap) := TMP_140(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "7"
+    },
+    {
+      "source": "REF_4(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_5(bool)",
+      "target": "REF_4.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_6(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_7(mapping(bytes32 => bool))",
+      "target": "REF_6.actionsEnabledMap"
+    },
+    {
+      "source": "REF_8(bool)",
+      "target": "REF_7"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_9(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_10(mapping(bytes32 => bool))",
+      "target": "REF_9.actionsEnabledMap"
+    },
+    {
+      "source": "REF_11(bool)",
+      "target": "REF_10"
+    },
+    {
+      "source": "REF_11(bool) (",
+      "target": "registeredServicesMap) := True(bool)\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_12(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_13(bytes32",
+      "target": "REF_12.actionsList"
+    },
+    {
+      "source": "REF_15",
+      "target": "LENGTH REF_13"
+    },
+    {
+      "source": "REF_15(uint256) (",
+      "target": "registeredServicesMap) := TMP_122(uint256)"
+    },
+    {
+      "source": "REF_16(bytes32)",
+      "target": "REF_13"
+    },
+    {
+      "source": "REF_16(bytes32) (",
+      "target": "registeredServicesMap) := actionHash(bytes32)\"]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "REF_83(bool)",
+      "target": "fraudulentByOrderHash"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "REF_84(bool)",
+      "target": "fraudulentByOrderHash"
+    },
+    {
+      "source": "REF_84(bool) (",
+      "target": "fraudulentByOrderHash) := True(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_86",
+      "target": "LENGTH fraudulentOrderHashes"
+    },
+    {
+      "source": "REF_86(uint256) (",
+      "target": "fraudulentOrderHashes) := TMP_247(uint256)"
+    },
+    {
+      "source": "REF_87(bytes32)",
+      "target": "fraudulentOrderHashes"
+    },
+    {
+      "source": "REF_87(bytes32) (",
+      "target": "fraudulentOrderHashes) := hash(bytes32)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "5"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_54(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_55(mapping(bytes32 => bool))",
+      "target": "REF_54.actionsEnabledMap"
+    },
+    {
+      "source": "REF_56(bool)",
+      "target": "REF_55"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_57(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_58(mapping(bytes32 => bool))",
+      "target": "REF_57.actionsEnabledMap"
+    },
+    {
+      "source": "REF_59(bool)",
+      "target": "REF_58"
+    },
+    {
+      "source": "REF_59(bool) (",
+      "target": "registeredServicesMap) := False(bool)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "REF_97(bool)",
+      "target": "fraudulentByPaymentHash"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "REF_98(bool)",
+      "target": "fraudulentByPaymentHash"
+    },
+    {
+      "source": "REF_98(bool) (",
+      "target": "fraudulentByPaymentHash) := True(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_100",
+      "target": "LENGTH fraudulentPaymentHashes"
+    },
+    {
+      "source": "REF_100(uint256) (",
+      "target": "fraudulentPaymentHashes) := TMP_259(uint256)"
+    },
+    {
+      "source": "REF_101(bytes32)",
+      "target": "fraudulentPaymentHashes"
+    },
+    {
+      "source": "REF_101(bytes32) (",
+      "target": "fraudulentPaymentHashes) := hash(bytes32)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_23(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_24(bool)",
+      "target": "REF_23.registered"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_62(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_63(uint256)",
+      "target": "REF_62.activationTimestamp"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "7"
+    },
+    {
+      "source": "REF_41(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_42(bool)",
+      "target": "REF_41.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_43(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_44(mapping(bytes32 => bool))",
+      "target": "REF_43.actionsEnabledMap"
+    },
+    {
+      "source": "REF_45(bool)",
+      "target": "REF_44"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_46(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_47(mapping(bytes32 => bool))",
+      "target": "REF_46.actionsEnabledMap"
+    },
+    {
+      "source": "REF_48(bool)",
+      "target": "REF_47"
+    },
+    {
+      "source": "REF_48(bool) (",
+      "target": "registeredServicesMap) := True(bool)\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_49(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_50(bytes32",
+      "target": "REF_49.actionsList"
+    },
+    {
+      "source": "REF_52",
+      "target": "LENGTH REF_50"
+    },
+    {
+      "source": "REF_52(uint256) (",
+      "target": "registeredServicesMap) := TMP_193(uint256)"
+    },
+    {
+      "source": "REF_53(bytes32)",
+      "target": "REF_50"
+    },
+    {
+      "source": "REF_53(bytes32) (",
+      "target": "registeredServicesMap) := actionHash(bytes32)\"]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_96(bool)",
+      "target": "fraudulentByPaymentHash"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "REF_90(bool)",
+      "target": "fraudulentByTradeHash"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "REF_91(bool)",
+      "target": "fraudulentByTradeHash"
+    },
+    {
+      "source": "REF_91(bool) (",
+      "target": "fraudulentByTradeHash) := True(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_93",
+      "target": "LENGTH fraudulentTradeHashes"
+    },
+    {
+      "source": "REF_93(uint256) (",
+      "target": "fraudulentTradeHashes) := TMP_253(uint256)"
+    },
+    {
+      "source": "REF_94(bytes32)",
+      "target": "fraudulentTradeHashes"
+    },
+    {
+      "source": "REF_94(bytes32) (",
+      "target": "fraudulentTradeHashes) := hash(bytes32)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_27(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_28(mapping(bytes32 => bool))",
+      "target": "REF_27.actionsEnabledMap"
+    },
+    {
+      "source": "REF_29(bool)",
+      "target": "REF_28"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_95",
+      "target": "LENGTH fraudulentPaymentHashes"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_81",
+      "target": "LENGTH fraudulentOrderHashes"
+    },
+    {
+      "source": "0",
+      "target": "4"
+    },
+    {
+      "source": "REF_37(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_38(bool)",
+      "target": "REF_37.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_39(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_40(bool)",
+      "target": "REF_39.registered"
+    },
+    {
+      "source": "REF_40(bool) (",
+      "target": "registeredServicesMap) := False(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_25(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_26(uint256)",
+      "target": "REF_25.activationTimestamp"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_89(bool)",
+      "target": "fraudulentByTradeHash"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_82(bool)",
+      "target": "fraudulentByOrderHash"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "REF_76(bool)",
+      "target": "doubleSpenderByWallet"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "REF_78",
+      "target": "LENGTH doubleSpenderWallets"
+    },
+    {
+      "source": "REF_78(uint256) (",
+      "target": "doubleSpenderWallets) := TMP_241(uint256)"
+    },
+    {
+      "source": "REF_79(address)",
+      "target": "doubleSpenderWallets"
+    },
+    {
+      "source": "REF_79(address) (",
+      "target": "doubleSpenderWallets) := wallet(address)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_80(bool)",
+      "target": "doubleSpenderByWallet"
+    },
+    {
+      "source": "REF_80(bool) (",
+      "target": "doubleSpenderByWallet) := True(bool)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "6"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "5"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_88",
+      "target": "LENGTH fraudulentTradeHashes"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_60(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_61(bool)",
+      "target": "REF_60.registered"
+    },
+    {
+      "source": "0",
+      "target": "4"
+    },
+    {
+      "source": "REF_0(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_1(bool)",
+      "target": "REF_0.registered"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_2(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_3(bool)",
+      "target": "REF_2.registered"
+    },
+    {
+      "source": "REF_3(bool) (",
+      "target": "registeredServicesMap) := False(bool)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "5"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_17(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_18(mapping(bytes32 => bool))",
+      "target": "REF_17.actionsEnabledMap"
+    },
+    {
+      "source": "REF_19(bool)",
+      "target": "REF_18"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_20(Servable.ServiceInfo)",
+      "target": "registeredServicesMap"
+    },
+    {
+      "source": "REF_21(mapping(bytes32 => bool))",
+      "target": "REF_20.actionsEnabledMap"
+    },
+    {
+      "source": "REF_22(bool)",
+      "target": "REF_21"
+    },
+    {
+      "source": "REF_22(bool) (",
+      "target": "registeredServicesMap) := False(bool)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "3"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "3",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    }
+  ]
+}

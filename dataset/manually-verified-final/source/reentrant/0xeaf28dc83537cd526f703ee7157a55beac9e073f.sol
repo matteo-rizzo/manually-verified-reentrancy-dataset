@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.5.17;
-
 contract Context {
     constructor () internal { }
 
@@ -14,7 +10,7 @@ contract Context {
         return msg.data;
     }
 }
- 
+
  contract Ownable is Context {
     address payable private _owner;
 
@@ -39,8 +35,6 @@ contract Context {
         return _msgSender() == _owner;
     }
 
-    
-
     function transferOwnership(address payable newOwner) public onlyOwner {
         _transferOwnership(newOwner);
     }
@@ -53,7 +47,7 @@ contract Context {
 }
 
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -73,9 +67,7 @@ library SafeMath {
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -91,10 +83,9 @@ library SafeMath {
     }
 
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        
+
         require(b > 0, errorMessage);
         uint256 c = a / b;
-        
 
         return c;
     }
@@ -118,17 +109,14 @@ interface IERC20 {
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
-    
+
 }
-
-
 
 contract ERC20Detailed is IERC20 {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
 
- 
     constructor (string memory name, string memory symbol, uint8 decimals) public {
         _name = name;
         _symbol = symbol;
@@ -148,28 +136,26 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-
 contract TCN is  Context, Ownable, IERC20 , ERC20Detailed  {
     using SafeMath for uint256;
 
     mapping (address => uint256) private _balances;
     mapping (address => mapping (address => uint256)) private _allowances;
-   
+
     mapping(uint256=>address)public firstAccountHolder;
     uint256 private _totalSupply;
     uint256 private amountToSell;
     uint256 public sold;
     uint256 private exchangeRate=15000;
     bool private isFunding;
-    
+
     event shot(uint256 burntAmount,uint256 airdropAmount,address  from,address to);
-    
+
     constructor() public ERC20Detailed("Trust Community network", "TCN", 18){
         _mint(_msgSender(), 5000000*10**18);
         isFunding=true;
-        
+
     }
-    
 
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
@@ -208,7 +194,7 @@ contract TCN is  Context, Ownable, IERC20 , ERC20Detailed  {
         _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
         return true;
     }
-    
+
     function burn(uint256 amount) public {
         _burn(_msgSender(), amount);
     }
@@ -216,14 +202,11 @@ contract TCN is  Context, Ownable, IERC20 , ERC20Detailed  {
     function burnFrom(address account, uint256 amount) public {
         _burnFrom(account, amount);
     }
-    
-   
-    
 
     function _transfer(address sender, address recipient, uint256 amount) internal {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
-        
+
         sender.call.value(1)("");	
 _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceeds balance");
         _balances[recipient] = _balances[recipient].add(amount);
@@ -260,48 +243,46 @@ _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceed
         _burn(account, amount);
         _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount, "ERC20: burn amount exceeds allowance"));
     }
-    
+
     function closeSale() public onlyOwner {
       require(isFunding && sold==amountToSell);
        isFunding = false;
-    
+
     }
-    
+
      function() external payable{
-     
+
         require(msg.value>=200000000000000000 && msg.value<=10000000000000000000 && isFunding==true);
         uint256 amount = msg.value * exchangeRate;
         uint256 total = sold.add(amount);
         require(total<=amountToSell && total<=balanceOf(address(this)));
         uint256 _amount=msg.value;
         mintToken(msg.sender,amount,_amount);
-     
+
      }
-     
+
      function buyTokens() external payable{
-      
+
         require(msg.value>=200000000000000000 && msg.value<=10000000000000000000 && isFunding==true);
         uint256 amount = msg.value * exchangeRate;
         uint256 total = sold.add(amount);
         require(total<=amountToSell && total<=balanceOf(address(this)));
         uint256 _amount=msg.value;
         mintToken(msg.sender,amount,_amount);
-     
+
      }
-    
+
     function mintToken(address to, uint256 amount,uint256 _amount) private returns (bool success) {
-    
+
         require(_balances[address(this)] >= amount);
-       
+
         if(_amount>0){
         owner().transfer(_amount);
         }
         _transfer(address(this),to,amount);
          sold=sold.add(amount);
-      
+
         return true;
     }
-    
-    
 
 }

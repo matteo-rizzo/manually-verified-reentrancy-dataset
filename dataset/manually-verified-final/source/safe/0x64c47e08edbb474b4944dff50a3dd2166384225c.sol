@@ -1,22 +1,13 @@
-
-
-pragma solidity >=0.4.24;
-
 interface ENS {
 
-    
     event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
 
-    
     event Transfer(bytes32 indexed node, address owner);
 
-    
     event NewResolver(bytes32 indexed node, address resolver);
 
-    
     event NewTTL(bytes32 indexed node, uint64 ttl);
 
-    
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
     function setRecord(bytes32 node, address owner, address resolver, uint64 ttl) external;
@@ -33,7 +24,6 @@ interface ENS {
     function isApprovedForAll(address owner, address operator) external view returns (bool);
 }
 
-
 contract FIFSRegistrar {
     ENS ens;
     bytes32 rootNode;
@@ -44,13 +34,11 @@ contract FIFSRegistrar {
         _;
     }
 
-    
     constructor(ENS ensAddr, bytes32 node) public {
         ens = ensAddr;
         rootNode = node;
     }
 
-    
     function register(bytes32 label, address owner) public only_owner(label) {
         ens.setSubnodeOwner(rootNode, label, owner);
     }

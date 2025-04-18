@@ -1,9 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract Bounty {
 
     uint public counter = 0;
@@ -14,15 +8,11 @@ contract Bounty {
 
     mapping(address => bool) internal winners; 
 
-    
-
     constructor(string memory _base64) public {
 
         base64this = _base64;
 
     }
-
-    
 
     function claim(uint guessCurrentNumber, uint setNextNumber) public {
 
@@ -40,8 +30,6 @@ contract Bounty {
 
     }
 
-    
-
     function getPrize() public view returns (string memory){
 
         require(winners[msg.sender]);
@@ -50,14 +38,10 @@ contract Bounty {
 
     }
 
-    
-
     function isWinner(address _address) public view returns(bool){
 
         return winners[_address];
 
     }
-
-    
 
 }

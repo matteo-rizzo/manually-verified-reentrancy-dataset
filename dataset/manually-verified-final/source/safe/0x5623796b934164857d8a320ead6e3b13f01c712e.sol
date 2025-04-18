@@ -1,107 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.21 <0.6.0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 contract CARBONTRAIL_OPESTA {
 
     event OPESTA(
@@ -136,15 +32,11 @@ contract CARBONTRAIL_OPESTA {
 
     );
 
-
-
     function newOPESTA(bytes32 client_full, bytes32 address_full, bytes32 pro, address declared_for, uint nature_bon, uint status, bytes32 reference_interne, bytes32 fiche, uint volumekWh, uint date_engagement, uint date_facture) public  {
 
         emit OPESTA(client_full, address_full, pro, msg.sender, declared_for, nature_bon, status, reference_interne, fiche, volumekWh, date_engagement, date_facture, block.timestamp, block.number);
 
     }
-
-    
 
     event UOPESTA(
 
@@ -177,8 +69,6 @@ contract CARBONTRAIL_OPESTA {
         uint block
 
     );
-
-
 
     function updateOPESTA(bytes32 client_full, bytes32 address_full, bytes32 pro, address declared_for, uint nature_bon, uint status, bytes32 reference_interne, bytes32 fiche, uint volumekWh, uint date_engagement, uint date_facture) public  {
 

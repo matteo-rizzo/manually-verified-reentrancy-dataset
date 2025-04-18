@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract Broadcaster {
 
     event Broadcast(
@@ -14,19 +6,7 @@ contract Broadcaster {
 
     );
 
-
-
     function broadcast(string memory message) public {
-
-        
-
-        
-
-        
-
-        
-
-        
 
         emit Broadcast(message);
 

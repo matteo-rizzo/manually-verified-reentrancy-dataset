@@ -1,0 +1,613 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "BalanceUpdated(payments",
+    "LENGTH payments",
+    "REF_0(",
+    "REF_0(uint256)",
+    "REF_1(uint256)",
+    "REF_10(Syndicate.Payment)",
+    "REF_10.receiver",
+    "REF_11(address)",
+    "REF_12(Syndicate.Payment)",
+    "REF_12.weiPaid",
+    "REF_13(",
+    "REF_13(uint256)",
+    "REF_14(Syndicate.Payment)",
+    "REF_15(uint256)",
+    "REF_16(uint256)",
+    "REF_17(uint256)",
+    "REF_18(uint256)",
+    "REF_19(uint256)",
+    "REF_20(uint256)",
+    "REF_21(Syndicate.Payment)",
+    "REF_22(address)",
+    "REF_23(uint256)",
+    "REF_24(uint256)",
+    "REF_25(uint256)",
+    "REF_26(uint256)",
+    "REF_27(Syndicate.Payment)",
+    "REF_27.weiValue",
+    "REF_28(uint256)",
+    "REF_28(uint256) (",
+    "REF_29(Syndicate.Payment)",
+    "REF_29.weiPaid",
+    "REF_3",
+    "REF_3(uint256) (",
+    "REF_30(uint256)",
+    "REF_32",
+    "REF_32(uint256) (",
+    "REF_33(Syndicate.Payment)",
+    "REF_33(Syndicate.Payment) (",
+    "REF_34(Syndicate.Payment)",
+    "REF_34.fork1Index",
+    "REF_35(uint256)",
+    "REF_35(uint256) (",
+    "REF_36",
+    "REF_37",
+    "REF_39(address)",
+    "REF_4(Syndicate.Payment)",
+    "REF_4(Syndicate.Payment) (",
+    "REF_40(address)",
+    "REF_41",
+    "REF_41(uint256) (",
+    "REF_42(Syndicate.Payment)",
+    "REF_42(Syndicate.Payment) (",
+    "REF_43(Syndicate.Payment)",
+    "REF_43.fork2Index",
+    "REF_44(uint256)",
+    "REF_44(uint256) (",
+    "REF_45",
+    "REF_46",
+    "REF_47(Syndicate.Payment)",
+    "REF_47.isForked",
+    "REF_48(bool)",
+    "REF_48(bool) (",
+    "REF_49(Syndicate.Payment)",
+    "REF_49.weiValue",
+    "REF_5(",
+    "REF_5(uint256)",
+    "REF_50(uint256)",
+    "REF_51(Syndicate.Payment)",
+    "REF_51.weiPaid",
+    "REF_52(uint256)",
+    "REF_53",
+    "REF_54(uint256)",
+    "REF_57(",
+    "REF_57(uint256)",
+    "REF_59(uint256)",
+    "REF_6",
+    "REF_60(uint256)",
+    "REF_61",
+    "REF_7(Syndicate.Payment)",
+    "REF_7.receiver",
+    "REF_8(address)",
+    "REF_9(",
+    "REF_9(uint256)",
+    "TUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:",
+    "balances",
+    "balances) = REF_0 + msg.value\"]",
+    "balances) = REF_5 - _weiValue\"]",
+    "balances) = REF_57 - weiValue\"]",
+    "balances) = REF_9 + owedWei\"]",
+    "payment = payments",
+    "payment.receiver",
+    "payment.time",
+    "payment.timestamp",
+    "payment.weiPaid",
+    "payment.weiValue",
+    "payments",
+    "payments) := REF_30(uint256)\"]",
+    "payments) := TMP_11(uint256)",
+    "payments) := TMP_36(Syndicate.Payment)\"]",
+    "payments) := TMP_39(uint256)",
+    "payments) := TMP_40(uint256)\"]",
+    "payments) := TMP_44(Syndicate.Payment)\"]",
+    "payments) := TMP_47(uint256)",
+    "payments) := TMP_48(uint256)\"]",
+    "payments) := TMP_8(Syndicate.Payment)\"]",
+    "payments) := True(bool)\"]",
+    "payments) = REF_13 + owedWei\"]",
+    "require(bool)(_weiValue <= balances",
+    "require(bool)(balances",
+    "withdraw(msg.sender,balances",
+    "withdraw(target,balances"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_14(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_15(uint256)",
+      "target": "payment.weiPaid"
+    },
+    {
+      "source": "REF_16(uint256)",
+      "target": "payment.weiValue"
+    },
+    {
+      "source": "REF_17(uint256)",
+      "target": "payment.timestamp"
+    },
+    {
+      "source": "REF_18(uint256)",
+      "target": "payment.time"
+    },
+    {
+      "source": "REF_19(uint256)",
+      "target": "payment.time"
+    },
+    {
+      "source": "REF_20(uint256)",
+      "target": "payment.weiPaid"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_59(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_0(",
+      "target": "balances) = REF_0 + msg.value\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_54(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_57(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_57(",
+      "target": "balances) = REF_57 - weiValue\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_21(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_22(address)",
+      "target": "payment.receiver"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_23(uint256)",
+      "target": "payment.weiValue"
+    },
+    {
+      "source": "REF_24(uint256)",
+      "target": "payment.weiPaid"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_25(uint256)",
+      "target": "payment.time"
+    },
+    {
+      "source": "REF_26(uint256)",
+      "target": "payment.timestamp"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "REF_27(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_28(uint256)",
+      "target": "REF_27.weiValue"
+    },
+    {
+      "source": "REF_29(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_30(uint256)",
+      "target": "REF_29.weiPaid"
+    },
+    {
+      "source": "REF_28(uint256) (",
+      "target": "payments) := REF_30(uint256)\"]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "REF_32",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "REF_32(uint256) (",
+      "target": "payments) := TMP_39(uint256)"
+    },
+    {
+      "source": "REF_33(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_33(Syndicate.Payment) (",
+      "target": "payments) := TMP_36(Syndicate.Payment)\"]"
+    },
+    {
+      "source": "9",
+      "target": "10"
+    },
+    {
+      "source": "REF_34(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_35(uint256)",
+      "target": "REF_34.fork1Index"
+    },
+    {
+      "source": "REF_36",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "REF_35(uint256) (",
+      "target": "payments) := TMP_40(uint256)\"]"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "REF_37",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "REF_39(address)",
+      "target": "payment.receiver"
+    },
+    {
+      "source": "REF_40(address)",
+      "target": "payment.receiver"
+    },
+    {
+      "source": "REF_41",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "REF_41(uint256) (",
+      "target": "payments) := TMP_47(uint256)"
+    },
+    {
+      "source": "REF_42(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_42(Syndicate.Payment) (",
+      "target": "payments) := TMP_44(Syndicate.Payment)\"]"
+    },
+    {
+      "source": "12",
+      "target": "13"
+    },
+    {
+      "source": "REF_43(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_44(uint256)",
+      "target": "REF_43.fork2Index"
+    },
+    {
+      "source": "REF_45",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "REF_44(uint256) (",
+      "target": "payments) := TMP_48(uint256)\"]"
+    },
+    {
+      "source": "13",
+      "target": "14"
+    },
+    {
+      "source": "REF_46",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "REF_47(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_48(bool)",
+      "target": "REF_47.isForked"
+    },
+    {
+      "source": "REF_48(bool) (",
+      "target": "payments) := True(bool)\"]"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_1(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_3",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "REF_3(uint256) (",
+      "target": "payments) := TMP_11(uint256)"
+    },
+    {
+      "source": "REF_4(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_4(Syndicate.Payment) (",
+      "target": "payments) := TMP_8(Syndicate.Payment)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_5(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_5(",
+      "target": "balances) = REF_5 - _weiValue\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_6",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_60(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_53",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_61",
+      "target": "LENGTH payments"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_49(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_50(uint256)",
+      "target": "REF_49.weiValue"
+    },
+    {
+      "source": "REF_51(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_52(uint256)",
+      "target": "REF_51.weiPaid"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_7(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_8(address)",
+      "target": "REF_7.receiver"
+    },
+    {
+      "source": "REF_9(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_9(",
+      "target": "balances) = REF_9 + owedWei\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_10(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_11(address)",
+      "target": "REF_10.receiver"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_12(Syndicate.Payment)",
+      "target": "payments"
+    },
+    {
+      "source": "REF_13(uint256)",
+      "target": "REF_12.weiPaid"
+    },
+    {
+      "source": "REF_13(",
+      "target": "payments) = REF_13 + owedWei\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    }
+  ]
+}

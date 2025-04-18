@@ -1,12 +1,8 @@
-	
-
-pragma solidity ^0.5.11;
-
 contract StockBet {
-    
+
   mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
@@ -30,8 +26,7 @@ function callme_re_ent35() public{
   event GameClosed();
   mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();
@@ -41,8 +36,7 @@ function withdrawBalance_re_ent40() public{
   event OracleSet(address oracle);
   mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();
@@ -59,11 +53,11 @@ function bug_re_ent27() public{
         not_called_re_ent27 = false;
     }
   event PlayerBet(address player, uint guess);
-    
+
   mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -78,7 +72,7 @@ function bug_re_ent13() public{
         not_called_re_ent13 = false;
     }
   event OwnerWins(address owner);
-    
+
     enum State {
         SETUP, PRICE_SET, OPEN, CLOSED, PLAYERS_WIN, OWNER_WIN
     }
@@ -88,12 +82,12 @@ function bug_re_ent13() public{
         NOT_PAID,
         PAID
     }
-    
+
     struct Guess {
         mapping (address => PaidStatus) players;
         uint guesses_number;
     }
-    
+
   mapping(address => uint) balances_re_ent1;
     function withdraw_balances_re_ent1 () public {
        (bool success,) =msg.sender.call.value(balances_re_ent1[msg.sender ])("");
@@ -133,7 +127,7 @@ function callme_re_ent42() public{
   mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -152,7 +146,7 @@ function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
   mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -171,7 +165,7 @@ function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
 
   mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -180,62 +174,56 @@ function claimReward_re_ent25() public {
   uint constant UP = 1;
   mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
         userBalance_re_ent19[msg.sender] = 0;
     }
   uint constant DOWN = 0;
-    
-    
-    
+
     modifier byPlayer(){
         require(msg.sender != oracle);
         _;
     }
-    
+
     modifier byOwner(){
         require(msg.sender == owner);
         _;
     }
-    
+
     modifier byOracle(){
         require(msg.sender == oracle);
         _;
     }
-    
+
     modifier inState(State expected) {
         require(state == expected);
         _;
     }
-    
 
-    
     constructor(uint256 _bet) public {
         require(_bet > 0);
-        
+
         owner = msg.sender;
         state = State.SETUP;
         bet = _bet;
-        
+
         emit GameCreated(bet);
     }
 mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
         }
         userBalance_re_ent26[msg.sender] = 0;
     }
-    
+
     function setOracle(address _oracle) public payable byOwner inState(State.SETUP) {
         oracle = _oracle;
-        
+
         emit OracleSet(oracle);
     }
 bool not_called_re_ent20 = true;
@@ -246,16 +234,16 @@ function bug_re_ent20() public{
         }
         not_called_re_ent20 = false;
     }
-    
+
     function setInitialPrice(uint256 _value) public payable byOracle inState(State.SETUP) {
         initialPrice = _value;
         state = State.OPEN;
-        
+
         emit GameOpened(initialPrice);
     }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -270,11 +258,11 @@ function claimReward_re_ent32() public {
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
-    
+
     function betUp() public payable byPlayer inState(State.OPEN){
         require(msg.value == (bet*0.001 ether));
 
@@ -285,19 +273,19 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
     }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
         redeemableEther_re_ent4[msg.sender] = 0;
     }
-    
+
     function betDown() public payable byPlayer inState(State.OPEN){
         require(msg.value == (bet*0.001 ether));
 
         guesses[DOWN].guesses_number++;
         guesses[DOWN].players[msg.sender] = PaidStatus.NOT_PAID;
-        
+
         emit PlayerBet(msg.sender, DOWN);
     }
 uint256 counter_re_ent7 =0;
@@ -308,22 +296,19 @@ function callme_re_ent7() public{
         }
         counter_re_ent7 += 1;
     }
-    
-    
+
     function setFinalPrice(uint256 _value) public payable byOracle inState(State.CLOSED) {
-        
-        
+
         finalPrice = _value;
-        
+
         emit FinalPriceSet(finalPrice);
-        
+
         if(finalPrice > initialPrice){
             result = UP;
         }else{
             result = DOWN;
         }
-        
-        
+
         if(guesses[result].guesses_number > 0){
             state = State.PLAYERS_WIN;
             splitJackpot = getBalance()/guesses[result].guesses_number;
@@ -341,7 +326,7 @@ address payable lastPlayer_re_ent23;
       lastPlayer_re_ent23 = msg.sender;
       jackpot_re_ent23    = address(this).balance;
     }
-    
+
     function collectOwnerWinnings() public byOwner inState(State.OWNER_WIN){
         selfdestruct(owner);
     }
@@ -353,7 +338,7 @@ function callme_re_ent14() public{
         }
         counter_re_ent14 += 1;
     }
-    
+
     function collectPlayerWinnings() public byPlayer inState(State.PLAYERS_WIN){
         if(guesses[result].players[msg.sender] == PaidStatus.NOT_PAID){
             guesses[result].players[msg.sender] = PaidStatus.PAID;
@@ -378,5 +363,5 @@ mapping(address => uint) balances_re_ent8;
        if (success)
           balances_re_ent8[msg.sender] = 0;
       }
-    
+
 }

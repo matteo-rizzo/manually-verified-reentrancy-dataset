@@ -1,5 +1,3 @@
-pragma solidity ^0.4.16;
-
 contract DSMath {
     function add(uint x, uint y) internal pure returns (uint z) {
         require((z = x + y) >= x);
@@ -40,21 +38,6 @@ contract DSMath {
         z = add(mul(x, RAY), y / 2) / y;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     function rpow(uint x, uint n) internal pure returns (uint z) {
         z = n % 2 != 0 ? x : RAY;
 
@@ -163,7 +146,7 @@ contract OasisDirectProxy is DSMath {
         uint buyAmt,
         TokenInterface wethToken
     ) public payable returns (uint wethAmt) {
-        
+
         wethToken.deposit.value(msg.value)();
         if (wethToken.allowance(this, otc) < msg.value) {
             wethToken.approve(otc, uint(-1));
@@ -273,11 +256,6 @@ contract DSNote {
     }
 }
 
-
-
-
-
-
 contract DSProxy is DSAuth, DSNote {
     DSProxyCache public cache; 
 
@@ -287,14 +265,13 @@ contract DSProxy is DSAuth, DSNote {
 
     function() public payable {}
 
-    
     function execute(
         bytes _code,
         bytes _data
     ) public payable returns (address target, bytes32 response) {
         target = cache.read(_code);
         if (target == 0x0) {
-            
+
             target = cache.write(_code);
         }
 
@@ -307,7 +284,6 @@ contract DSProxy is DSAuth, DSNote {
     ) public payable auth note returns (bytes32 response) {
         require(_target != 0x0);
 
-        
         assembly {
             let succeeded := delegatecall(
                 sub(gas, 5000),
@@ -320,13 +296,12 @@ contract DSProxy is DSAuth, DSNote {
             response := mload(0) 
             switch iszero(succeeded)
             case 1 {
-                
+
                 revert(0, 0)
             }
         }
     }
 
-    
     function setCache(address _cacheAddr) public auth note returns (bool) {
         require(_cacheAddr != 0x0); 
         cache = DSProxyCache(_cacheAddr); 
@@ -334,22 +309,15 @@ contract DSProxy is DSAuth, DSNote {
     }
 }
 
-
-
-
 contract DSProxyFactory {
     event Created(address indexed sender, address proxy, address cache);
     mapping(address => bool) public isProxy;
     DSProxyCache public cache = new DSProxyCache();
 
-    
-    
     function build() public returns (DSProxy proxy) {
         proxy = build(msg.sender);
     }
 
-    
-    
     function build(address owner) public returns (DSProxy proxy) {
         proxy = new DSProxy(cache);
         Created(owner, address(proxy), address(cache));
@@ -357,15 +325,6 @@ contract DSProxyFactory {
         isProxy[proxy] = true;
     }
 }
-
-
-
-
-
-
-
-
-
 
 contract DSProxyCache {
     mapping(bytes32 => address) cache;
@@ -380,7 +339,7 @@ contract DSProxyCache {
             target := create(0, add(_code, 0x20), mload(_code))
             switch iszero(extcodesize(target))
             case 1 {
-                
+
                 revert(0, 0)
             }
         }

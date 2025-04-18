@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.5.11;
-
 contract TAMC {
     uint256 counter_re_ent14 = 0;
     function callme_re_ent14() public {
@@ -31,7 +27,7 @@ contract TAMC {
     string public symbol = "TAMC";
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
@@ -43,7 +39,7 @@ contract TAMC {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -71,8 +67,7 @@ contract TAMC {
     }
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -114,8 +109,7 @@ contract TAMC {
     }
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");

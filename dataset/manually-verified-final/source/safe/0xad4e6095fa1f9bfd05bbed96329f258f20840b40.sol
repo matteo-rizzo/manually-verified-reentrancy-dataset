@@ -1,9 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract EventThrower {
 
     event SomethingHappened (
@@ -23,8 +17,6 @@ contract EventThrower {
        address indexed indexedAddress
 
     );
-
-    
 
      function throwEvent(string memory _nonIndexedString, string memory _indexedString, uint _nonIndexedInt, uint _indexedInt, bool _nonIndexedBool, address _nonIndexedAddress, address _indexedAddress) public {
 

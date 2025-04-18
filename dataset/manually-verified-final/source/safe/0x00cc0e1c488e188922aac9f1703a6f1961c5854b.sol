@@ -1,10 +1,5 @@
-
-
-pragma solidity ^0.5.0;
-
-
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -12,12 +7,10 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
 
-    
     function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
@@ -25,11 +18,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -40,47 +30,27 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         return div(a, b, "SafeMath: division by zero");
     }
 
-    
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        
+
         require(b > 0, errorMessage);
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         return mod(a, b, "SafeMath: modulo by zero");
     }
 
-    
     function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-pragma solidity ^0.5.0;
-
 
 contract TreasuryTimelock {
     using SafeMath for uint;
@@ -102,7 +72,6 @@ contract TreasuryTimelock {
     bool public admin_initialized;
 
     mapping (bytes32 => bool) public queuedTransactions;
-
 
     constructor(address admin_, uint delay_) public {
         require(delay_ >= MINIMUM_DELAY, "Timelock::constructor: Delay must exceed minimum delay.");
@@ -133,7 +102,7 @@ contract TreasuryTimelock {
     }
 
     function setPendingAdmin(address pendingAdmin_) public {
-        
+
         if (admin_initialized) {
             require(msg.sender == address(this), "Timelock::setPendingAdmin: Call must come from Timelock.");
         } else {
@@ -183,7 +152,6 @@ contract TreasuryTimelock {
             callData = abi.encodePacked(bytes4(keccak256(bytes(signature))), data);
         }
 
-        
         (bool success, bytes memory returnData) = target.call.value(value)(callData);
         require(success, "Timelock::executeTransaction: Transaction execution reverted.");
 
@@ -193,7 +161,7 @@ contract TreasuryTimelock {
     }
 
     function getBlockTimestamp() internal view returns (uint) {
-        
+
         return block.timestamp;
     }
 }

@@ -1,6 +1,3 @@
-
-
-pragma solidity ^0.4.0;
 contract EtherBank{
     mapping (address => uint) userBalances;
     function getBalance(address user) constant returns(uint) {  
@@ -13,7 +10,7 @@ contract EtherBank{
 
 	function withdrawBalance() {  
 		uint amountToWithdraw = userBalances[msg.sender];
-        
+
 		if (!(msg.sender.call.value(amountToWithdraw)())) { throw; }
 		userBalances[msg.sender] = 0;
 	}    

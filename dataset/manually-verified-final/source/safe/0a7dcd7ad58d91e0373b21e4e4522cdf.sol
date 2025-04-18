@@ -1,5 +1,3 @@
-pragma solidity ^0.4.13;
-
 contract Escrow {
     mapping (address => uint) public balances;
 

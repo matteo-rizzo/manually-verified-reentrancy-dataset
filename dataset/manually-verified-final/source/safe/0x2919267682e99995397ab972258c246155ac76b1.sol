@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0; 
-
 interface IERC20 {
     function transfer(address to, uint256 value) external returns (bool);
 
@@ -20,16 +16,10 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
 library SafeMath {
-    
+
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -40,17 +30,14 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0);
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a);
         uint256 c = a - b;
@@ -58,7 +45,6 @@ library SafeMath {
         return c;
     }
 
-    
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a);
@@ -66,19 +52,11 @@ library SafeMath {
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0);
         return a % b;
     }
 }
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 
 contract ERC20 is IERC20 {
     using SafeMath for uint256;
@@ -90,53 +68,45 @@ contract ERC20 is IERC20 {
     uint256 private _totalSupply;
     address public tokenOwner;
     uint256 public maxSupply = 10000000000;
-    
+
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
-    
     function balanceOf(address owner) public view returns (uint256) {
         return _balances[owner];
     }
 
-    
     function allowance(address owner, address spender) public view returns (uint256) {
         return _allowed[owner][spender];
     }
 
-    
     function transfer(address to, uint256 value) public returns (bool) {
         _transfer(msg.sender, to, value);
         return true;
     }
 
-    
     function approve(address spender, uint256 value) public returns (bool) {
         _approve(msg.sender, spender, value);
         return true;
     }
 
-    
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
         _transfer(from, to, value);
         _approve(from, msg.sender, _allowed[from][msg.sender].sub(value));
         return true;
     }
 
-    
     function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
         _approve(msg.sender, spender, _allowed[msg.sender][spender].add(addedValue));
         return true;
     }
 
-    
     function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
         _approve(msg.sender, spender, _allowed[msg.sender][spender].sub(subtractedValue));
         return true;
     }
 
-    
     function _transfer(address from, address to, uint256 value) internal {
         require(to != address(0));
 
@@ -145,7 +115,6 @@ contract ERC20 is IERC20 {
         emit Transfer(from, to, value);
     }
 
-    
     function _mint(address account, uint256 value) internal {
         require(account != address(0));
 
@@ -154,7 +123,6 @@ contract ERC20 is IERC20 {
         emit Transfer(address(0), account, value);
     }
 
-    
     function _burn(address account, uint256 value) internal {
         require(account != address(0));
 
@@ -163,7 +131,6 @@ contract ERC20 is IERC20 {
         emit Transfer(account, address(0), value);
     }
 
-    
     function _approve(address owner, address spender, uint256 value) internal {
         require(spender != address(0));
         require(owner != address(0));
@@ -172,7 +139,6 @@ contract ERC20 is IERC20 {
         emit Approval(owner, spender, value);
     }
 
-    
     function _burnFrom(address account, uint256 value) internal {
         _burn(account, value);
         _approve(account, msg.sender, _allowed[account][msg.sender].sub(value));
@@ -190,46 +156,30 @@ contract ERC20 is IERC20 {
     }
 }
 
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
 contract FAIERC20Token is ERC20 {
     string private _name;
     string private _symbol;
     uint8 private _decimals;
-	
 
     constructor(string memory name, string memory symbol, uint8 decimals, uint256 totalSupply,  address tokenOwnerAddress) public payable {
       _name = name;
       _symbol = symbol;
       _decimals = decimals;
 
-      
       _mint(tokenOwnerAddress, totalSupply);
 	  tokenOwner = tokenOwnerAddress;
     }
-	
 
-
-    
-
-    
     function name() public view returns (string memory) {
       return _name;
     }
 
-    
     function symbol() public view returns (string memory) {
       return _symbol;
     }
 
-    
     function decimals() public view returns (uint8) {
       return _decimals;
     }
-	
-	
-    
+
 }

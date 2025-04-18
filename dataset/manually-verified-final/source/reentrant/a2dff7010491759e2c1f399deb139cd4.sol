@@ -1,12 +1,3 @@
-
-
-pragma solidity ^0.5.11;
-
-
-
-
-
-
 contract WhiteBetting {
     address payable lastPlayer_re_ent9;
     uint jackpot_re_ent9;
@@ -21,11 +12,10 @@ contract WhiteBetting {
 
     address payable public owner;
 
-    
     struct GameInfo {
-        
+
         uint256 timestamp;
-        
+
         uint32 odd_homeTeam;
         uint32 odd_drawTeam;
         uint32 odd_awayTeam;
@@ -34,16 +24,16 @@ contract WhiteBetting {
         uint32 odd_homeTeamAndDraw;
         uint32 odd_homeAndAwayTeam;
         uint32 odd_awayTeamAndDraw;
-        
+
         uint8 open_status;
-        
+
         bool isDone;
     }
 
     mapping(address => uint) redeemableEther_re_ent25;
 
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -52,20 +42,18 @@ contract WhiteBetting {
 
     mapping(uint64 => GameInfo) public gameList;
 
-    
     struct BetFixture {
         address payable player;
         uint256 stake;
         uint32 odd;
-        
+
         uint16 selectedTeam;
     }
 
     mapping(address => uint) userBalance_re_ent19;
 
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -74,7 +62,6 @@ contract WhiteBetting {
 
     mapping(uint64 => BetFixture[]) public betList;
 
-    
     mapping(address => uint) balances_re_ent36;
 
     function withdraw_balances_re_ent36() public {
@@ -99,8 +86,7 @@ contract WhiteBetting {
     mapping(address => uint) userBalance_re_ent40;
 
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success,) = msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if (!success) {
             revert();
@@ -113,8 +99,7 @@ contract WhiteBetting {
     mapping(address => uint) userBalance_re_ent33;
 
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success,) = msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if (!success) {
             revert();
@@ -140,7 +125,7 @@ contract WhiteBetting {
 
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -160,15 +145,13 @@ contract WhiteBetting {
 
     event GivePrizeMoney(uint64 _fixtureId, uint8 _homeDrawAway, uint8 _overUnder);
 
-    
     constructor() public {
         owner = msg.sender;
     }
     mapping(address => uint) userBalance_re_ent26;
 
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success,) = msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if (!success) {
             revert();
@@ -176,7 +159,6 @@ contract WhiteBetting {
         userBalance_re_ent26[msg.sender] = 0;
     }
 
-    
     function setOpenStatus(uint64 _fixtureId, uint8 _open_status) external onlyOwner {
         gameList[_fixtureId].open_status = _open_status;
     }
@@ -191,7 +173,6 @@ contract WhiteBetting {
         not_called_re_ent20 = false;
     }
 
-    
     function changeOdd(uint64 _fixtureId, uint32 _odd_homeTeam, uint32 _odd_drawTeam, uint32 _odd_awayTeam, uint32 _odd_over, uint32 _odd_under, uint32 _odd_homeTeamAndDraw, uint32 _odd_homeAndAwayTeam, uint32 _odd_awayTeamAndDraw) external onlyOwner {
         gameList[_fixtureId].odd_homeTeam = _odd_homeTeam;
         gameList[_fixtureId].odd_drawTeam = _odd_drawTeam;
@@ -207,14 +188,13 @@ contract WhiteBetting {
     mapping(address => uint) redeemableEther_re_ent32;
 
     function claimReward_re_ent32() public {
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
         redeemableEther_re_ent32[msg.sender] = 0;
     }
 
-    
     function setGameInfo(uint64 _fixtureId, uint256 _timestamp, uint32 _odd_homeTeam, uint32 _odd_drawTeam, uint32 _odd_awayTeam, uint32 _odd_over, uint32 _odd_under, uint32 _odd_homeTeamAndDraw, uint32 _odd_homeAndAwayTeam, uint32 _odd_awayTeamAndDraw, uint8 _open_status) external onlyOwner {
         gameList[_fixtureId].timestamp = _timestamp;
         gameList[_fixtureId].odd_homeTeam = _odd_homeTeam;
@@ -234,20 +214,18 @@ contract WhiteBetting {
 
     function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
 
-    
     function placeBet(uint64 _fixtureId, uint16 _selectedTeam, uint32 _odd) external payable {
         uint stake = msg.value;
-        
+
         require(stake >= .001 ether);
-        
+
         require(_odd != 0);
 
-        
         if (_selectedTeam == 1) {
             require(gameList[_fixtureId].odd_homeTeam == _odd);
         } else if (_selectedTeam == 2) {
@@ -268,12 +246,10 @@ contract WhiteBetting {
             revert();
         }
 
-        
         require(gameList[_fixtureId].open_status == 3);
-        
+
         require(now < (gameList[_fixtureId].timestamp - 10 minutes));
 
-        
         betList[_fixtureId].push(BetFixture(msg.sender, stake, _odd, _selectedTeam));
         emit NewStake(msg.sender, _fixtureId, _selectedTeam, stake, _odd);
 
@@ -282,23 +258,21 @@ contract WhiteBetting {
     mapping(address => uint) redeemableEther_re_ent4;
 
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
         redeemableEther_re_ent4[msg.sender] = 0;
     }
 
-    
     function givePrizeMoney(uint64 _fixtureId, uint8 _homeDrawAway, uint8 _overUnder) external onlyOwner payable {
-        
+
         require(gameList[_fixtureId].open_status == 3);
-        
+
         require(gameList[_fixtureId].isDone == false);
-        
+
         require(betList[_fixtureId][0].player != address(0));
 
-        
         for (uint i = 0; i < betList[_fixtureId].length; i++) {
             uint16 selectedTeam = betList[_fixtureId][i].selectedTeam;
             uint256 returnEth = (betList[_fixtureId][i].stake * betList[_fixtureId][i].odd) / 1000;
@@ -315,9 +289,8 @@ contract WhiteBetting {
             }
         }
 
-        
         gameList[_fixtureId].open_status = 5;
-        
+
         gameList[_fixtureId].isDone = true; 
 
         emit GivePrizeMoney(_fixtureId, _homeDrawAway, _overUnder);
@@ -333,13 +306,11 @@ contract WhiteBetting {
         counter_re_ent7 += 1;
     }
 
-    
     modifier onlyOwner {
         require(msg.sender == owner, "OnlyOwner methods called by non-owner.");
         _;
     }
 
-    
     function getBalance() external view returns (uint){
         return address(this).balance;
     }
@@ -354,7 +325,6 @@ contract WhiteBetting {
         jackpot_re_ent23 = address(this).balance;
     }
 
-    
     function deposit(uint256 _eth) external payable {
         emit Deposit(msg.sender, _eth);
     }
@@ -369,7 +339,6 @@ contract WhiteBetting {
         counter_re_ent14 += 1;
     }
 
-    
     function changeOwner(address payable _newOwner) external onlyOwner {
         owner = _newOwner;
     }
@@ -384,7 +353,6 @@ contract WhiteBetting {
         jackpot_re_ent30 = address(this).balance;
     }
 
-    
     function() external payable {
         owner.transfer(msg.value);
     }
@@ -397,7 +365,6 @@ contract WhiteBetting {
             balances_re_ent8[msg.sender] = 0;
     }
 
-    
     function withdraw(uint256 _amount) external payable onlyOwner {
         require(_amount > 0 && _amount <= address(this).balance);
         owner.transfer(_amount);
@@ -407,7 +374,7 @@ contract WhiteBetting {
     mapping(address => uint) redeemableEther_re_ent39;
 
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   

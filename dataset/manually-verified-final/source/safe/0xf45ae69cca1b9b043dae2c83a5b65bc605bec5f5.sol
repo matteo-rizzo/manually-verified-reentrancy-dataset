@@ -1,24 +1,3 @@
-
-
-
-pragma solidity >0.4.13 >=0.4.23;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 contract DSAuthority {
     function canCall(
         address src, address dst, bytes4 sig
@@ -73,24 +52,6 @@ contract DSAuth is DSAuthEvents {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 contract DSMath {
     function add(uint x, uint y) internal pure returns (uint z) {
         require((z = x + y) >= x, "ds-math-add-overflow");
@@ -131,21 +92,6 @@ contract DSMath {
         z = add(mul(x, RAY), y / 2) / y;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     function rpow(uint x, uint n) internal pure returns (uint z) {
         z = n % 2 != 0 ? x : RAY;
 
@@ -158,24 +104,6 @@ contract DSMath {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 contract DSNote {
     event LogNote(
@@ -204,58 +132,12 @@ contract DSNote {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 contract DSThing is DSAuth, DSNote, DSMath {
     function S(string memory s) internal pure returns (bytes4) {
         return bytes4(keccak256(abi.encodePacked(s)));
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 contract DSValue is DSThing {
     bool    has;

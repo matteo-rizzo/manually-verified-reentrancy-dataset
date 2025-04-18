@@ -1,14 +1,9 @@
-pragma solidity >=0.4.22 <0.7.0;
-
 contract NetVRK {
     string  public name = "Netvrk";
     string  public symbol = "$NetVRK";
     string  public standard = "Netvrk v1.0";
 
-
     uint256 public totalSupply;
-
-
 
     event Transfer(
         address indexed _from,
@@ -31,8 +26,6 @@ contract NetVRK {
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
-
-        
 
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;

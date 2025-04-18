@@ -1,11 +1,5 @@
-
-
-pragma solidity ^0.5.12;
-
-
 library SafeMath {
 
-    
     function mul(uint256 _a, uint256 _b) internal pure returns (uint256) {
         if (_a == 0) {
             return 0;
@@ -17,17 +11,14 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 _a, uint256 _b) internal pure returns (uint256) {
         require(_b > 0);
-        
+
         uint256 c = _a / _b;
-        
 
         return c;
     }
 
-    
     function sub(uint256 _a, uint256 _b) internal pure returns (uint256) {
         require(_b <= _a);
         uint256 c = _a - _b;
@@ -35,7 +26,6 @@ library SafeMath {
         return c;
     }
 
-    
     function add(uint256 _a, uint256 _b) internal pure returns (uint256) {
         uint256 c = _a + _b;
         require(c >= _a);
@@ -45,63 +35,18 @@ library SafeMath {
 
 }
 
-
-contract Ownable {
-    address payable private _owner;
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-    
-    constructor (address payable newOwner) public {
-        _owner = newOwner;
-        emit OwnershipTransferred(address(0), _owner);
-    }
-
-    
-    function owner() public view returns (address payable) {
-        return _owner;
-    }
-
-    
-    modifier onlyOwner() {
-        require(isOwner(), "Ownable: caller is not the owner");
-        _;
-    }
-
-    
-    function isOwner() public view returns (bool) {
-        return msg.sender == _owner;
-    }
-
-    
-    function transferOwnership(address payable newOwner) public onlyOwner {
-        _transferOwnership(newOwner);
-    }
-
-    
-    function _transferOwnership(address payable newOwner) internal {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
-        emit OwnershipTransferred(_owner, newOwner);
-        _owner = newOwner;
-    }
-}
-
 contract ReferStorage is Ownable {
     using SafeMath for uint;
 
     mapping(address => mapping(address => uint)) private referrerBalance;
-    
+
     mapping(address => uint) public percentReferrer;
-    
 
     mapping(address => uint) public balanceContract;
-    
 
     mapping(address => bool) public whitelist;
-    
 
     mapping(address => bool) private parentContract;
-    
 
     modifier onlyOwnerOrWhitelist(){
         address _customerAddress = msg.sender;

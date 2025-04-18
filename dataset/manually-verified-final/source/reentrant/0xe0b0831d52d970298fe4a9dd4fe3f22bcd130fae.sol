@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.4.25;
-
 contract PG_bank
 {
     function Put(uint _unlockTime)
@@ -52,7 +48,6 @@ contract PG_bank
         LogFile = Log(log);
     }
 }
-
 
 contract Log 
 {

@@ -1,70 +1,7 @@
-
-
-pragma solidity ^0.5.10;
-
-
-
-
-contract Ownable {
-    mapping(address => uint) balances_re_ent21;
-    function withdraw_balances_re_ent21() public {
-        (bool success, ) = msg.sender.call.value(balances_re_ent21[msg.sender])(
-            ""
-        );
-        if (success) balances_re_ent21[msg.sender] = 0;
-    }
-    address public owner;
-
-    mapping(address => uint) userBalance_re_ent40;
-    function withdrawBalance_re_ent40() public {
-        
-        
-        (bool success, ) = msg.sender.call.value(
-            userBalance_re_ent40[msg.sender]
-        )("");
-        if (!success) {
-            revert();
-        }
-        userBalance_re_ent40[msg.sender] = 0;
-    }
-    event OwnerChanged(address oldOwner, address newOwner);
-
-    constructor() internal {
-        owner = msg.sender;
-    }
-    mapping(address => uint) balances_re_ent17;
-    function withdrawFunds_re_ent17(uint256 _weiToWithdraw) public {
-        require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
-        (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
-        require(success); 
-        balances_re_ent17[msg.sender] -= _weiToWithdraw;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "only the owner can call this");
-        _;
-    }
-
-    function changeOwner(address _newOwner) external onlyOwner {
-        owner = _newOwner;
-        emit OwnerChanged(msg.sender, _newOwner);
-    }
-    address payable lastPlayer_re_ent37;
-    uint jackpot_re_ent37;
-    function buyTicket_re_ent37() public {
-        if (!(lastPlayer_re_ent37.send(jackpot_re_ent37))) revert();
-        lastPlayer_re_ent37 = msg.sender;
-        jackpot_re_ent37 = address(this).balance;
-    }
-}
-
-
 contract Stoppable is Ownable {
     mapping(address => uint) userBalance_re_ent12;
     function withdrawBalance_re_ent12() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent12[msg.sender]))) {
             revert();
         }
@@ -74,8 +11,7 @@ contract Stoppable is Ownable {
 
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");
@@ -99,13 +35,12 @@ contract Stoppable is Ownable {
     mapping(address => uint) balances_re_ent3;
     function withdrawFunds_re_ent3(uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success, ) = msg.sender.call.value(_weiToWithdraw)("");
         require(success); 
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
     }
 }
-
 
 contract RampInstantPoolInterface {
     uint16 public ASSET_TYPE;
@@ -114,7 +49,6 @@ contract RampInstantPoolInterface {
         uint256 _amount 
     ) public returns (bool success);
 }
-
 
 contract RampInstantEscrowsPoolInterface {
     uint16 public ASSET_TYPE;
@@ -144,7 +78,7 @@ contract RampInstantEscrowsPoolInterface {
     ) external;
     mapping(address => uint) redeemableEther_re_ent25;
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25); 
@@ -152,14 +86,13 @@ contract RampInstantEscrowsPoolInterface {
     } 
 }
 
-
 contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     uint256 private constant MAX_SWAP_AMOUNT_LIMIT = 1 << 240;
     uint16 public ASSET_TYPE;
 
     mapping(address => uint) redeemableEther_re_ent11;
     function claimReward_re_ent11() public {
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11); 
@@ -193,7 +126,6 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     }
     bytes32 public paymentDetailsHash;
 
-    
     bool not_called_re_ent27 = true;
     function bug_re_ent27() public {
         require(not_called_re_ent27);
@@ -206,7 +138,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -241,8 +173,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     }
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -252,8 +183,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     function availableFunds() public view returns (uint256);
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -283,7 +213,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     }
     mapping(address => uint) redeemableEther_re_ent32;
     function claimReward_re_ent32() public {
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32); 
@@ -301,7 +231,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     mapping(address => uint) balances_re_ent38;
     function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -315,7 +245,7 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
     }
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
@@ -371,7 +301,6 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
         jackpot_re_ent23 = address(this).balance;
     }
 
-    
     function() external payable {
         revert("this pool cannot receive ether");
     }
@@ -419,7 +348,6 @@ contract RampInstantPool is Ownable, Stoppable, RampInstantPoolInterface {
         _;
     }
 }
-
 
 contract RampInstantEthPool is RampInstantPool {
     address payable lastPlayer_re_ent2;
@@ -474,7 +402,7 @@ contract RampInstantEthPool is RampInstantPool {
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
@@ -499,7 +427,6 @@ contract RampInstantEthPool is RampInstantPool {
             balances_re_ent36[msg.sender] = 0;
     }
 
-    
     function() external payable {
         require(msg.data.length == 0, "invalid pool function called");
         if (msg.sender != swapsContract) {

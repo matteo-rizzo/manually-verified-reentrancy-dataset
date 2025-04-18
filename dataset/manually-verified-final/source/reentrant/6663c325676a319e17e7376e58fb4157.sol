@@ -1,9 +1,5 @@
-
-
-pragma solidity ^0.5.2;
-
 library SafeMath {
- 
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -17,9 +13,7 @@ library SafeMath {
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -31,10 +25,9 @@ library SafeMath {
     }
 
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
-        
 
         return c;
     }
@@ -70,7 +63,7 @@ contract UBBCToken is IERC20 {
   mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -88,7 +81,7 @@ function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
   uint256 private _totalSupply;
   mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -97,8 +90,7 @@ function claimReward_re_ent25() public {
   string private _name;
   mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
@@ -107,8 +99,7 @@ function withdrawBalance_re_ent19() public{
   string private _symbol;
   mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -134,12 +125,12 @@ function bug_re_ent20() public{
   mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
   event Transfer(address  sender, address  to, uint256 value);
-    
+
   bool not_called_re_ent13 = true;
 function bug_re_ent13() public{
         require(not_called_re_ent13);
@@ -150,26 +141,26 @@ function bug_re_ent13() public{
         not_called_re_ent13 = false;
     }
   event Approval(address  owner, address spender, uint256 value);
-    
+
     function name() public view returns (string memory) {
         return _name;
     }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
         redeemableEther_re_ent32[msg.sender] = 0;
     }
-    
+
     function symbol() public view returns (string memory) {
         return _symbol;
     }
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -178,13 +169,13 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
     }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
         redeemableEther_re_ent4[msg.sender] = 0;
     }
-    
+
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
@@ -252,13 +243,13 @@ mapping(address => uint) balances_re_ent8;
     }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
         redeemableEther_re_ent39[msg.sender] = 0;
     }
-    
+
     function increaseAllowance(address spender, uint256 addedValue) public  returns (bool) {
         _approve(msg.sender, spender, _allowances[msg.sender][spender].add(addedValue));
         return true;
@@ -292,15 +283,14 @@ function callme_re_ent35() public{
     }
 mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();
         }
         userBalance_re_ent40[msg.sender] = 0;
     }
-    
+
     function _approve(address owner, address spender, uint256 value) internal {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
@@ -309,8 +299,7 @@ function withdrawBalance_re_ent40() public{
     }
 mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();

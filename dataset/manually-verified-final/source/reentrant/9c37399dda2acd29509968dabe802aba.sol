@@ -1,16 +1,7 @@
-pragma solidity ^0.4.24;
-
-
-
-
-
 library SafeMath {
 
-  
   function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
-    
-    
-    
+
     if (a == 0) {
       return 0;
     }
@@ -20,21 +11,16 @@ library SafeMath {
     return c;
   }
 
-  
   function div(uint256 a, uint256 b) internal pure returns (uint256) {
-    
-    
-    
+
     return a / b;
   }
 
-  
   function sub(uint256 a, uint256 b) internal pure returns (uint256) {
     assert(b <= a);
     return a - b;
   }
 
-  
   function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
     c = a + b;
     assert(c >= a);
@@ -42,18 +28,12 @@ library SafeMath {
   }
 }
 
-
-
-
 contract ERC20Basic {
   function totalSupply() public view returns (uint256);
   function balanceOf(address who) public view returns (uint256);
   function transfer(address to, uint256 value) public returns (bool);
   event Transfer(address indexed from, address indexed to, uint256 value);
 }
-
-
-
 
 contract ERC20 is ERC20Basic {
   function allowance(address owner, address spender)
@@ -70,13 +50,6 @@ contract ERC20 is ERC20Basic {
   );
 }
 
-
-
-
-
-
-
-
 contract IMultiToken {
     function changeableTokenCount() external view returns(uint16 count);
     function tokens(uint256 i) public view returns(ERC20);
@@ -84,7 +57,6 @@ contract IMultiToken {
     function totalSupply() public view returns(uint256);
     function mint(address _to, uint256 _amount) public;
 }
-
 
 contract BancorBuyer {
     using SafeMath for uint256;
@@ -131,29 +103,6 @@ contract BancorBuyer {
         }
     }
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
     function buyOne(
         ERC20 token,
         address _exchange,
@@ -170,7 +119,7 @@ contract BancorBuyer {
         tokenBalances[msg.sender][token] = tokenBalances[msg.sender][token]
             .add(token.balanceOf(this).sub(tokenBalance));
     }
-    
+
     function buy1(
         address[] _tokens,
         address[] _exchanges,
@@ -183,7 +132,7 @@ contract BancorBuyer {
         balances[msg.sender] = balances[msg.sender].add(msg.value);
         this.buyOne(ERC20(_tokens[0]), _exchanges[0], _values[0], _data1);
     }
-    
+
     function buy2(
         address[] _tokens,
         address[] _exchanges,
@@ -198,7 +147,7 @@ contract BancorBuyer {
         this.buyOne(ERC20(_tokens[0]), _exchanges[0], _values[0], _data1);
         this.buyOne(ERC20(_tokens[1]), _exchanges[1], _values[1], _data2);
     }
-    
+
     function buy3(
         address[] _tokens,
         address[] _exchanges,
@@ -215,86 +164,5 @@ contract BancorBuyer {
         this.buyOne(ERC20(_tokens[1]), _exchanges[1], _values[1], _data2);
         this.buyOne(ERC20(_tokens[2]), _exchanges[2], _values[2], _data3);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-    
-            
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-            
-    
-    
-    
-    
-    
-
-    
-    
-
-    
-    
-    
-    
-    
-    
 
 }

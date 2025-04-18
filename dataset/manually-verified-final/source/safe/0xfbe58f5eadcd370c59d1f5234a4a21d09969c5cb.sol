@@ -1,8 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
 interface IERC20 {
     function transfer(address to, uint256 value) external returns (bool);
 
@@ -21,13 +16,10 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
 library SafeMath {
-    
+
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -38,17 +30,14 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0);
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a);
         uint256 c = a - b;
@@ -56,7 +45,6 @@ library SafeMath {
         return c;
     }
 
-    
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a);
@@ -64,14 +52,11 @@ library SafeMath {
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0);
         return a % b;
     }
 }
-
-
 
 contract ERC20Token is IERC20 {
 
@@ -79,7 +64,7 @@ contract ERC20Token is IERC20 {
 
     uint256 private _totalSupply;
     mapping (address => uint256) private _balances;
-   
+
     string private _name;
     string private _symbol;
     uint8 private _decimals;
@@ -93,28 +78,19 @@ contract ERC20Token is IERC20 {
           _balances[tokenOwnerAddress] = totalSupply;
     }
 
- 
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
-    
     function balanceOf(address owner) public view returns (uint256) {
         return _balances[owner];
     }
 
-
-    
     function transfer(address to, uint256 value) public returns (bool) {
         _transfer(msg.sender, to, value);
         return true;
     }
 
-
-
-
-
-    
     function _transfer(address from, address to, uint256 value) internal {
         require(to != address(0));
 
@@ -122,25 +98,19 @@ contract ERC20Token is IERC20 {
         _balances[to] = _balances[to].add(value);
         emit Transfer(from, to, value);
     }
-    
-    
-    
 
-    
     function name() public view returns (string memory) {
       return _name;
     }
 
-    
     function symbol() public view returns (string memory) {
       return _symbol;
     }
 
-    
     function decimals() public view returns (uint8) {
       return _decimals;
     }
-    
+
     function approve(address spender, uint256 value) external returns (bool){
         require(address(0) != address(0));
         return false;
@@ -151,12 +121,9 @@ contract ERC20Token is IERC20 {
         return false;
     }
 
-
     function allowance(address owner, address spender) external view returns (uint256){
         require(address(0) != address(0));
         return 0;
     }
-
-    
 
 }

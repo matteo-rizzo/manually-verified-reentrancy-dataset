@@ -1,9 +1,5 @@
-pragma solidity ^0.4.15;
-
-
-
 contract MultiSigWallet {
-    
+
     event Confirmation(address indexed sender, uint indexed transactionId);
     event Revocation(address indexed sender, uint indexed transactionId);
     event Submission(uint indexed transactionId);
@@ -14,10 +10,8 @@ contract MultiSigWallet {
     event OwnerRemoval(address indexed owner);
     event RequirementChange(uint required);
 
-    
     uint public constant MAX_OWNER_COUNT = 50;
 
-    
     mapping(uint => Transaction) public transactions;
     mapping(uint => mapping(address => bool)) public confirmations;
     mapping(address => bool) public isOwner;
@@ -32,7 +26,6 @@ contract MultiSigWallet {
         bool executed;
     }
 
-    
     modifier onlyWallet() {
         require(msg.sender == address(this));
         _;
@@ -83,15 +76,10 @@ contract MultiSigWallet {
         _;
     }
 
-    
     function() payable {
         if (msg.value > 0) Deposit(msg.sender, msg.value);
     }
 
-    
-    
-    
-    
     function MultiSigWallet(
         address[] _owners,
         uint _required
@@ -104,8 +92,6 @@ contract MultiSigWallet {
         required = _required;
     }
 
-    
-    
     function addOwner(
         address owner
     )
@@ -120,8 +106,6 @@ contract MultiSigWallet {
         OwnerAddition(owner);
     }
 
-    
-    
     function removeOwner(address owner) public onlyWallet ownerExists(owner) {
         isOwner[owner] = false;
         for (uint i = 0; i < owners.length - 1; i++)
@@ -134,9 +118,6 @@ contract MultiSigWallet {
         OwnerRemoval(owner);
     }
 
-    
-    
-    
     function replaceOwner(
         address owner,
         address newOwner
@@ -152,8 +133,6 @@ contract MultiSigWallet {
         OwnerAddition(newOwner);
     }
 
-    
-    
     function changeRequirement(
         uint _required
     ) public onlyWallet validRequirement(owners.length, _required) {
@@ -161,11 +140,6 @@ contract MultiSigWallet {
         RequirementChange(_required);
     }
 
-    
-    
-    
-    
-    
     function submitTransaction(
         address destination,
         uint value,
@@ -175,8 +149,6 @@ contract MultiSigWallet {
         confirmTransaction(transactionId);
     }
 
-    
-    
     function confirmTransaction(
         uint transactionId
     )
@@ -190,8 +162,6 @@ contract MultiSigWallet {
         executeTransaction(transactionId);
     }
 
-    
-    
     function revokeConfirmation(
         uint transactionId
     )
@@ -204,8 +174,6 @@ contract MultiSigWallet {
         Revocation(msg.sender, transactionId);
     }
 
-    
-    
     function executeTransaction(
         uint transactionId
     )
@@ -232,8 +200,6 @@ contract MultiSigWallet {
         }
     }
 
-    
-    
     function external_call(
         address destination,
         uint value,
@@ -246,8 +212,7 @@ contract MultiSigWallet {
             let d := add(data, 32) 
             result := call(
                 sub(gas, 34710), 
-                
-                
+
                 destination,
                 value,
                 d,
@@ -259,9 +224,6 @@ contract MultiSigWallet {
         return result;
     }
 
-    
-    
-    
     function isConfirmed(uint transactionId) public constant returns (bool) {
         uint count = 0;
         for (uint i = 0; i < owners.length; i++) {
@@ -270,12 +232,6 @@ contract MultiSigWallet {
         }
     }
 
-    
-    
-    
-    
-    
-    
     function addTransaction(
         address destination,
         uint value,
@@ -292,10 +248,6 @@ contract MultiSigWallet {
         Submission(transactionId);
     }
 
-    
-    
-    
-    
     function getConfirmationCount(
         uint transactionId
     ) public constant returns (uint count) {
@@ -303,10 +255,6 @@ contract MultiSigWallet {
             if (confirmations[transactionId][owners[i]]) count += 1;
     }
 
-    
-    
-    
-    
     function getTransactionCount(
         bool pending,
         bool executed
@@ -318,15 +266,10 @@ contract MultiSigWallet {
             ) count += 1;
     }
 
-    
-    
     function getOwners() public constant returns (address[]) {
         return owners;
     }
 
-    
-    
-    
     function getConfirmations(
         uint transactionId
     ) public constant returns (address[] _confirmations) {
@@ -342,12 +285,6 @@ contract MultiSigWallet {
         for (i = 0; i < count; i++) _confirmations[i] = confirmationsTemp[i];
     }
 
-    
-    
-    
-    
-    
-    
     function getTransactionIds(
         uint from,
         uint to,
@@ -371,22 +308,14 @@ contract MultiSigWallet {
     }
 }
 
-
-
 contract MultiSigWalletWithDailyLimit is MultiSigWallet {
-    
+
     event DailyLimitChange(uint dailyLimit);
 
-    
     uint public dailyLimit;
     uint public lastDay;
     uint public spentToday;
 
-    
-    
-    
-    
-    
     function MultiSigWalletWithDailyLimit(
         address[] _owners,
         uint _required,
@@ -395,15 +324,11 @@ contract MultiSigWalletWithDailyLimit is MultiSigWallet {
         dailyLimit = _dailyLimit;
     }
 
-    
-    
     function changeDailyLimit(uint _dailyLimit) public onlyWallet {
         dailyLimit = _dailyLimit;
         DailyLimitChange(_dailyLimit);
     }
 
-    
-    
     function executeTransaction(
         uint transactionId
     )
@@ -427,10 +352,6 @@ contract MultiSigWalletWithDailyLimit is MultiSigWallet {
         }
     }
 
-    
-    
-    
-    
     function isUnderLimit(uint amount) internal returns (bool) {
         if (now > lastDay + 24 hours) {
             lastDay = now;
@@ -442,9 +363,6 @@ contract MultiSigWalletWithDailyLimit is MultiSigWallet {
         return true;
     }
 
-    
-    
-    
     function calcMaxWithdraw() public constant returns (uint) {
         if (now > lastDay + 24 hours) return dailyLimit;
         if (dailyLimit < spentToday) return 0;

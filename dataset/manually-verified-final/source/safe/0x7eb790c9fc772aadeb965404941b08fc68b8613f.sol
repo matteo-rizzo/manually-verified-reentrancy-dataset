@@ -1,42 +1,6 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
-
-
-
-
-
-
-
-
 contract EightHoursToken {
 
-    
-
-    
-
-    
-
-    
-
     event Transfer (address indexed _from, address indexed _to, uint _tokens);
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
 
     event Approval (
 
@@ -48,37 +12,17 @@ contract EightHoursToken {
 
     );
 
-    
-
-    
-
-    
-
     uint totalEHrT = (10 ** 10) * (10**18);    
-
-    
 
     mapping (address => uint) ehrtBalances;
 
-    
-
     mapping (address => mapping (address => uint)) allowances;
-
-
 
     constructor() public {
 
         ehrtBalances[msg.sender] = totalEHrT;
 
     }
-
-    
-
-    
-
-    
-
-    
 
     modifier sufficientFunds(address tokenOwner, uint tokens) {
 
@@ -87,22 +31,6 @@ contract EightHoursToken {
         _;
 
     }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     function transfer(address _to, uint _tokens) 
 
@@ -114,15 +42,9 @@ contract EightHoursToken {
 
     {
 
-        
-
         ehrtBalances[msg.sender] -= _tokens;
 
-
-
         if (_to != address(0)) {
-
-            
 
             ehrtBalances[_to] += _tokens;
 
@@ -130,47 +52,15 @@ contract EightHoursToken {
 
         else {
 
-            
-
             totalEHrT -= _tokens;
 
         }
 
-
-
-        
-
         emit Transfer(msg.sender, _to, _tokens);
-
-        
 
         return true;
 
     }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     function transferFrom(address _from, address _to, uint _tokens) 
 
@@ -190,19 +80,11 @@ contract EightHoursToken {
 
         );
 
-        
-
         allowances[_from][msg.sender] -= _tokens;
-
-        
 
         ehrtBalances[_from] -= _tokens;
 
-
-
         if (_to != address(0)) {
-
-            
 
             ehrtBalances[_to] += _tokens;
 
@@ -210,99 +92,33 @@ contract EightHoursToken {
 
         else {
 
-            
-
             totalEHrT -= _tokens;
 
         }
 
-        
-
         emit Transfer(_from, _to, _tokens);
-
-
 
         return true;
 
     }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     function approve(address _spender, uint _tokens) external returns(bool) {
 
-        
-
         allowances[msg.sender][_spender] = _tokens;
 
-        
-
         emit Approval(msg.sender, _spender, _tokens);
-
-
 
         return true;
 
     }
 
-
-
-    
-
-    
-
-    
-
-    
-
     function totalSupply() external view returns (uint) { return totalEHrT; }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
 
     function balanceOf(address _tokenOwner) public view returns(uint) {
 
         return ehrtBalances[_tokenOwner];
 
     }
-
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
 
     function allowance(
 
@@ -316,43 +132,13 @@ contract EightHoursToken {
 
     }
 
-
-
-    
-
-    
-
-    
-
-    
-
     function name() external pure returns (string memory) { 
 
         return "Eight Hours Token"; 
 
     }
 
-
-
-    
-
-    
-
-    
-
-    
-
     function symbol() external pure returns (string memory) { return "EHrT"; }
-
-
-
-    
-
-    
-
-    
-
-    
 
     function decimals() external pure returns (uint8) { return 18; }
 

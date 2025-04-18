@@ -1,28 +1,12 @@
-
-
-
-
-pragma solidity 0.4.25;
-
-
-
 contract AlarmClock {
-
-
 
     event _newAlarmClock(address _contract, uint startBlock, uint blockWindow, uint reward, uint gas, bytes _callData);
 
-    
-
     address public owner;
-
-    
 
     uint public totalTimers;
 
     uint public waitingTimers;
-
-    
 
     struct ClockStruct {
 
@@ -40,37 +24,17 @@ contract AlarmClock {
 
     }
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     ClockStruct[] public clockList;
-
-  
 
     constructor () public payable {
 
         owner = msg.sender;
-
-        
 
         totalTimers = 0;
 
         waitingTimers = 0;
 
     }  
-
-  
 
     modifier ownerOnly() {
 
@@ -80,27 +44,13 @@ contract AlarmClock {
 
     }  
 
-  
-
-    
-
     function setNewOwner(address _newOwner) public ownerOnly {
 
         owner = _newOwner;
 
     }   
 
-  
-
-     
-
-  
-
-    
-
     function registerAlarmClock(address _contract, uint startBlock, uint blockWindow, uint gas, bytes  _callData) external payable {
-
-        
 
         require(gas >= 200000);
 
@@ -108,41 +58,19 @@ contract AlarmClock {
 
         require(block.number < startBlock);
 
-        
-
         clockList.push(ClockStruct(_contract, startBlock, blockWindow, msg.value - gas, gas, _callData));
-
-        
-
-        
-
-        
-
-        
-
-        
 
         totalTimers++;
 
         waitingTimers++;
 
-        
-
         emit _newAlarmClock(_contract, startBlock, blockWindow, msg.value - gas, gas, _callData);
 
     }  
 
-  
-
-	
-
     function trigerAlarmClock(uint id) external payable {
 
-        
-
         uint _reward;
-
-        
 
         require(clockList[id].reward > 0);
 
@@ -150,11 +78,7 @@ contract AlarmClock {
 
         require(block.number < (clockList[id].startBlock + clockList[id].blockWindow));
 
-        
-
         require(clockList[id]._contract.call.value(0).gas(clockList[id].gas)(clockList[id].callData));
-
-        
 
         waitingTimers--; 
 
@@ -162,32 +86,18 @@ contract AlarmClock {
 
         clockList[id].reward = 0;
 
-        
-
         msg.sender.transfer(_reward);
-
-        
 
     }  
 
-  
-
-    
-
     function() external payable {
 
-        
-
     }   
-
-    
 
     function _destroyContract() external ownerOnly {
 
         selfdestruct(msg.sender);
 
     }    
-
-  
 
 }

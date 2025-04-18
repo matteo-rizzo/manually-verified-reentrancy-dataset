@@ -1,13 +1,3 @@
-pragma solidity ^0.4.24;
-
-
-
-
-
-
-
-
-
 contract OraclizeI {
 
     address public cbAddress;
@@ -76,11 +66,7 @@ contract usingOraclize {
 
     uint8 constant networkID_consensys = 161;
 
-
-
     OraclizeAddrResolverI OAR;
-
-
 
     OraclizeI oraclize;
 
@@ -90,13 +76,9 @@ contract usingOraclize {
 
             oraclize_setNetwork(networkID_auto);
 
-
-
         if(address(oraclize) != OAR.getAddress())
 
             oraclize = OraclizeI(OAR.getAddress());
-
-
 
         _;
 
@@ -111,8 +93,6 @@ contract usingOraclize {
         _;
 
     }
-
-
 
     function oraclize_setNetwork(uint8 networkID) internal returns(bool){
 
@@ -184,8 +164,6 @@ contract usingOraclize {
 
     }
 
-
-
     function __callback(bytes32 myid, string result) {
 
         __callback(myid, result, new bytes(0));
@@ -196,15 +174,11 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_useCoupon(string code) oraclizeAPI internal {
 
         oraclize.useCoupon(code);
 
     }
-
-
 
     function oraclize_getPrice(string datasource) oraclizeAPI internal returns (uint){
 
@@ -212,15 +186,11 @@ contract usingOraclize {
 
     }
 
-
-
     function oraclize_getPrice(string datasource, uint gaslimit) oraclizeAPI internal returns (uint){
 
         return oraclize.getPrice(datasource, gaslimit);
 
     }
-
-    
 
     function oraclize_query(string datasource, string arg) oraclizeAPI internal returns (bytes32 id){
 
@@ -390,8 +360,6 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_query(string datasource, string[2] args) oraclizeAPI internal returns (bytes32 id) {
 
         string[] memory dynargs = new string[](2);
@@ -495,8 +463,6 @@ contract usingOraclize {
         return oraclize_query(datasource, dynargs, gaslimit);
 
     }
-
-    
 
     function oraclize_query(string datasource, string[4] args) oraclizeAPI internal returns (bytes32 id) {
 
@@ -722,8 +688,6 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_query(string datasource, bytes[2] args) oraclizeAPI internal returns (bytes32 id) {
 
         bytes[] memory dynargs = new bytes[](2);
@@ -827,8 +791,6 @@ contract usingOraclize {
         return oraclize_query(datasource, dynargs, gaslimit);
 
     }
-
-    
 
     function oraclize_query(string datasource, bytes[4] args) oraclizeAPI internal returns (bytes32 id) {
 
@@ -966,8 +928,6 @@ contract usingOraclize {
 
     }
 
-
-
     function oraclize_cbAddress() oraclizeAPI internal returns (address){
 
         return oraclize.cbAddress();
@@ -992,15 +952,11 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_randomDS_getSessionPubKeyHash() oraclizeAPI internal returns (bytes32){
 
         return oraclize.randomDS_getSessionPubKeyHash();
 
     }
-
-
 
     function getCodeSize(address _addr) constant internal returns(uint _size) {
 
@@ -1011,8 +967,6 @@ contract usingOraclize {
         }
 
     }
-
-
 
     function parseAddr(string _a) internal returns (address){
 
@@ -1052,8 +1006,6 @@ contract usingOraclize {
 
     }
 
-
-
     function strCompare(string _a, string _b) internal returns (int) {
 
         bytes memory a = bytes(_a);
@@ -1087,8 +1039,6 @@ contract usingOraclize {
             return 0;
 
     }
-
-
 
     function indexOf(string _haystack, string _needle) internal returns (int) {
 
@@ -1142,8 +1092,6 @@ contract usingOraclize {
 
     }
 
-
-
     function strConcat(string _a, string _b, string _c, string _d, string _e) internal returns (string) {
 
         bytes memory _ba = bytes(_a);
@@ -1176,15 +1124,11 @@ contract usingOraclize {
 
     }
 
-
-
     function strConcat(string _a, string _b, string _c, string _d) internal returns (string) {
 
         return strConcat(_a, _b, _c, _d, "");
 
     }
-
-
 
     function strConcat(string _a, string _b, string _c) internal returns (string) {
 
@@ -1192,27 +1136,17 @@ contract usingOraclize {
 
     }
 
-
-
     function strConcat(string _a, string _b) internal returns (string) {
 
         return strConcat(_a, _b, "", "", "");
 
     }
 
-
-
-    
-
     function parseInt(string _a) internal returns (uint) {
 
         return parseInt(_a, 0);
 
     }
-
-
-
-    
 
     function parseInt(string _a, uint _b) internal returns (uint) {
 
@@ -1248,8 +1182,6 @@ contract usingOraclize {
 
     }
 
-
-
     function uint2str(uint i) internal returns (string){
 
         if (i == 0) return "0";
@@ -1282,15 +1214,9 @@ contract usingOraclize {
 
     }
 
-    
-
     function stra2cbor(string[] arr) internal returns (bytes) {
 
             uint arrlen = arr.length;
-
-
-
-            
 
             uint outputlen = 0;
 
@@ -1312,8 +1238,6 @@ contract usingOraclize {
 
             bytes memory res = new bytes(outputlen);
 
-
-
             while (byte(cborlen).length > ctr) {
 
                 res[ctr] = byte(cborlen)[ctr];
@@ -1329,8 +1253,6 @@ contract usingOraclize {
                 ctr++;
 
                 for (uint x = 0; x < elemArray[i].length; x++) {
-
-                    
 
                     if (x % 23 == 0) {
 
@@ -1365,17 +1287,11 @@ contract usingOraclize {
             return res;
 
         }
-
-
 
     function ba2cbor(bytes[] arr) internal returns (bytes) {
 
             uint arrlen = arr.length;
 
-
-
-            
-
             uint outputlen = 0;
 
             bytes[] memory elemArray = new bytes[](arrlen);
@@ -1396,8 +1312,6 @@ contract usingOraclize {
 
             bytes memory res = new bytes(outputlen);
 
-
-
             while (byte(cborlen).length > ctr) {
 
                 res[ctr] = byte(cborlen)[ctr];
@@ -1413,8 +1327,6 @@ contract usingOraclize {
                 ctr++;
 
                 for (uint x = 0; x < elemArray[i].length; x++) {
-
-                    
 
                     if (x % 23 == 0) {
 
@@ -1449,10 +1361,6 @@ contract usingOraclize {
             return res;
 
         }
-
-        
-
-        
 
     string oraclize_network_name;
 
@@ -1462,15 +1370,11 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_getNetworkName() internal returns (string) {
 
         return oraclize_network_name;
 
     }
-
-    
 
     function oraclize_newRandomDSQuery(uint _delay, uint _nbytes, uint _customGasLimit) internal returns (bytes32){
 
@@ -1508,21 +1412,15 @@ contract usingOraclize {
 
     }
 
-    
-
     function oraclize_randomDS_setCommitment(bytes32 queryId, bytes32 commitment) internal {
 
         oraclize_randomDS_args[queryId] = commitment;
 
     }
 
-    
-
     mapping(bytes32=>bytes32) oraclize_randomDS_args;
 
     mapping(bytes32=>bool) oraclize_randomDS_sessionKeysHashVerified;
-
-
 
     function verifySig(bytes32 tosignh, bytes dersig, bytes pubkey) internal returns (bool){
 
@@ -1530,13 +1428,9 @@ contract usingOraclize {
 
         address signer;
 
-        
-
         bytes32 sigr;
 
         bytes32 sigs;
-
-        
 
         bytes memory sigr_ = new bytes(32);
 
@@ -1550,8 +1444,6 @@ contract usingOraclize {
 
         sigs_ = copyBytes(dersig, offset+(uint(dersig[offset-1]) - 0x20), 32, sigs_, 0);
 
-
-
         assembly {
 
             sigr := mload(add(sigr_, 32))
@@ -1559,10 +1451,6 @@ contract usingOraclize {
             sigs := mload(add(sigs_, 32))
 
         }
-
-        
-
-        
 
         (sigok, signer) = safer_ecrecover(tosignh, 27, sigr, sigs);
 
@@ -1578,27 +1466,17 @@ contract usingOraclize {
 
     }
 
-
-
     function oraclize_randomDS_proofVerify__sessionKeyValidity(bytes proof, uint sig2offset) internal returns (bool) {
 
         bool sigok;
-
-        
-
-        
 
         bytes memory sig2 = new bytes(uint(proof[sig2offset+1])+2);
 
         copyBytes(proof, sig2offset, sig2.length, sig2, 0);
 
-        
-
         bytes memory appkey1_pubkey = new bytes(64);
 
         copyBytes(proof, 3+1, 64, appkey1_pubkey, 0);
-
-        
 
         bytes memory tosign2 = new bytes(1+65+32);
 
@@ -1612,19 +1490,9 @@ contract usingOraclize {
 
         sigok = verifySig(sha256(tosign2), sig2, appkey1_pubkey);
 
-        
-
         if (sigok == false) return false;
 
-        
-
-        
-
-        
-
         bytes memory LEDGERKEY = hex"7fb956469c5c9b89840d55b43537e66a98dd4811ea0a27224272c2e5622911e8537a2f8e86a46baec82864e98dd01e9ccc2f8bc5dfc9cbe5a91a290498dd96e4";
-
-        
 
         bytes memory tosign3 = new bytes(1+65);
 
@@ -1632,69 +1500,43 @@ contract usingOraclize {
 
         copyBytes(proof, 3, 65, tosign3, 1);
 
-        
-
         bytes memory sig3 = new bytes(uint(proof[3+65+1])+2);
 
         copyBytes(proof, 3+65, sig3.length, sig3, 0);
 
-        
-
         sigok = verifySig(sha256(tosign3), sig3, LEDGERKEY);
-
-        
 
         return sigok;
 
     }
 
-    
-
     modifier oraclize_randomDS_proofVerify(bytes32 _queryId, string _result, bytes _proof) {
 
-        
-
         if ((_proof[0] != "L")||(_proof[1] != "P")||(_proof[2] != 1)) throw;
-
-        
 
         bool proofVerified = oraclize_randomDS_proofVerify__main(_proof, _queryId, bytes(_result), oraclize_getNetworkName());
 
         if (proofVerified == false) throw;
 
-        
-
         _;
 
     }
 
-    
-
     function oraclize_randomDS_proofVerify__returnCode(bytes32 _queryId, string _result, bytes _proof) internal returns (uint8){
 
-        
-
         if ((_proof[0] != "L")||(_proof[1] != "P")||(_proof[2] != 1)) return 1;
-
-        
 
         bool proofVerified = oraclize_randomDS_proofVerify__main(_proof, _queryId, bytes(_result), oraclize_getNetworkName());
 
         if (proofVerified == false) return 2;
 
-        
-
         return 0;
 
     }
 
-    
-
     function matchBytes32Prefix(bytes32 content, bytes prefix) internal returns (bool){
 
         bool match_ = true;
-
-        
 
         for (var i=0; i<prefix.length; i++){
 
@@ -1702,23 +1544,13 @@ contract usingOraclize {
 
         }
 
-        
-
         return match_;
 
     }
 
-
-
     function oraclize_randomDS_proofVerify__main(bytes proof, bytes32 queryId, bytes result, string context_name) internal returns (bool){
 
         bool checkok;
-
-        
-
-        
-
-        
 
         uint ledgerProofLength = 3+65+(uint(proof[3+65+1])+2)+32;
 
@@ -1730,43 +1562,23 @@ contract usingOraclize {
 
         if (checkok == false) return false;
 
-        
-
         bytes memory sig1 = new bytes(uint(proof[ledgerProofLength+(32+8+1+32)+1])+2);
 
         copyBytes(proof, ledgerProofLength+(32+8+1+32), sig1.length, sig1, 0);
-
-        
-
-        
-
-        
 
         checkok = matchBytes32Prefix(sha256(sig1), result);
 
         if (checkok == false) return false;
 
-        
-
-        
-
-        
-
-        
-
         bytes memory commitmentSlice1 = new bytes(8+1+32);
 
         copyBytes(proof, ledgerProofLength+32, 8+1+32, commitmentSlice1, 0);
-
-        
 
         bytes memory sessionPubkey = new bytes(64);
 
         uint sig2offset = ledgerProofLength+32+(8+1+32)+sig1.length+65;
 
         copyBytes(proof, sig2offset-64, 64, sessionPubkey, 0);
-
-        
 
         bytes32 sessionPubkeyHash = sha256(sessionPubkey);
 
@@ -1776,12 +1588,6 @@ contract usingOraclize {
 
         } else return false;
 
-        
-
-        
-
-        
-
         bytes memory tosign1 = new bytes(32+8+1+32);
 
         copyBytes(proof, ledgerProofLength, 32+8+1+32, tosign1, 0);
@@ -1790,51 +1596,29 @@ contract usingOraclize {
 
         if (checkok == false) return false;
 
-        
-
-        
-
         if (oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] == false){
 
             oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash] = oraclize_randomDS_proofVerify__sessionKeyValidity(proof, sig2offset);
 
         }
 
-        
-
         return oraclize_randomDS_sessionKeysHashVerified[sessionPubkeyHash];
 
     }
-
-
-
-    
-
-    
 
     function copyBytes(bytes from, uint fromOffset, uint length, bytes to, uint toOffset) internal returns (bytes) {
 
         uint minLength = length + toOffset;
 
-
-
         if (to.length < minLength) {
-
-            
 
             throw; 
 
         }
 
-
-
-        
-
         uint i = 32 + fromOffset;
 
         uint j = 32 + toOffset;
-
-
 
         while (i < (32 + fromOffset + length)) {
 
@@ -1852,39 +1636,15 @@ contract usingOraclize {
 
         }
 
-
-
         return to;
 
     }
 
-    
-
-    
-
-    
-
     function safer_ecrecover(bytes32 hash, uint8 v, bytes32 r, bytes32 s) internal returns (bool, address) {
-
-        
-
-        
-
-        
-
-        
-
-        
-
-
-
-        
 
         bool ret;
 
         address addr;
-
-
 
         assembly {
 
@@ -1898,27 +1658,15 @@ contract usingOraclize {
 
             mstore(add(size, 96), s)
 
-
-
-            
-
-            
-
             ret := call(3000, 1, 0, size, 128, size, 32)
 
             addr := mload(size)
 
         }
 
-  
-
         return (ret, addr);
 
     }
-
-
-
-    
 
     function ecrecovery(bytes32 hash, bytes sig) internal returns (bool, address) {
 
@@ -1928,19 +1676,9 @@ contract usingOraclize {
 
         uint8 v;
 
-
-
         if (sig.length != 65)
 
           return (false, 0);
-
-
-
-        
-
-        
-
-        
 
         assembly {
 
@@ -1948,65 +1686,23 @@ contract usingOraclize {
 
             s := mload(add(sig, 64))
 
-
-
-            
-
-            
-
-            
-
             v := byte(0, mload(add(sig, 96)))
 
-
-
-            
-
-            
-
-            
-
-            
-
         }
-
-
-
-        
-
-        
-
-        
-
-        
-
-        
 
         if (v < 27)
 
           v += 27;
 
-
-
         if (v != 27 && v != 28)
 
             return (false, 0);
-
-
 
         return safer_ecrecover(hash, v, r, s);
 
     }
 
-        
-
 }
-
-
-
-
-
-
 
 library strings {
 
@@ -2018,11 +1714,7 @@ library strings {
 
     }
 
-
-
     function memcpy(uint dest, uint src, uint len) private {
-
-        
 
         for(; len >= 32; len -= 32) {
 
@@ -2038,10 +1730,6 @@ library strings {
 
         }
 
-
-
-        
-
         uint mask = 256 ** (32 - len) - 1;
 
         assembly {
@@ -2056,10 +1744,6 @@ library strings {
 
     }
 
-
-
-    
-
     function toSlice(string self) internal returns (slice) {
 
         uint ptr;
@@ -2073,10 +1757,6 @@ library strings {
         return slice(bytes(self).length, ptr);
 
     }
-
-
-
-    
 
     function len(bytes32 self) internal returns (uint) {
 
@@ -2128,13 +1808,7 @@ library strings {
 
     }
 
-
-
-    
-
     function toSliceB32(bytes32 self) internal returns (slice ret) {
-
-        
 
         assembly {
 
@@ -2152,19 +1826,11 @@ library strings {
 
     }
 
-
-
-    
-
     function copy(slice self) internal returns (slice) {
 
         return slice(self._len, self._ptr);
 
     }
-
-
-
-    
 
     function toString(slice self) internal returns (string) {
 
@@ -2174,21 +1840,13 @@ library strings {
 
         assembly { retptr := add(ret, 32) }
 
-
-
         memcpy(retptr, self._ptr, self._len);
 
         return ret;
 
     }
 
-
-
-    
-
     function len(slice self) internal returns (uint) {
-
-        
 
         var ptr = self._ptr - 31;
 
@@ -2232,19 +1890,11 @@ library strings {
 
     }
 
-
-
-    
-
     function empty(slice self) internal returns (bool) {
 
         return self._len == 0;
 
     }
-
-
-
-    
 
     function compare(slice self, slice other) internal returns (int) {
 
@@ -2253,8 +1903,6 @@ library strings {
         if (other._len < self._len)
 
             shortest = other._len;
-
-
 
         var selfptr = self._ptr;
 
@@ -2276,8 +1924,6 @@ library strings {
 
             if (a != b) {
 
-                
-
                 uint mask = ~(2 ** (8 * (32 - shortest + idx)) - 1);
 
                 var diff = (a & mask) - (b & mask);
@@ -2298,25 +1944,15 @@ library strings {
 
     }
 
-
-
-    
-
     function equals(slice self, slice other) internal returns (bool) {
 
         return compare(self, other) == 0;
 
     }
 
-
-
-    
-
     function nextRune(slice self, slice rune) internal returns (slice) {
 
         rune._ptr = self._ptr;
-
-
 
         if (self._len == 0) {
 
@@ -2326,13 +1962,9 @@ library strings {
 
         }
 
-
-
         uint len;
 
         uint b;
-
-        
 
         assembly { b := and(mload(sub(mload(add(self, 32)), 31)), 0xFF) }
 
@@ -2354,10 +1986,6 @@ library strings {
 
         }
 
-
-
-        
-
         if (len > self._len) {
 
             rune._len = self._len;
@@ -2370,8 +1998,6 @@ library strings {
 
         }
 
-
-
         self._ptr += len;
 
         self._len -= len;
@@ -2382,19 +2008,11 @@ library strings {
 
     }
 
-
-
-    
-
     function nextRune(slice self) internal returns (slice ret) {
 
         nextRune(self, ret);
 
     }
-
-
-
-    
 
     function ord(slice self) internal returns (uint ret) {
 
@@ -2404,17 +2022,11 @@ library strings {
 
         }
 
-
-
         uint word;
 
         uint len;
 
         uint div = 2 ** 248;
-
-
-
-        
 
         assembly { word:= mload(mload(add(self, 32))) }
 
@@ -2446,17 +2058,11 @@ library strings {
 
         }
 
-
-
-        
-
         if (len > self._len) {
 
             return 0;
 
         }
-
-
 
         for (uint i = 1; i < len; i++) {
 
@@ -2466,8 +2072,6 @@ library strings {
 
             if (b & 0xC0 != 0x80) {
 
-                
-
                 return 0;
 
             }
@@ -2476,15 +2080,9 @@ library strings {
 
         }
 
-
-
         return ret;
 
     }
-
-
-
-    
 
     function keccak(slice self) internal returns (bytes32 ret) {
 
@@ -2496,10 +2094,6 @@ library strings {
 
     }
 
-
-
-    
-
     function startsWith(slice self, slice needle) internal returns (bool) {
 
         if (self._len < needle._len) {
@@ -2508,15 +2102,11 @@ library strings {
 
         }
 
-
-
         if (self._ptr == needle._ptr) {
 
             return true;
 
         }
-
-
 
         bool equal;
 
@@ -2536,10 +2126,6 @@ library strings {
 
     }
 
-
-
-    
-
     function beyond(slice self, slice needle) internal returns (slice) {
 
         if (self._len < needle._len) {
@@ -2547,8 +2133,6 @@ library strings {
             return self;
 
         }
-
-
 
         bool equal = true;
 
@@ -2568,8 +2152,6 @@ library strings {
 
         }
 
-
-
         if (equal) {
 
             self._len -= needle._len;
@@ -2578,15 +2160,9 @@ library strings {
 
         }
 
-
-
         return self;
 
     }
-
-
-
-    
 
     function endsWith(slice self, slice needle) internal returns (bool) {
 
@@ -2596,19 +2172,13 @@ library strings {
 
         }
 
-
-
         var selfptr = self._ptr + self._len - needle._len;
-
-
 
         if (selfptr == needle._ptr) {
 
             return true;
 
         }
-
-
 
         bool equal;
 
@@ -2622,15 +2192,9 @@ library strings {
 
         }
 
-
-
         return equal;
 
     }
-
-
-
-    
 
     function until(slice self, slice needle) internal returns (slice) {
 
@@ -2639,8 +2203,6 @@ library strings {
             return self;
 
         }
-
-
 
         var selfptr = self._ptr + self._len - needle._len;
 
@@ -2660,25 +2222,15 @@ library strings {
 
         }
 
-
-
         if (equal) {
 
             self._len -= needle._len;
 
         }
 
-
-
         return self;
 
     }
-
-
-
-    
-
-    
 
     function findPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr) private returns (uint) {
 
@@ -2686,13 +2238,9 @@ library strings {
 
         uint idx;
 
-
-
         if (needlelen <= selflen) {
 
             if (needlelen <= 32) {
-
-                
 
                 assembly {
 
@@ -2722,8 +2270,6 @@ library strings {
 
             } else {
 
-                
-
                 bytes32 hash;
 
                 assembly { hash := sha3(needleptr, needlelen) }
@@ -2752,23 +2298,13 @@ library strings {
 
     }
 
-
-
-    
-
-    
-
     function rfindPtr(uint selflen, uint selfptr, uint needlelen, uint needleptr) private returns (uint) {
 
         uint ptr;
 
-
-
         if (needlelen <= selflen) {
 
             if (needlelen <= 32) {
-
-                
 
                 assembly {
 
@@ -2802,8 +2338,6 @@ library strings {
 
             } else {
 
-                
-
                 bytes32 hash;
 
                 assembly { hash := sha3(needleptr, needlelen) }
@@ -2832,10 +2366,6 @@ library strings {
 
     }
 
-
-
-    
-
     function find(slice self, slice needle) internal returns (slice) {
 
         uint ptr = findPtr(self._len, self._ptr, needle._len, needle._ptr);
@@ -2848,10 +2378,6 @@ library strings {
 
     }
 
-
-
-    
-
     function rfind(slice self, slice needle) internal returns (slice) {
 
         uint ptr = rfindPtr(self._len, self._ptr, needle._len, needle._ptr);
@@ -2862,10 +2388,6 @@ library strings {
 
     }
 
-
-
-    
-
     function split(slice self, slice needle, slice token) internal returns (slice) {
 
         uint ptr = findPtr(self._len, self._ptr, needle._len, needle._ptr);
@@ -2875,8 +2397,6 @@ library strings {
         token._len = ptr - self._ptr;
 
         if (ptr == self._ptr + self._len) {
-
-            
 
             self._len = 0;
 
@@ -2892,19 +2412,11 @@ library strings {
 
     }
 
-
-
-    
-
     function split(slice self, slice needle) internal returns (slice token) {
 
         split(self, needle, token);
 
     }
-
-
-
-    
 
     function rsplit(slice self, slice needle, slice token) internal returns (slice) {
 
@@ -2915,8 +2427,6 @@ library strings {
         token._len = self._len - (ptr - self._ptr);
 
         if (ptr == self._ptr) {
-
-            
 
             self._len = 0;
 
@@ -2930,19 +2440,11 @@ library strings {
 
     }
 
-
-
-    
-
     function rsplit(slice self, slice needle) internal returns (slice token) {
 
         rsplit(self, needle, token);
 
     }
-
-
-
-    
 
     function count(slice self, slice needle) internal returns (uint count) {
 
@@ -2958,19 +2460,11 @@ library strings {
 
     }
 
-
-
-    
-
     function contains(slice self, slice needle) internal returns (bool) {
 
         return rfindPtr(self._len, self._ptr, needle._len, needle._ptr) != self._ptr;
 
     }
-
-
-
-    
 
     function concat(slice self, slice other) internal returns (string) {
 
@@ -2988,17 +2482,11 @@ library strings {
 
     }
 
-
-
-    
-
     function join(slice self, slice[] parts) internal returns (string) {
 
         if (parts.length == 0)
 
             return "";
-
-
 
         uint len = self._len * (parts.length - 1);
 
@@ -3006,15 +2494,11 @@ library strings {
 
             len += parts[i]._len;
 
-
-
         var ret = new string(len);
 
         uint retptr;
 
         assembly { retptr := add(ret, 32) }
-
-
 
         for(i = 0; i < parts.length; i++) {
 
@@ -3032,17 +2516,11 @@ library strings {
 
         }
 
-
-
         return ret;
 
     }
 
 }
-
-
-
-
 
 contract DSSafeAddSub {
 
@@ -3060,15 +2538,11 @@ contract DSSafeAddSub {
 
     }
 
-
-
     function safeToSubtract(uint a, uint b) internal returns (bool) {
 
         return (b <= a);
 
     }
-
-
 
     function safeSub(uint a, uint b) internal returns (uint) {
 
@@ -3080,21 +2554,9 @@ contract DSSafeAddSub {
 
 }
 
-
-
-
-
-
-
 contract Etheroll is usingOraclize, DSSafeAddSub {
 
-    
-
      using strings for *;
-
-
-
-    
 
     modifier betIsValid(uint _betSize, uint _playerNumber) {      
 
@@ -3104,10 +2566,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     modifier gameIsActive {
 
         if(gamePaused == true) throw;
@@ -3115,10 +2573,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 		_;
 
     }    
-
-
-
-    
 
     modifier payoutsAreActive {
 
@@ -3128,10 +2582,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }    
 
-
-
-    
-
     modifier onlyOraclize {
 
         if (msg.sender != oraclize_cbAddress()) throw;
@@ -3139,10 +2589,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
         _;
 
     }
-
-
-
-    
 
     modifier onlyOwner {
 
@@ -3152,10 +2598,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     modifier onlyTreasury {
 
          if (msg.sender != treasury) throw;
@@ -3163,10 +2605,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
          _;
 
     }    
-
-
-
-     
 
     uint constant public maxProfitDivisor = 1000000;
 
@@ -3196,29 +2634,15 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     uint public minBet; 
 
-    
-
     uint public totalBets = 362934;
 
     uint public maxPendingPayouts;
 
-    
-
     uint public totalWeiWon = 149384935590234707322323;
-
-    
 
     uint public totalWeiWagered = 404219360930425835446289; 
 
-    
-
     uint public randomQueryID = 2;
-
-    
-
-
-
-    
 
     mapping (bytes32 => address) playerAddress;
 
@@ -3240,37 +2664,15 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     mapping (bytes32 => uint) playerTempReward;           
 
-
-
-    
-
-    
-
     event LogBet(bytes32 indexed BetID, address indexed PlayerAddress, uint indexed RewardValue, uint ProfitValue, uint BetValue, uint PlayerNumber, uint RandomQueryID);      
-
-    
-
-    
 
 	event LogResult(uint indexed ResultSerialNumber, bytes32 indexed BetID, address indexed PlayerAddress, uint PlayerNumber, uint DiceResult, uint Value, int Status, bytes Proof);   
 
-    
-
     event LogRefund(bytes32 indexed BetID, address indexed PlayerAddress, uint indexed RefundValue);
-
-    
 
     event LogOwnerTransfer(address indexed SentToAddress, uint indexed AmountTransferred);               
 
-
-
-
-
-    
-
     function Etheroll() {
-
-
 
         owner = msg.sender;
 
@@ -3278,37 +2680,19 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
         oraclize_setNetwork(networkID_auto);        
 
-        
-
         oraclize_setProof(proofType_TLSNotary | proofStorage_IPFS);
-
-        
 
         ownerSetHouseEdge(990);
 
-        
-
         ownerSetMaxProfitAsPercentOfHouse(10000);
-
-        
 
         ownerSetMinBet(100000000000000000);        
 
-                
-
         gasForOraclize = 235000;  
-
-        
 
         oraclize_setCustomGasPrice(20000000000 wei);              
 
-
-
     }
-
-
-
-    
 
     function playerRollDice(uint rollUnder) public 
 
@@ -3320,10 +2704,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
 	{       
 
-
-
-               
-
         randomQueryID += 1;
 
         string memory queryString1 = "[URL] ['json(https://api.random.org/json-rpc/1/invoke).result.random[\"serialNumber\",\"data\"]', '\\n{\"jsonrpc\":\"2.0\",\"method\":\"generateSignedIntegers\",\"params\":{\"apiKey\":${[decrypt] BBMyVwxtiTy5oKVkRGwW2Yc094lpQyT74AdenJ1jywmN4rNyxXqidtDsDBPlASVWPJ0t8SwjSYjJvHAGS83Si8sYCxNH0y2kl/Vw5CizdcgUax1NtTdFs1MXXdvLYgkFq3h8b2qV2oEvxVFqL7v28lcGzOuy5Ms=},\"n\":1,\"min\":1,\"max\":100,\"replacement\":true,\"base\":10${[identity] \"}\"},\"id\":";
@@ -3332,63 +2712,29 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
         string memory queryString3 = "${[identity] \"}\"}']";
 
-
-
         string memory queryString1_2 = queryString1.toSlice().concat(queryString2.toSlice());
-
-
 
         string memory queryString1_2_3 = queryString1_2.toSlice().concat(queryString3.toSlice());
 
-
-
         bytes32 rngId = oraclize_query("nested", queryString1_2_3, gasForOraclize);   
-
-                 
-
-        
 
 		playerBetId[rngId] = rngId;
 
-        
-
 		playerNumber[rngId] = rollUnder;
-
-        
 
         playerBetValue[rngId] = msg.value;
 
-        
-
         playerAddress[rngId] = msg.sender;
-
-                             
 
         playerProfit[rngId] = ((((msg.value * (100-(safeSub(rollUnder,1)))) / (safeSub(rollUnder,1))+msg.value))*houseEdge/houseEdgeDivisor)-msg.value;        
 
-        
-
         maxPendingPayouts = safeAdd(maxPendingPayouts, playerProfit[rngId]);
-
-        
 
         if(maxPendingPayouts >= contractBalance) throw;
 
-        
-
         LogBet(playerBetId[rngId], playerAddress[rngId], safeAdd(playerBetValue[rngId], playerProfit[rngId]), playerProfit[rngId], playerBetValue[rngId], playerNumber[rngId], randomQueryID);          
 
-
-
     }   
-
-             
-
-
-
-    
-
-    
 
 	function __callback(bytes32 myid, string result, bytes proof) public   
 
@@ -3398,209 +2744,91 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
 	{  
 
-
-
-        
-
         if (playerAddress[myid]==0x0) throw;
-
-        
-
-        
 
         var sl_result = result.toSlice();        
 
         uint serialNumberOfResult = parseInt(sl_result.split(', '.toSlice()).toString());          
 
-
-
-	    
-
         playerDieResult[myid] = parseInt(sl_result.beyond("[".toSlice()).until("]".toSlice()).toString());        
-
-        
-
-        
 
         playerTempAddress[myid] = playerAddress[myid];
 
-        
-
         delete playerAddress[myid];
-
-
-
-        
 
         playerTempReward[myid] = playerProfit[myid];
 
-        
-
         playerProfit[myid] = 0; 
-
-
-
-        
 
         maxPendingPayouts = safeSub(maxPendingPayouts, playerTempReward[myid]);         
 
-
-
-        
-
         playerTempBetValue[myid] = playerBetValue[myid];
-
-        
 
         playerBetValue[myid] = 0; 
 
-
-
-        
-
         totalBets += 1;
-
-
-
-        
 
         totalWeiWagered += playerTempBetValue[myid];                                                           
 
-
-
-        
-
         if(playerDieResult[myid] == 0 || bytes(result).length == 0 || bytes(proof).length == 0){                                                     
 
-
-
              LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 3, proof);            
-
-
-
-            
 
             if(!playerTempAddress[myid].send(playerTempBetValue[myid])){
 
                 LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof);              
 
-                
-
                 playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);                        
 
             }
-
-
 
             return;
 
         }
 
-
-
-        
-
         if(playerDieResult[myid] < playerNumber[myid]){ 
-
-
-
-            
 
             contractBalance = safeSub(contractBalance, playerTempReward[myid]); 
 
-
-
-            
-
             totalWeiWon = safeAdd(totalWeiWon, playerTempReward[myid]);              
-
-
-
-            
 
             playerTempReward[myid] = safeAdd(playerTempReward[myid], playerTempBetValue[myid]); 
 
-
-
             LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 1, proof);                            
 
-
-
-            
-
             setMaxProfit();
-
-            
-
-            
 
             if(!playerTempAddress[myid].send(playerTempReward[myid])){
 
                 LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 2, proof);                   
 
-                
-
                 playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);                               
 
             }
 
-
-
             return;
-
-
 
         }
 
-
-
-        
-
         if(playerDieResult[myid] >= playerNumber[myid]){
-
-
 
             LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 0, proof);                                
 
-
-
-            
-
             contractBalance = safeAdd(contractBalance, (playerTempBetValue[myid]-1));                                                                         
-
-
-
-            
 
             setMaxProfit(); 
 
-
-
-            
-
             if(!playerTempAddress[myid].send(1)){
-
-                                
 
                playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], 1);                                
 
             }                                   
 
-
-
             return;
-
-
 
         }
 
-
-
     }
-
-    
-
-    
 
     function playerWithdrawPendingTransactions() public 
 
@@ -3614,17 +2842,11 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
         playerPendingWithdrawals[msg.sender] = 0;
 
-        
-
         if (msg.sender.call.value(withdrawAmount)()) {
 
             return true;
 
         } else {
-
-            
-
-            
 
             playerPendingWithdrawals[msg.sender] = withdrawAmount;
 
@@ -3634,29 +2856,17 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     function playerGetPendingTxByAddress(address addressToCheck) public constant returns (uint) {
 
         return playerPendingWithdrawals[addressToCheck];
 
     }
 
-
-
-    
-
     function setMaxProfit() internal {
 
         maxProfit = (contractBalance*maxProfitAsPercentOfHouse)/maxProfitDivisor;  
 
     }      
-
-
-
-    
 
     function ()
 
@@ -3666,19 +2876,11 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     {
 
-        
-
         contractBalance = safeAdd(contractBalance, msg.value);        
-
-        
 
         setMaxProfit();
 
     } 
-
-
-
-    
 
     function ownerSetCallbackGasPrice(uint newCallbackGasPrice) public 
 
@@ -3690,10 +2892,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }     
 
-
-
-    
-
     function ownerSetOraclizeSafeGas(uint32 newSafeGasToOraclize) public 
 
 		onlyOwner
@@ -3703,10 +2901,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
     	gasForOraclize = newSafeGasToOraclize;
 
     }
-
-
-
-    
 
     function ownerUpdateContractBalance(uint newContractBalanceInWei) public 
 
@@ -3718,10 +2912,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }    
 
-
-
-    
-
     function ownerSetHouseEdge(uint newHouseEdge) public 
 
 		onlyOwner
@@ -3732,17 +2922,11 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     function ownerSetMaxProfitAsPercentOfHouse(uint newMaxProfitAsPercent) public 
 
 		onlyOwner
 
     {
-
-        
 
         if(newMaxProfitAsPercent > 10000) throw;
 
@@ -3751,10 +2935,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
         setMaxProfit();
 
     }
-
-
-
-    
 
     function ownerSetMinBet(uint newMinimumBet) public 
 
@@ -3766,21 +2946,13 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }       
 
-
-
-    
-
     function ownerTransferEther(address sendTo, uint amount) public 
 
 		onlyOwner
 
     {        
 
-        
-
         contractBalance = safeSub(contractBalance, amount);		
-
-        
 
         setMaxProfit();
 
@@ -3790,33 +2962,19 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     function ownerRefundPlayer(bytes32 originalPlayerBetId, address sendTo, uint originalPlayerProfit, uint originalPlayerBetValue) public 
 
 		onlyOwner
 
     {        
 
-        
-
         maxPendingPayouts = safeSub(maxPendingPayouts, originalPlayerProfit);
 
-        
-
         if(!sendTo.send(originalPlayerBetValue)) throw;
-
-        
 
         LogRefund(originalPlayerBetId, sendTo, originalPlayerBetValue);        
 
     }    
-
-
-
-    
 
     function ownerPauseGame(bool newStatus) public 
 
@@ -3828,10 +2986,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     function ownerPausePayouts(bool newPayoutStatus) public 
 
 		onlyOwner
@@ -3841,10 +2995,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 		payoutsPaused = newPayoutStatus;
 
     } 
-
-
-
-    
 
     function ownerSetTreasury(address newTreasury) public 
 
@@ -3856,10 +3006,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }         
 
-
-
-    
-
     function ownerChangeOwner(address newOwner) public 
 
 		onlyOwner
@@ -3870,10 +3016,6 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 
     }
 
-
-
-    
-
     function ownerkill() public 
 
 		onlyOwner
@@ -3883,9 +3025,5 @@ contract Etheroll is usingOraclize, DSSafeAddSub {
 		suicide(owner);
 
 	}    
-
-
-
-
 
 }

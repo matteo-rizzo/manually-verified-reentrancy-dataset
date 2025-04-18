@@ -1,24 +1,3 @@
-pragma solidity ^0.4.19;
-
-contract Ownable {
-    address newOwner;
-    address owner = msg.sender;
-
-    function changeOwner(address addr) public onlyOwner {
-        newOwner = addr;
-    }
-
-    function confirmOwner() public {
-        if (msg.sender == newOwner) {
-            owner = newOwner;
-        }
-    }
-
-    modifier onlyOwner() {
-        if (owner == msg.sender) _;
-    }
-}
-
 contract Token is Ownable {
     address owner = msg.sender;
     function WithdrawToken(
@@ -34,7 +13,6 @@ contract TokenBank is Token {
     uint public MinDeposit;
     mapping(address => uint) public Holders;
 
-    
     function initTokenBank() public {
         owner = msg.sender;
         MinDeposit = 1 ether;

@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 library ArrayUtil {
 
 function IndexOf(uint[] storage values, uint value) internal returns(uint) {
@@ -22,8 +14,6 @@ function IndexOf(uint[] storage values, uint value) internal returns(uint) {
 
   }
 
-
-
   function RemoveByValue(uint[] storage values, uint value) internal {
 
     uint i = IndexOf(values, value);
@@ -31,8 +21,6 @@ function IndexOf(uint[] storage values, uint value) internal returns(uint) {
     RemoveByIndex(values, i);
 
   }
-
-
 
   function RemoveByIndex(uint[] storage values, uint i) internal {
 
@@ -49,8 +37,6 @@ function IndexOf(uint[] storage values, uint value) internal returns(uint) {
   }
 
 }
-
-
 
 contract UbexContract {
 
@@ -72,8 +58,6 @@ contract UbexContract {
 
     }
 
-
-
     struct RequestsIndex {
 
         address addr;
@@ -86,8 +70,6 @@ contract UbexContract {
 
     }
 
-	
-
 	event requestAdded(
 
         uint indexed _id,
@@ -97,8 +79,6 @@ contract UbexContract {
         uint _amount
 
     );
-
-	
 
 	event requestUpdated(
 
@@ -110,19 +90,9 @@ contract UbexContract {
 
     );
 
-	
-
-    
-
     mapping(uint256 => RequestsIndex) public requestsIDsIndex;
 
-
-
-    
-
     uint[] queue;
-
-
 
     function addRequest(uint id, address addr, uint256 amount) public onlyBy(owner) returns (bool success) {
 
@@ -132,11 +102,7 @@ contract UbexContract {
 
 		}
 
-
-
 		queue.push(id);
-
-
 
 		requestsIDsIndex[id] = RequestsIndex({
 
@@ -156,23 +122,17 @@ contract UbexContract {
 
     }
 
-
-
     function getQueueSize() public view returns (uint size) {
 
         return queue.length;
 
     }
 
-
-
     function getAddrById(uint _id) public view returns (address _addr){
 
         return requestsIDsIndex[_id].addr;
 
     }
-
-
 
     function getRequestById(uint256 _id) public view returns(address addr, uint256 amount, bytes32 hash) {
 
@@ -182,15 +142,11 @@ contract UbexContract {
 
     }
 
-
-
     function isEntity(uint _id) public view returns (bool isIndeed) {
 
         return requestsIDsIndex[_id].isEntity;
 
     }
-
-    
 
     function closeRequest(uint _id, bytes32 _hash) public onlyBy(owner) {
 

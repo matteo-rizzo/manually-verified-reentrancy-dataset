@@ -1,15 +1,3 @@
-
-
-
-
-
-
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
-
 contract ERC20 
 
 {
@@ -32,15 +20,11 @@ contract ERC20
 
 }
 
-
-
 contract BatchSend 
 
 {
 
 	uint constant MAX_BATCH_LEN = 150;
-
-	
 
 	function batchSendToken(address _token, address[] memory recipients, uint[] memory amounts) public 
 
@@ -64,15 +48,11 @@ contract BatchSend
 
 	}
 
-	
-
 	function batchSendToken2(address _token, address[] memory recipients, uint amount) public 
 
 	{
 
 		require(recipients.length <= MAX_BATCH_LEN); 
-
-
 
 		ERC20 token = ERC20(_token);
 
@@ -86,8 +66,6 @@ contract BatchSend
 
 	}
 
-	
-
 	function batchSendETH(address[] memory recipients, uint[] memory amounts) public payable 
 
 	{
@@ -97,8 +75,6 @@ contract BatchSend
 		if(recipients.length != amounts.length)
 
             revert();
-
-		
 
 		for(uint i = 0; i < recipients.length; i++) 
 
@@ -112,15 +88,11 @@ contract BatchSend
 
 	}
 
-	
-
 	function batchSendETH2(address[] memory recipients) public payable 
 
 	{
 
 		require(recipients.length <= MAX_BATCH_LEN); 
-
-
 
 		for(uint i = 0; i < recipients.length; i++) 
 

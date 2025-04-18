@@ -1,8 +1,6 @@
-pragma solidity ^0.4.15;
-
 contract Reentrance {
     mapping (address => uint) userBalance;
-   
+
     function getBalance(address u) constant returns(uint){
         return userBalance[u];
     }
@@ -12,12 +10,10 @@ contract Reentrance {
     }   
 
     function withdrawBalance(){
-        
-        
+
         if( ! (msg.sender.call.value(userBalance[msg.sender])() ) ){
             throw;
         }
         userBalance[msg.sender] = 0;
     }   
 }
-

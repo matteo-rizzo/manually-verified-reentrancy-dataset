@@ -1,12 +1,4 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract shy {
-
-
 
     struct Voter {
 
@@ -26,17 +18,11 @@ contract shy {
 
     }
 
-
-
     address chairperson;
 
     mapping(address => Voter) voters;
 
     Proposal[] proposals;
-
-
-
-    
 
     constructor(uint8 _numProposals) public {
 
@@ -48,12 +34,6 @@ contract shy {
 
     }
 
-
-
-    
-
-    
-
     function giveRightToVote(address toVoter) public {
 
         if (msg.sender != chairperson || voters[toVoter].voted) return;
@@ -61,10 +41,6 @@ contract shy {
         voters[toVoter].weight = 1;
 
     }
-
-
-
-    
 
     function delegate(address to) public {
 
@@ -94,10 +70,6 @@ contract shy {
 
     }
 
-
-
-    
-
     function vote(uint8 toProposal) public {
 
         Voter storage sender = voters[msg.sender];
@@ -111,8 +83,6 @@ contract shy {
         proposals[toProposal].voteCount += sender.weight;
 
     }
-
-
 
     function winningProposal() public view returns (uint8 _winningProposal) {
 

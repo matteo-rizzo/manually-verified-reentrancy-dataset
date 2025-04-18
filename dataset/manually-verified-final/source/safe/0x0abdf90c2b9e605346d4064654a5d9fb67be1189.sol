@@ -1,9 +1,5 @@
-pragma solidity ^0.5.0;
-
-
-
 contract ERC20FeeProxy {
-  
+
   event TransferWithReferenceAndFee(
     address tokenAddress,
     address to,
@@ -13,12 +9,10 @@ contract ERC20FeeProxy {
     address feeAddress
   );
 
-  
   function() external payable {
     revert("not payable fallback");
   }
 
-  
   function transferFromWithReferenceAndFee(
     address _tokenAddress,
     address _to,
@@ -42,15 +36,12 @@ contract ERC20FeeProxy {
     );
   }
 
-  
   function safeTransferFrom(address _tokenAddress, address _to, uint256 _amount) internal returns (bool result) {
-    
-    
+
     assembly {
       if iszero(extcodesize(_tokenAddress)) { revert(0, 0) }
     }
-    
-    
+
     (result,) = _tokenAddress.call(abi.encodeWithSignature(
       "transferFrom(address,address,uint256)",
       msg.sender,
@@ -71,7 +62,7 @@ contract ERC20FeeProxy {
             revert(0, 0)
         }
     }
-    
+
     return result;
   }
 }

@@ -1,0 +1,192 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "HIGH_LEVEL_CALL, dest:TransferLog(Log), function:AddMessage, arguments:",
+    "History",
+    "History) := LastMsg(Log.Message)\"]",
+    "History) := TMP_9(uint256)",
+    "LENGTH History",
+    "LastMsg) := _adr(address)\"]",
+    "LastMsg) := _data(string)\"]",
+    "LastMsg) := _val(uint256)\"]",
+    "LastMsg) := now(uint256)\"]",
+    "LastMsg.Data",
+    "LastMsg.Sender",
+    "LastMsg.Time",
+    "LastMsg.Val",
+    "REF_0(",
+    "REF_0(uint256)",
+    "REF_10(string)",
+    "REF_10(string) (",
+    "REF_12",
+    "REF_12(uint256) (",
+    "REF_13(Log.Message)",
+    "REF_13(Log.Message) (",
+    "REF_2(uint256)",
+    "REF_5(",
+    "REF_5(uint256)",
+    "REF_7(address)",
+    "REF_7(address) (",
+    "REF_8(uint256)",
+    "REF_8(uint256) (",
+    "REF_9(uint256)",
+    "REF_9(uint256) (",
+    "TMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:",
+    "_am <= balances",
+    "balances",
+    "balances) = REF_0 + msg.value\"]",
+    "balances) = REF_5 - _am\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "6"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "REF_5(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_5(",
+      "target": "balances) = REF_5 - _am\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7(address)",
+      "target": "LastMsg.Sender"
+    },
+    {
+      "source": "REF_7(address) (",
+      "target": "LastMsg) := _adr(address)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_8(uint256)",
+      "target": "LastMsg.Time"
+    },
+    {
+      "source": "REF_8(uint256) (",
+      "target": "LastMsg) := now(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_9(uint256)",
+      "target": "LastMsg.Val"
+    },
+    {
+      "source": "REF_9(uint256) (",
+      "target": "LastMsg) := _val(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_10(string)",
+      "target": "LastMsg.Data"
+    },
+    {
+      "source": "REF_10(string) (",
+      "target": "LastMsg) := _data(string)\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_12",
+      "target": "LENGTH History"
+    },
+    {
+      "source": "REF_12(uint256) (",
+      "target": "History) := TMP_9(uint256)"
+    },
+    {
+      "source": "REF_13(Log.Message)",
+      "target": "History"
+    },
+    {
+      "source": "REF_13(Log.Message) (",
+      "target": "History) := LastMsg(Log.Message)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_0(",
+      "target": "balances) = REF_0 + msg.value\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    }
+  ]
+}

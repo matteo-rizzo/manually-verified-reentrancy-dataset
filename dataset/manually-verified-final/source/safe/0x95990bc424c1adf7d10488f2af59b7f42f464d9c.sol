@@ -1,17 +1,7 @@
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
 pragma experimental ABIEncoderV2;
 
-
-
-
-
 contract Modifiable {
-    
-    
-    
+
     modifier notNullAddress(address _address) {
         require(_address != address(0));
         _;
@@ -34,98 +24,56 @@ contract Modifiable {
     }
 }
 
-
-
-
-
-
 contract SelfDestructible {
-    
-    
-    
+
     bool public selfDestructionDisabled;
 
-    
-    
-    
     event SelfDestructionDisabledEvent(address wallet);
     event TriggerSelfDestructionEvent(address wallet);
 
-    
-    
-    
-    
     function destructor()
     public
     view
     returns (address);
 
-    
-    
     function disableSelfDestruction()
     public
     {
-        
+
         require(destructor() == msg.sender);
 
-        
         selfDestructionDisabled = true;
 
-        
         emit SelfDestructionDisabledEvent(msg.sender);
     }
 
-    
     function triggerSelfDestruction()
     public
     {
-        
+
         require(destructor() == msg.sender);
 
-        
         require(!selfDestructionDisabled);
 
-        
         emit TriggerSelfDestructionEvent(msg.sender);
 
-        
         selfdestruct(msg.sender);
     }
 }
 
-
-
-
-
-
-
-
-
 contract Ownable is Modifiable, SelfDestructible {
-    
-    
-    
+
     address public deployer;
     address public operator;
 
-    
-    
-    
     event SetDeployerEvent(address oldDeployer, address newDeployer);
     event SetOperatorEvent(address oldOperator, address newOperator);
 
-    
-    
-    
     constructor(address _deployer) internal notNullOrThisAddress(_deployer) {
         deployer = _deployer;
         operator = _deployer;
     }
 
-    
-    
-    
-    
     function destructor()
     public
     view
@@ -134,42 +82,34 @@ contract Ownable is Modifiable, SelfDestructible {
         return deployer;
     }
 
-    
-    
     function setDeployer(address newDeployer)
     public
     onlyDeployer
     notNullOrThisAddress(newDeployer)
     {
         if (newDeployer != deployer) {
-            
+
             address oldDeployer = deployer;
             deployer = newDeployer;
 
-            
             emit SetDeployerEvent(oldDeployer, newDeployer);
         }
     }
 
-    
-    
     function setOperator(address newOperator)
     public
     onlyOperator
     notNullOrThisAddress(newOperator)
     {
         if (newOperator != operator) {
-            
+
             address oldOperator = operator;
             operator = newOperator;
 
-            
             emit SetOperatorEvent(oldOperator, newOperator);
         }
     }
 
-    
-    
     function isDeployer()
     internal
     view
@@ -178,8 +118,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return msg.sender == deployer;
     }
 
-    
-    
     function isOperator()
     internal
     view
@@ -188,9 +126,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return msg.sender == operator;
     }
 
-    
-    
-    
     function isDeployerOrOperator()
     internal
     view
@@ -199,8 +134,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return isDeployer() || isOperator();
     }
 
-    
-    
     modifier onlyDeployer() {
         require(isDeployer());
         _;
@@ -232,17 +165,8 @@ contract Ownable is Modifiable, SelfDestructible {
     }
 }
 
-
-
-
-
-
-
-
 contract Servable is Ownable {
-    
-    
-    
+
     struct ServiceInfo {
         bool registered;
         uint256 activationTimestamp;
@@ -250,15 +174,9 @@ contract Servable is Ownable {
         bytes32[] actionsList;
     }
 
-    
-    
-    
     mapping(address => ServiceInfo) internal registeredServicesMap;
     uint256 public serviceActivationTimeout;
 
-    
-    
-    
     event ServiceActivationTimeoutEvent(uint256 timeoutInSeconds);
     event RegisterServiceEvent(address service);
     event RegisterServiceDeferredEvent(address service, uint256 timeout);
@@ -266,23 +184,15 @@ contract Servable is Ownable {
     event EnableServiceActionEvent(address service, string action);
     event DisableServiceActionEvent(address service, string action);
 
-    
-    
-    
-    
-    
     function setServiceActivationTimeout(uint256 timeoutInSeconds)
     public
     onlyDeployer
     {
         serviceActivationTimeout = timeoutInSeconds;
 
-        
         emit ServiceActivationTimeoutEvent(timeoutInSeconds);
     }
 
-    
-    
     function registerService(address service)
     public
     onlyDeployer
@@ -290,12 +200,9 @@ contract Servable is Ownable {
     {
         _registerService(service, 0);
 
-        
         emit RegisterServiceEvent(service);
     }
 
-    
-    
     function registerServiceDeferred(address service)
     public
     onlyDeployer
@@ -303,12 +210,9 @@ contract Servable is Ownable {
     {
         _registerService(service, serviceActivationTimeout);
 
-        
         emit RegisterServiceDeferredEvent(service, serviceActivationTimeout);
     }
 
-    
-    
     function deregisterService(address service)
     public
     onlyDeployer
@@ -318,13 +222,9 @@ contract Servable is Ownable {
 
         registeredServicesMap[service].registered = false;
 
-        
         emit DeregisterServiceEvent(service);
     }
 
-    
-    
-    
     function enableServiceAction(address service, string memory action)
     public
     onlyDeployer
@@ -339,13 +239,9 @@ contract Servable is Ownable {
         registeredServicesMap[service].actionsEnabledMap[actionHash] = true;
         registeredServicesMap[service].actionsList.push(actionHash);
 
-        
         emit EnableServiceActionEvent(service, action);
     }
 
-    
-    
-    
     function disableServiceAction(address service, string memory action)
     public
     onlyDeployer
@@ -357,13 +253,9 @@ contract Servable is Ownable {
 
         registeredServicesMap[service].actionsEnabledMap[actionHash] = false;
 
-        
         emit DisableServiceActionEvent(service, action);
     }
 
-    
-    
-    
     function isRegisteredService(address service)
     public
     view
@@ -372,9 +264,6 @@ contract Servable is Ownable {
         return registeredServicesMap[service].registered;
     }
 
-    
-    
-    
     function isRegisteredActiveService(address service)
     public
     view
@@ -383,9 +272,6 @@ contract Servable is Ownable {
         return isRegisteredService(service) && block.timestamp >= registeredServicesMap[service].activationTimestamp;
     }
 
-    
-    
-    
     function isEnabledServiceAction(address service, string memory action)
     public
     view
@@ -395,9 +281,6 @@ contract Servable is Ownable {
         return isRegisteredActiveService(service) && registeredServicesMap[service].actionsEnabledMap[actionHash];
     }
 
-    
-    
-    
     function hashString(string memory _string)
     internal
     pure
@@ -406,9 +289,6 @@ contract Servable is Ownable {
         return keccak256(abi.encodePacked(_string));
     }
 
-    
-    
-    
     function _registerService(address service, uint256 timeout)
     private
     {
@@ -418,9 +298,6 @@ contract Servable is Ownable {
         }
     }
 
-    
-    
-    
     modifier onlyActiveService() {
         require(isRegisteredActiveService(msg.sender));
         _;
@@ -432,28 +309,14 @@ contract Servable is Ownable {
     }
 }
 
-
-
-
-
-
-
-
-
-
 contract FraudChallenge is Ownable, Servable {
-    
-    
-    
+
     string constant public ADD_SEIZED_WALLET_ACTION = "add_seized_wallet";
     string constant public ADD_DOUBLE_SPENDER_WALLET_ACTION = "add_double_spender_wallet";
     string constant public ADD_FRAUDULENT_ORDER_ACTION = "add_fraudulent_order";
     string constant public ADD_FRAUDULENT_TRADE_ACTION = "add_fraudulent_trade";
     string constant public ADD_FRAUDULENT_PAYMENT_ACTION = "add_fraudulent_payment";
 
-    
-    
-    
     address[] public doubleSpenderWallets;
     mapping(address => bool) public doubleSpenderByWallet;
 
@@ -466,26 +329,14 @@ contract FraudChallenge is Ownable, Servable {
     bytes32[] public fraudulentPaymentHashes;
     mapping(bytes32 => bool) public fraudulentByPaymentHash;
 
-    
-    
-    
     event AddDoubleSpenderWalletEvent(address wallet);
     event AddFraudulentOrderHashEvent(bytes32 hash);
     event AddFraudulentTradeHashEvent(bytes32 hash);
     event AddFraudulentPaymentHashEvent(bytes32 hash);
 
-    
-    
-    
     constructor(address deployer) Ownable(deployer) public {
     }
 
-    
-    
-    
-    
-    
-    
     function isDoubleSpenderWallet(address wallet)
     public
     view
@@ -494,8 +345,6 @@ contract FraudChallenge is Ownable, Servable {
         return doubleSpenderByWallet[wallet];
     }
 
-    
-    
     function doubleSpenderWalletsCount()
     public
     view
@@ -504,8 +353,6 @@ contract FraudChallenge is Ownable, Servable {
         return doubleSpenderWallets.length;
     }
 
-    
-    
     function addDoubleSpenderWallet(address wallet)
     public
     onlyEnabledServiceAction(ADD_DOUBLE_SPENDER_WALLET_ACTION) {
@@ -516,7 +363,6 @@ contract FraudChallenge is Ownable, Servable {
         }
     }
 
-    
     function fraudulentOrderHashesCount()
     public
     view
@@ -525,15 +371,12 @@ contract FraudChallenge is Ownable, Servable {
         return fraudulentOrderHashes.length;
     }
 
-    
-    
     function isFraudulentOrderHash(bytes32 hash)
     public
     view returns (bool) {
         return fraudulentByOrderHash[hash];
     }
 
-    
     function addFraudulentOrderHash(bytes32 hash)
     public
     onlyEnabledServiceAction(ADD_FRAUDULENT_ORDER_ACTION)
@@ -545,7 +388,6 @@ contract FraudChallenge is Ownable, Servable {
         }
     }
 
-    
     function fraudulentTradeHashesCount()
     public
     view
@@ -554,9 +396,6 @@ contract FraudChallenge is Ownable, Servable {
         return fraudulentTradeHashes.length;
     }
 
-    
-    
-    
     function isFraudulentTradeHash(bytes32 hash)
     public
     view
@@ -565,7 +404,6 @@ contract FraudChallenge is Ownable, Servable {
         return fraudulentByTradeHash[hash];
     }
 
-    
     function addFraudulentTradeHash(bytes32 hash)
     public
     onlyEnabledServiceAction(ADD_FRAUDULENT_TRADE_ACTION)
@@ -577,7 +415,6 @@ contract FraudChallenge is Ownable, Servable {
         }
     }
 
-    
     function fraudulentPaymentHashesCount()
     public
     view
@@ -586,9 +423,6 @@ contract FraudChallenge is Ownable, Servable {
         return fraudulentPaymentHashes.length;
     }
 
-    
-    
-    
     function isFraudulentPaymentHash(bytes32 hash)
     public
     view
@@ -597,7 +431,6 @@ contract FraudChallenge is Ownable, Servable {
         return fraudulentByPaymentHash[hash];
     }
 
-    
     function addFraudulentPaymentHash(bytes32 hash)
     public
     onlyEnabledServiceAction(ADD_FRAUDULENT_PAYMENT_ACTION)

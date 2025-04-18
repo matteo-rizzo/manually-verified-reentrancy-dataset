@@ -1,18 +1,8 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract MyBank {
 
     uint256 balance;
 
     address owner;
-
-
 
     constructor () public {
 
@@ -20,15 +10,11 @@ contract MyBank {
 
     }
 
-    
-
     function deposit() public payable {
 
         balance = msg.value;
 
     }
-
-    
 
     function withdraw(uint256 valueToRetrieve) public {
 

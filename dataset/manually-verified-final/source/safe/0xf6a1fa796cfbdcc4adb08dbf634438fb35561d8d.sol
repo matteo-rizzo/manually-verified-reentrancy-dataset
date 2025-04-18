@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity ^0.4.25;
-
-
-
 interface IERC20 {
 
     function balanceOf(address who) external view returns(uint256);
@@ -14,15 +6,11 @@ interface IERC20 {
 
 }
 
-
-
 contract AntiFrontRunning {
 
     function sell(IERC20 token, uint256 minAmount) public payable {
 
         require(token.call.value(msg.value)(), "sell failed");
-
-
 
         uint256 balance = token.balanceOf(this);
 

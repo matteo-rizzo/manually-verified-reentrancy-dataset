@@ -1,19 +1,11 @@
-
-pragma solidity >=0.4.22 <0.9.0;
-
 contract TriangleCoin {
-    
-    
-    
-    
-    
-    
+
     string public constant name = "Triangle Coin";
     string public constant symbol = "TRI";
     uint8 public constant decimals = 18;
 
     address public _owner;
-    
+
     event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
     event Transfer(address indexed from, address indexed to, uint tokens);
 
@@ -23,15 +15,15 @@ contract TriangleCoin {
     mapping(address => address) private __referredBy;
     mapping(address => uint) private __level;
     mapping(address => bool) private __acceptedReferral;
-    
+
     mapping(address => uint256) balances;
 
     mapping(address => mapping (address => uint256)) allowed;
-    
+
     uint256 totalSupply_;
 
     using SafeMath for uint256;
-    
+
     constructor() public {
       _owner = msg.sender;
       __level[_owner] = 0;
@@ -40,15 +32,15 @@ contract TriangleCoin {
       emit Transfer(0x0000000000000000000000000000000000000000, _owner, 100000000000000000000);
 	    balances[msg.sender] = totalSupply_;
     }
-    
+
     function totalSupply() public view returns (uint256) {
 	    return totalSupply_;
     }
-    
+
     function balanceOf(address tokenOwner) public view returns (uint) {
       return balances[tokenOwner];
     }
-    
+
     function transfer(address receiver, uint numTokens) public returns (bool) {
       require(numTokens <= balances[msg.sender], "Not enough coins on behalf of the sender");
       balances[msg.sender] = balances[msg.sender].sub(numTokens);
@@ -56,21 +48,21 @@ contract TriangleCoin {
       emit Transfer(msg.sender, receiver, numTokens);
       return true;
     }
-    
+
     function approve(address delegate, uint numTokens) public returns (bool) {
       allowed[msg.sender][delegate] = numTokens;
       emit Approval(msg.sender, delegate, numTokens);
       return true;
     }
-    
+
     function allowance(address owner, address delegate) public view returns (uint) {
       return allowed[owner][delegate];
     }
-    
+
     function transferFrom(address owner, address buyer, uint numTokens) public returns (bool) {
       require(numTokens <= balances[owner], "Not enough coins on behalf of the sender");    
       require(numTokens <= allowed[owner][msg.sender], "Not enough coins on behalf of the delegate");
-  
+
       balances[owner] = balances[owner].sub(numTokens);
       allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
       balances[buyer] = balances[buyer].add(numTokens);
@@ -88,7 +80,7 @@ contract TriangleCoin {
     }
 
     function acceptReferral(address referer) public returns (bool success) {
-        
+
         require(__referredBy[msg.sender] == referer);
         require(__acceptedReferral[msg.sender] != true);
 
@@ -96,18 +88,15 @@ contract TriangleCoin {
 
         emit walletAccepted(msg.sender, referer, __acceptedReferral[msg.sender]);
 
-        
         __level[msg.sender] = __level[__referredBy[msg.sender]] + 1;
 
-        
         balances[msg.sender] += 5000000000000000000;
         totalSupply_ += 5000000000000000000;
 
         emit Transfer(0x0000000000000000000000000000000000000000, msg.sender, 5000000000000000000);
 
         address wallet = msg.sender;
-        
-        
+
         for (uint i = 0; i < 17; i++) {
             if (__level[wallet] == 0 || i == 16) {
                 return true;
@@ -122,12 +111,11 @@ contract TriangleCoin {
     }
 
     function extendReferral(address _to) public returns (bool success) {
-        
+
         require(_to != msg.sender);
 
         emit walletRefered(msg.sender, _to);
 
-        
         __referredBy[_to] = msg.sender;
         return true;
     }
@@ -162,7 +150,7 @@ library SafeMath {
     assert(b <= a);
     return a - b;
   }
-  
+
   function add(uint256 a, uint256 b) internal pure returns (uint256) {
     uint256 c = a + b;
     assert(c >= a);

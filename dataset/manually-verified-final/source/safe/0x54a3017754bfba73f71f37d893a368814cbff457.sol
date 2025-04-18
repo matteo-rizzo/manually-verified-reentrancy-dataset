@@ -1,14 +1,10 @@
-
-
-pragma solidity >=0.4.22 <0.9.0;
-
 contract wwcn {
     string  public name = "Wrapped Widecoin";
     string  public symbol = "WWCN";
     string  public standard = "Wrapped Widecoin v1.2";
     uint256 public totalSupply;
     uint256 public constant decimals = 8;
-    
+
     event Transfer(
         address indexed _from,
         address indexed _to,

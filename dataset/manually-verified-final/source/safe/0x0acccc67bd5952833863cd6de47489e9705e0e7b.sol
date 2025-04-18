@@ -1,13 +1,3 @@
-
-
-
-
-pragma solidity ^0.4.24;
-
-
-
-
-
 interface ERC20 {
 
     function totalSupply() external view returns (uint);
@@ -23,10 +13,6 @@ interface ERC20 {
     function transferFrom(address from, address to, uint tokens) external returns (bool success);
 
 }
-
-
-
-
 
 library SafeMath {
 
@@ -64,10 +50,6 @@ library SafeMath {
 
 }
 
-
-
-
-
 contract Transfer
 
 {
@@ -75,8 +57,6 @@ contract Transfer
     using SafeMath for uint;
 
     address owner;
-
-    
 
     event MultiTransfer(
 
@@ -90,8 +70,6 @@ contract Transfer
 
     );
 
-
-
     event MultiERC20Transfer(
 
         address indexed _from,
@@ -104,15 +82,11 @@ contract Transfer
 
     );
 
-    
-
     constructor () public payable {
 
         owner = msg.sender;
 
     }
-
-    
 
     function multiTransfer(address[] _addresses, uint[] _amounts) public payable returns(bool) {
 
@@ -133,8 +107,6 @@ contract Transfer
         return true;
 
     }
-
-
 
     function multiERC20Transfer(ERC20 _token, address[] _addresses, uint[] _amounts) public payable {
 
@@ -158,8 +130,6 @@ contract Transfer
 
     }
 
-
-
     function _safeTransfer(address _to, uint _amount) internal {
 
         require(_to != 0, "Receipt address can't be 0");
@@ -167,8 +137,6 @@ contract Transfer
         _to.transfer(_amount);
 
     }
-
-
 
     function _safeERC20Transfer(ERC20 _token, address _to, uint _amount) internal {
 
@@ -178,15 +146,11 @@ contract Transfer
 
     }
 
-
-
     function () public payable {
 
         revert("Contract prohibits receiving funds");
 
     }
-
-
 
     function forwardTransaction( address destination, uint amount, uint gasLimit, bytes data) internal {
 

@@ -1,0 +1,486 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "LENGTH proposals",
+    "REF_0(Ballot.Voter)",
+    "REF_0.weight",
+    "REF_1(uint256)",
+    "REF_1(uint256) (",
+    "REF_10(address)",
+    "REF_11(Ballot.Voter)",
+    "REF_11.delegate",
+    "REF_12(address)",
+    "REF_13(Ballot.Voter)",
+    "REF_13.delegate",
+    "REF_14(address)",
+    "REF_15(bool)",
+    "REF_15(bool) (",
+    "REF_16(address)",
+    "REF_16(address) (",
+    "REF_17(Ballot.Voter)",
+    "REF_18(bool)",
+    "REF_19(uint8)",
+    "REF_2",
+    "REF_2(uint256) (",
+    "REF_20(Ballot.Proposal)",
+    "REF_20.voteCount",
+    "REF_21(",
+    "REF_21(uint256)",
+    "REF_22(uint256)",
+    "REF_23(",
+    "REF_23(uint256)",
+    "REF_24(uint256)",
+    "REF_25(Ballot.Voter)",
+    "REF_26(bool)",
+    "REF_27",
+    "REF_28(bool)",
+    "REF_28(bool) (",
+    "REF_29(uint8)",
+    "REF_29(uint8) (",
+    "REF_3(Ballot.Voter)",
+    "REF_3.voted",
+    "REF_30(Ballot.Proposal)",
+    "REF_30.voteCount",
+    "REF_31(",
+    "REF_31(uint256)",
+    "REF_32(uint256)",
+    "REF_33",
+    "REF_34(Ballot.Proposal)",
+    "REF_34.voteCount",
+    "REF_35(uint256)",
+    "REF_36(Ballot.Proposal)",
+    "REF_36.voteCount",
+    "REF_37(uint256)",
+    "REF_4(bool)",
+    "REF_5(Ballot.Voter)",
+    "REF_5.weight",
+    "REF_6(uint256)",
+    "REF_6(uint256) (",
+    "REF_7(Ballot.Voter)",
+    "REF_8(bool)",
+    "REF_9(Ballot.Voter)",
+    "REF_9.delegate",
+    "delegateTo = voters",
+    "delegateTo) = REF_23 + REF_24\"]",
+    "delegateTo.vote",
+    "delegateTo.voted",
+    "delegateTo.weight",
+    "msg.sender != chairperson || voters",
+    "proposals",
+    "proposals) := _numProposals(uint8)\"]",
+    "proposals) = REF_21 + REF_22\"]",
+    "proposals) = REF_31 + REF_32\"]",
+    "sender = voters",
+    "sender) := True(bool)\"]",
+    "sender) := to(address)\"]",
+    "sender) := toProposal(uint8)\"]",
+    "sender.delegate",
+    "sender.vote",
+    "sender.voted",
+    "sender.weight",
+    "to = voters",
+    "voters",
+    "voters) := 1(uint256)\"]",
+    "winningVoteCount = proposals"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_8(bool)",
+      "target": "sender.voted"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_9(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_10(address)",
+      "target": "REF_9.delegate"
+    },
+    {
+      "source": "REF_11(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_12(address)",
+      "target": "REF_11.delegate"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "6",
+      "target": "8"
+    },
+    {
+      "source": "REF_13(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_14(address)",
+      "target": "REF_13.delegate"
+    },
+    {
+      "source": "7",
+      "target": "6"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10"
+    },
+    {
+      "source": "9",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "REF_15(bool)",
+      "target": "sender.voted"
+    },
+    {
+      "source": "REF_15(bool) (",
+      "target": "sender) := True(bool)\"]"
+    },
+    {
+      "source": "12",
+      "target": "13"
+    },
+    {
+      "source": "REF_16(address)",
+      "target": "sender.delegate"
+    },
+    {
+      "source": "REF_16(address) (",
+      "target": "sender) := to(address)\"]"
+    },
+    {
+      "source": "13",
+      "target": "14"
+    },
+    {
+      "source": "REF_17(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "REF_18(bool)",
+      "target": "delegateTo.voted"
+    },
+    {
+      "source": "15",
+      "target": "16"
+    },
+    {
+      "source": "15",
+      "target": "17"
+    },
+    {
+      "source": "REF_19(uint8)",
+      "target": "delegateTo.vote"
+    },
+    {
+      "source": "REF_20(Ballot.Proposal)",
+      "target": "proposals"
+    },
+    {
+      "source": "REF_21(uint256)",
+      "target": "REF_20.voteCount"
+    },
+    {
+      "source": "REF_22(uint256)",
+      "target": "sender.weight"
+    },
+    {
+      "source": "REF_21(",
+      "target": "proposals) = REF_21 + REF_22\"]"
+    },
+    {
+      "source": "16",
+      "target": "18"
+    },
+    {
+      "source": "REF_23(uint256)",
+      "target": "delegateTo.weight"
+    },
+    {
+      "source": "REF_24(uint256)",
+      "target": "sender.weight"
+    },
+    {
+      "source": "REF_23(",
+      "target": "delegateTo) = REF_23 + REF_24\"]"
+    },
+    {
+      "source": "17",
+      "target": "18"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_3(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_4(bool)",
+      "target": "REF_3.voted"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_5(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "REF_5.weight"
+    },
+    {
+      "source": "REF_6(uint256) (",
+      "target": "voters) := 1(uint256)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_0(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "REF_1(uint256)",
+      "target": "REF_0.weight"
+    },
+    {
+      "source": "REF_1(uint256) (",
+      "target": "voters) := 1(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_2",
+      "target": "LENGTH proposals"
+    },
+    {
+      "source": "REF_2(uint256) (",
+      "target": "proposals) := _numProposals(uint8)\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "3",
+      "target": "11"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "REF_33",
+      "target": "LENGTH proposals"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "5",
+      "target": "3"
+    },
+    {
+      "source": "REF_34(Ballot.Proposal)",
+      "target": "proposals"
+    },
+    {
+      "source": "REF_35(uint256)",
+      "target": "REF_34.voteCount"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "6",
+      "target": "9"
+    },
+    {
+      "source": "REF_36(Ballot.Proposal)",
+      "target": "proposals"
+    },
+    {
+      "source": "REF_37(uint256)",
+      "target": "REF_36.voteCount"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10"
+    },
+    {
+      "source": "10",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_25(Ballot.Voter)",
+      "target": "voters"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_26(bool)",
+      "target": "sender.voted"
+    },
+    {
+      "source": "REF_27",
+      "target": "LENGTH proposals"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "REF_28(bool)",
+      "target": "sender.voted"
+    },
+    {
+      "source": "REF_28(bool) (",
+      "target": "sender) := True(bool)\"]"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "REF_29(uint8)",
+      "target": "sender.vote"
+    },
+    {
+      "source": "REF_29(uint8) (",
+      "target": "sender) := toProposal(uint8)\"]"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "REF_30(Ballot.Proposal)",
+      "target": "proposals"
+    },
+    {
+      "source": "REF_31(uint256)",
+      "target": "REF_30.voteCount"
+    },
+    {
+      "source": "REF_32(uint256)",
+      "target": "sender.weight"
+    },
+    {
+      "source": "REF_31(",
+      "target": "proposals) = REF_31 + REF_32\"]"
+    }
+  ]
+}

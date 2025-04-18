@@ -1,5 +1,3 @@
-pragma solidity ^0.4.0;
-
 contract Registrar {
     address public owner;
 
@@ -27,24 +25,23 @@ contract Registrar {
     mapping(bytes32 => bool) recordExists;
 
     function set(string key, bytes32 value) public onlyowner {
-        
+
         bytes32 _key = sha3(key);
 
-        
         records[_key] = value;
         recordExists[_key] = true;
     }
 
     function get(string key) constant returns (bytes32) {
-        
+
         bytes32 _key = sha3(key);
 
         if (!recordExists[_key]) {
             if (address(parent) == 0x0) {
-                
+
                 throw;
             } else {
-                
+
                 return parent.get(key);
             }
         }
@@ -53,7 +50,7 @@ contract Registrar {
     }
 
     function exists(string key) constant returns (bool) {
-        
+
         bytes32 _key = sha3(key);
 
         return recordExists[_key];

@@ -1,9 +1,3 @@
-
-
-
-
-pragma solidity =0.6.4;
-
 library SafeMath {
   function mul(uint256 a, uint256 b) internal pure returns (uint256) {
     if (a == 0) {
@@ -35,16 +29,16 @@ library SafeMath {
 }
 
 contract MUSystem{
-    
+
     using SafeMath for uint;
-    
+
     string public constant name="Mutual Uniting System";
     string public constant symbol="MUS";
     uint public constant decimals=14;
     uint public totalSupply;
     address payable private creatorOwner;
     mapping (address => uint) balances;
-    
+
     struct User{
         uint UserTotalAmtWithdrawalCurrentPack;
         uint UserWithdrawalFromFirstRefunded;
@@ -65,7 +59,7 @@ contract MUSystem{
         uint UserCycle;
     }
     mapping (address => User) users;
-    
+
     struct DepositTemp{
         address payable useraddress;
         uint p;
@@ -94,7 +88,7 @@ contract MUSystem{
         uint userAmtDepositCurrentPackTRUE;
         uint userTotalAmtDepositCurrentPack;
     }
-    
+
     struct WithdrawTemp{
         address payable useraddress;
         uint userTotalAmtWithdrawalCurrentPack;
@@ -309,7 +303,7 @@ contract MUSystem{
             }
         }
     }
-    
+
     function transferFee()internal{
         if(CurrentPackNumber>2&&feeTransfered==false&&RestartMode==false){
             if(address(this).balance>=CurrentPackFee){
@@ -443,7 +437,6 @@ contract MUSystem{
             d.useraddress.transfer(d.amtToSend);
         }
     }
-
 
     function withdraw(uint WithdrawAmount,uint WithdrawTokens,bool AllowToUseDisparity)public{
         require(WithdrawTokens>0||WithdrawAmount>0);
@@ -600,7 +593,7 @@ contract MUSystem{
                     w.bonusTokensReturnDecrease=w.diff/w.currentPackTokenPriceBuyout;
                     if(w.userTokensReturnAboveCurrentPack>=w.bonusTokensReturnDecrease){
                         w.userTokensReturnAboveCurrentPack=w.userTokensReturnAboveCurrentPack-w.bonusTokensReturnDecrease;
-                        
+
                     }else{
                         w.diff=w.bonusTokensReturnDecrease-w.userTokensReturnAboveCurrentPack;
                         w.userTokensReturnAboveCurrentPack=0;
@@ -609,7 +602,7 @@ contract MUSystem{
                     }
                 }else{
                     w.bonusTokensReturnDecrease=w.diff/w.currentPackTokenPriceSellout;
-          
+
           if(w.userTokensReturnToCurrentPack>=w.bonusTokensReturnDecrease){
                         w.userTokensReturnToCurrentPack=w.userTokensReturnToCurrentPack-w.bonusTokensReturnDecrease;
                     }
@@ -624,7 +617,6 @@ contract MUSystem{
                     w.bonusTokensReturnDecrease=w.diff/w.currentPackTokenPriceBuyout;
                     if(w.userTokensReturnAboveCurrentPack>=w.bonusTokensReturnDecrease){
 
- 
                        w.userTokensReturnAboveCurrentPack=w.userTokensReturnAboveCurrentPack-w.bonusTokensReturnDecrease;
                     }else{
                         w.diff=w.bonusTokensReturnDecrease-w.userTokensReturnAboveCurrentPack;
@@ -756,7 +748,7 @@ balances[_from]=balances[_from].sub(_value);
         totalSupply=totalSupply.add(_value);
         return true;
     }
-    
+
     event Deposit(address indexed addr,uint,uint,uint,uint,uint,uint,uint,uint,uint);
     event Withdraw(address indexed addr,uint,uint,uint,uint,uint,uint,uint,uint,uint);
     event Transfer(address indexed _from,address indexed _to,uint _value);

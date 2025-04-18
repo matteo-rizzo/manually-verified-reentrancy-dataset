@@ -1,5 +1,3 @@
-pragma solidity ^0.4.11;
-
 contract DSNote {
     event LogNote(
         bytes4 indexed sig,
@@ -118,7 +116,6 @@ contract DSExec {
         }
     }
 
-    
     function exec(address t, bytes c) internal {
         exec(t, c, 0);
     }
@@ -136,7 +133,6 @@ contract DSExec {
 }
 
 contract DSMath {
-    
 
     function add(uint256 x, uint256 y) internal constant returns (uint256 z) {
         assert((z = x + y) >= x);
@@ -161,8 +157,6 @@ contract DSMath {
         return x >= y ? x : y;
     }
 
-    
-
     function hadd(uint128 x, uint128 y) internal constant returns (uint128 z) {
         assert((z = x + y) >= x);
     }
@@ -186,16 +180,12 @@ contract DSMath {
         return x >= y ? x : y;
     }
 
-    
-
     function imin(int256 x, int256 y) internal constant returns (int256 z) {
         return x <= y ? x : y;
     }
     function imax(int256 x, int256 y) internal constant returns (int256 z) {
         return x >= y ? x : y;
     }
-
-    
 
     uint128 constant WAD = 10 ** 18;
 
@@ -222,8 +212,6 @@ contract DSMath {
         return hmax(x, y);
     }
 
-    
-
     uint128 constant RAY = 10 ** 27;
 
     function radd(uint128 x, uint128 y) internal constant returns (uint128) {
@@ -243,20 +231,6 @@ contract DSMath {
     }
 
     function rpow(uint128 x, uint64 n) internal constant returns (uint128 z) {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
         z = n % 2 != 0 ? x : RAY;
 
@@ -388,8 +362,6 @@ contract DSToken is DSTokenBase(0), DSStop {
         _supply = sub(_supply, wad);
     }
 
-    
-
     string public name = "";
 
     function setName(string name_) auth {
@@ -496,7 +468,7 @@ contract WordCoin is DSToken("Word") {
     }
 
     function getEther(uint128 amount) sellable {
-        
+
         assert(tokenSellCost > 0);
         assert(div(mul(_balances[msg.sender], 10), 100) >= amount);
         super.push(this, amount);

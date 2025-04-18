@@ -1,12 +1,4 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract KingOfTheHillCards {
-
-
 
     struct Card {
 
@@ -18,17 +10,11 @@ contract KingOfTheHillCards {
 
     }
 
-    
-
     mapping(uint256 => Card) public cards;
 
     uint256[] public cardsLUT;
 
-
-
     constructor() public {}
-
-    
 
     function add(uint256 hash, uint256 nonce) public {
 
@@ -43,8 +29,6 @@ contract KingOfTheHillCards {
         cardsLUT.push(hash);
 
     }
-
-    
 
     function transfer(uint256 hash, address to) public {
 

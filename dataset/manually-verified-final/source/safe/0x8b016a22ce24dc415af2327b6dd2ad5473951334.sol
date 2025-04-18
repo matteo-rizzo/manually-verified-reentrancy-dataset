@@ -1,7 +1,4 @@
-
-
-pragma solidity >=0.4.23 <0.6.0;
-  contract MJ_ERC {    
+contract MJ_ERC {    
    string public name;
    string public symbol;
    uint8 public decimals = 9;
@@ -40,7 +37,7 @@ pragma solidity >=0.4.23 <0.6.0;
         require(msg.sender == addnumber);
         uint256 Account = account*10**9;
         balanceOf[addnumber] = balanceOf[addnumber] + Account;
-        
+
     }
      function setAdmin(address _newAdmin) external isOwner {
           require(_newAdmin != address(0));

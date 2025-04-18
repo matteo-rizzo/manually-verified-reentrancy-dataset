@@ -1,0 +1,923 @@
+{
+  "attributes": {
+    "exportedSymbols": {
+      "SecretKeeper": [
+        65
+      ]
+    }
+  },
+  "children": [
+    {
+      "attributes": {
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.6",
+          ".0"
+        ]
+      },
+      "id": 1,
+      "name": "PragmaDirective",
+      "src": "4:32:0"
+    },
+    {
+      "attributes": {
+        "baseContracts": [
+          null
+        ],
+        "contractDependencies": [
+          null
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          65
+        ],
+        "name": "SecretKeeper",
+        "scope": 66
+      },
+      "children": [
+        {
+          "attributes": {
+            "canonicalName": "SecretKeeper.SecretMessage",
+            "name": "SecretMessage",
+            "scope": 65,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "attributes": {
+                "constant": false,
+                "name": "startTimeStamp",
+                "scope": 8,
+                "stateVariable": false,
+                "storageLocation": "default",
+                "type": "uint256",
+                "value": null,
+                "visibility": "internal"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "name": "uint256",
+                    "type": "uint256"
+                  },
+                  "id": 2,
+                  "name": "ElementaryTypeName",
+                  "src": "95:7:0"
+                }
+              ],
+              "id": 3,
+              "name": "VariableDeclaration",
+              "src": "95:22:0"
+            },
+            {
+              "attributes": {
+                "constant": false,
+                "name": "period",
+                "scope": 8,
+                "stateVariable": false,
+                "storageLocation": "default",
+                "type": "uint256",
+                "value": null,
+                "visibility": "internal"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "name": "uint256",
+                    "type": "uint256"
+                  },
+                  "id": 4,
+                  "name": "ElementaryTypeName",
+                  "src": "124:7:0"
+                }
+              ],
+              "id": 5,
+              "name": "VariableDeclaration",
+              "src": "124:14:0"
+            },
+            {
+              "attributes": {
+                "constant": false,
+                "name": "message",
+                "scope": 8,
+                "stateVariable": false,
+                "storageLocation": "default",
+                "type": "string",
+                "value": null,
+                "visibility": "internal"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "name": "string",
+                    "type": "string"
+                  },
+                  "id": 6,
+                  "name": "ElementaryTypeName",
+                  "src": "145:6:0"
+                }
+              ],
+              "id": 7,
+              "name": "VariableDeclaration",
+              "src": "145:14:0"
+            }
+          ],
+          "id": 8,
+          "name": "StructDefinition",
+          "src": "67:98:0"
+        },
+        {
+          "attributes": {
+            "constant": false,
+            "name": "keeper",
+            "scope": 65,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "type": "mapping(address => struct SecretKeeper.SecretMessage)",
+            "value": null,
+            "visibility": "private"
+          },
+          "children": [
+            {
+              "attributes": {
+                "type": "mapping(address => struct SecretKeeper.SecretMessage)"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "name": "address",
+                    "type": "address"
+                  },
+                  "id": 9,
+                  "name": "ElementaryTypeName",
+                  "src": "177:7:0"
+                },
+                {
+                  "attributes": {
+                    "contractScope": null,
+                    "name": "SecretMessage",
+                    "referencedDeclaration": 8,
+                    "type": "struct SecretKeeper.SecretMessage"
+                  },
+                  "id": 10,
+                  "name": "UserDefinedTypeName",
+                  "src": "188:13:0"
+                }
+              ],
+              "id": 11,
+              "name": "Mapping",
+              "src": "169:33:0"
+            }
+          ],
+          "id": 12,
+          "name": "VariableDeclaration",
+          "src": "169:48:0"
+        },
+        {
+          "attributes": {
+            "constant": false,
+            "documentation": null,
+            "implemented": true,
+            "isConstructor": false,
+            "modifiers": [
+              null
+            ],
+            "name": "setMessage",
+            "payable": false,
+            "scope": 65,
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "period",
+                    "scope": 31,
+                    "stateVariable": false,
+                    "storageLocation": "default",
+                    "type": "uint256",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "uint256",
+                        "type": "uint256"
+                      },
+                      "id": 13,
+                      "name": "ElementaryTypeName",
+                      "src": "244:7:0"
+                    }
+                  ],
+                  "id": 14,
+                  "name": "VariableDeclaration",
+                  "src": "244:14:0"
+                },
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "message",
+                    "scope": 31,
+                    "stateVariable": false,
+                    "storageLocation": "memory",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 15,
+                      "name": "ElementaryTypeName",
+                      "src": "261:6:0"
+                    }
+                  ],
+                  "id": 16,
+                  "name": "VariableDeclaration",
+                  "src": "261:21:0"
+                }
+              ],
+              "id": 17,
+              "name": "ParameterList",
+              "src": "243:41:0"
+            },
+            {
+              "attributes": {
+                "parameters": [
+                  null
+                ]
+              },
+              "children": [],
+              "id": 18,
+              "name": "ParameterList",
+              "src": "292:0:0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "operator": "=",
+                        "type": "struct SecretKeeper.SecretMessage storage ref"
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "isConstant": false,
+                            "isLValue": true,
+                            "isPure": false,
+                            "lValueRequested": true,
+                            "type": "struct SecretKeeper.SecretMessage storage ref"
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 12,
+                                "type": "mapping(address => struct SecretKeeper.SecretMessage storage ref)",
+                                "value": "keeper"
+                              },
+                              "id": 19,
+                              "name": "Identifier",
+                              "src": "299:6:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "member_name": "sender",
+                                "referencedDeclaration": null,
+                                "type": "address"
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "argumentTypes": null,
+                                    "overloadedDeclarations": [
+                                      null
+                                    ],
+                                    "referencedDeclaration": 80,
+                                    "type": "msg",
+                                    "value": "msg"
+                                  },
+                                  "id": 20,
+                                  "name": "Identifier",
+                                  "src": "306:3:0"
+                                }
+                              ],
+                              "id": 21,
+                              "name": "MemberAccess",
+                              "src": "306:10:0"
+                            }
+                          ],
+                          "id": 22,
+                          "name": "IndexAccess",
+                          "src": "299:18:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "isStructConstructorCall": true,
+                            "lValueRequested": false,
+                            "names": [
+                              null
+                            ],
+                            "type": "struct SecretKeeper.SecretMessage memory",
+                            "type_conversion": false
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": [
+                                  {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  },
+                                  {
+                                    "typeIdentifier": "t_uint256",
+                                    "typeString": "uint256"
+                                  },
+                                  {
+                                    "typeIdentifier": "t_string_memory_ptr",
+                                    "typeString": "string memory"
+                                  }
+                                ],
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 8,
+                                "type": "type(struct SecretKeeper.SecretMessage storage pointer)",
+                                "value": "SecretMessage"
+                              },
+                              "id": 23,
+                              "name": "Identifier",
+                              "src": "320:13:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 82,
+                                "type": "uint256",
+                                "value": "now"
+                              },
+                              "id": 24,
+                              "name": "Identifier",
+                              "src": "334:3:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 14,
+                                "type": "uint256",
+                                "value": "period"
+                              },
+                              "id": 25,
+                              "name": "Identifier",
+                              "src": "339:6:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 16,
+                                "type": "string memory",
+                                "value": "message"
+                              },
+                              "id": 26,
+                              "name": "Identifier",
+                              "src": "347:7:0"
+                            }
+                          ],
+                          "id": 27,
+                          "name": "FunctionCall",
+                          "src": "320:35:0"
+                        }
+                      ],
+                      "id": 28,
+                      "name": "Assignment",
+                      "src": "299:56:0"
+                    }
+                  ],
+                  "id": 29,
+                  "name": "ExpressionStatement",
+                  "src": "299:56:0"
+                }
+              ],
+              "id": 30,
+              "name": "Block",
+              "src": "292:69:0"
+            }
+          ],
+          "id": 31,
+          "name": "FunctionDefinition",
+          "src": "224:137:0"
+        },
+        {
+          "attributes": {
+            "constant": true,
+            "documentation": null,
+            "implemented": true,
+            "isConstructor": false,
+            "modifiers": [
+              null
+            ],
+            "name": "getMessage",
+            "payable": false,
+            "scope": 65,
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "msgOwner",
+                    "scope": 64,
+                    "stateVariable": false,
+                    "storageLocation": "default",
+                    "type": "address",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "address",
+                        "type": "address"
+                      },
+                      "id": 32,
+                      "name": "ElementaryTypeName",
+                      "src": "385:7:0"
+                    }
+                  ],
+                  "id": 33,
+                  "name": "VariableDeclaration",
+                  "src": "385:16:0"
+                }
+              ],
+              "id": 34,
+              "name": "ParameterList",
+              "src": "384:18:0"
+            },
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "",
+                    "scope": 64,
+                    "stateVariable": false,
+                    "storageLocation": "memory",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 35,
+                      "name": "ElementaryTypeName",
+                      "src": "424:6:0"
+                    }
+                  ],
+                  "id": 36,
+                  "name": "VariableDeclaration",
+                  "src": "424:6:0"
+                }
+              ],
+              "id": 37,
+              "name": "ParameterList",
+              "src": "423:15:0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "operator": "<",
+                        "type": "bool"
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "operator": "+",
+                            "type": "uint256"
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "member_name": "startTimeStamp",
+                                "referencedDeclaration": 3,
+                                "type": "uint256"
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "argumentTypes": null,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "type": "struct SecretKeeper.SecretMessage storage ref"
+                                  },
+                                  "children": [
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "overloadedDeclarations": [
+                                          null
+                                        ],
+                                        "referencedDeclaration": 12,
+                                        "type": "mapping(address => struct SecretKeeper.SecretMessage storage ref)",
+                                        "value": "keeper"
+                                      },
+                                      "id": 38,
+                                      "name": "Identifier",
+                                      "src": "449:6:0"
+                                    },
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "overloadedDeclarations": [
+                                          null
+                                        ],
+                                        "referencedDeclaration": 33,
+                                        "type": "address",
+                                        "value": "msgOwner"
+                                      },
+                                      "id": 39,
+                                      "name": "Identifier",
+                                      "src": "456:8:0"
+                                    }
+                                  ],
+                                  "id": 40,
+                                  "name": "IndexAccess",
+                                  "src": "449:16:0"
+                                }
+                              ],
+                              "id": 41,
+                              "name": "MemberAccess",
+                              "src": "449:31:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "commonType": {
+                                  "typeIdentifier": "t_uint256",
+                                  "typeString": "uint256"
+                                },
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "operator": "*",
+                                "type": "uint256"
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "argumentTypes": null,
+                                    "commonType": {
+                                      "typeIdentifier": "t_uint256",
+                                      "typeString": "uint256"
+                                    },
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "operator": "*",
+                                    "type": "uint256"
+                                  },
+                                  "children": [
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "isConstant": false,
+                                        "isLValue": true,
+                                        "isPure": false,
+                                        "lValueRequested": false,
+                                        "member_name": "period",
+                                        "referencedDeclaration": 5,
+                                        "type": "uint256"
+                                      },
+                                      "children": [
+                                        {
+                                          "attributes": {
+                                            "argumentTypes": null,
+                                            "isConstant": false,
+                                            "isLValue": true,
+                                            "isPure": false,
+                                            "lValueRequested": false,
+                                            "type": "struct SecretKeeper.SecretMessage storage ref"
+                                          },
+                                          "children": [
+                                            {
+                                              "attributes": {
+                                                "argumentTypes": null,
+                                                "overloadedDeclarations": [
+                                                  null
+                                                ],
+                                                "referencedDeclaration": 12,
+                                                "type": "mapping(address => struct SecretKeeper.SecretMessage storage ref)",
+                                                "value": "keeper"
+                                              },
+                                              "id": 42,
+                                              "name": "Identifier",
+                                              "src": "483:6:0"
+                                            },
+                                            {
+                                              "attributes": {
+                                                "argumentTypes": null,
+                                                "overloadedDeclarations": [
+                                                  null
+                                                ],
+                                                "referencedDeclaration": 33,
+                                                "type": "address",
+                                                "value": "msgOwner"
+                                              },
+                                              "id": 43,
+                                              "name": "Identifier",
+                                              "src": "490:8:0"
+                                            }
+                                          ],
+                                          "id": 44,
+                                          "name": "IndexAccess",
+                                          "src": "483:16:0"
+                                        }
+                                      ],
+                                      "id": 45,
+                                      "name": "MemberAccess",
+                                      "src": "483:23:0"
+                                    },
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "hexvalue": "3630",
+                                        "isConstant": false,
+                                        "isLValue": false,
+                                        "isPure": true,
+                                        "lValueRequested": false,
+                                        "subdenomination": null,
+                                        "token": "number",
+                                        "type": "int_const 60",
+                                        "value": "60"
+                                      },
+                                      "id": 46,
+                                      "name": "Literal",
+                                      "src": "509:2:0"
+                                    }
+                                  ],
+                                  "id": 47,
+                                  "name": "BinaryOperation",
+                                  "src": "483:28:0"
+                                },
+                                {
+                                  "attributes": {
+                                    "argumentTypes": null,
+                                    "hexvalue": "3630",
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": true,
+                                    "lValueRequested": false,
+                                    "subdenomination": null,
+                                    "token": "number",
+                                    "type": "int_const 60",
+                                    "value": "60"
+                                  },
+                                  "id": 48,
+                                  "name": "Literal",
+                                  "src": "514:2:0"
+                                }
+                              ],
+                              "id": 49,
+                              "name": "BinaryOperation",
+                              "src": "483:33:0"
+                            }
+                          ],
+                          "id": 50,
+                          "name": "BinaryOperation",
+                          "src": "449:67:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 82,
+                            "type": "uint256",
+                            "value": "now"
+                          },
+                          "id": 51,
+                          "name": "Identifier",
+                          "src": "519:3:0"
+                        }
+                      ],
+                      "id": 52,
+                      "name": "BinaryOperation",
+                      "src": "449:73:0"
+                    },
+                    {
+                      "children": [
+                        {
+                          "attributes": {
+                            "functionReturnParameters": 37
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "isConstant": false,
+                                "isLValue": true,
+                                "isPure": false,
+                                "lValueRequested": false,
+                                "member_name": "message",
+                                "referencedDeclaration": 7,
+                                "type": "string storage ref"
+                              },
+                              "children": [
+                                {
+                                  "attributes": {
+                                    "argumentTypes": null,
+                                    "isConstant": false,
+                                    "isLValue": true,
+                                    "isPure": false,
+                                    "lValueRequested": false,
+                                    "type": "struct SecretKeeper.SecretMessage storage ref"
+                                  },
+                                  "children": [
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "overloadedDeclarations": [
+                                          null
+                                        ],
+                                        "referencedDeclaration": 12,
+                                        "type": "mapping(address => struct SecretKeeper.SecretMessage storage ref)",
+                                        "value": "keeper"
+                                      },
+                                      "id": 53,
+                                      "name": "Identifier",
+                                      "src": "540:6:0"
+                                    },
+                                    {
+                                      "attributes": {
+                                        "argumentTypes": null,
+                                        "overloadedDeclarations": [
+                                          null
+                                        ],
+                                        "referencedDeclaration": 33,
+                                        "type": "address",
+                                        "value": "msgOwner"
+                                      },
+                                      "id": 54,
+                                      "name": "Identifier",
+                                      "src": "547:8:0"
+                                    }
+                                  ],
+                                  "id": 55,
+                                  "name": "IndexAccess",
+                                  "src": "540:16:0"
+                                }
+                              ],
+                              "id": 56,
+                              "name": "MemberAccess",
+                              "src": "540:24:0"
+                            }
+                          ],
+                          "id": 57,
+                          "name": "Return",
+                          "src": "533:31:0"
+                        }
+                      ],
+                      "id": 58,
+                      "name": "Block",
+                      "src": "524:48:0"
+                    },
+                    {
+                      "children": [
+                        {
+                          "attributes": {
+                            "functionReturnParameters": 37
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "hexvalue": "",
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "lValueRequested": false,
+                                "subdenomination": null,
+                                "token": "string",
+                                "type": "literal_string \"\"",
+                                "value": ""
+                              },
+                              "id": 59,
+                              "name": "Literal",
+                              "src": "592:2:0"
+                            }
+                          ],
+                          "id": 60,
+                          "name": "Return",
+                          "src": "585:9:0"
+                        }
+                      ],
+                      "id": 61,
+                      "name": "Block",
+                      "src": "576:26:0"
+                    }
+                  ],
+                  "id": 62,
+                  "name": "IfStatement",
+                  "src": "445:157:0"
+                }
+              ],
+              "id": 63,
+              "name": "Block",
+              "src": "438:169:0"
+            }
+          ],
+          "id": 64,
+          "name": "FunctionDefinition",
+          "src": "365:242:0"
+        }
+      ],
+      "id": 65,
+      "name": "ContractDefinition",
+      "src": "40:570:0"
+    }
+  ],
+  "id": 66,
+  "name": "SourceUnit",
+  "src": "4:606:0"
+}

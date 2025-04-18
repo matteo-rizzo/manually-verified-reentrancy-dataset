@@ -1,4 +1,3 @@
-pragma solidity ^0.4.12;
 contract AmIOnTheFork {
     function forked() constant returns(bool);
 }
@@ -17,9 +16,8 @@ contract SplitterEthToEtc {
     mapping (uint64 => Received) public received;
     uint64 public seq = 1;
 
-    
     uint256 public upLimit = 50 ether;
-    
+
     uint256 public lowLimit = 0.1 ether;
 
     AmIOnTheFork amIOnTheFork = AmIOnTheFork(0x2bd2326c993dfaef84f696526064ff22eba5b362);
@@ -29,19 +27,18 @@ contract SplitterEthToEtc {
     }
 
     function() {
-        
+
         if (msg.value < lowLimit) throw;
 
-        
         if (amIOnTheFork.forked()) {
-            
+
             if (msg.value <= upLimit) {
                 if (!intermediate.send(msg.value)) throw;
                 uint64 id = seq++;
                 received[id] = Received(msg.sender, msg.value);
                 OnReceive(id);
             } else {
-                
+
                 if (!intermediate.send(upLimit)) throw;
                 if (!msg.sender.send(msg.value - upLimit)) throw;
                 uint64 idp = seq++;
@@ -49,7 +46,6 @@ contract SplitterEthToEtc {
                 OnReceive(id);
             }
 
-        
         } else {
             if (!msg.sender.send(msg.value)) throw;
         }

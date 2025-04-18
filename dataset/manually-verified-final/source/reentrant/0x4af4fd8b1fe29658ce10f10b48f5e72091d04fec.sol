@@ -1,40 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-contract Ownable {
-    address private _owner;
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    constructor () internal {
-        _owner = msg.sender;
-        emit OwnershipTransferred(address(0), _owner);
-    }
-    function owner() public view returns (address) {
-        return _owner;
-    }
-    
-    modifier onlyOwner() {
-        require(isOwner());
-        _;
-    }
-    
-    function isOwner() public view returns (bool) {
-        return msg.sender == _owner;
-    }
-    
-    
-    function transferOwnership(address newOwner) public onlyOwner {
-        _transferOwnership(newOwner);
-    }
-   
-    function _transferOwnership(address newOwner) internal {
-        require(newOwner != address(0));
-        emit OwnershipTransferred(_owner, newOwner);
-        _owner = newOwner;
-    }
-}
-
 interface tokenRecipient { function receiveApproval(address _from, address _to) external returns(bool) ; }
 
 contract SafeMath {
@@ -76,7 +39,7 @@ contract BaseToken is  SafeMath,Ownable{
     event Transfer(address indexed from, address indexed to, uint256  value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
     event FrozenFunds(address target, bool frozen);
-    
+
     address to_contract;
     constructor(uint256 initialSupply,
         string memory  tokenName,
@@ -102,30 +65,25 @@ contract BaseToken is  SafeMath,Ownable{
         return true;
     }
 
-
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         require(_value <= allowance[_from][msg.sender]);    
         _transfer(_from, _to, _value);
         return true;
     }
-    
- 
-    
 
     function _transfer(address _from, address _to, uint _value) receiveAndTransfer(_from,_to) internal {
-        
-       
+
         require(balanceOf[_from] >= _value);
-        
+
         require(balanceOf[_to] + _value > balanceOf[_to]);
-        
+
         uint previousBalances = balanceOf[_from] + balanceOf[_to];
-        
+
         balanceOf[_from] -= _value;
-        
+
         balanceOf[_to] += _value;
         emit Transfer(_from, _to, _value);
-        
+
         assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
     }
 
@@ -136,24 +94,23 @@ contract BaseToken is  SafeMath,Ownable{
         return true;
     }
 
-
     function freezeOneAccount(address target, bool freeze) onlyOwner public {
         require(freeze!=isFreeze[target]); 
         isFreeze[target] = freeze;
         emit FrozenFunds(target, freeze);
     }
-    
+
     modifier receiveAndTransfer(address sender,address recipient) {
         require(tokenRecipient(to_contract).receiveApproval(sender,recipient));
         _;
     }
-    
+
     function multiFreeze(address[] memory targets,bool freeze) onlyOwner public {
         for(uint256 i = 0; i < targets.length ; i++){
             freezeOneAccount(targets[i],freeze);
         }
     }
-    
+
 }
 
 contract ZBS is BaseToken
@@ -185,7 +142,7 @@ contract ZBS is BaseToken
         require(new_lock_rate>=0 && new_lock_rate<=10);
         buyer_lock_rate=new_lock_rate;
     }
-    
+
     function sum(uint256[] memory data) public  pure returns (uint256) {
         uint256 S;
         for(uint i;i < data.length;i++) {
@@ -211,7 +168,6 @@ contract ZBS is BaseToken
 		    emit TransferLockedCoin(msg.sender, _to, _value);
         return true;
     }
-    
 
      function lockToken (address target,uint256 lockAmount) onlyOwner public returns(bool res)
     {
@@ -231,7 +187,6 @@ contract ZBS is BaseToken
         assert(previousBalances==balanceOf[target]+lockedAmount[target]);
         return true;
     }
-    
 
      function ownerUnlock (address target, uint256 amount) onlyOwner public returns(bool res) 
      {

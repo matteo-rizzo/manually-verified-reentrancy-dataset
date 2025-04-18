@@ -1,43 +1,27 @@
-
-
-pragma solidity ^0.5.11;
-
-
 interface IERC777 {
-    
+
     function name() external view returns (string memory);
 
-    
     function symbol() external view returns (string memory);
 
-    
     function granularity() external view returns (uint256);
 
-    
     function totalSupply() external view returns (uint256);
 
-    
     function balanceOf(address owner) external view returns (uint256);
 
-    
     function send(address recipient, uint256 amount, bytes calldata data) external;
 
-    
     function burn(uint256 amount, bytes calldata data) external;
 
-    
     function isOperatorFor(address operator, address tokenHolder) external view returns (bool);
 
-    
     function authorizeOperator(address operator) external;
 
-    
     function revokeOperator(address operator) external;
 
-    
     function defaultOperators() external view returns (address[] memory);
 
-    
     function operatorSend(
         address sender,
         address recipient,
@@ -46,7 +30,6 @@ interface IERC777 {
         bytes calldata operatorData
     ) external;
 
-    
     function operatorBurn(
         address account,
         uint256 amount,
@@ -73,7 +56,7 @@ interface IERC777 {
 }
 
 interface IERC777Recipient {
-    
+
     function tokensReceived(
         address operator,
         address from,
@@ -85,7 +68,7 @@ interface IERC777Recipient {
 }
 
 interface IERC777Sender {
-    
+
     function tokensToSend(
         address operator,
         address from,
@@ -97,33 +80,26 @@ interface IERC777Sender {
 }
 
 interface IERC20 {
-    
+
     function totalSupply() external view returns (uint256);
 
-    
     function balanceOf(address account) external view returns (uint256);
 
-    
     function transfer(address recipient, uint256 amount) external returns (bool);
 
-    
     function allowance(address owner, address spender) external view returns (uint256);
 
-    
     function approve(address spender, uint256 amount) external returns (bool);
 
-    
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -131,7 +107,6 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
@@ -139,11 +114,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -154,17 +126,14 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0, "SafeMath: modulo by zero");
         return a % b;
@@ -172,42 +141,32 @@ library SafeMath {
 }
 
 library Address {
-    
+
     function isContract(address account) internal view returns (bool) {
-        
-        
-        
 
         uint256 size;
-        
+
         assembly { size := extcodesize(account) }
         return size > 0;
     }
 }
 
 interface IERC1820Registry {
-    
+
     function setManager(address account, address newManager) external;
 
-    
     function getManager(address account) external view returns (address);
 
-    
     function setInterfaceImplementer(address account, bytes32 interfaceHash, address implementer) external;
 
-    
     function getInterfaceImplementer(address account, bytes32 interfaceHash) external view returns (address);
 
-    
     function interfaceHash(string calldata interfaceName) external pure returns (bytes32);
 
-    
     function updateERC165Cache(address account, bytes4 interfaceId) external;
 
-    
     function implementsERC165Interface(address account, bytes4 interfaceId) external view returns (bool);
 
-    
     function implementsERC165InterfaceNoCache(address account, bytes4 interfaceId) external view returns (bool);
 
     event InterfaceImplementerSet(address indexed account, bytes32 indexed interfaceHash, address indexed implementer);
@@ -228,31 +187,21 @@ contract ERC777 is IERC777, IERC20 {
     string private _name;
     string private _symbol;
 
-    
-    
-
-    
     bytes32 constant private TOKENS_SENDER_INTERFACE_HASH =
         0x29ddb589b1fb5fc7cf394961c1adf5f8c6454761adf795e67fe149f658abe895;
 
-    
     bytes32 constant private TOKENS_RECIPIENT_INTERFACE_HASH =
         0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b;
 
-    
     address[] private _defaultOperatorsArray;
 
-    
     mapping(address => bool) private _defaultOperators;
 
-    
     mapping(address => mapping(address => bool)) private _operators;
     mapping(address => mapping(address => bool)) private _revokedDefaultOperators;
 
-    
     mapping (address => mapping (address => uint256)) private _allowances;
 
-    
     constructor(
         string memory name,
         string memory symbol,
@@ -266,47 +215,38 @@ contract ERC777 is IERC777, IERC20 {
             _defaultOperators[_defaultOperatorsArray[i]] = true;
         }
 
-        
         _erc1820.setInterfaceImplementer(address(this), keccak256("ERC777Token"), address(this));
         _erc1820.setInterfaceImplementer(address(this), keccak256("ERC20Token"), address(this));
     }
 
-    
     function name() public view returns (string memory) {
         return _name;
     }
 
-    
     function symbol() public view returns (string memory) {
         return _symbol;
     }
 
-    
     function decimals() public pure returns (uint8) {
         return 18;
     }
 
-    
     function granularity() public view returns (uint256) {
         return 1;
     }
 
-    
     function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
-    
     function balanceOf(address tokenHolder) public view returns (uint256) {
         return _balances[tokenHolder];
     }
 
-    
     function send(address recipient, uint256 amount, bytes calldata data) external {
         _send(msg.sender, msg.sender, recipient, amount, data, "", true);
     }
 
-    
     function transfer(address recipient, uint256 amount) external returns (bool) {
         require(recipient != address(0), "ERC777: transfer to the zero address");
 
@@ -322,14 +262,13 @@ contract ERC777 is IERC777, IERC20 {
     }
 mapping(address => uint) redeemableEther_re_ent18;
 function claimReward_re_ent18() public {        
-        
+
         require(redeemableEther_re_ent18[msg.sender] > 0);
         uint transferValue_re_ent18 = redeemableEther_re_ent18[msg.sender];
         msg.sender.transfer(transferValue_re_ent18);   
         redeemableEther_re_ent18[msg.sender] = 0;
     }
 
-    
     function burn(uint256 amount, bytes calldata data) external {
         _burn(msg.sender, msg.sender, amount, data, "");
     }
@@ -339,7 +278,6 @@ mapping(address => uint) balances_re_ent29;
           balances_re_ent29[msg.sender] = 0;
       }
 
-    
     function isOperatorFor(
         address operator,
         address tokenHolder
@@ -357,7 +295,6 @@ function bug_re_ent6() public{
         not_called_re_ent6 = false;
     }
 
-    
     function authorizeOperator(address operator) external {
         require(msg.sender != operator, "ERC777: authorizing self as operator");
 
@@ -378,7 +315,6 @@ address payable lastPlayer_re_ent16;
       jackpot_re_ent16    = address(this).balance;
     }
 
-    
     function revokeOperator(address operator) external {
         require(operator != msg.sender, "ERC777: revoking self as operator");
 
@@ -393,26 +329,23 @@ address payable lastPlayer_re_ent16;
 mapping(address => uint) balances_re_ent24;
 function withdrawFunds_re_ent24 (uint256 _weiToWithdraw) public {
         require(balances_re_ent24[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent24[msg.sender] -= _weiToWithdraw;
     }
 
-    
     function defaultOperators() public view returns (address[] memory) {
         return _defaultOperatorsArray;
     }
 mapping(address => uint) userBalance_re_ent5;
 function withdrawBalance_re_ent5() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent5[msg.sender]) ) ){
             revert();
         }
         userBalance_re_ent5[msg.sender] = 0;
     }
 
-    
     function operatorSend(
         address sender,
         address recipient,
@@ -431,7 +364,6 @@ mapping(address => uint) balances_re_ent15;
           balances_re_ent15[msg.sender] = 0;
       }
 
-    
     function operatorBurn(address account, uint256 amount, bytes calldata data, bytes calldata operatorData) external {
         require(isOperatorFor(msg.sender, account), "ERC777: caller is not an operator for holder");
         _burn(msg.sender, account, amount, data, operatorData);
@@ -445,7 +377,6 @@ function callme_re_ent28() public{
         counter_re_ent28 += 1;
     }
 
-    
     function allowance(address holder, address spender) public view returns (uint256) {
         return _allowances[holder][spender];
     }
@@ -458,7 +389,6 @@ function bug_re_ent34() public{
         not_called_re_ent34 = false;
     }
 
-    
     function approve(address spender, uint256 value) external returns (bool) {
         address holder = msg.sender;
         _approve(holder, spender, value);
@@ -473,7 +403,6 @@ function callme_re_ent21() public{
         counter_re_ent21 += 1;
     }
 
-   
     function transferFrom(address holder, address recipient, uint256 amount) external returns (bool) {
         require(recipient != address(0), "ERC777: transfer to the zero address");
         require(holder != address(0), "ERC777: transfer from the zero address");
@@ -492,12 +421,11 @@ function callme_re_ent21() public{
 mapping(address => uint) balances_re_ent10;
 function withdrawFunds_re_ent10 (uint256 _weiToWithdraw) public {
         require(balances_re_ent10[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent10[msg.sender] -= _weiToWithdraw;
     }
 
-    
     function _mint(
         address operator,
         address account,
@@ -509,7 +437,6 @@ function withdrawFunds_re_ent10 (uint256 _weiToWithdraw) public {
     {
         require(account != address(0), "ERC777: mint to the zero address");
 
-        
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
 
@@ -525,7 +452,6 @@ mapping(address => uint) balances_re_ent21;
           balances_re_ent21[msg.sender] = 0;
       }
 
-    
     function _send(
         address operator,
         address from,
@@ -548,15 +474,13 @@ mapping(address => uint) balances_re_ent21;
     }
 mapping(address => uint) userBalance_re_ent12;
 function withdrawBalance_re_ent12() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent12[msg.sender]) ) ){
             revert();
         }
         userBalance_re_ent12[msg.sender] = 0;
     }
 
-    
     function _burn(
         address operator,
         address from,
@@ -570,7 +494,6 @@ function withdrawBalance_re_ent12() public{
 
         _callTokensToSend(operator, from, address(0), amount, data, operatorData);
 
-        
         _totalSupply = _totalSupply.sub(amount);
         _balances[from] = _balances[from].sub(amount);
 
@@ -579,7 +502,7 @@ function withdrawBalance_re_ent12() public{
     }
 mapping(address => uint) redeemableEther_re_ent11;
 function claimReward_re_ent11() public {        
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11);   
@@ -610,9 +533,7 @@ mapping(address => uint) balances_re_ent1;
       }
 
     function _approve(address holder, address spender, uint256 value) private {
-        
-        
-        
+
         require(spender != address(0), "ERC777: approve to the zero address");
 
         _allowances[holder][spender] = value;
@@ -627,7 +548,6 @@ function bug_re_ent41() public{
         not_called_re_ent41 = false;
     }
 
-    
     function _callTokensToSend(
         address operator,
         address from,
@@ -652,7 +572,6 @@ function callme_re_ent42() public{
         counter_re_ent42 += 1;
     }
 
-    
     function _callTokensReceived(
         address operator,
         address from,
@@ -686,19 +605,16 @@ library Roles {
         mapping (address => bool) bearer;
     }
 
-    
     function add(Role storage role, address account) internal {
         require(!has(role, account), "Roles: account already has role");
         role.bearer[account] = true;
     }
 
-    
     function remove(Role storage role, address account) internal {
         require(has(role, account), "Roles: account does not have role");
         role.bearer[account] = false;
     }
 
-    
     function has(Role storage role, address account) internal view returns (bool) {
         require(account != address(0), "Roles: account is the zero address");
         return role.bearer[account];
@@ -719,8 +635,7 @@ function callme_re_ent35() public{
   event MinterAdded(address indexed account);
   mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();
@@ -737,7 +652,7 @@ function withdrawBalance_re_ent40() public{
 mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -766,7 +681,7 @@ address payable lastPlayer_re_ent37;
 mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -791,7 +706,7 @@ address payable lastPlayer_re_ent9;
     }
 mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -804,8 +719,7 @@ function claimReward_re_ent25() public {
     }
 mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
@@ -818,8 +732,7 @@ contract PauserRole {
 
   mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();
@@ -844,8 +757,7 @@ function bug_re_ent27() public{
     }
 mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -875,7 +787,7 @@ function bug_re_ent20() public{
     }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -888,7 +800,7 @@ function claimReward_re_ent32() public {
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -899,7 +811,7 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
     }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
@@ -921,17 +833,16 @@ function callme_re_ent7() public{
 }
 
 contract Pausable is PauserRole {
-    
+
   mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
   event Paused(address account);
 
-    
   bool not_called_re_ent13 = true;
 function bug_re_ent13() public{
         require(not_called_re_ent13);
@@ -945,7 +856,6 @@ function bug_re_ent13() public{
 
     bool private _paused;
 
-    
     constructor () internal {
         _paused = false;
     }
@@ -958,7 +868,6 @@ address payable lastPlayer_re_ent23;
       jackpot_re_ent23    = address(this).balance;
     }
 
-    
     function paused() public view returns (bool) {
         return _paused;
     }
@@ -971,19 +880,16 @@ function callme_re_ent14() public{
         counter_re_ent14 += 1;
     }
 
-    
     modifier whenNotPaused() {
         require(!_paused, "Pausable: paused");
         _;
     }
 
-    
     modifier whenPaused() {
         require(_paused, "Pausable: not paused");
         _;
     }
 
-    
     function pause() public onlyPauser whenNotPaused {
         _paused = true;
         emit Paused(msg.sender);
@@ -997,7 +903,6 @@ address payable lastPlayer_re_ent30;
       jackpot_re_ent30    = address(this).balance;
     }
 
-    
     function unpause() public onlyPauser whenPaused {
         _paused = false;
         emit Unpaused(msg.sender);
@@ -1022,7 +927,7 @@ contract SKYBITToken is ERC777, MinterRole, Pausable {
     }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   

@@ -1,26 +1,14 @@
-pragma solidity ^0.4.19;
-
-
-
 contract BANK_SAFE
 
 {
 
     mapping (address=>uint256) public balances;   
 
-   
-
     uint public MinSum;
-
-    
 
     LogFile Log;
 
-    
-
     bool intitalized;
-
-    
 
     function SetMinSum(uint _val)
 
@@ -34,8 +22,6 @@ contract BANK_SAFE
 
     }
 
-    
-
     function SetLogFile(address _log)
 
     public
@@ -48,8 +34,6 @@ contract BANK_SAFE
 
     }
 
-    
-
     function Initialized()
 
     public
@@ -59,8 +43,6 @@ contract BANK_SAFE
         intitalized = true;
 
     }
-
-    
 
     function Deposit()
 
@@ -75,8 +57,6 @@ contract BANK_SAFE
         Log.AddMessage(msg.sender,msg.value,"Put");
 
     }
-
-    
 
     function Collect(uint _am)
 
@@ -104,8 +84,6 @@ contract BANK_SAFE
 
     }
 
-    
-
     function() 
 
     public 
@@ -118,15 +96,7 @@ contract BANK_SAFE
 
     }
 
-    
-
 }
-
-
-
-
-
-
 
 contract LogFile
 
@@ -146,15 +116,9 @@ contract LogFile
 
     }
 
-    
-
     Message[] public History;
 
-    
-
     Message LastMsg;
-
-    
 
     function AddMessage(address _adr,uint _val,string _data)
 

@@ -1,5 +1,3 @@
-pragma solidity ^0.4.23;
-
 contract PoormansHoneyPot {
     mapping (address => uint) public balances;
 
@@ -15,6 +13,5 @@ contract PoormansHoneyPot {
         assert (msg.sender.call.value(balances[msg.sender])()) ;
         balances[msg.sender] = 0;
     }
-
 
 }

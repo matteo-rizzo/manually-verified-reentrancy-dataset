@@ -1,12 +1,5 @@
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
 contract Modifiable {
-    
-    
-    
+
     modifier notNullAddress(address _address) {
         require(_address != address(0));
         _;
@@ -30,84 +23,55 @@ contract Modifiable {
 }
 
 contract SelfDestructible {
-    
-    
-    
+
     bool public selfDestructionDisabled;
 
-    
-    
-    
     event SelfDestructionDisabledEvent(address wallet);
     event TriggerSelfDestructionEvent(address wallet);
 
-    
-    
-    
-    
     function destructor()
     public
     view
     returns (address);
 
-    
-    
     function disableSelfDestruction()
     public
     {
-        
+
         require(destructor() == msg.sender);
 
-        
         selfDestructionDisabled = true;
 
-        
         emit SelfDestructionDisabledEvent(msg.sender);
     }
 
-    
     function triggerSelfDestruction()
     public
     {
-        
+
         require(destructor() == msg.sender);
 
-        
         require(!selfDestructionDisabled);
 
-        
         emit TriggerSelfDestructionEvent(msg.sender);
 
-        
         selfdestruct(msg.sender);
     }
 }
 
 contract Ownable is Modifiable, SelfDestructible {
-    
-    
-    
+
     address public deployer;
     address public operator;
 
-    
-    
-    
     event SetDeployerEvent(address oldDeployer, address newDeployer);
     event SetOperatorEvent(address oldOperator, address newOperator);
 
-    
-    
-    
     constructor(address _deployer) internal notNullOrThisAddress(_deployer) {
         deployer = _deployer;
         operator = _deployer;
     }
 
-    
-    
-    
-    
     function destructor()
     public
     view
@@ -116,42 +80,34 @@ contract Ownable is Modifiable, SelfDestructible {
         return deployer;
     }
 
-    
-    
     function setDeployer(address newDeployer)
     public
     onlyDeployer
     notNullOrThisAddress(newDeployer)
     {
         if (newDeployer != deployer) {
-            
+
             address oldDeployer = deployer;
             deployer = newDeployer;
 
-            
             emit SetDeployerEvent(oldDeployer, newDeployer);
         }
     }
 
-    
-    
     function setOperator(address newOperator)
     public
     onlyOperator
     notNullOrThisAddress(newOperator)
     {
         if (newOperator != operator) {
-            
+
             address oldOperator = operator;
             operator = newOperator;
 
-            
             emit SetOperatorEvent(oldOperator, newOperator);
         }
     }
 
-    
-    
     function isDeployer()
     internal
     view
@@ -160,8 +116,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return msg.sender == deployer;
     }
 
-    
-    
     function isOperator()
     internal
     view
@@ -170,9 +124,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return msg.sender == operator;
     }
 
-    
-    
-    
     function isDeployerOrOperator()
     internal
     view
@@ -181,8 +132,6 @@ contract Ownable is Modifiable, SelfDestructible {
         return isDeployer() || isOperator();
     }
 
-    
-    
     modifier onlyDeployer() {
         require(isDeployer());
         _;
@@ -215,27 +164,16 @@ contract Ownable is Modifiable, SelfDestructible {
 }
 
 contract CommunityVote is Ownable {
-    
-    
-    
+
     mapping(address => bool) doubleSpenderByWallet;
     uint256 maxDriipNonce;
     uint256 maxNullNonce;
     bool dataAvailable;
 
-    
-    
-    
     constructor(address deployer) Ownable(deployer) public {
         dataAvailable = true;
     }
 
-    
-    
-    
-    
-    
-    
     function isDoubleSpenderWallet(address wallet)
     public
     view
@@ -244,8 +182,6 @@ contract CommunityVote is Ownable {
         return doubleSpenderByWallet[wallet];
     }
 
-    
-    
     function getMaxDriipNonce()
     public
     view
@@ -254,8 +190,6 @@ contract CommunityVote is Ownable {
         return maxDriipNonce;
     }
 
-    
-    
     function getMaxNullNonce()
     public
     view
@@ -264,8 +198,6 @@ contract CommunityVote is Ownable {
         return maxNullNonce;
     }
 
-    
-    
     function isDataAvailable()
     public
     view

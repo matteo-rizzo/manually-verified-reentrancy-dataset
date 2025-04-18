@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract StandardTokenInterface {
 
     string public name;
@@ -32,39 +24,25 @@ contract StandardTokenInterface {
 
 }
 
-
-
 contract StandardToken is StandardTokenInterface{
-
-    
 
     mapping(address => uint256) public balances;
 
     mapping(address => mapping(address => uint256)) internal allowed;
 
-    
-
     function balanceOf(address _owner) public view returns (uint256 balance) {
-
-        
 
         balance = balances[_owner];
 
     }
 
-    
-
     function transfer(address _to, uint256 _value) public returns (bool success) {
-
-        
 
         require(_to != address(0x0));
 
         require(balances[msg.sender] >= _value);
 
         require(balances[_to] + _value >= balances[_to]);
-
-        
 
         uint256 previous = balances[msg.sender] + balances[_to];
 
@@ -76,17 +54,11 @@ contract StandardToken is StandardTokenInterface{
 
         emit Transfer(msg.sender,_to,_value);
 
-        
-
         success = true;
 
     }
 
-    
-
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-
-        
 
         require(_from != address(0x0));
 
@@ -98,31 +70,21 @@ contract StandardToken is StandardTokenInterface{
 
         require(balances[_to] + _value >= balances[_to]);
 
-        
-
         balances[_from] -= _value;
 
         balances[_to] += _value;
 
         emit Transfer(_from,_to,_value);
 
-        
-
         success = true;
 
     }
 
-    
-
     function approve(address _spender, uint256 _value) public returns (bool success) {
-
-        
 
         require(_spender != address(0x0));
 
         require(balances[msg.sender] >= _value);
-
-        
 
         allowed[msg.sender][_spender] = _value;
 
@@ -132,19 +94,13 @@ contract StandardToken is StandardTokenInterface{
 
     }
 
-    
-
     function allowance(address _owner, address _spender) public view returns (uint256 remaining){
-
-        
 
         remaining = allowed[_owner][_spender];
 
     }
 
 }
-
-
 
 contract CustomToken is StandardToken{
 

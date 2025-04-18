@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract NINA_Token {
     string public constant name = "Novel Immutable Network Asset";
     string public constant symbol = "NINA";
@@ -13,7 +9,7 @@ contract NINA_Token {
     mapping(address => uint256) balances;
 
     mapping(address => mapping (address => uint256)) allowed;
-    
+
     uint256 totalSupply_ = 10 ** (8 + 18);
 
     using SafeMath for uint256;
@@ -25,7 +21,7 @@ contract NINA_Token {
     function totalSupply() external view returns (uint256) {
 		return totalSupply_;
     }
-    
+
     function balanceOf(address tokenOwner) external view returns (uint) {
         return balances[tokenOwner];
     }
@@ -51,7 +47,7 @@ contract NINA_Token {
     function transferFrom(address owner, address buyer, uint numTokens) external returns (bool) {
         require(numTokens <= balances[owner]);    
         require(numTokens <= allowed[owner][msg.sender]);
-    
+
         balances[owner] = balances[owner].sub(numTokens);
         allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
         balances[buyer] = balances[buyer].add(numTokens);
@@ -65,7 +61,7 @@ library SafeMath {
       assert(b <= a);
       return a - b;
     }
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
       uint256 c = a + b;
       assert(c >= a);

@@ -1,5 +1,3 @@
-pragma solidity ^0.4.21;
-
 contract DSAuthority {
     function canCall(
         address src,
@@ -93,21 +91,6 @@ contract DSMath {
         z = add(mul(x, RAY), y / 2) / y;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     function rpow(uint x, uint n) internal pure returns (uint z) {
         z = n % 2 != 0 ? x : RAY;
 
@@ -135,7 +118,6 @@ contract DSExec {
         }
     }
 
-    
     function exec(address t, bytes c) internal {
         exec(t, c, 0);
     }
@@ -328,7 +310,6 @@ contract DSToken is DSTokenBase(0), DSStop {
         Burn(guy, wad);
     }
 
-    
     bytes32 public name = "";
 
     function setName(bytes32 name_) public auth {

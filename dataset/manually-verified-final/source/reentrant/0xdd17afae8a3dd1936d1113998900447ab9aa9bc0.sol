@@ -1,5 +1,3 @@
-pragma solidity ^0.4.19;
-
 contract COIN_BOX   
 {
     struct Holder   
@@ -7,35 +5,35 @@ contract COIN_BOX
         uint unlockTime;
         uint balance;
     }
-    
+
     mapping (address => Holder) public Acc;
-    
+
     uint public MinSum;
-    
+
     Log LogFile;
-    
+
     bool intitalized;
-    
+
     function SetMinSum(uint _val)
     public
     {
         if(intitalized)throw;
         MinSum = _val;
     }
-    
+
     function SetLogFile(address _log)
     public
     {
         if(intitalized)throw;
         LogFile = Log(_log);
     }
-    
+
     function Initialized()
     public
     {
         intitalized = true;
     }
-    
+
     function Put(uint _lockTime)
     public
     payable
@@ -45,7 +43,7 @@ contract COIN_BOX
         if(now+_lockTime>acc.unlockTime)acc.unlockTime=now+_lockTime;
         LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
-    
+
     function Collect(uint _am)
     public
     payable
@@ -60,16 +58,15 @@ contract COIN_BOX
             }
         }
     }
-    
+
     function() 
     public 
     payable
     {
         Put(0);
     }
-    
-}
 
+}
 
 contract Log 
 {
@@ -80,11 +77,11 @@ contract Log
         uint Val;
         uint  Time;
     }
-    
+
     Message[] public History;
-    
+
     Message LastMsg;
-    
+
     function AddMessage(address _adr,uint _val,string _data)
     public
     {

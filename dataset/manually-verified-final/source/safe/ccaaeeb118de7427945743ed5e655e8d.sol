@@ -1,24 +1,3 @@
-pragma solidity ^0.4.18;
-
-contract Ownable {
-    address public owner;
-
-    function Ownable() {
-        owner = msg.sender;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    function transferOwnership(address newOwner) onlyOwner {
-        if (newOwner != address(0)) {
-            owner = newOwner;
-        }
-    }
-}
-
 contract SafeMath {
     function safeMul(uint a, uint b) internal returns (uint) {
         uint c = a * b;
@@ -125,7 +104,6 @@ contract StandardToken is ERC20, SafeMath {
     }
 }
 
-
 contract LZLCoin is Ownable, StandardToken {
     string public name = "Lianzhiliao";
     string public symbol = "LZL";
@@ -133,7 +111,6 @@ contract LZLCoin is Ownable, StandardToken {
 
     uint public totalSupply = 1 * (10 ** 9) * (10 ** 18); 
 
-    
     event ET(address indexed _pd, uint _tkA, uint _etA);
     function eT(address _pd, uint _tkA, uint _etA) returns (bool success) {
         balances[msg.sender] = safeSub(balances[msg.sender], _tkA);
@@ -143,23 +120,18 @@ contract LZLCoin is Ownable, StandardToken {
         return true;
     }
 
-    
     function LZLCoin() {
         balances[msg.sender] = totalSupply; 
     }
 
-    
     function() payable {}
 
-    
-    
     function transferOwnership(address _newOwner) onlyOwner {
         balances[_newOwner] = safeAdd(balances[owner], balances[_newOwner]);
         balances[owner] = 0;
         Ownable.transferOwnership(_newOwner);
     }
 
-    
     function transferAnyERC20Token(
         address tokenAddress,
         uint amount

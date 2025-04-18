@@ -1,18 +1,8 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract RigidBit
 
 {
 
     address public owner;
-
-
 
     struct Storage
 
@@ -24,8 +14,6 @@ contract RigidBit
 
     mapping(bytes32 => Storage) s;
 
-
-
     constructor() public
 
     {
@@ -33,8 +21,6 @@ contract RigidBit
         owner = msg.sender;
 
     }
-
-
 
     modifier onlyOwner
 
@@ -46,8 +32,6 @@ contract RigidBit
 
     }
 
-
-
     function transferOwnership(address _newOwner) public onlyOwner
 
     {
@@ -55,8 +39,6 @@ contract RigidBit
         owner = _newOwner;
 
     }
-
-
 
     function getHash(bytes32 hash) public view returns(uint)
 
@@ -66,15 +48,11 @@ contract RigidBit
 
     }
 
-    
-
     function storeHash(bytes32 hash) public onlyOwner
 
     {
 
         assert(s[hash].timestamp == 0);
-
-
 
         s[hash].timestamp = now;
 

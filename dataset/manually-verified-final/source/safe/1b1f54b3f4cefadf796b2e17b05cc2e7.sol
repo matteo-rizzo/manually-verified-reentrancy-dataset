@@ -1,5 +1,3 @@
-pragma solidity ^0.4.0;
-
 contract IconomiToken {
 
   event Transfer(address indexed _from, address indexed _to, uint256 _value);
@@ -49,15 +47,11 @@ contract IconomiToken {
     owner = msg.sender;
   }
 
-  
   function approveAndCall(address _spender, uint256 _value, bytes _extraData) returns (bool success) {
 
     allowed[msg.sender][_spender] = _value;
     Approval(msg.sender, _spender, _value);
 
-    
-    
-    
     if(!_spender.call(bytes4(sha3("receiveApproval(address,uint256,address,bytes)")), msg.sender, _value, this, _extraData)) { throw; }
     return true;
 
@@ -123,7 +117,6 @@ contract IconomiToken {
   mapping (address => uint256) balances;
   mapping (address => mapping (address => uint256)) allowed;
 }
-
 
 contract IconomiTokenTest is IconomiToken {
   function IconomiTokenTest(

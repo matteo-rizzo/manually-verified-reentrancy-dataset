@@ -1,8 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.7.0;
-
-
 library SafeMath {
   function mul(uint a, uint b) internal pure returns (uint) {
     if (a == 0) {
@@ -16,7 +11,7 @@ library SafeMath {
   function div(uint a, uint b) internal pure returns (uint) {
     assert(b > 0); 
     uint c = a / b;
-    
+
     return c;
   }
 
@@ -34,27 +29,27 @@ library SafeMath {
 contract ERC20 {
 
     function getSupply() public view returns (uint supply);
-    
+
     function balanceOf(address _owner) public view returns (uint balance);
-    
+
     function transfer(address _to, uint _value) public returns (bool success);
-    
+
     function burn(uint _value) public returns (bool success);
-    
+
     function freeze(address _to, uint _value) public returns (bool success);
-    
+
     function unfreeze(address _to, uint _value) public returns (bool success);
-    
+
     function transferFrom(address _from, address _to, uint _value) public returns (bool success);
-    
+
     function approve(address _spender, uint _value) public returns (bool success);
-    
+
     function allowance(address _owner, address _spender) public view returns (uint remaining);
 
     event Transfer(address indexed _from, address indexed _to, uint _value);
-    
+
     event Approval(address indexed _owner, address indexed _spender, uint _value);
-    
+
     event Burn(address indexed _from, uint value);
 }
 contract StandardToken is ERC20 {
@@ -64,9 +59,9 @@ contract StandardToken is ERC20 {
     uint public totalSupply;
 
     mapping (address => uint) balances;
-    
+
     mapping (address => uint) public freezeOf;
-    
+
     mapping (address => mapping (address => uint)) allowed;
 
     function getSupply() public view returns (uint) {
@@ -83,7 +78,7 @@ contract StandardToken is ERC20 {
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
         emit Transfer(msg.sender, _to, _value);
-        
+
         return true;
     }
     function burn(uint _value) public returns (bool success) {
@@ -93,7 +88,7 @@ contract StandardToken is ERC20 {
         emit Burn(msg.sender, _value);
         return true;
     }
-   
+
     function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
         require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0);
         require(_to != address(0));
@@ -102,12 +97,12 @@ contract StandardToken is ERC20 {
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
         emit Transfer(_from, _to, _value);
-        
+
         return true;
     }
 
     function approve(address _spender, uint _value) public returns (bool success) {
-        
+
         if ((_value != 0) && (allowed[msg.sender][_spender] != 0)) {
             revert();
         }
@@ -131,7 +126,7 @@ contract Controlled {
     function changeController(address _newController) public only_controller {
         controller = _newController;
     }
-    
+
     function getController() view public returns (address) {
         return controller;
     }
@@ -143,28 +138,28 @@ contract Controlled {
 
 }
 contract DGPE is StandardToken, Controlled {
-    
+
     using SafeMath for uint;
-    
+
     uint8 public decimals;
 
     string public constant name = "Digital People";
-    
+
     string public constant symbol = "DGPE";
 
     uint unlockTime;
-    
+
     mapping (address => bool) internal precirculated;
 
     constructor(uint _unlockTime,uint8 _decimals, uint _totalSupply) public {
         unlockTime = _unlockTime;
-        
+
         decimals = _decimals;
-        
+
         totalSupply = _totalSupply * 10 ** uint(decimals);
-        
+
         balances[msg.sender] = balances[msg.sender].add(totalSupply);
-        
+
         emit Transfer(address(0), msg.sender, totalSupply);
     }
 
@@ -182,7 +177,7 @@ contract DGPE is StandardToken, Controlled {
         emit Transfer(_from, address(0), _value);
         return true;
     }
-    
+
     function unfreeze(address _from, uint _value) only_controller public returns (bool success) {
         require(freezeOf[_from] >= _value && _value > 0);
         require(_from != address(0));
@@ -211,12 +206,11 @@ contract DGPE is StandardToken, Controlled {
     function disallowPrecirculation(address _addr) only_controller public {
         precirculated[_addr] = false;
     }
-   
 
     function isPrecirculationAllowed(address _addr) view public returns(bool) {
         return precirculated[_addr];
     }
-    
+
     function changeUnlockTime(uint _unlockTime) only_controller public {
         unlockTime = _unlockTime;
     }
@@ -229,6 +223,5 @@ contract DGPE is StandardToken, Controlled {
         require((block.number >= unlockTime) || (isPrecirculationAllowed(_from) && isPrecirculationAllowed(_to)));
         _;
     }
-
 
 }

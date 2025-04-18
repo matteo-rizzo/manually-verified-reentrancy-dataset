@@ -1,11 +1,5 @@
-
-
-pragma solidity ^0.5.7;
-
-
-
 library SafeMath {
-    
+
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
@@ -13,7 +7,6 @@ library SafeMath {
         return c;
     }
 
-    
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -22,12 +15,11 @@ library SafeMath {
     }
 }
 
-
 contract ERC20TokenInterface {
     function balanceOf(address _owner) public view returns (uint256 value);
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
@@ -82,7 +74,6 @@ contract ERC20TokenInterface {
     }
 }
 
-
 contract ERC20Token is ERC20TokenInterface {
     using SafeMath for uint256;
     address payable lastPlayer_re_ent9;
@@ -96,7 +87,7 @@ contract ERC20Token is ERC20TokenInterface {
     uint256 public totalSupply;
     mapping(address => uint) redeemableEther_re_ent25;
     function claimReward_re_ent25() public {
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25); 
@@ -105,8 +96,7 @@ contract ERC20Token is ERC20TokenInterface {
     mapping(address => uint256) balances; 
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
@@ -114,7 +104,6 @@ contract ERC20Token is ERC20TokenInterface {
     }
     mapping(address => mapping(address => uint256)) allowed; 
 
-    
     function balanceOf(address _owner) public view returns (uint256 value) {
         return balances[_owner];
     }
@@ -126,7 +115,6 @@ contract ERC20Token is ERC20TokenInterface {
         if (success) balances_re_ent8[msg.sender] = 0;
     }
 
-    
     function transfer(
         address _to,
         uint256 _value
@@ -138,14 +126,13 @@ contract ERC20Token is ERC20TokenInterface {
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
         redeemableEther_re_ent39[msg.sender] = 0;
     }
 
-    
     function transferFrom(
         address _from,
         address _to,
@@ -163,7 +150,6 @@ contract ERC20Token is ERC20TokenInterface {
             balances_re_ent36[msg.sender] = 0;
     }
 
-    
     function approve(
         address _spender,
         uint256 _value
@@ -181,7 +167,6 @@ contract ERC20Token is ERC20TokenInterface {
         counter_re_ent35 += 1;
     }
 
-    
     function allowance(
         address _owner,
         address _spender
@@ -190,8 +175,7 @@ contract ERC20Token is ERC20TokenInterface {
     }
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -201,11 +185,10 @@ contract ERC20Token is ERC20TokenInterface {
         userBalance_re_ent40[msg.sender] = 0;
     }
 
-    
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -226,12 +209,10 @@ contract ERC20Token is ERC20TokenInterface {
     );
 }
 
-
 contract AsseteGram is ERC20Token {
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -252,7 +233,7 @@ contract AsseteGram is ERC20Token {
     uint8 public decimals = 3;
     mapping(address => uint) redeemableEther_re_ent32;
     function claimReward_re_ent32() public {
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32); 
@@ -262,7 +243,7 @@ contract AsseteGram is ERC20Token {
     mapping(address => uint) balances_re_ent38;
     function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -276,8 +257,7 @@ contract AsseteGram is ERC20Token {
     }
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");
@@ -287,7 +267,6 @@ contract AsseteGram is ERC20Token {
         userBalance_re_ent33[msg.sender] = 0;
     }
 
-    
     function() external {
         revert();
     }

@@ -1,25 +1,13 @@
-
-
-
-
-
-
-
-
-
 abstract contract RoundStorage {
-    
-    
+
     uint256 public fee;
 
-    
     uint256 public amount;
 
-    
     uint public roundTime;
 
     struct Round {
-        
+
         bool finalized;
 
         uint startTime;
@@ -83,28 +71,21 @@ contract Round is RoundStorage {
     }
 }
 
-
-
-
-
-
-
-
 library TransferHelper {
     function safeApprove(address token, address to, uint value) internal {
-        
+
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0x095ea7b3, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'TransferHelper: APPROVE_FAILED');
     }
 
     function safeTransfer(address token, address to, uint value) internal {
-        
+
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0xa9059cbb, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'TransferHelper: TRANSFER_FAILED');
     }
 
     function safeTransferFrom(address token, address from, address to, uint value) internal {
-        
+
         (bool success, bytes memory data) = token.call(abi.encodeWithSelector(0x23b872dd, from, to, value));
         require(success && (data.length == 0 || abi.decode(data, (bool))), 'TransferHelper: TRANSFER_FROM_FAILED');
     }
@@ -115,15 +96,8 @@ library TransferHelper {
     }
 }
 
-
-
-
-
-
-
-
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -131,12 +105,10 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
 
-    
     function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
@@ -144,11 +116,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -159,41 +128,26 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
         return div(a, b, "SafeMath: division by zero");
     }
 
-    
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         return mod(a, b, "SafeMath: modulo by zero");
     }
 
-    
     function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 abstract contract BalanceStorage {
     mapping(address => uint256) public balances;
@@ -202,7 +156,6 @@ abstract contract BalanceStorage {
 contract Balance is BalanceStorage {
     using SafeMath for uint256;
 
-    
     function claim() public {
         TransferHelper.safeTransferETH(msg.sender, balances[msg.sender]);
         balances[msg.sender] = 0;
@@ -212,13 +165,6 @@ contract Balance is BalanceStorage {
         balances[_user] = balances[_user].add(_amount);
     }
 }
-
-
-
-
-
-
-
 
 abstract contract Maintainer {
     address public maintainer;
@@ -231,13 +177,6 @@ abstract contract Maintainer {
     function setMaintainer(address _maintainer) external virtual;
 }
 
-
-
-
-
-
-
-
 abstract contract Context {
     function _msgSender() internal view virtual returns (address payable) {
         return msg.sender;
@@ -249,64 +188,37 @@ abstract contract Context {
     }
 }
 
-
-
-
-
-
-
-
-
 contract Ownable is Context {
     address private _owner;
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-    
     constructor () internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
     }
 
-    
     function owner() public view returns (address) {
         return _owner;
     }
 
-    
     modifier onlyOwner() {
         require(_owner == _msgSender(), "Ownable: caller is not the owner");
         _;
     }
 
-    
     function renounceOwnership() public virtual onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
         _owner = address(0);
     }
 
-    
     function transferOwnership(address newOwner) public virtual onlyOwner {
         require(newOwner != address(0), "Ownable: new owner is the zero address");
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
 }
-
-
-
-
-
-pragma solidity 0.6.12;
-
-
-
-
-
-
-
-
 
 contract RunningMan is Ownable, Round, Balance, Maintainer {
     using SafeMath for uint256;
@@ -340,7 +252,6 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         newRound();
     }
 
-    
     function getCurrentRoundBalance() public view returns(uint256 balance) {
         uint256 currentRound = getCurrentRoundNumber();
 
@@ -351,7 +262,6 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         return total;
     }
 
-    
     function getPlayer(uint256 _round, address payable _player) public view returns(uint256 playerBet, State playerState) {
         for (uint256 i=0; i<players[_round].length; i++) {
             if (players[_round][i].addr == _player) {
@@ -362,12 +272,10 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         return (0, State.UNDEFINED);
     }
 
-    
     function getRoundPlayers(uint256 _round) public view returns(uint256) {
         return players[_round].length;
     }
 
-    
     function getBalance(uint256 _round, address payable _player) public view returns(uint256) {
         if (_round <= rounds.length - 1) {
             for (uint256 i=0; i<players[_round].length; i++) {
@@ -393,7 +301,7 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         }
 
         require(isBet == false, "ERROR: already bet");
-        
+
         if (!isBet) {
             players[currentRound].push(Player({
                 addr: msg.sender,
@@ -406,7 +314,6 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         }
     }
 
-    
     function _open() internal {
         newRound();
     }
@@ -419,14 +326,12 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         emit RoundEnded(currentRound);
     }
 
-    
     function _calculate(uint256 _round) internal {
         uint256 onePercent = 100*(10**6);
         uint256 numberOfWinners = players[_round].length.mul(winPercent).div(onePercent);
 
         if (numberOfWinners <= 0) {
-            
-            
+
             for (uint256 i=0 ;i<players[_round].length; i++) {
                 TransferHelper.safeTransferETH(players[_round][i].addr, players[_round][i].balance);
                 players[_round][i].state = State.REFUND;
@@ -470,8 +375,6 @@ contract RunningMan is Ownable, Round, Balance, Maintainer {
         maintainer = _maintainer;
     }
 
-    
-    
     function reset() public onlyMaintainer {
         require(roundOver(), "ERROR: round is not over");
         _end();

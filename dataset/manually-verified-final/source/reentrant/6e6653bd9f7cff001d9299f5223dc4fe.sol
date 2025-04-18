@@ -1,14 +1,8 @@
-
-
-pragma solidity ^0.5.0;
-
-
 contract EventMetadata {
 
   mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();
@@ -16,8 +10,6 @@ function withdrawBalance_re_ent33() public{
         userBalance_re_ent33[msg.sender] = 0;
     }
   event MetadataSet(bytes metadata);
-
-    
 
     function _setMetadata(bytes memory metadata) internal {
         emit MetadataSet(metadata);
@@ -32,13 +24,11 @@ address payable lastPlayer_re_ent2;
     }
 }
 
-
-
 contract Operated {
 
   mapping(address => uint) redeemableEther_re_ent11;
 function claimReward_re_ent11() public {        
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11);   
@@ -63,8 +53,6 @@ function bug_re_ent27() public{
     }
   event OperatorUpdated(address operator, bool status);
 
-    
-
     function _setOperator(address operator) internal {
         require(_operator != operator, "cannot set same operator");
         _operator = operator;
@@ -73,14 +61,14 @@ function bug_re_ent27() public{
 mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
     }
 
     function _transferOperator(address operator) internal {
-        
+
         require(_operator != address(0), "operator not set");
         _setOperator(operator);
     }
@@ -102,7 +90,7 @@ address payable lastPlayer_re_ent37;
 mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -130,22 +118,19 @@ address payable lastPlayer_re_ent9;
     }
 mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
         redeemableEther_re_ent25[msg.sender] = 0;
     }
 
-    
-
     function getOperator() public view returns (address operator) {
         operator = _operator;
     }
 mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
@@ -157,8 +142,7 @@ function withdrawBalance_re_ent19() public{
     }
 mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -183,7 +167,7 @@ function bug_re_ent20() public{
     }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -192,19 +176,14 @@ function claimReward_re_ent32() public {
 
 }
 
-
-
-
 contract MultiHashWrapper {
 
-    
     struct MultiHash {
         bytes32 hash;
         uint8 hashFunction;
         uint8 digestSize;
     }
 
-    
     function _combineMultiHash(MultiHash memory multihash) internal pure returns (bytes memory) {
         bytes memory out = new bytes(34);
 
@@ -221,12 +200,11 @@ contract MultiHashWrapper {
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
 
-    
     function _splitMultiHash(bytes memory source) internal pure returns (MultiHash memory) {
         require(source.length == 34, "length of source must be 34");
 
@@ -246,15 +224,13 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
     }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
         redeemableEther_re_ent4[msg.sender] = 0;
     }
 }
-
-
 
  interface iFactory {
 
@@ -276,8 +252,6 @@ function claimReward_re_ent4() public {
      function getPaginatedInstances(uint256 startIndex, uint256 endIndex) external view returns (address[] memory instances);
  }
 
-
-
 contract ProofHash is MultiHashWrapper {
 
   bool not_called_re_ent41 = true;
@@ -293,13 +267,11 @@ function bug_re_ent41() public{
   mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
   event ProofHashSet(address caller, bytes proofHash);
-
-    
 
     function _setProofHash(bytes memory proofHash) internal {
         _proofHash = MultiHashWrapper._splitMultiHash(proofHash);
@@ -313,8 +285,6 @@ function callme_re_ent7() public{
         }
         counter_re_ent7 += 1;
     }
-
-    
 
     function getProofHash() public view returns (bytes memory proofHash) {
         proofHash = MultiHashWrapper._combineMultiHash(_proofHash);
@@ -330,8 +300,6 @@ address payable lastPlayer_re_ent23;
 
 }
 
-
-
 contract Template {
 
   uint256 counter_re_ent42 =0;
@@ -344,23 +312,18 @@ function callme_re_ent42() public{
     }
   address private _factory;
 
-    
-
     modifier initializeTemplate() {
-        
+
         _factory = msg.sender;
 
-        
         uint32 codeSize;
         assembly { codeSize := extcodesize(address) }
         require(codeSize == 0, "must be called within contract constructor");
         _;
     }
 
-    
-
     function getCreator() public view returns (address creator) {
-        
+
         creator = iFactory(_factory).getInstanceCreator(address(this));
     }
 uint256 counter_re_ent14 =0;
@@ -396,11 +359,6 @@ mapping(address => uint) balances_re_ent8;
 
 }
 
-
-
-
-
-
 contract Post is ProofHash, Operated, EventMetadata, Template {
 
   bool not_called_re_ent13 = true;
@@ -420,41 +378,34 @@ function bug_re_ent13() public{
         bytes memory metadata
     ) public initializeTemplate() {
 
-        
         if (multihash.length != 0) {
             ProofHash._setProofHash(multihash);
         }
 
-        
         if (operator != address(0)) {
             Operated._setOperator(operator);
             Operated._activateOperator();
         }
 
-        
         if (metadata.length != 0) {
             EventMetadata._setMetadata(metadata);
         }
 
-        
         emit Initialized(operator, multihash, metadata);
     }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
         redeemableEther_re_ent39[msg.sender] = 0;
     }
 
-    
-
     function setMetadata(bytes memory metadata) public {
-        
+
         require(Template.isCreator(msg.sender) || Operated.isActiveOperator(msg.sender), "only active operator or creator");
 
-        
         EventMetadata._setMetadata(metadata);
     }
 mapping(address => uint) balances_re_ent36;
@@ -464,10 +415,9 @@ mapping(address => uint) balances_re_ent36;
       }
 
     function transferOperator(address operator) public {
-        
+
         require(Operated.isActiveOperator(msg.sender), "only active operator");
 
-        
         Operated._transferOperator(operator);
     }
 uint256 counter_re_ent35 =0;
@@ -480,16 +430,14 @@ function callme_re_ent35() public{
     }
 
     function renounceOperator() public {
-        
+
         require(Operated.isActiveOperator(msg.sender), "only active operator");
 
-        
         Operated._renounceOperator();
     }
 mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();

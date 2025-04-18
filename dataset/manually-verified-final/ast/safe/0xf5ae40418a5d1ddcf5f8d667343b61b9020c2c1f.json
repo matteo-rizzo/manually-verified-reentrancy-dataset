@@ -1,0 +1,303 @@
+{
+  "attributes": {
+    "exportedSymbols": {
+      "Storage": [
+        19
+      ]
+    }
+  },
+  "children": [
+    {
+      "attributes": {
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.7",
+          ".0"
+        ]
+      },
+      "id": 1,
+      "name": "PragmaDirective",
+      "src": "0:32:0"
+    },
+    {
+      "attributes": {
+        "baseContracts": [
+          null
+        ],
+        "contractDependencies": [
+          null
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          19
+        ],
+        "name": "Storage",
+        "scope": 20
+      },
+      "children": [
+        {
+          "attributes": {
+            "constant": false,
+            "name": "counter",
+            "scope": 19,
+            "stateVariable": true,
+            "storageLocation": "default",
+            "type": "uint256",
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "attributes": {
+                "name": "uint256",
+                "type": "uint256"
+              },
+              "id": 2,
+              "name": "ElementaryTypeName",
+              "src": "57:7:0"
+            },
+            {
+              "attributes": {
+                "argumentTypes": null,
+                "hexvalue": "31",
+                "isConstant": false,
+                "isLValue": false,
+                "isPure": true,
+                "lValueRequested": false,
+                "subdenomination": null,
+                "token": "number",
+                "type": "int_const 1",
+                "value": "1"
+              },
+              "id": 3,
+              "name": "Literal",
+              "src": "82:1:0"
+            }
+          ],
+          "id": 4,
+          "name": "VariableDeclaration",
+          "src": "57:26:0"
+        },
+        {
+          "attributes": {
+            "constant": false,
+            "documentation": null,
+            "implemented": true,
+            "isConstructor": false,
+            "modifiers": [
+              null
+            ],
+            "name": "increment",
+            "payable": false,
+            "scope": 19,
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "attributes": {
+                "parameters": [
+                  null
+                ]
+              },
+              "children": [],
+              "id": 5,
+              "name": "ParameterList",
+              "src": "108:2:0"
+            },
+            {
+              "attributes": {
+                "parameters": [
+                  null
+                ]
+              },
+              "children": [],
+              "id": 6,
+              "name": "ParameterList",
+              "src": "118:0:0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "isStructConstructorCall": false,
+                        "lValueRequested": false,
+                        "names": [
+                          null
+                        ],
+                        "type": "tuple()",
+                        "type_conversion": false
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_bool",
+                                "typeString": "bool"
+                              },
+                              {
+                                "typeIdentifier": "t_stringliteral_c0260ff59b7af113c0812fbd40e257cf05544f7f942e76d8f09e107352e265b4",
+                                "typeString": "literal_string \"Expired counter contract\""
+                              }
+                            ],
+                            "overloadedDeclarations": [
+                              37,
+                              38
+                            ],
+                            "referencedDeclaration": 38,
+                            "type": "function (bool,string memory) pure",
+                            "value": "require"
+                          },
+                          "id": 7,
+                          "name": "Identifier",
+                          "src": "128:7:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "commonType": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            },
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "operator": "<",
+                            "type": "bool"
+                          },
+                          "children": [
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "overloadedDeclarations": [
+                                  null
+                                ],
+                                "referencedDeclaration": 4,
+                                "type": "uint256",
+                                "value": "counter"
+                              },
+                              "id": 8,
+                              "name": "Identifier",
+                              "src": "136:7:0"
+                            },
+                            {
+                              "attributes": {
+                                "argumentTypes": null,
+                                "hexvalue": "33",
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": true,
+                                "lValueRequested": false,
+                                "subdenomination": null,
+                                "token": "number",
+                                "type": "int_const 3",
+                                "value": "3"
+                              },
+                              "id": 9,
+                              "name": "Literal",
+                              "src": "146:1:0"
+                            }
+                          ],
+                          "id": 10,
+                          "name": "BinaryOperation",
+                          "src": "136:11:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "hexvalue": "4578706972656420636f756e74657220636f6e7472616374",
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "subdenomination": null,
+                            "token": "string",
+                            "type": "literal_string \"Expired counter contract\"",
+                            "value": "Expired counter contract"
+                          },
+                          "id": 11,
+                          "name": "Literal",
+                          "src": "149:26:0"
+                        }
+                      ],
+                      "id": 12,
+                      "name": "FunctionCall",
+                      "src": "128:48:0"
+                    }
+                  ],
+                  "id": 13,
+                  "name": "ExpressionStatement",
+                  "src": "128:48:0"
+                },
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "operator": "++",
+                        "prefix": false,
+                        "type": "uint256"
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 4,
+                            "type": "uint256",
+                            "value": "counter"
+                          },
+                          "id": 14,
+                          "name": "Identifier",
+                          "src": "186:7:0"
+                        }
+                      ],
+                      "id": 15,
+                      "name": "UnaryOperation",
+                      "src": "186:9:0"
+                    }
+                  ],
+                  "id": 16,
+                  "name": "ExpressionStatement",
+                  "src": "186:9:0"
+                }
+              ],
+              "id": 17,
+              "name": "Block",
+              "src": "118:84:0"
+            }
+          ],
+          "id": 18,
+          "name": "FunctionDefinition",
+          "src": "90:112:0"
+        }
+      ],
+      "id": 19,
+      "name": "ContractDefinition",
+      "src": "34:170:0"
+    }
+  ],
+  "id": 20,
+  "name": "SourceUnit",
+  "src": "0:204:0"
+}

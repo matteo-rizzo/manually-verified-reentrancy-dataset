@@ -1,13 +1,3 @@
-
-
-
-
-pragma solidity ^0.4.18;
-
-
-
-
-
 library SafeMath {
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -26,21 +16,13 @@ library SafeMath {
 
     }
 
-
-
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
 
-        
-
         uint256 c = a / b;
-
-        
 
         return c;
 
     }
-
-
 
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -49,8 +31,6 @@ library SafeMath {
         return a - b;
 
     }
-
-
 
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -64,71 +44,9 @@ library SafeMath {
 
 }
 
-
-
-
-
-
-
-contract Ownable {
-
-    address public owner;
-
-
-
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-
-
-    
-
-    function Ownable() public {
-
-        owner = msg.sender;
-
-    }
-
-
-
-    
-
-    modifier onlyOwner() {
-
-        require(msg.sender == owner);
-
-        _;
-
-    }
-
-
-
-    
-
-    function transferOwnership(address newOwner) onlyOwner public {
-
-        require(newOwner != address(0));
-
-        OwnershipTransferred(owner, newOwner);
-
-        owner = newOwner;
-
-    }
-
-}
-
-
-
-
-
-
-
 contract ERC223 {
 
     uint public totalSupply;
-
-
-
-    
 
     function balanceOf(address who) public view returns (uint);
 
@@ -142,19 +60,11 @@ contract ERC223 {
 
     event Transfer(address indexed from, address indexed to, uint value, bytes indexed data);
 
-
-
-    
-
     function name() public view returns (string _name);
 
     function symbol() public view returns (string _symbol);
 
     function decimals() public view returns (uint8 _decimals);
-
-
-
-    
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
 
@@ -168,15 +78,7 @@ contract ERC223 {
 
 }
 
-
-
-
-
-
-
  contract ContractReceiver {
-
-
 
     struct TKN {
 
@@ -189,8 +91,6 @@ contract ERC223 {
         bytes4 sig;
 
     }
-
-
 
     function tokenFallback(address _from, uint _value, bytes _data) public pure {
 
@@ -206,25 +106,13 @@ contract ERC223 {
 
         tkn.sig = bytes4(u);
 
-
-
-        
-
     }
 
 }
 
-
-
-
-
-
-
 contract EXSERION is ERC223, Ownable {
 
     using SafeMath for uint256;
-
-
 
     string public name = "EXSERION";
 
@@ -238,8 +126,6 @@ contract EXSERION is ERC223, Ownable {
 
     bool public mintingFinished = false;
 
-
-
     mapping(address => uint256) public balanceOf;
 
     mapping(address => mapping (address => uint256)) public allowance;
@@ -247,8 +133,6 @@ contract EXSERION is ERC223, Ownable {
     mapping (address => bool) public frozenAccount;
 
     mapping (address => uint256) public unlockUnixTime;
-
-    
 
     event FrozenFunds(address indexed target, bool frozen);
 
@@ -260,17 +144,11 @@ contract EXSERION is ERC223, Ownable {
 
     event MintFinished();
 
-
-
-    
-
     function EXSERION() public {
 
         balanceOf[msg.sender] = totalSupply;
 
     }
-
-
 
     function name() public view returns (string _name) {
 
@@ -278,15 +156,11 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     function symbol() public view returns (string _symbol) {
 
         return symbol;
 
     }
-
-
 
     function decimals() public view returns (uint8 _decimals) {
 
@@ -294,15 +168,11 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     function totalSupply() public view returns (uint256 _totalSupply) {
 
         return totalSupply;
 
     }
-
-
 
     function balanceOf(address _owner) public view returns (uint256 balance) {
 
@@ -310,15 +180,9 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function freezeAccounts(address[] targets, bool isFrozen) onlyOwner public {
 
         require(targets.length > 0);
-
-
 
         for (uint j = 0; j < targets.length; j++) {
 
@@ -332,17 +196,11 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function lockupAccounts(address[] targets, uint[] unixTimes) onlyOwner public {
 
         require(targets.length > 0
 
                 && targets.length == unixTimes.length);
-
-
 
         for(uint j = 0; j < targets.length; j++){
 
@@ -356,10 +214,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function transfer(address _to, uint _value, bytes _data, string _custom_fallback) public returns (bool success) {
 
         require(_value > 0
@@ -371,8 +225,6 @@ contract EXSERION is ERC223, Ownable {
                 && now > unlockUnixTime[msg.sender]
 
                 && now > unlockUnixTime[_to]);
-
-
 
         if (isContract(_to)) {
 
@@ -398,8 +250,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     function transfer(address _to, uint _value, bytes _data) public  returns (bool success) {
 
         require(_value > 0
@@ -411,8 +261,6 @@ contract EXSERION is ERC223, Ownable {
                 && now > unlockUnixTime[msg.sender]
 
                 && now > unlockUnixTime[_to]);
-
-
 
         if (isContract(_to)) {
 
@@ -426,10 +274,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function transfer(address _to, uint _value) public returns (bool success) {
 
         require(_value > 0
@@ -441,8 +285,6 @@ contract EXSERION is ERC223, Ownable {
                 && now > unlockUnixTime[msg.sender]
 
                 && now > unlockUnixTime[_to]);
-
-
 
         bytes memory empty;
 
@@ -458,17 +300,11 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function isContract(address _addr) private view returns (bool is_contract) {
 
         uint length;
 
         assembly {
-
-            
 
             length := extcodesize(_addr)
 
@@ -477,10 +313,6 @@ contract EXSERION is ERC223, Ownable {
         return (length > 0);
 
     }
-
-
-
-    
 
     function transferToAddress(address _to, uint _value, bytes _data) private returns (bool success) {
 
@@ -497,10 +329,6 @@ contract EXSERION is ERC223, Ownable {
         return true;
 
     }
-
-
-
-    
 
     function transferToContract(address _to, uint _value, bytes _data) private returns (bool success) {
 
@@ -522,10 +350,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
 
         require(_to != address(0)
@@ -544,8 +368,6 @@ contract EXSERION is ERC223, Ownable {
 
                 && now > unlockUnixTime[_to]);
 
-
-
         balanceOf[_from] = balanceOf[_from].sub(_value);
 
         balanceOf[_to] = balanceOf[_to].add(_value);
@@ -558,10 +380,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function approve(address _spender, uint256 _value) public returns (bool success) {
 
         allowance[msg.sender][_spender] = _value;
@@ -572,27 +390,17 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
 
         return allowance[_owner][_spender];
 
     }
 
-
-
-    
-
     function burn(address _from, uint256 _unitAmount) onlyOwner public {
 
         require(_unitAmount > 0
 
                 && balanceOf[_from] >= _unitAmount);
-
-
 
         balanceOf[_from] = balanceOf[_from].sub(_unitAmount);
 
@@ -602,8 +410,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     modifier canMint() {
 
         require(!mintingFinished);
@@ -612,15 +418,9 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function mint(address _to, uint256 _unitAmount) onlyOwner canMint public returns (bool) {
 
         require(_unitAmount > 0);
-
-        
 
         totalSupply = totalSupply.add(_unitAmount);
 
@@ -634,10 +434,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function finishMinting() onlyOwner canMint public returns (bool) {
 
         mintingFinished = true;
@@ -647,10 +443,6 @@ contract EXSERION is ERC223, Ownable {
         return true;
 
     }
-
-
-
-    
 
     function distributeAirdrop(address[] addresses, uint256 amount) public returns (bool) {
 
@@ -662,15 +454,11 @@ contract EXSERION is ERC223, Ownable {
 
                 && now > unlockUnixTime[msg.sender]);
 
-
-
         amount = amount.mul(1e8);
 
         uint256 totalAmount = amount.mul(addresses.length);
 
         require(balanceOf[msg.sender] >= totalAmount);
-
-        
 
         for (uint j = 0; j < addresses.length; j++) {
 
@@ -679,8 +467,6 @@ contract EXSERION is ERC223, Ownable {
                     && frozenAccount[addresses[j]] == false
 
                     && now > unlockUnixTime[addresses[j]]);
-
-
 
             balanceOf[addresses[j]] = balanceOf[addresses[j]].add(amount);
 
@@ -694,8 +480,6 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     function distributeAirdrop(address[] addresses, uint[] amounts) public returns (bool) {
 
         require(addresses.length > 0
@@ -706,11 +490,7 @@ contract EXSERION is ERC223, Ownable {
 
                 && now > unlockUnixTime[msg.sender]);
 
-                
-
         uint256 totalAmount = 0;
-
-        
 
         for(uint j = 0; j < addresses.length; j++){
 
@@ -722,8 +502,6 @@ contract EXSERION is ERC223, Ownable {
 
                     && now > unlockUnixTime[addresses[j]]);
 
-                    
-
             amounts[j] = amounts[j].mul(1e8);
 
             totalAmount = totalAmount.add(amounts[j]);
@@ -731,8 +509,6 @@ contract EXSERION is ERC223, Ownable {
         }
 
         require(balanceOf[msg.sender] >= totalAmount);
-
-        
 
         for (j = 0; j < addresses.length; j++) {
 
@@ -748,21 +524,13 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
-    
-
     function collectTokens(address[] addresses, uint[] amounts) onlyOwner public returns (bool) {
 
         require(addresses.length > 0
 
                 && addresses.length == amounts.length);
 
-
-
         uint256 totalAmount = 0;
-
-        
 
         for (uint j = 0; j < addresses.length; j++) {
 
@@ -773,8 +541,6 @@ contract EXSERION is ERC223, Ownable {
                     && frozenAccount[addresses[j]] == false
 
                     && now > unlockUnixTime[addresses[j]]);
-
-                    
 
             amounts[j] = amounts[j].mul(1e8);
 
@@ -794,17 +560,11 @@ contract EXSERION is ERC223, Ownable {
 
     }
 
-
-
     function setDistributeAmount(uint256 _unitAmount) onlyOwner public {
 
         distributeAmount = _unitAmount;
 
     }
-
-    
-
-    
 
     function autoDistribute() payable public {
 
@@ -818,8 +578,6 @@ contract EXSERION is ERC223, Ownable {
 
         if(msg.value > 0) owner.transfer(msg.value);
 
-        
-
         balanceOf[owner] = balanceOf[owner].sub(distributeAmount);
 
         balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);
@@ -827,10 +585,6 @@ contract EXSERION is ERC223, Ownable {
         Transfer(owner, msg.sender, distributeAmount);
 
     }
-
-
-
-    
 
     function() payable public {
 

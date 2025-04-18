@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 interface IERC20 {
     function transfer(address to, uint256 value) external returns (bool);
 
@@ -19,43 +15,6 @@ interface IERC20 {
 
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
-
-contract Ownable {
-    address private _owner;
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    constructor () internal {
-        _owner = msg.sender;
-        emit OwnershipTransferred(address(0), _owner);
-    }
-    function owner() public view returns (address) {
-        return _owner;
-    }
-    
-    modifier onlyOwner() {
-        require(isOwner());
-        _;
-    }
-    
-    function isOwner() public view returns (bool) {
-        return msg.sender == _owner;
-    }
-    
-    function renounceOwnership() public onlyOwner {
-        emit OwnershipTransferred(_owner, address(0));
-        _owner = address(0);
-    }
-    
-    function transferOwnership(address newOwner) public onlyOwner {
-        _transferOwnership(newOwner);
-    }
-   
-    function _transferOwnership(address newOwner) internal {
-        require(newOwner != address(0));
-        emit OwnershipTransferred(_owner, newOwner);
-        _owner = newOwner;
-    }
-}
-
 
 contract SafeMath {
   function safeMul(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -100,7 +59,7 @@ contract BBPToken is Ownable, SafeMath, IERC20{
         name = "BBP";
         symbol = "BBP";
         decimals = 18;
-		
+
     }
 
     function transfer(address _to, uint256 _value) public returns (bool) {

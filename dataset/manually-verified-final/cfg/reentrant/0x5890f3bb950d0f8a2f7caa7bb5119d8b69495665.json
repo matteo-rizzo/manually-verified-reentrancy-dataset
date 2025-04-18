@@ -1,0 +1,603 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "LENGTH amount",
+    "LENGTH to",
+    "REF_1(uint256)",
+    "REF_1(uint256) (",
+    "REF_10(uint256)",
+    "REF_10(uint256) (",
+    "REF_11(uint256)",
+    "REF_11(uint256) (",
+    "REF_12(uint256)",
+    "REF_17(uint256)",
+    "REF_17(uint256) (",
+    "REF_18(uint256)",
+    "REF_2(uint256)",
+    "REF_2(uint256) (",
+    "REF_20(uint256)",
+    "REF_20(uint256) (",
+    "REF_21(uint256)",
+    "REF_23",
+    "REF_24",
+    "REF_25",
+    "REF_26(address)",
+    "REF_27(uint256)",
+    "REF_28",
+    "REF_28(mapping(address => uint256))",
+    "REF_29(uint256)",
+    "REF_29(uint256) (",
+    "REF_30",
+    "REF_30(mapping(address => uint256))",
+    "REF_31(uint256)",
+    "REF_34(uint256)",
+    "REF_34(uint256) (",
+    "REF_35(uint256)",
+    "REF_38",
+    "REF_39",
+    "REF_40",
+    "REF_41(address)",
+    "REF_42(uint256)",
+    "REF_7",
+    "REF_7(mapping(address => uint256))",
+    "REF_8(uint256)",
+    "REF_9",
+    "REF_9(mapping(address => uint256))",
+    "TMP_13(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TMP_17(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TMP_26(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.mul(uint256,uint256), arguments:",
+    "TMP_38(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.sub(uint256,uint256), arguments:",
+    "TMP_39(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.sub(uint256,uint256), arguments:",
+    "TMP_43(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.sub(uint256,uint256), arguments:",
+    "TMP_44(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TMP_54(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.sub(uint256,uint256), arguments:",
+    "TMP_56(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TMP_59(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TMP_60(uint256) = LIBRARY_CALL, dest:SafeMath, function:SafeMath.add(uint256,uint256), arguments:",
+    "TUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:owner, function:call, arguments:",
+    "TUPLE_1(bool,bytes) = LOW_LEVEL_CALL, dest:from, function:call, arguments:",
+    "allowances",
+    "allowances) := TMP_54(uint256)\"]",
+    "allowances) := amount(uint256)\"]",
+    "amount",
+    "balanceOf",
+    "balanceOf) := TMP_38(uint256)\"]",
+    "balanceOf) := TMP_43(uint256)\"]",
+    "balanceOf) := TMP_44(uint256)\"]",
+    "balanceOf) := TMP_59(uint256)\"]",
+    "balanceOf) := ownerSupply(uint256)\"]",
+    "balanceOf) := saleSupply(uint256)\"]",
+    "mint(to",
+    "require(bool,string)(amount == 0 || allowances",
+    "to",
+    "transfer(to"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_17(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_18(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_17(uint256) (",
+      "target": "balanceOf) := TMP_43(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_20(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_21(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_20(uint256) (",
+      "target": "balanceOf) := TMP_44(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "4"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "5"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_34(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_35(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_34(uint256) (",
+      "target": "balanceOf) := TMP_59(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "5",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_28(mapping(address => uint256))",
+      "target": "allowances"
+    },
+    {
+      "source": "REF_29(uint256)",
+      "target": "REF_28"
+    },
+    {
+      "source": "REF_30(mapping(address => uint256))",
+      "target": "allowances"
+    },
+    {
+      "source": "REF_31(uint256)",
+      "target": "REF_30"
+    },
+    {
+      "source": "REF_29(uint256) (",
+      "target": "allowances) := TMP_54(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_7(mapping(address => uint256))",
+      "target": "allowances"
+    },
+    {
+      "source": "REF_8(uint256)",
+      "target": "REF_7"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_9(mapping(address => uint256))",
+      "target": "allowances"
+    },
+    {
+      "source": "REF_10(uint256)",
+      "target": "REF_9"
+    },
+    {
+      "source": "REF_10(uint256) (",
+      "target": "allowances) := amount(uint256)\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "8",
+      "target": "9"
+    },
+    {
+      "source": "9",
+      "target": "10"
+    },
+    {
+      "source": "10",
+      "target": "11"
+    },
+    {
+      "source": "11",
+      "target": "12"
+    },
+    {
+      "source": "12",
+      "target": "13"
+    },
+    {
+      "source": "13",
+      "target": "14"
+    },
+    {
+      "source": "REF_1(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_1(uint256) (",
+      "target": "balanceOf) := ownerSupply(uint256)\"]"
+    },
+    {
+      "source": "14",
+      "target": "15"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_2(uint256) (",
+      "target": "balanceOf) := saleSupply(uint256)\"]"
+    },
+    {
+      "source": "15",
+      "target": "16"
+    },
+    {
+      "source": "16",
+      "target": "17"
+    },
+    {
+      "source": "17",
+      "target": "18"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_23",
+      "target": "LENGTH to"
+    },
+    {
+      "source": "REF_24",
+      "target": "LENGTH amount"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "REF_25",
+      "target": "LENGTH to"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "5",
+      "target": "3"
+    },
+    {
+      "source": "REF_26(address)",
+      "target": "to"
+    },
+    {
+      "source": "REF_27(uint256)",
+      "target": "amount"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_11(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_12(uint256)",
+      "target": "balanceOf"
+    },
+    {
+      "source": "REF_11(uint256) (",
+      "target": "balanceOf) := TMP_38(uint256)\"]"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "0",
+      "target": "4"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "4",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "8"
+    },
+    {
+      "source": "REF_38",
+      "target": "LENGTH to"
+    },
+    {
+      "source": "REF_39",
+      "target": "LENGTH amount"
+    },
+    {
+      "source": "1",
+      "target": "4"
+    },
+    {
+      "source": "2",
+      "target": "5"
+    },
+    {
+      "source": "4",
+      "target": "2"
+    },
+    {
+      "source": "REF_40",
+      "target": "LENGTH to"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "5",
+      "target": "3"
+    },
+    {
+      "source": "REF_41(address)",
+      "target": "to"
+    },
+    {
+      "source": "REF_42(uint256)",
+      "target": "amount"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "5"
+    },
+    {
+      "source": "8",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "1"
+    }
+  ]
+}

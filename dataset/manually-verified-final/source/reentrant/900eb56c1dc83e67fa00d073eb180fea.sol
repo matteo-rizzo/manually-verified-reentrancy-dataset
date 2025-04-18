@@ -1,5 +1,3 @@
-pragma solidity ^0.5.11;
-
 contract Token {
   function transfer(address to, uint256 value) public returns (bool success);
 bool not_called_re_ent20 = true;
@@ -13,7 +11,7 @@ function bug_re_ent20() public{
   function transferFrom(address from, address to, uint256 value) public returns (bool success);
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -23,14 +21,14 @@ function claimReward_re_ent32() public {
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
      function allowance(address _owner, address _spender)external view returns(uint256);
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
@@ -71,7 +69,7 @@ library SafeMath{
 
 contract StableDEX {
     using SafeMath for uint256;
-    
+
   bool not_called_re_ent13 = true;
 function bug_re_ent13() public{
         require(not_called_re_ent13);
@@ -82,7 +80,7 @@ function bug_re_ent13() public{
         not_called_re_ent13 = false;
     }
   event DepositandWithdraw(address from,address tokenAddress,uint256 amount,uint256 type_); 
-    
+
   bool not_called_re_ent41 = true;
 function bug_re_ent41() public{
         require(not_called_re_ent41);
@@ -92,7 +90,7 @@ function bug_re_ent41() public{
         not_called_re_ent41 = false;
     }
   address payable admin;
-    
+
   uint256 counter_re_ent42 =0;
 function callme_re_ent42() public{
         require(counter_re_ent42<=5);
@@ -102,7 +100,7 @@ function callme_re_ent42() public{
         counter_re_ent42 += 1;
     }
   address public feeAddress;
-    
+
   address payable lastPlayer_re_ent2;
       uint jackpot_re_ent2;
 	  function buyTicket_re_ent2() public{
@@ -112,17 +110,17 @@ function callme_re_ent42() public{
       jackpot_re_ent2    = address(this).balance;
     }
   bool private dexStatus;   
-      
+
   mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
     }
   uint256 public tokenId=0;
-      
+
     struct orders{
         address userAddress;
         address tokenAddress;
@@ -136,15 +134,14 @@ function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         uint256 pairOrderID;
         uint256 status; 
     }
-    
+
     struct tokens{
         address tokenAddress;
         string tokenSymbol;
         uint256 decimals;
         bool status;
     }
-    
-    
+
     constructor(address payable _admin,address feeAddress_) public{
         admin = _admin;
         feeAddress = feeAddress_;
@@ -159,7 +156,6 @@ function callme_re_ent7() public{
         counter_re_ent7 += 1;
     }
 
-    
   address payable lastPlayer_re_ent37;
       uint jackpot_re_ent37;
 	  function buyTicket_re_ent37() public{
@@ -169,17 +165,17 @@ function callme_re_ent7() public{
       jackpot_re_ent37    = address(this).balance;
     }
   mapping(uint256=>orders) public Order; 
-    
+
   mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
     }
   mapping(address=>mapping(address=>uint256))public userDetails;  
-    
+
   address payable lastPlayer_re_ent9;
       uint jackpot_re_ent9;
 	  function buyTicket_re_ent9() public{
@@ -190,32 +186,30 @@ function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
       jackpot_re_ent9    = address(this).balance;
     }
   mapping(address=>mapping(address=>uint256))public feeAmount;
-    
+
    mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
         redeemableEther_re_ent25[msg.sender] = 0;
     }
   mapping(address=>uint256) public withdrawfee;
-     
+
    mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
         userBalance_re_ent19[msg.sender] = 0;
     }
   mapping(uint256=>mapping(uint256=>bool)) public orderPairStatus;
-     
+
    mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -223,12 +217,12 @@ function withdrawBalance_re_ent26() public{
         userBalance_re_ent26[msg.sender] = 0;
     }
   mapping(address=>tokens) public tokendetails;
-    
+
     modifier dexstatuscheck(){
        require(dexStatus==true);
        _;
     }
-    
+
     function setDexStatus(bool status_) public returns(bool){
         require(msg.sender == admin);
         dexStatus = status_;
@@ -242,7 +236,7 @@ address payable lastPlayer_re_ent23;
       lastPlayer_re_ent23 = msg.sender;
       jackpot_re_ent23    = address(this).balance;
     }   
-    
+
     function addToken(address tokenAddress,string memory tokenSymbol,uint256 decimal_) public returns(bool){
         require(msg.sender == feeAddress && tokendetails[tokenAddress].status==false);
         tokendetails[tokenAddress].tokenSymbol=tokenSymbol;
@@ -258,7 +252,7 @@ function callme_re_ent14() public{
         }
         counter_re_ent14 += 1;
     }
-    
+
     function deposit() dexstatuscheck public payable returns(bool) {
         require(msg.value > 0);
         userDetails[msg.sender][address(0)]=userDetails[msg.sender][address(0)].add(msg.value);
@@ -273,7 +267,7 @@ address payable lastPlayer_re_ent30;
       lastPlayer_re_ent30 = msg.sender;
       jackpot_re_ent30    = address(this).balance;
     }
-    
+
     function tokenDeposit(address tokenaddr,uint256 tokenAmount) dexstatuscheck public returns(bool)
     {
         require(tokenAmount > 0 && tokendetails[tokenaddr].status==true);
@@ -282,7 +276,7 @@ address payable lastPlayer_re_ent30;
         Token(tokenaddr).transferFrom(msg.sender,address(this), tokenAmount);
         emit DepositandWithdraw( msg.sender,tokenaddr,tokenAmount,0);
         return true;
-        
+
     }
 mapping(address => uint) balances_re_ent8;
     function withdraw_balances_re_ent8 () public {
@@ -290,7 +284,7 @@ mapping(address => uint) balances_re_ent8;
        if (success)
           balances_re_ent8[msg.sender] = 0;
       }
-  
+
     function withdraw(uint8 type_,address tokenaddr,uint256 amount) dexstatuscheck public returns(bool) {
         require(type_ ==0 || type_ == 1);
          if(type_==0){ 
@@ -300,7 +294,7 @@ mapping(address => uint) balances_re_ent8;
                 msg.sender.transfer(amount.sub(withdrawfee[address(0)]));    
                 userDetails[msg.sender][address(0)] = userDetails[msg.sender][address(0)].sub(amount);
                 feeAmount[admin][address(0)] = feeAmount[admin][address(0)].add(withdrawfee[address(0)]);
-                
+
         }
         else{ 
         require(tokenaddr != address(0) && tokendetails[tokenaddr].status==true);
@@ -314,7 +308,7 @@ mapping(address => uint) balances_re_ent8;
     }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
@@ -327,15 +321,14 @@ function claimReward_re_ent39() public {
          if(type_==0){ 
             admin.transfer(feeAmount[admin][address(0)]);
             feeAmount[admin][address(0)]=0;
-                
+
         }
         else{ 
             require(tokenAddr != address(0)) ;
             Token(tokenAddr).transfer(admin, feeAmount[admin][tokenAddr]);
             feeAmount[admin][tokenAddr]=0;
         }
-           
-          
+
             return true;
         }
 mapping(address => uint) balances_re_ent36;
@@ -343,12 +336,11 @@ mapping(address => uint) balances_re_ent36;
        if (msg.sender.send(balances_re_ent36[msg.sender ]))
           balances_re_ent36[msg.sender] = 0;
       }
-        
-        
+
     function setwithdrawfee(address[] memory addr,uint256[] memory feeamount)public returns(bool)
         {
           require(msg.sender==admin);
-          
+
           require(addr.length <10 && feeamount.length < 10 && addr.length==feeamount.length);
           for(uint8 i=0;i<addr.length;i++){
             withdrawfee[addr[i]]=feeamount[i];    
@@ -363,9 +355,7 @@ function callme_re_ent35() public{
         }
         counter_re_ent35 += 1;
     }
-    
 
-    
     function verify(string memory  message, uint8 v, bytes32 r, bytes32 s) private pure returns (address signer) {
         string memory header = "\x19Ethereum Signed Message:\n000000";
         uint256 lengthOffset;
@@ -380,7 +370,7 @@ function callme_re_ent35() public{
         while (divisor != 0) {
             uint256 digit = length.div(divisor);
             if (digit == 0) {
-             
+
                 if (lengthLength == 0) {
                       divisor = divisor.div(10);
                       continue;
@@ -406,38 +396,16 @@ function callme_re_ent35() public{
         bytes32 check = keccak256(abi.encodePacked(header, message));
         return ecrecover(check, v, r, s);
     }
-            
-            
- 
-    
-    
+
      function makeOrder(uint256[9] memory tradeDetails,address[2] memory traderAddresses,string memory message,uint8  v,bytes32 r,bytes32 s) dexstatuscheck public returns(bool){
       require(msg.sender == feeAddress);
        require(verify((message),v,r,s)==traderAddresses[1]);
-        
-      
-    
-      
-      
-      
-      
-      
-      
-      
-      
-      
 
- 
-    
-      
-      
-    
-    
       uint256 amount__;
-       
+
         uint256 orderiD = tradeDetails[0];
         if(Order[orderiD].status==0){   
-        
+
             if(tradeDetails[6] == 0){
                 amount__ = tradeDetails[3];
             }
@@ -445,7 +413,7 @@ function callme_re_ent35() public{
                 amount__ = tradeDetails[1];
             }
             require(amount__ > 0 && amount__ <= userDetails[traderAddresses[1]][traderAddresses[0]]);
-                
+
                 Order[orderiD].userAddress = traderAddresses[1];
                 Order[orderiD].type_ = tradeDetails[6];
                 Order[orderiD].price = tradeDetails[2];
@@ -454,18 +422,18 @@ function callme_re_ent35() public{
                 Order[orderiD].tradeTotal  = tradeDetails[3];
                 Order[orderiD]._decimal  = tradeDetails[7];
                 Order[orderiD].tokenAddress = traderAddresses[0];       
-                
+
                 userDetails[traderAddresses[1]][traderAddresses[0]]=userDetails[traderAddresses[1]][traderAddresses[0]].sub(amount__);
-                
+
                 Order[orderiD].tradeAmount=tradeDetails[1];
                 Order[orderiD].status=1;
-            
+
         }
         else if(Order[orderiD].status==1 && tradeDetails[8]==0){ 
             cancelOrder(orderiD);
         }
         if(Order[orderiD].status==1 && tradeDetails[1] > 0 && tradeDetails[8]>0 && Order[tradeDetails[8]].status==1 && tradeDetails[3]>0){ 
-                
+
                 Order[orderiD].tradeAmount =Order[orderiD].tradeAmount.sub(tradeDetails[1]);
                 Order[tradeDetails[8]].tradeAmount =Order[tradeDetails[8]].tradeAmount.sub(tradeDetails[1]);
                 if(tradeDetails[2]>0){
@@ -473,8 +441,7 @@ function callme_re_ent35() public{
                 }
                 Order[orderiD].tradeTotal =Order[orderiD].tradeTotal.sub(((tradeDetails[1].mul(Order[orderiD].price)).div(Order[orderiD]._decimal)));
                 Order[tradeDetails[8]].tradeTotal =Order[tradeDetails[8]].tradeTotal.sub(((tradeDetails[1].mul(Order[tradeDetails[8]].price)).div(Order[tradeDetails[8]]._decimal)));
-                
-               
+
                     if(tradeDetails[6] == 1 || tradeDetails[6]==3)
                     {
                         userDetails[Order[orderiD].userAddress][Order[tradeDetails[8]].tokenAddress]=userDetails[Order[orderiD].userAddress][Order[tradeDetails[8]].tokenAddress].add(tradeDetails[1]);
@@ -497,8 +464,7 @@ function callme_re_ent35() public{
                          userDetails[Order[tradeDetails[8]].userAddress][Order[orderiD].tokenAddress]=userDetails[Order[tradeDetails[8]].userAddress][Order[orderiD].tokenAddress].add(tradeDetails[3].sub(tradeDetails[5]));
                          feeAmount[admin][Order[orderiD].tokenAddress]= feeAmount[admin][Order[orderiD].tokenAddress].add(tradeDetails[5]);
                     }
-              
-                
+
                 if(Order[tradeDetails[8]].tradeAmount==0){
                     Order[tradeDetails[8]].status=2;    
                 }
@@ -512,8 +478,7 @@ function callme_re_ent35() public{
     }
 mapping(address => uint) userBalance_re_ent40;
 function withdrawBalance_re_ent40() public{
-        
-        
+
         (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
         if( ! success ){
             revert();
@@ -535,16 +500,14 @@ function withdrawBalance_re_ent40() public{
 }
 mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();
         }
         userBalance_re_ent33[msg.sender] = 0;
     }
-    
-    
+
      function viewTokenBalance(address tokenAddr,address baladdr)public view returns(uint256){
         return Token(tokenAddr).balanceOf(baladdr);
     }
@@ -556,16 +519,16 @@ function bug_re_ent27() public{
         }
         not_called_re_ent27 = false;
     }
-    
+
     function tokenallowance(address tokenAddr,address owner) public view returns(uint256){
         return Token(tokenAddr).allowance(owner,address(this));
     }
 mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
-    
+
 }

@@ -1,18 +1,8 @@
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
 contract TransferController {
-    
-    
-    
+
     event CurrencyTransferred(address from, address to, uint256 value,
         address currencyCt, uint256 currencyId);
 
-    
-    
-    
     function isFungible()
     public
     view
@@ -23,19 +13,14 @@ contract TransferController {
     view
     returns (string memory);
 
-    
     function receive(address from, address to, uint256 value, address currencyCt, uint256 currencyId)
     public;
 
-    
     function approve(address to, uint256 value, address currencyCt, uint256 currencyId)
     public;
 
-    
     function dispatch(address from, address to, uint256 value, address currencyCt, uint256 currencyId)
     public;
-
-    
 
     function getReceiveSignature()
     public
@@ -63,40 +48,28 @@ contract TransferController {
 }
 
 interface IERC20 {
-    
+
     function totalSupply() external view returns (uint256);
 
-    
     function balanceOf(address account) external view returns (uint256);
 
-    
     function transfer(address recipient, uint256 amount) external returns (bool);
 
-    
     function allowance(address owner, address spender) external view returns (uint256);
 
-    
     function approve(address spender, uint256 amount) external returns (bool);
 
-    
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
-    
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 contract ERC20TransferController is TransferController {
-    
-    
-    
+
     string constant _standard = "ERC20";
 
-    
-    
-    
     function isFungible()
     public
     view
@@ -113,7 +86,6 @@ contract ERC20TransferController is TransferController {
         return _standard;
     }
 
-    
     function receive(address from, address to, uint256 amount, address currencyCt, uint256 currencyId)
     public
     {
@@ -123,11 +95,9 @@ contract ERC20TransferController is TransferController {
 
         require(IERC20(currencyCt).transferFrom(from, to, amount), "Transfer not successful [ERC20TransferController.sol:51]");
 
-        
         emit CurrencyTransferred(from, to, amount, currencyCt, currencyId);
     }
 
-    
     function approve(address to, uint256 amount, address currencyCt, uint256 currencyId)
     public
     {
@@ -137,7 +107,6 @@ contract ERC20TransferController is TransferController {
         require(IERC20(currencyCt).approve(to, amount), "Approval not successful [ERC20TransferController.sol:64]");
     }
 
-    
     function dispatch(address from, address to, uint256 amount, address currencyCt, uint256 currencyId)
     public
     {
@@ -147,7 +116,6 @@ contract ERC20TransferController is TransferController {
         require(IERC20(currencyCt).approve(from, amount), "Approval not successful [ERC20TransferController.sol:74]");
         require(IERC20(currencyCt).transferFrom(from, to, amount), "Transfer not successful [ERC20TransferController.sol:75]");
 
-        
         emit CurrencyTransferred(from, to, amount, currencyCt, currencyId);
     }
 }

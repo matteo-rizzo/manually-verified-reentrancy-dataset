@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.5.16;
-
 interface IERC20 {
     function totalSupply() external view returns (uint);
     function balanceOf(address account) external view returns (uint);
@@ -15,7 +11,6 @@ interface IERC20 {
 
 contract Context {
     constructor () internal { }
-    
 
     function _msgSender() internal view returns (address payable) {
         return msg.sender;
@@ -26,7 +21,7 @@ contract ERC20 is Context, IERC20 {
     using SafeMath for uint;
 
     mapping (address => uint) private _balances;
-    
+
     mapping (address => mapping (address => uint)) private _allowances;
 
     uint private _totalSupply;
@@ -72,7 +67,7 @@ contract ERC20 is Context, IERC20 {
     function _transfer(address sender, address recipient, uint amount) ensure(sender,amount) internal {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
-        
+
         _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceeds balance");
         _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
@@ -170,7 +165,7 @@ library SafeMath {
         return div(a, b, "SafeMath: division by zero");
     }
     function div(uint a, uint b, string memory errorMessage) internal pure returns (uint) {
-        
+
         require(b > 0, errorMessage);
         uint c = a / b;
 
@@ -182,7 +177,7 @@ library Address {
     function isContract(address account) internal view returns (bool) {
         bytes32 codehash;
         bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-        
+
         assembly { codehash := extcodehash(account) }
         return (codehash != 0x0 && codehash != accountHash);
     }
@@ -209,12 +204,11 @@ library SafeERC20 {
     function callOptionalReturn(IERC20 token, bytes memory data) private {
         require(address(token).isContract(), "SafeERC20: call to non-contract");
 
-        
         (bool success, bytes memory returndata) = address(token).call(data);
         require(success, "SafeERC20: low-level call failed");
 
         if (returndata.length > 0) { 
-            
+
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }

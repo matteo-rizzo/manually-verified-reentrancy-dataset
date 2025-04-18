@@ -1,18 +1,4 @@
-
-
-
-
-pragma solidity ^0.4.25;
-
-
-
-
-
 contract SafeMath {
-
-
-
-    
 
     function safeSub(uint256 x, uint256 y) internal pure returns (uint256) {
 
@@ -24,10 +10,6 @@ contract SafeMath {
 
     }
 
-
-
-    
-
     function safeAdd(uint256 x, uint256 y) internal pure returns (uint256) {
 
         uint256 z = x + y;
@@ -38,10 +20,6 @@ contract SafeMath {
 
     }
 
-	
-
-	
-
     function safeDiv(uint256 x, uint256 y) internal pure returns (uint256) {
 
         uint256 z = x / y;
@@ -49,10 +27,6 @@ contract SafeMath {
         return z;
 
     }
-
-    
-
-    	
 
     function safeMul(uint256 x, uint256 y) internal pure returns (uint256) {    
 
@@ -62,8 +36,6 @@ contract SafeMath {
 
         }
 
-    
-
         uint256 z = x * y;
 
         assert(z / x == y);
@@ -72,10 +44,6 @@ contract SafeMath {
 
     }
 
-
-
-    
-
     function safePerc(uint256 x, uint256 y) internal pure returns (uint256) {
 
         if (x == 0) {
@@ -83,8 +51,6 @@ contract SafeMath {
             return 0;
 
         }
-
-        
 
         uint256 z = x * y;
 
@@ -96,10 +62,6 @@ contract SafeMath {
 
     }
 
-
-
-    	
-
     function min(uint256 x, uint256 y) internal pure returns (uint256) {
 
         uint256 z = x <= y ? x : y;
@@ -107,10 +69,6 @@ contract SafeMath {
         return z;
 
     }
-
-
-
-    
 
     function max(uint256 x, uint256 y) internal pure returns (uint256) {
 
@@ -122,19 +80,9 @@ contract SafeMath {
 
 }
 
-
-
-
-
-
-
 interface DAppDEXI {
 
-
-
     function updateAgent(address _agent, bool _status) external;
-
-
 
     function setAccountType(address user_, uint256 type_) external;
 
@@ -148,8 +96,6 @@ interface DAppDEXI {
 
     function changeFeeAccount(address feeAccount_) external;
 
-    
-
     function setWhitelistTokens(address token) external;
 
     function setWhitelistTokens(address token, bool active, uint256 timestamp, bytes32 typeERC) external;
@@ -158,17 +104,11 @@ interface DAppDEXI {
 
     function tokenFallback(address owner, uint256 amount, bytes data) external returns (bool success);
 
-
-
     function withdraw(uint amount) external;
 
     function withdrawToken(address token, uint amount) external;
 
-
-
     function balanceOf(address token, address user) external view returns (uint);
-
-
 
     function order(address tokenBuy, uint amountBuy, address tokenSell, uint amountSell, uint expires, uint nonce) external;
 
@@ -184,25 +124,13 @@ interface DAppDEXI {
 
 }
 
-
-
-
-
-
-
 interface ERC20I {
 
-
-
   function balanceOf(address _owner) external view returns (uint256);
-
-
 
   function totalSupply() external view returns (uint256);
 
   function transfer(address _to, uint256 _value) external returns (bool success);
-
-  
 
   function allowance(address _owner, address _spender) external view returns (uint256);
 
@@ -210,89 +138,11 @@ interface ERC20I {
 
   function approve(address _spender, uint256 _value) external returns (bool success);
 
-  
-
   event Transfer(address indexed from, address indexed to, uint256 value);
 
   event Approval(address indexed owner, address indexed spender, uint256 value);
 
 }
-
-
-
-
-
-
-
-contract Ownable {
-
-  
-
-  address public owner;
-
-  address public newOwner;
-
-
-
-  event OwnershipTransferred(address indexed _from, address indexed _to);
-
-  
-
-  
-
-  constructor() public {
-
-    owner = msg.sender;
-
-  }
-
-
-
-  
-
-  modifier onlyOwner() {
-
-    assert(msg.sender == owner);
-
-    _;
-
-  }
-
-
-
-  
-
-  function transferOwnership(address _newOwner) public onlyOwner {
-
-    assert(_newOwner != address(0));      
-
-    newOwner = _newOwner;
-
-  }
-
-
-
-  
-
-  function acceptOwnership() public {
-
-    if (msg.sender == newOwner) {
-
-      emit OwnershipTransferred(owner, newOwner);
-
-      owner = newOwner;
-
-    }
-
-  }
-
-}
-
-
-
-
-
-
 
 interface SDADI  {	
 
@@ -302,15 +152,7 @@ interface SDADI  {
 
 }
 
-
-
-
-
-
-
 contract ERC20Base is ERC20I, SafeMath {
-
-	
 
   uint256 totalSupply_;
 
@@ -318,21 +160,15 @@ contract ERC20Base is ERC20I, SafeMath {
 
   mapping (address => mapping (address => uint256)) internal allowed;
 
-
-
   uint256 public start = 0;               
 
   uint256 public period = 30 days;        
 
   mapping (address => mapping (uint256 => int256)) public ChangeOverPeriod;
 
-
-
   address[] public owners;
 
   mapping (address => bool) public ownersIndex;
-
-
 
   struct _Prop {
 
@@ -342,19 +178,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-  
-
   _Prop[] public ActiveProposals;  
 
-
-
-  
-
   mapping (uint => mapping (address => uint)) public voted;
-
-
-
-    
 
   function totalSupply() public view returns (uint256) {
 
@@ -362,27 +188,17 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-  
-
-  
-
   function balanceOf(address _owner) public view returns (uint256) {
 
     return balances[_owner];
 
   }
 
-
-
-  
-
   function balanceOf(address _owner, uint _date) public view returns (uint256) {
 
     require(_date >= start);
 
     uint256 N1 = (_date - start) / period + 1;    
-
-
 
     uint256 N2 = 1;
 
@@ -392,15 +208,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-
-
     require(N2 >= N1);
 
-
-
     int256 B = int256(balances[_owner]);
-
-
 
     while (N2 > N1) {
 
@@ -410,23 +220,15 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-
-
     require(B >= 0);
 
     return uint256(B);
 
   }
 
-
-
-  
-
   function transfer(address _to, uint256 _value) public returns (bool success) {
 
     require(_to != address(0));
-
-
 
     uint lock = 0;
 
@@ -444,11 +246,7 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-
-
     require(safeSub(balances[msg.sender], lock) >= _value);
-
-
 
     if (ownersIndex[_to] == false && _value > 0) {
 
@@ -458,13 +256,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-    
-
     balances[msg.sender] = safeSub(balances[msg.sender], _value);
 
     balances[_to] = safeAdd(balances[_to], _value);
-
-
 
     uint256 N = 1;
 
@@ -474,13 +268,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-
-
     ChangeOverPeriod[msg.sender][N] = ChangeOverPeriod[msg.sender][N] - int256(_value);
 
     ChangeOverPeriod[_to][N] = ChangeOverPeriod[_to][N] + int256(_value);
-
-   
 
     emit Transfer(msg.sender, _to, _value);
 
@@ -488,25 +278,15 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-
-
-  
-
   function allowance(address _owner, address _spender) public view returns (uint256) {
 
     return allowed[_owner][_spender];
 
   }
 
-
-
-  
-
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
 
     require(_to != address(0));
-
-
 
     uint lock = 0;
 
@@ -524,15 +304,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-    
-
     require(safeSub(balances[_from], lock) >= _value);
 
-    
-
     require(allowed[_from][msg.sender] >= _value);
-
-
 
     if (ownersIndex[_to] == false && _value > 0) {
 
@@ -542,15 +316,11 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-    
-
     balances[_from] = safeSub(balances[_from], _value);
 
     balances[_to] = safeAdd(balances[_to], _value);
 
     allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
-
-    
 
     uint256 N = 1;
 
@@ -560,13 +330,9 @@ contract ERC20Base is ERC20I, SafeMath {
 
     }
 
-
-
     ChangeOverPeriod[_from][N] = ChangeOverPeriod[_from][N] - int256(_value);
 
     ChangeOverPeriod[_to][N] = ChangeOverPeriod[_to][N] + int256(_value);
-
-
 
     emit Transfer(_from, _to, _value);
 
@@ -574,27 +340,17 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-  
-
-  
-
   function approve(address _spender, uint256 _value) public returns (bool success) {
 
     require((_value == 0) || (allowed[msg.sender][_spender] == 0));
 
     allowed[msg.sender][_spender] = _value;
 
-    
-
     emit Approval(msg.sender, _spender, _value);
 
     return true;
 
   }
-
-
-
-  
 
   function trim(uint offset, uint limit) external returns (bool) { 
 
@@ -626,19 +382,11 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-
-
-  
-
   function getOwnersCount() external view returns (uint256 count) {
 
     return owners.length;
 
   }
-
-
-
-  
 
   function getCurrentPeriod() external view returns (uint256 N) {
 
@@ -654,8 +402,6 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-
-
   function addProposal(uint _propID, uint _endTime) internal {
 
     ActiveProposals.push(_Prop({
@@ -667,8 +413,6 @@ contract ERC20Base is ERC20I, SafeMath {
     }));
 
   }
-
-
 
   function delProposal(uint _propID) internal {
 
@@ -694,8 +438,6 @@ contract ERC20Base is ERC20I, SafeMath {
 
   }
 
-
-
   function getVoted(uint _propID, address _voter) external view returns (uint) {
 
     return voted[_propID][_voter];
@@ -704,25 +446,13 @@ contract ERC20Base is ERC20I, SafeMath {
 
 }
 
-
-
-
-
-
-
 contract Dividends is ERC20Base, Ownable {
 
-
-
   DAppDEXI public DEX;
-
-
 
   address[] public tokens;
 
   mapping (address => uint) public tokensIndex;
-
-  
 
   mapping (uint => mapping (address => uint)) public dividends;
 
@@ -730,17 +460,11 @@ contract Dividends is ERC20Base, Ownable {
 
   mapping (uint => mapping (address => mapping (address => bool))) public AlreadyReceived;
 
-
-
   uint public multiplier = 100000; 
-
-
 
   event Payment(address indexed sender, uint amount);
 
   event setDEXContractEvent(address dex);
-
-   
 
   function AddToken(address token) public {
 
@@ -751,8 +475,6 @@ contract Dividends is ERC20Base, Ownable {
     tokensIndex[token] = tokens.length-1;
 
   }
-
-
 
   function DelToken(address token) public {
 
@@ -766,25 +488,15 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-
-
-  
-
   function TakeProfit(uint offset, uint limit) external {
 
     require (limit <= tokens.length);
 
     require (offset < limit);
 
-
-
     uint N = (block.timestamp - start) / period;
 
-    
-
     require (N > 0);
-
-    
 
     for (uint k = offset; k < limit; k++) {
 
@@ -812,37 +524,23 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-
-
   function () public payable {
 
       emit Payment(msg.sender, msg.value);
 
   }
 
-  
-
-  
-
   function PayDividends(address token, uint offset, uint limit) external {
-
-    
 
     require (limit <= owners.length);
 
     require (offset < limit);
 
-
-
     uint N = (block.timestamp - start) / period; 
 
     uint date = start + N * period - 1;
 
-    
-
     require(dividends[N][token] > 0);
-
-
 
     uint share = 0;
 
@@ -856,13 +554,9 @@ contract Dividends is ERC20Base, Ownable {
 
         share = safeDiv(safeMul(share, 100), totalSupply_); 
 
-
-
         share = safePerc(dividends[N][token], share);
 
         share = safeDiv(share, safeDiv(multiplier, 100));  
-
-        
 
         ownersbal[owners[k]][token] = safeAdd(ownersbal[owners[k]][token], share);
 
@@ -874,25 +568,13 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-
-
-  
-
   function PayDividends(address token) external {
-
-    
-
-
 
     uint N = (block.timestamp - start) / period; 
 
     uint date = start + N * period - 1;
 
-
-
     require(dividends[N][token] > 0);
-
-    
 
     if (!AlreadyReceived[N][token][msg.sender]) {      
 
@@ -900,13 +582,9 @@ contract Dividends is ERC20Base, Ownable {
 
       share = safeDiv(safeMul(share, 100), totalSupply_); 
 
-
-
       share = safePerc(dividends[N][token], share);
 
       share = safeDiv(share, safeDiv(multiplier, 100));  
-
-        
 
       ownersbal[msg.sender][token] = safeAdd(ownersbal[msg.sender][token], share);
 
@@ -915,10 +593,6 @@ contract Dividends is ERC20Base, Ownable {
     }
 
   }
-
-
-
-  
 
   function withdraw(address token, uint _value) external {    
 
@@ -938,10 +612,6 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-  
-
-  
-
   function withdraw(address token, uint _value, address _receiver) external {    
 
     require(ownersbal[msg.sender][token] >= _value);
@@ -960,8 +630,6 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-
-
   function setMultiplier(uint _value) external onlyOwner {
 
     require(_value > 0);
@@ -970,17 +638,11 @@ contract Dividends is ERC20Base, Ownable {
 
   }
 
-  
-
   function getMultiplier() external view returns (uint ) {
 
     return multiplier;
 
   }  
-
-
-
-  
 
   function setDEXContract(address _contract) external onlyOwner {
 
@@ -992,12 +654,6 @@ contract Dividends is ERC20Base, Ownable {
 
 }
 
-
-
-
-
-
-
 interface CommonI {
 
     function transferOwnership(address _newOwner) external;
@@ -1008,91 +664,43 @@ interface CommonI {
 
 }
 
-
-
-
-
-
-
 contract DAO is Dividends {
-
-
-
-    
 
     uint minBalance = 1000000000000; 
 
-    
-
     uint public minimumQuorum;
-
-    
 
     uint public debatingPeriodDuration;
 
-    
-
     uint public requisiteMajority;
-
-
 
     struct _Proposal {
 
-        
-
         uint endTimeOfVoting;
-
-        
 
         bool executed;
 
-        
-
         bool proposalPassed;
-
-        
 
         uint numberOfVotes;
 
-        
-
         uint votesSupport;
-
-        
 
         uint votesAgainst;
 
-        
-
-        
-
         address recipient;
-
-        
 
         uint amount;
 
-        
-
         bytes32 transactionHash;
 
-
-
-        
-
         string desc;
-
-        
 
         string fullDescHash;
 
     }
 
-
-
     _Proposal[] public Proposals;
-
-
 
     event ProposalAdded(uint proposalID, address recipient, uint amount, string description, string fullDescHash);
 
@@ -1104,10 +712,6 @@ contract DAO is Dividends {
 
     event Payment(address indexed sender, uint amount);
 
-
-
-    
-
     modifier onlyMembers {
 
         require(balances[msg.sender] > 0);
@@ -1115,10 +719,6 @@ contract DAO is Dividends {
         _;
 
     }
-
-
-
-    
 
     function changeVotingRules(
 
@@ -1136,29 +736,19 @@ contract DAO is Dividends {
 
         requisiteMajority = _requisiteMajority;
 
-
-
         emit ChangeOfRules(minimumQuorum, debatingPeriodDuration, requisiteMajority);
 
     }
 
-
-
-    
-
     function addProposal(address _recipient, uint _amount, string _desc, string _fullDescHash, bytes _transactionByteCode, uint _debatingPeriodDuration) onlyMembers public returns (uint) {
 
         require(balances[msg.sender] > minBalance);
-
-
 
         if (_debatingPeriodDuration == 0) {
 
             _debatingPeriodDuration = debatingPeriodDuration;
 
         }
-
-
 
         Proposals.push(_Proposal({      
 
@@ -1186,25 +776,13 @@ contract DAO is Dividends {
 
         }));
 
-        
-
-        
-
         super.addProposal(Proposals.length-1, Proposals[Proposals.length-1].endTimeOfVoting);
 
-
-
         emit ProposalAdded(Proposals.length-1, _recipient, _amount, _desc, _fullDescHash);
-
-
 
         return Proposals.length-1;
 
     }
-
-
-
-    
 
     function checkProposalCode(uint _proposalID, address _recipient, uint _amount, bytes _transactionByteCode) view public returns (bool) {
 
@@ -1212,43 +790,23 @@ contract DAO is Dividends {
 
         require(Proposals[_proposalID].amount == _amount);
 
-        
-
         return Proposals[_proposalID].transactionHash == keccak256(abi.encodePacked(_recipient, _amount, _transactionByteCode));
 
     }
 
-
-
-    
-
     function vote(uint _proposalID, bool _supportsProposal, string _justificationText) onlyMembers public returns (uint) {
-
-        
 
         _Proposal storage p = Proposals[_proposalID]; 
 
         require(now <= p.endTimeOfVoting);
 
-
-
-        
-
         uint votes = safeSub(balances[msg.sender], voted[_proposalID][msg.sender]);
 
         require(votes > 0);
 
-
-
         voted[_proposalID][msg.sender] = safeAdd(voted[_proposalID][msg.sender], votes);
 
-
-
-        
-
         p.numberOfVotes = p.numberOfVotes + votes;
-
-        
 
         if (_supportsProposal) {
 
@@ -1260,25 +818,15 @@ contract DAO is Dividends {
 
         }
 
-        
-
         emit Voted(_proposalID, _supportsProposal, msg.sender, _justificationText);
 
         return p.numberOfVotes;
 
     }
 
-
-
-    
-
     function executeProposal(uint _proposalID, bytes _transactionByteCode) public {
 
-        
-
         _Proposal storage p = Proposals[_proposalID];
-
-
 
         require(now > p.endTimeOfVoting                                                                       
 
@@ -1288,11 +836,7 @@ contract DAO is Dividends {
 
             && p.numberOfVotes >= minimumQuorum);                                                             
 
-        
-
         if (p.votesSupport > requisiteMajority) {
-
-            
 
             require(p.recipient.call.value(p.amount)(_transactionByteCode));
 
@@ -1300,43 +844,23 @@ contract DAO is Dividends {
 
         } else {
 
-            
-
             p.proposalPassed = false;
 
         }
 
         p.executed = true;
 
-
-
-        
-
         super.delProposal(_proposalID);
-
-       
-
-        
 
         emit ProposalTallied(_proposalID, p.votesSupport, p.votesAgainst, p.numberOfVotes, p.proposalPassed);
 
     }
 
-
-
-    
-
     function delActiveProposal(uint _proposalID) public onlyOwner {
-
-        
 
         super.delProposal(_proposalID);   
 
     }
-
-
-
-    
 
     function transferOwnership(address _contract, address _newOwner) public onlyOwner {
 
@@ -1344,27 +868,17 @@ contract DAO is Dividends {
 
     }
 
-
-
-    
-
     function acceptOwnership(address _contract) public onlyOwner {
 
         CommonI(_contract).acceptOwnership();        
 
     }
 
-
-
     function updateAgent(address _contract, address _agent, bool _state) public onlyOwner {
 
         CommonI(_contract).updateAgent(_agent, _state);        
 
     }
-
-
-
-    
 
     function setMinBalance(uint _minBalance) public onlyOwner {
 
@@ -1376,31 +890,17 @@ contract DAO is Dividends {
 
 }
 
-
-
-
-
-
-
 contract Agent is Ownable {
-
-
 
   address public defAgent;
 
-
-
   mapping(address => bool) public Agents;
-
-  
 
   constructor() public {    
 
     Agents[msg.sender] = true;
 
   }
-
-  
 
   modifier onlyAgent() {
 
@@ -1409,8 +909,6 @@ contract Agent is Ownable {
     _;
 
   }
-
-  
 
   function updateAgent(address _agent, bool _status) public onlyOwner {
 
@@ -1422,39 +920,19 @@ contract Agent is Ownable {
 
 }
 
-
-
-
-
-
-
 contract SDAD is SDADI, DAO {
-
-	
 
   uint public initialSupply = 10 * 10**6; 
 
   uint public decimals = 8;
 
-
-
   string public name;
 
   string public symbol;
 
-
-
-  
-
   event UpdatedTokenInformation(string _name, string _symbol);
 
-
-
-  
-
   event UpdatedPeriod(uint _period);
-
-
 
   constructor(string _name, string _symbol, uint _start, uint _period, address _dexowner) public {
 
@@ -1466,53 +944,25 @@ contract SDAD is SDADI, DAO {
 
     period = _period;
 
-
-
     totalSupply_ = initialSupply*10**decimals;
-
-
-
-    
 
     balances[_dexowner] = totalSupply_;    
 
     emit Transfer(0x0, _dexowner, balances[_dexowner]);
 
-
-
     ownersIndex[_dexowner] = true;
 
     owners.push(_dexowner);
 
-
-
     ChangeOverPeriod[_dexowner][1] = int256(balances[_dexowner]);
 
-
-
-    
-
-    
-
-    
-
-    
-
     changeVotingRules(safePerc(totalSupply_, 5000), 1440, safePerc(totalSupply_, 2500));
-
-
-
-    
 
     tokens.push(address(0));
 
     tokensIndex[address(0)] = tokens.length-1;
 
   } 
-
-
-
-  
 
   function setTokenInformation(string _name, string _symbol) public onlyOwner {
 
@@ -1524,10 +974,6 @@ contract SDAD is SDADI, DAO {
 
   }
 
-
-
-  
-
   function setPeriod(uint _period) public onlyOwner {
 
     period = _period;
@@ -1535,10 +981,6 @@ contract SDAD is SDADI, DAO {
     emit UpdatedPeriod(_period);    
 
   }
-
-
-
-  
 
   function setOwnerToSelf() public onlyOwner {
 

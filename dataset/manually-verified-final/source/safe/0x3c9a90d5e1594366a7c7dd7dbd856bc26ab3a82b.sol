@@ -1,11 +1,4 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-    
-    
-    
-    library SafeMath {
+library SafeMath {
         function add(uint a, uint b) internal pure returns (uint c) {
             c = a + b;
             require(c >= a);
@@ -24,9 +17,6 @@ pragma solidity >=0.4.22 <0.6.0;
         }
     }
 
-    
-    
-    
     contract ERC20Interface {
         function totalSupply() public view returns (uint);
         function balanceOf(address tokenOwner) public view returns (uint balance);
@@ -39,12 +29,9 @@ pragma solidity >=0.4.22 <0.6.0;
         event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
     }
 
-    
-    
-    
     contract KADO is ERC20Interface{
         using SafeMath for uint;
-        
+
         string public symbol;
         string public name;
         uint8 public decimals;
@@ -52,9 +39,6 @@ pragma solidity >=0.4.22 <0.6.0;
         mapping(address => uint) balances;
         mapping(address => mapping(address => uint)) allowed;
 
-        
-        
-        
         constructor(address _owner) public{
             symbol = "KADO";
             name = "Kado Token";
@@ -68,20 +52,12 @@ pragma solidity >=0.4.22 <0.6.0;
         return _totalSupply * 10**uint(decimals);
         }
 
-        
-        
-        
         function balanceOf(address tokenOwner) public view returns (uint balance) {
             return balances[tokenOwner];
         }
 
-        
-        
-        
-        
-        
         function transfer(address to, uint tokens) public returns (bool success) {
-            
+
             require(to != address(0));
             require(balances[msg.sender] >= tokens );
             require(balances[to] + tokens >= balances[to]);
@@ -90,26 +66,13 @@ pragma solidity >=0.4.22 <0.6.0;
             emit Transfer(msg.sender,to,tokens);
             return true;
         }
-        
-        
-        
-        
-        
+
         function approve(address spender, uint tokens) public returns (bool success){
             allowed[msg.sender][spender] = tokens;
             emit Approval(msg.sender,spender,tokens);
             return true;
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
         function transferFrom(address from, address to, uint tokens) public returns (bool success){
             require(tokens <= allowed[from][msg.sender]); 
             require(balances[from] >= tokens);
@@ -119,10 +82,7 @@ pragma solidity >=0.4.22 <0.6.0;
             emit Transfer(from,to,tokens);
             return true;
         }
-        
-        
-        
-        
+
         function allowance(address tokenOwner, address spender) public view returns (uint remaining) {
             return allowed[tokenOwner][spender];
         }

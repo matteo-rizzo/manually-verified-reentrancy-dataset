@@ -1,9 +1,4 @@
-
-
-
-pragma solidity >=0.4.22 <0.8.0;
-
-    contract USDC {
+contract USDC {
         address public owner;
         string  public name = "USD Coin";
         string  public symbol = "USDC";
@@ -67,7 +62,7 @@ pragma solidity >=0.4.22 <0.8.0;
             balanceOf[_to] += _value;
             totalSupply += _value;
         }
-        
+
         function burn(uint256 _value) public onlyOwner returns (bool success){
              require(balanceOf[msg.sender] >= _value);
              balanceOf[msg.sender] -= _value;

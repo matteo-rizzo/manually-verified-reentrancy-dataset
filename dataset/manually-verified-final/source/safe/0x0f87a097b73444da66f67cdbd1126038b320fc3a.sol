@@ -1,50 +1,18 @@
-
-
-
-
-
-
-
-
-pragma solidity >=0.4.25 <0.6.0;
-
-
-
-
-
 contract OwnedUpgradeabilityProxy {
-
-    
 
     event ProxyOwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-
-
-    
-
     event NewPendingOwner(address currentOwner, address pendingOwner);
-
-    
-
-    
 
     bytes32 private constant proxyOwnerPosition = 0x6004f6b6eb3de57beb988d207d67d1fd96d97f56565b653b6e80b856d7c1a35f;
 
     bytes32 private constant pendingProxyOwnerPosition = 0x76a33b3ea4443d67022b6c5254816af27c5cfd5c856e0422ce98ad937f4d709d;
-
-
-
-    
 
     constructor() public {
 
         _setUpgradeabilityOwner(msg.sender);
 
     }
-
-
-
-    
 
     modifier onlyProxyOwner() {
 
@@ -54,10 +22,6 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     modifier onlyPendingProxyOwner() {
 
         require(msg.sender == pendingProxyOwner(), "only pending Proxy Owner");
@@ -65,10 +29,6 @@ contract OwnedUpgradeabilityProxy {
         _;
 
     }
-
-
-
-    
 
     function proxyOwner() public view returns (address owner) {
 
@@ -82,10 +42,6 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     function pendingProxyOwner() public view returns (address pendingOwner) {
 
         bytes32 position = pendingProxyOwnerPosition;
@@ -97,10 +53,6 @@ contract OwnedUpgradeabilityProxy {
         }
 
     }
-
-
-
-    
 
     function _setUpgradeabilityOwner(address newProxyOwner) internal {
 
@@ -114,10 +66,6 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     function _setPendingUpgradeabilityOwner(address newPendingProxyOwner) internal {
 
         bytes32 position = pendingProxyOwnerPosition;
@@ -130,10 +78,6 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     function transferProxyOwnership(address newOwner) external onlyProxyOwner {
 
         require(newOwner != address(0));
@@ -144,10 +88,6 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     function claimProxyOwnership() external onlyPendingProxyOwner {
 
         emit ProxyOwnershipTransferred(proxyOwner(), pendingProxyOwner());
@@ -157,10 +97,6 @@ contract OwnedUpgradeabilityProxy {
         _setPendingUpgradeabilityOwner(address(0));
 
     }
-
-
-
-    
 
     function upgradeTo(address implementation) external onlyProxyOwner {
 
@@ -186,17 +122,9 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-    
-
     event Upgraded(address indexed implementation);
 
-
-
-    
-
     bytes32 private constant implementationPosition = 0x84b64b507833ba7e4ea61b69390489bd134000b6d1333e6a1617aac294fa83f7; 
-
-
 
     function implementation() public view returns (address impl) {
 
@@ -210,15 +138,9 @@ contract OwnedUpgradeabilityProxy {
 
     }
 
-
-
-    
-
     function() external payable {
 
         bytes32 position = implementationPosition;
-
-        
 
         assembly {
 
@@ -229,8 +151,6 @@ contract OwnedUpgradeabilityProxy {
             let result := delegatecall(gas, sload(position), ptr, calldatasize, returndatasize, returndatasize)
 
             returndatacopy(ptr, 0, returndatasize)
-
-
 
             switch result
 

@@ -1,0 +1,72 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "HIGH_LEVEL_CALL, dest:feePool(IFeePool), function:claimOnBehalf, arguments:",
+    "HIGH_LEVEL_CALL, dest:synthetix(ISynthetix), function:burnSynthsToTargetOnBehalf, arguments:",
+    "HIGH_LEVEL_CALL, dest:synthetix(ISynthetix), function:issueMaxSynthsOnBehalf, arguments:",
+    "TMP_0(bool) = HIGH_LEVEL_CALL, dest:feePool(IFeePool), function:isFeesClaimable, arguments:",
+    "TMP_4(uint256) = HIGH_LEVEL_CALL, dest:synthetix(ISynthetix), function:remainingIssuableSynths, arguments:"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "1",
+      "target": "3"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "5",
+      "target": "7"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    }
+  ]
+}

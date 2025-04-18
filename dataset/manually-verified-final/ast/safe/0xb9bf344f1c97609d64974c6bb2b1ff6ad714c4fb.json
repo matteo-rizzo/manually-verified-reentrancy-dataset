@@ -1,0 +1,232 @@
+{
+  "attributes": {
+    "exportedSymbols": {
+      "Broadcaster": [
+        16
+      ]
+    }
+  },
+  "children": [
+    {
+      "attributes": {
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.6",
+          ".0"
+        ]
+      },
+      "id": 1,
+      "name": "PragmaDirective",
+      "src": "4:32:0"
+    },
+    {
+      "attributes": {
+        "baseContracts": [
+          null
+        ],
+        "contractDependencies": [
+          null
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          16
+        ],
+        "name": "Broadcaster",
+        "scope": 17
+      },
+      "children": [
+        {
+          "attributes": {
+            "anonymous": false,
+            "documentation": null,
+            "name": "Broadcast"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "indexed": false,
+                    "name": "_value",
+                    "scope": 5,
+                    "stateVariable": false,
+                    "storageLocation": "default",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 2,
+                      "name": "ElementaryTypeName",
+                      "src": "94:6:0"
+                    }
+                  ],
+                  "id": 3,
+                  "name": "VariableDeclaration",
+                  "src": "94:13:0"
+                }
+              ],
+              "id": 4,
+              "name": "ParameterList",
+              "src": "83:31:0"
+            }
+          ],
+          "id": 5,
+          "name": "EventDefinition",
+          "src": "68:47:0"
+        },
+        {
+          "attributes": {
+            "constant": false,
+            "documentation": null,
+            "implemented": true,
+            "isConstructor": false,
+            "modifiers": [
+              null
+            ],
+            "name": "broadcast",
+            "payable": false,
+            "scope": 16,
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          "children": [
+            {
+              "children": [
+                {
+                  "attributes": {
+                    "constant": false,
+                    "name": "message",
+                    "scope": 15,
+                    "stateVariable": false,
+                    "storageLocation": "memory",
+                    "type": "string",
+                    "value": null,
+                    "visibility": "internal"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "name": "string",
+                        "type": "string"
+                      },
+                      "id": 6,
+                      "name": "ElementaryTypeName",
+                      "src": "142:6:0"
+                    }
+                  ],
+                  "id": 7,
+                  "name": "VariableDeclaration",
+                  "src": "142:21:0"
+                }
+              ],
+              "id": 8,
+              "name": "ParameterList",
+              "src": "141:23:0"
+            },
+            {
+              "attributes": {
+                "parameters": [
+                  null
+                ]
+              },
+              "children": [],
+              "id": 9,
+              "name": "ParameterList",
+              "src": "172:0:0"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "attributes": {
+                        "argumentTypes": null,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "isStructConstructorCall": false,
+                        "lValueRequested": false,
+                        "names": [
+                          null
+                        ],
+                        "type": "tuple()",
+                        "type_conversion": false
+                      },
+                      "children": [
+                        {
+                          "attributes": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_string_memory_ptr",
+                                "typeString": "string memory"
+                              }
+                            ],
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 5,
+                            "type": "function (string memory)",
+                            "value": "Broadcast"
+                          },
+                          "id": 10,
+                          "name": "Identifier",
+                          "src": "238:9:0"
+                        },
+                        {
+                          "attributes": {
+                            "argumentTypes": null,
+                            "overloadedDeclarations": [
+                              null
+                            ],
+                            "referencedDeclaration": 7,
+                            "type": "string memory",
+                            "value": "message"
+                          },
+                          "id": 11,
+                          "name": "Identifier",
+                          "src": "248:7:0"
+                        }
+                      ],
+                      "id": 12,
+                      "name": "FunctionCall",
+                      "src": "238:18:0"
+                    }
+                  ],
+                  "id": 13,
+                  "name": "EmitStatement",
+                  "src": "233:23:0"
+                }
+              ],
+              "id": 14,
+              "name": "Block",
+              "src": "172:92:0"
+            }
+          ],
+          "id": 15,
+          "name": "FunctionDefinition",
+          "src": "123:141:0"
+        }
+      ],
+      "id": 16,
+      "name": "ContractDefinition",
+      "src": "40:227:0"
+    }
+  ],
+  "id": 17,
+  "name": "SourceUnit",
+  "src": "4:263:0"
+}

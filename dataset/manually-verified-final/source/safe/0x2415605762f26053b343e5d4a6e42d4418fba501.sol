@@ -1,6 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
 contract Ballot {
 
     struct Voter {
@@ -17,21 +14,17 @@ contract Ballot {
     mapping(address => Voter) voters;
     Proposal[] proposals;
 
-    
     constructor(uint8 _numProposals) public {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
         proposals.length = _numProposals;
     }
 
-    
-    
     function giveRightToVote(address toVoter) public {
         if (msg.sender != chairperson || voters[toVoter].voted) return;
         voters[toVoter].weight = 1;
     }
 
-    
     function delegate(address to) public {
         Voter storage sender = voters[msg.sender]; 
         if (sender.voted) return;
@@ -47,7 +40,6 @@ contract Ballot {
             delegateTo.weight += sender.weight;
     }
 
-    
     function vote(uint8 toProposal) public {
         Voter storage sender = voters[msg.sender];
         if (sender.voted || toProposal >= proposals.length) return;

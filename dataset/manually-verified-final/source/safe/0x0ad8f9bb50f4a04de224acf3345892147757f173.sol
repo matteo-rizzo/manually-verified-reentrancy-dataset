@@ -1,13 +1,3 @@
-pragma solidity ^0.4.24;
-
-
-
-
-
-
-
-
-
 contract ERC20Basic {
 
   function totalSupply() public view returns (uint256);
@@ -20,27 +10,15 @@ contract ERC20Basic {
 
 }
 
-
-
-
-
-
-
-
-
 contract ERC20 is ERC20Basic {
 
   function allowance(address owner, address spender)
 
     public view returns (uint256);
 
-
-
   function transferFrom(address from, address to, uint256 value)
 
     public returns (bool);
-
-
 
   function approve(address spender, uint256 value) public returns (bool);
 
@@ -56,14 +34,6 @@ contract ERC20 is ERC20Basic {
 
 }
 
-
-
-
-
-
-
-
-
 contract DetailedERC20 is ERC20 {
 
   string public name;
@@ -71,8 +41,6 @@ contract DetailedERC20 is ERC20 {
   string public symbol;
 
   uint8 public decimals;
-
-
 
   constructor(string _name, string _symbol, uint8 _decimals) public {
 
@@ -86,35 +54,15 @@ contract DetailedERC20 is ERC20 {
 
 }
 
-
-
-
-
-
-
-
-
 library SafeMath {
 
-
-
-  
-
   function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
-
-    
-
-    
-
-    
 
     if (a == 0) {
 
       return 0;
 
     }
-
-
 
     c = a * b;
 
@@ -124,25 +72,11 @@ library SafeMath {
 
   }
 
-
-
-  
-
   function div(uint256 a, uint256 b) internal pure returns (uint256) {
-
-    
-
-    
-
-    
 
     return a / b;
 
   }
-
-
-
-  
 
   function sub(uint256 a, uint256 b) internal pure returns (uint256) {
 
@@ -151,10 +85,6 @@ library SafeMath {
     return a - b;
 
   }
-
-
-
-  
 
   function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
 
@@ -168,29 +98,13 @@ library SafeMath {
 
 }
 
-
-
-
-
-
-
-
-
 contract BasicToken is ERC20Basic {
 
   using SafeMath for uint256;
 
-
-
   mapping(address => uint256) balances;
 
-
-
   uint256 totalSupply_;
-
-
-
-  
 
   function totalSupply() public view returns (uint256) {
 
@@ -198,17 +112,11 @@ contract BasicToken is ERC20Basic {
 
   }
 
-
-
-  
-
   function transfer(address _to, uint256 _value) public returns (bool) {
 
     require(_to != address(0));
 
     require(_value <= balances[msg.sender]);
-
-
 
     balances[msg.sender] = balances[msg.sender].sub(_value);
 
@@ -220,39 +128,17 @@ contract BasicToken is ERC20Basic {
 
   }
 
-
-
-  
-
   function balanceOf(address _owner) public view returns (uint256) {
 
     return balances[_owner];
 
   }
 
-
-
 }
-
-
-
-
-
-
-
-
 
 contract StandardToken is ERC20, BasicToken {
 
-
-
   mapping (address => mapping (address => uint256)) internal allowed;
-
-
-
-
-
-  
 
   function transferFrom(
 
@@ -276,8 +162,6 @@ contract StandardToken is ERC20, BasicToken {
 
     require(_value <= allowed[_from][msg.sender]);
 
-
-
     balances[_from] = balances[_from].sub(_value);
 
     balances[_to] = balances[_to].add(_value);
@@ -290,10 +174,6 @@ contract StandardToken is ERC20, BasicToken {
 
   }
 
-
-
-  
-
   function approve(address _spender, uint256 _value) public returns (bool) {
 
     allowed[msg.sender][_spender] = _value;
@@ -303,10 +183,6 @@ contract StandardToken is ERC20, BasicToken {
     return true;
 
   }
-
-
-
-  
 
   function allowance(
 
@@ -327,10 +203,6 @@ contract StandardToken is ERC20, BasicToken {
     return allowed[_owner][_spender];
 
   }
-
-
-
-  
 
   function increaseApproval(
 
@@ -355,10 +227,6 @@ contract StandardToken is ERC20, BasicToken {
     return true;
 
   }
-
-
-
-  
 
   function decreaseApproval(
 
@@ -392,35 +260,19 @@ contract StandardToken is ERC20, BasicToken {
 
   }
 
-
-
 }
-
-
-
-
-
-
 
 contract BasicMultiToken is StandardToken, DetailedERC20 {
 
-    
-
     ERC20[] public tokens;
-
-
 
     event Mint(address indexed minter, uint256 value);
 
     event Burn(address indexed burner, uint256 value);
 
-    
-
     constructor() public DetailedERC20("", "", 0) {
 
     }
-
-
 
     function init(ERC20[] _tokens, string _name, string _symbol, uint8 _decimals) public {
 
@@ -434,8 +286,6 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
         require(_tokens.length >= 2, "Contract do not support less than 2 inner tokens");
 
-
-
         name = _name;
 
         symbol = _symbol;
@@ -446,8 +296,6 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
     }
 
-
-
     function mintFirstTokens(address _to, uint256 _amount, uint256[] _tokenAmounts) public {
 
         require(totalSupply_ == 0, "This method can be used with zero total supply only");
@@ -455,8 +303,6 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
         _mint(_to, _amount, _tokenAmounts);
 
     }
-
-
 
     function mint(address _to, uint256 _amount) public {
 
@@ -474,21 +320,15 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
     }
 
-
-
     function burn(uint256 _value) public {
 
         burnSome(_value, tokens);
 
     }
 
-
-
     function burnSome(uint256 _value, ERC20[] someTokens) public {
 
         require(someTokens.length > 0, "Array of tokens can't be empty");
-
-
 
         uint256 totalSupply = totalSupply_;
 
@@ -499,8 +339,6 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
         emit Burn(msg.sender, _value);
 
         emit Transfer(msg.sender, address(0), _value);
-
-
 
         for (uint i = 0; i < someTokens.length; i++) {
 
@@ -516,13 +354,9 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
     }
 
-
-
     function _mint(address _to, uint256 _amount, uint256[] _tokenAmounts) internal {
 
         require(tokens.length == _tokenAmounts.length, "Lenghts of tokens and _tokenAmounts array should be equal");
-
-
 
         for (uint i = 0; i < tokens.length; i++) {
 
@@ -534,8 +368,6 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
         }
 
-
-
         totalSupply_ = totalSupply_.add(_amount);
 
         balances[_to] = balances[_to].add(_amount);
@@ -546,15 +378,11 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
     }
 
-
-
     function allTokens() public view returns(ERC20[]) {
 
         return tokens;
 
     }
-
-
 
     function allBalances() public view returns(uint256[]) {
 
@@ -570,15 +398,7 @@ contract BasicMultiToken is StandardToken, DetailedERC20 {
 
     }
 
-
-
 }
-
-
-
-
-
-
 
 interface ERC228 {
 
@@ -590,27 +410,15 @@ interface ERC228 {
 
     function change(address _fromToken, address _toToken, uint256 _amount, uint256 _minReturn) external returns (uint256 returnAmount);
 
-
-
     event Update();
 
     event Change(address indexed _fromToken, address indexed _toToken, address indexed _changer, uint256 _amount, uint256 _return);
 
 }
 
-
-
-
-
-
-
 contract MultiToken is BasicMultiToken, ERC228 {
 
-
-
     mapping(address => uint256) public weights;
-
-
 
     function init(ERC20[] _tokens, uint256[] _weights, string _name, string _symbol, uint8 _decimals) public {
 
@@ -630,15 +438,11 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
     }
 
-
-
     function init2(ERC20[] _tokens, uint256[] _weights, string _name, string _symbol, uint8 _decimals) public {
 
         init(_tokens, _weights, _name, _symbol, _decimals);
 
     }
-
-
 
     function changeableTokenCount() public view returns (uint16 count) {
 
@@ -646,15 +450,11 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
     }
 
-
-
     function changeableToken(uint16 _tokenIndex) public view returns (address tokenAddress) {
 
         tokenAddress = tokens[_tokenIndex];
 
     }
-
-
 
     function getReturn(address _fromToken, address _toToken, uint256 _amount) public view returns(uint256 returnAmount) {
 
@@ -670,8 +470,6 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
     }
 
-
-
     function change(address _fromToken, address _toToken, uint256 _amount, uint256 _minReturn) public returns(uint256 returnAmount) {
 
         returnAmount = getReturn(_fromToken, _toToken, _amount);
@@ -680,15 +478,11 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
         require(returnAmount >= _minReturn, "The return amount is less than _minReturn value");
 
-        
-
         uint256 fromBalance = ERC20(_fromToken).balanceOf(this);
 
         ERC20(_fromToken).transferFrom(msg.sender, this, _amount);
 
         require(ERC20(_fromToken).balanceOf(this) == fromBalance + _amount);
-
-        
 
         uint256 toBalance = ERC20(_toToken).balanceOf(this);
 
@@ -696,21 +490,15 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
         require(ERC20(_toToken).balanceOf(this) == toBalance - returnAmount);
 
-
-
         emit Change(_fromToken, _toToken, msg.sender, _amount, returnAmount);
 
     }
-
-
 
     function changeOverERC228(address _fromToken, address _toToken, uint256 _amount, address exchange) public returns(uint256 returnAmount) {
 
         returnAmount = getReturn(_fromToken, _toToken, _amount);
 
         require(returnAmount > 0, "The return amount is zero");
-
-
 
         uint256 fromBalance = ERC20(_fromToken).balanceOf(this);
 
@@ -722,8 +510,6 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
         require(realReturnAmount >= _amount);
 
-
-
         if (realReturnAmount > _amount) {
 
             uint256 reward = realReturnAmount.sub(_amount);
@@ -734,13 +520,9 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
         }
 
-
-
         emit Change(_fromToken, _toToken, msg.sender, _amount, returnAmount);
 
     }
-
-
 
     function allWeights() public view returns(uint256[]) {
 
@@ -756,15 +538,7 @@ contract MultiToken is BasicMultiToken, ERC228 {
 
     }
 
-
-
 }
-
-
-
-
-
-
 
 contract FeeMultiToken is MultiToken {
 
@@ -774,8 +548,6 @@ contract FeeMultiToken is MultiToken {
 
     }
 
-
-
     function getReturn(address _fromToken, address _toToken, uint256 _amount) public view returns(uint256 returnAmount) {
 
         returnAmount = super.getReturn(_fromToken, _toToken, _amount).mul(998).div(1000); 
@@ -784,23 +556,11 @@ contract FeeMultiToken is MultiToken {
 
 }
 
-
-
-
-
-
-
 interface IDeployer {
 
     function deploy(bytes data) external returns(address mtkn);
 
 }
-
-
-
-
-
-
 
 contract MultiTokenDeployer is IDeployer {
 
@@ -808,17 +568,11 @@ contract MultiTokenDeployer is IDeployer {
 
         require(
 
-            
-
             (data[0] == 0x6f && data[1] == 0x5f && data[2] == 0x53 && data[3] == 0x5d) ||
-
-            
 
             (data[0] == 0x18 && data[1] == 0x2a && data[2] == 0x54 && data[3] == 0x15)
 
         );
-
-
 
         mtkn = new FeeMultiToken();
 

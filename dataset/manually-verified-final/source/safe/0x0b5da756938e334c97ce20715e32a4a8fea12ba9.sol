@@ -1,10 +1,4 @@
-pragma solidity ^0.4.24;
-
-
-
 contract F3Devents {
-
-    
 
     event onNewName
 
@@ -29,10 +23,6 @@ contract F3Devents {
         uint256 timeStamp
 
     );
-
-
-
-    
 
     event onEndTx
 
@@ -68,10 +58,6 @@ contract F3Devents {
 
     );
 
-
-
-	
-
     event onWithdraw
 
     (
@@ -87,10 +73,6 @@ contract F3Devents {
         uint256 timeStamp
 
     );
-
-
-
-    
 
     event onWithdrawAndDistribute
 
@@ -120,12 +102,6 @@ contract F3Devents {
 
     );
 
-
-
-    
-
-    
-
     event onBuyAndDistribute
 
     (
@@ -154,12 +130,6 @@ contract F3Devents {
 
     );
 
-
-
-    
-
-    
-
     event onReLoadAndDistribute
 
     (
@@ -186,10 +156,6 @@ contract F3Devents {
 
     );
 
-
-
-    
-
     event onAffiliatePayout
 
     (
@@ -210,10 +176,6 @@ contract F3Devents {
 
     );
 
-
-
-    
-
     event onPotSwapDeposit
 
     (
@@ -226,21 +188,7 @@ contract F3Devents {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 contract modularShort is F3Devents {}
-
-
 
 contract F3Dultra is modularShort {
 
@@ -250,19 +198,7 @@ contract F3Dultra is modularShort {
 
     using F3DKeysCalcShort for uint256;
 
-
-
     PlayerBookInterface constant private PlayerBook = PlayerBookInterface(0x00ba0f428d3cbe8804c4f068ec1a96e2c6b7771f83);
-
-
-
-
-
-
-
-
-
-
 
     address private admin = msg.sender;
 
@@ -280,33 +216,15 @@ contract F3Dultra is modularShort {
 
     uint256 constant private rndMax_ = 20 minutes;                
 
-
-
     uint256 constant private preIcoMax_ = 50000000000000000000; 
 
     uint256 constant private preIcoPerEth_ = 1500000000000000000; 
-
-    
-
-
-
-
-
-
-
-
 
     uint256 public airDropPot_;             
 
     uint256 public airDropTracker_ = 0;     
 
     uint256 public rID_;    
-
-
-
-
-
-
 
     mapping (address => uint256) public pIDxAddr_;          
 
@@ -318,57 +236,19 @@ contract F3Dultra is modularShort {
 
     mapping (uint256 => mapping (bytes32 => bool)) public plyrNames_; 
 
-
-
-
-
-
-
     mapping (uint256 => F3Ddatasets.Round) public round_;   
 
     mapping (uint256 => mapping(uint256 => uint256)) public rndTmEth_;      
 
-
-
-
-
-
-
     mapping (uint256 => F3Ddatasets.TeamFee) public fees_;          
 
     mapping (uint256 => F3Ddatasets.PotSplit) public potSplit_;     
-
-
-
-
-
-
-
-
 
     constructor()
 
         public
 
     {
-
-		
-
-        
-
-        
-
-        
-
-        
-
-
-
-		
-
-        
-
-            
 
         fees_[0] = F3Ddatasets.TeamFee(22,6);   
 
@@ -377,12 +257,6 @@ contract F3Dultra is modularShort {
         fees_[2] = F3Ddatasets.TeamFee(68,8);   
 
         fees_[3] = F3Ddatasets.TeamFee(52,10);  
-
-
-
-        
-
-        
 
         potSplit_[0] = F3Ddatasets.PotSplit(15,10);  
 
@@ -394,16 +268,6 @@ contract F3Dultra is modularShort {
 
 	}
 
-
-
-
-
-
-
-
-
-    
-
     modifier isActivated() {
 
         require(activated_ == true, "its not ready yet.  check ?eta in discord");
@@ -412,17 +276,11 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     modifier isHuman() {
 
         address _addr = msg.sender;
 
         uint256 _codeLength;
-
-
 
         assembly {_codeLength := extcodesize(_addr)}
 
@@ -431,10 +289,6 @@ contract F3Dultra is modularShort {
         _;
 
     }
-
-
-
-    
 
     modifier isWithinLimits(uint256 _eth) {
 
@@ -445,18 +299,6 @@ contract F3Dultra is modularShort {
         _;
 
     }
-
-
-
-
-
-
-
-
-
-
-
-    
 
     function()
 
@@ -472,27 +314,13 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_ = determinePID(_eventData_);
 
-
-
-        
-
         uint256 _pID = pIDxAddr_[msg.sender];
-
-
-
-        
 
         buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);
 
     }
-
-
-
-    
 
     function buyXid(uint256 _affCode, uint256 _team)
 
@@ -508,57 +336,27 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_ = determinePID(_eventData_);
 
-
-
-        
-
         uint256 _pID = pIDxAddr_[msg.sender];
-
-
-
-        
-
-        
 
         if (_affCode == 0 || _affCode == _pID)
 
         {
 
-            
-
             _affCode = plyr_[_pID].laff;
 
-
-
-        
-
         } else if (_affCode != plyr_[_pID].laff) {
-
-            
 
             plyr_[_pID].laff = _affCode;
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         buyCore(_pID, _affCode, _team, _eventData_);
 
     }
-
-
 
     function buyXaddr(address _affCode, uint256 _team)
 
@@ -574,51 +372,25 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_ = determinePID(_eventData_);
-
-
-
-        
 
         uint256 _pID = pIDxAddr_[msg.sender];
 
-
-
-        
-
         uint256 _affID;
-
-        
 
         if (_affCode == address(0) || _affCode == msg.sender)
 
         {
 
-            
-
             _affID = plyr_[_pID].laff;
-
-
-
-        
 
         } else {
 
-            
-
             _affID = pIDxAddr_[_affCode];
-
-
-
-            
 
             if (_affID != plyr_[_pID].laff)
 
             {
-
-                
 
                 plyr_[_pID].laff = _affID;
 
@@ -626,21 +398,11 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         buyCore(_pID, _affID, _team, _eventData_);
 
     }
-
-
 
     function buyXname(bytes32 _affCode, uint256 _team)
 
@@ -656,51 +418,25 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_ = determinePID(_eventData_);
-
-
-
-        
 
         uint256 _pID = pIDxAddr_[msg.sender];
 
-
-
-        
-
         uint256 _affID;
-
-        
 
         if (_affCode == '' || _affCode == plyr_[_pID].name)
 
         {
 
-            
-
             _affID = plyr_[_pID].laff;
-
-
-
-        
 
         } else {
 
-            
-
             _affID = pIDxName_[_affCode];
-
-
-
-            
 
             if (_affID != plyr_[_pID].laff)
 
             {
-
-                
 
                 plyr_[_pID].laff = _affID;
 
@@ -708,23 +444,11 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         buyCore(_pID, _affID, _team, _eventData_);
 
     }
-
-
-
-    
 
     function reLoadXid(uint256 _affCode, uint256 _team, uint256 _eth)
 
@@ -738,57 +462,27 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_;
 
-
-
-        
-
         uint256 _pID = pIDxAddr_[msg.sender];
-
-
-
-        
-
-        
 
         if (_affCode == 0 || _affCode == _pID)
 
         {
 
-            
-
             _affCode = plyr_[_pID].laff;
 
-
-
-        
-
         } else if (_affCode != plyr_[_pID].laff) {
-
-            
 
             plyr_[_pID].laff = _affCode;
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         reLoadCore(_pID, _affCode, _team, _eth, _eventData_);
 
     }
-
-
 
     function reLoadXaddr(address _affCode, uint256 _team, uint256 _eth)
 
@@ -802,51 +496,25 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_;
-
-
-
-        
 
         uint256 _pID = pIDxAddr_[msg.sender];
 
-
-
-        
-
         uint256 _affID;
-
-        
 
         if (_affCode == address(0) || _affCode == msg.sender)
 
         {
 
-            
-
             _affID = plyr_[_pID].laff;
-
-
-
-        
 
         } else {
 
-            
-
             _affID = pIDxAddr_[_affCode];
-
-
-
-            
 
             if (_affID != plyr_[_pID].laff)
 
             {
-
-                
 
                 plyr_[_pID].laff = _affID;
 
@@ -854,21 +522,11 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         reLoadCore(_pID, _affID, _team, _eth, _eventData_);
 
     }
-
-
 
     function reLoadXname(bytes32 _affCode, uint256 _team, uint256 _eth)
 
@@ -882,51 +540,25 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         F3Ddatasets.EventReturns memory _eventData_;
-
-
-
-        
 
         uint256 _pID = pIDxAddr_[msg.sender];
 
-
-
-        
-
         uint256 _affID;
-
-        
 
         if (_affCode == '' || _affCode == plyr_[_pID].name)
 
         {
 
-            
-
             _affID = plyr_[_pID].laff;
-
-
-
-        
 
         } else {
 
-            
-
             _affID = pIDxName_[_affCode];
-
-
-
-            
 
             if (_affID != plyr_[_pID].laff)
 
             {
-
-                
 
                 plyr_[_pID].laff = _affID;
 
@@ -934,23 +566,11 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         _team = verifyTeam(_team);
-
-
-
-        
 
         reLoadCore(_pID, _affID, _team, _eth, _eventData_);
 
     }
-
-
-
-    
 
     function withdraw()
 
@@ -962,73 +582,33 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
-
-
-
-        
 
         uint256 _now = now;
 
-
-
-        
-
         uint256 _pID = pIDxAddr_[msg.sender];
 
-
-
-        
-
         uint256 _eth;
-
-
-
-        
 
         if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)
 
         {
 
-            
-
             F3Ddatasets.EventReturns memory _eventData_;
-
-
-
-            
 
 			round_[_rID].ended = true;
 
             _eventData_ = endRound(_eventData_);
 
-
-
-			
-
             _eth = withdrawEarnings(_pID);
-
-
-
-            
 
             if (_eth > 0)
 
                 plyr_[_pID].addr.transfer(_eth);
 
-
-
-            
-
             _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);
 
             _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;
-
-
-
-            
 
             emit F3Devents.onWithdrawAndDistribute
 
@@ -1058,37 +638,19 @@ contract F3Dultra is modularShort {
 
             );
 
-
-
-        
-
         } else {
 
-            
-
             _eth = withdrawEarnings(_pID);
-
-
-
-            
 
             if (_eth > 0)
 
                 plyr_[_pID].addr.transfer(_eth);
-
-
-
-            
 
             emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, _now);
 
         }
 
     }
-
-
-
-    
 
     function registerNameXID(string _nameString, uint256 _affCode, bool _all)
 
@@ -1108,19 +670,11 @@ contract F3Dultra is modularShort {
 
         (bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXIDFromDapp.value(_paid)(_addr, _name, _affCode, _all);
 
-
-
         uint256 _pID = pIDxAddr_[_addr];
-
-
-
-        
 
         emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);
 
     }
-
-
 
     function registerNameXaddr(string _nameString, address _affCode, bool _all)
 
@@ -1140,19 +694,11 @@ contract F3Dultra is modularShort {
 
         (bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXaddrFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);
 
-
-
         uint256 _pID = pIDxAddr_[_addr];
-
-
-
-        
 
         emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);
 
     }
-
-
 
     function registerNameXname(string _nameString, bytes32 _affCode, bool _all)
 
@@ -1172,27 +718,11 @@ contract F3Dultra is modularShort {
 
         (bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXnameFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);
 
-
-
         uint256 _pID = pIDxAddr_[_addr];
-
-
-
-        
 
         emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);
 
     }
-
-
-
-
-
-
-
-
-
-    
 
     function getBuyPrice()
 
@@ -1204,19 +734,9 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
 
-
-
-        
-
         uint256 _now = now;
-
-
-
-        
 
         if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
 
@@ -1228,10 +748,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function getTimeLeft()
 
         public
@@ -1242,17 +758,9 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
 
-
-
-        
-
         uint256 _now = now;
-
-
 
         if (_now < round_[_rID].end)
 
@@ -1270,10 +778,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function getPlayerVaults(uint256 _pID)
 
         public
@@ -1284,19 +788,11 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
-
-
-
-        
 
         if (now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)
 
         {
-
-            
 
             if (round_[_rID].plyr == _pID)
 
@@ -1314,8 +810,6 @@ contract F3Dultra is modularShort {
 
                 );
 
-            
-
             } else {
 
                 return
@@ -1331,10 +825,6 @@ contract F3Dultra is modularShort {
                 );
 
             }
-
-
-
-        
 
         } else {
 
@@ -1354,10 +844,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function getPlayerVaultsHelper(uint256 _pID, uint256 _rID)
 
         private
@@ -1372,10 +858,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function getCurrentRoundInfo()
 
         public
@@ -1386,11 +868,7 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
-
-
 
         return
 
@@ -1428,10 +906,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function getPlayerInfoByAddress(address _addr)
 
         public
@@ -1442,11 +916,7 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
-
-
 
         if (_addr == address(0))
 
@@ -1457,8 +927,6 @@ contract F3Dultra is modularShort {
         }
 
         uint256 _pID = pIDxAddr_[_addr];
-
-
 
         return
 
@@ -1482,75 +950,35 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-    
-
     function buyCore(uint256 _pID, uint256 _affID, uint256 _team, F3Ddatasets.EventReturns memory _eventData_)
 
         private
 
     {
 
-        
-
         uint256 _rID = rID_;
 
-
-
-        
-
         uint256 _now = now;
-
-
-
-        
 
         if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
 
         {
 
-            
-
             core(_rID, _pID, msg.value, _affID, _team, _eventData_);
 
-
-
-        
-
         } else {
-
-            
 
             if (_now > round_[_rID].end && round_[_rID].ended == false)
 
             {
 
-                
-
 			    round_[_rID].ended = true;
 
                 _eventData_ = endRound(_eventData_);
 
-
-
-                
-
                 _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);
 
                 _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;
-
-
-
-                
 
                 emit F3Devents.onBuyAndDistribute
 
@@ -1582,19 +1010,11 @@ contract F3Dultra is modularShort {
 
             }
 
-
-
-            
-
             plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);
 
         }
 
     }
-
-
-
-    
 
     function reLoadCore(uint256 _pID, uint256 _affID, uint256 _team, uint256 _eth, F3Ddatasets.EventReturns memory _eventData_)
 
@@ -1602,61 +1022,27 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
 
-
-
-        
-
         uint256 _now = now;
-
-
-
-        
 
         if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
 
         {
 
-            
-
-            
-
-            
-
             plyr_[_pID].gen = withdrawEarnings(_pID).sub(_eth);
-
-
-
-            
 
             core(_rID, _pID, _eth, _affID, _team, _eventData_);
 
-
-
-        
-
         } else if (_now > round_[_rID].end && round_[_rID].ended == false) {
-
-            
 
             round_[_rID].ended = true;
 
             _eventData_ = endRound(_eventData_);
 
-
-
-            
-
             _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);
 
             _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;
-
-
-
-            
 
             emit F3Devents.onReLoadAndDistribute
 
@@ -1688,25 +1074,15 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function core(uint256 _rID, uint256 _pID, uint256 _eth, uint256 _affID, uint256 _team, F3Ddatasets.EventReturns memory _eventData_)
 
         private
 
     {
 
-        
-
         if (plyrRnds_[_pID][_rID].keys == 0)
 
             _eventData_ = managePlayer(_pID, _eventData_);
-
-
-
-        
 
         if (round_[_rID].eth < preIcoMax_ && plyrRnds_[_pID][_rID].eth.add(_eth) > preIcoPerEth_)
 
@@ -1722,33 +1098,17 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         if (_eth > 1000000000)
 
         {
 
-
-
-            
-
             uint256 _keys = (round_[_rID].eth).keysRec(_eth);
-
-
-
-            
 
             if (_keys >= 1000000000000000000)
 
             {
 
             updateTimer(_keys, _rID);
-
-
-
-            
 
             if (round_[_rID].plyr != _pID)
 
@@ -1758,17 +1118,9 @@ contract F3Dultra is modularShort {
 
                 round_[_rID].team = _team;
 
-
-
-            
-
             _eventData_.compressedData = _eventData_.compressedData + 100;
 
         }
-
-
-
-            
 
             if (_eth >= 100000000000000000)
 
@@ -1780,85 +1132,45 @@ contract F3Dultra is modularShort {
 
             {
 
-                
-
                 uint256 _prize;
 
                 if (_eth >= 10000000000000000000)
 
                 {
 
-                    
-
                     _prize = ((airDropPot_).mul(75)) / 100;
 
                     plyr_[_pID].win = (plyr_[_pID].win).add(_prize);
 
-
-
-                    
-
                     airDropPot_ = (airDropPot_).sub(_prize);
-
-
-
-                    
 
                     _eventData_.compressedData += 300000000000000000000000000000000;
 
                 } else if (_eth >= 1000000000000000000 && _eth < 10000000000000000000) {
 
-                    
-
                     _prize = ((airDropPot_).mul(50)) / 100;
 
                     plyr_[_pID].win = (plyr_[_pID].win).add(_prize);
 
-
-
-                    
-
                     airDropPot_ = (airDropPot_).sub(_prize);
-
-
-
-                    
 
                     _eventData_.compressedData += 200000000000000000000000000000000;
 
                 } else if (_eth >= 100000000000000000 && _eth < 1000000000000000000) {
 
-                    
-
                     _prize = ((airDropPot_).mul(25)) / 100;
 
                     plyr_[_pID].win = (plyr_[_pID].win).add(_prize);
 
-
-
-                    
-
                     airDropPot_ = (airDropPot_).sub(_prize);
-
-
-
-                    
 
                     _eventData_.compressedData += 300000000000000000000000000000000;
 
                 }
 
-                
-
                 _eventData_.compressedData += 10000000000000000000000000000000;
 
-                
-
                 _eventData_.compressedData += _prize * 1000000000000000000000000000000000;
-
-
-
-                
 
                 airDropTracker_ = 0;
 
@@ -1866,23 +1178,11 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-            
-
             _eventData_.compressedData = _eventData_.compressedData + (airDropTracker_ * 1000);
-
-
-
-            
 
             plyrRnds_[_pID][_rID].keys = _keys.add(plyrRnds_[_pID][_rID].keys);
 
             plyrRnds_[_pID][_rID].eth = _eth.add(plyrRnds_[_pID][_rID].eth);
-
-
-
-            
 
             round_[_rID].keys = _keys.add(round_[_rID].keys);
 
@@ -1890,33 +1190,15 @@ contract F3Dultra is modularShort {
 
             rndTmEth_[_rID][_team] = _eth.add(rndTmEth_[_rID][_team]);
 
-
-
-            
-
             _eventData_ = distributeExternal(_rID, _pID, _eth, _affID, _team, _eventData_);
 
             _eventData_ = distributeInternal(_rID, _pID, _eth, _team, _keys, _eventData_);
-
-
-
-            
 
 		    endTx(_pID, _team, _eth, _keys, _eventData_);
 
         }
 
     }
-
-
-
-
-
-
-
-
-
-    
 
     function calcUnMaskedEarnings(uint256 _pID, uint256 _rIDlast)
 
@@ -1932,10 +1214,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function calcKeysReceived(uint256 _rID, uint256 _eth)
 
         public
@@ -1946,13 +1224,7 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _now = now;
-
-
-
-        
 
         if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
 
@@ -1964,10 +1236,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function iWantXKeys(uint256 _keys)
 
         public
@@ -1978,19 +1246,9 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
 
-
-
-        
-
         uint256 _now = now;
-
-
-
-        
 
         if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))
 
@@ -2001,16 +1259,6 @@ contract F3Dultra is modularShort {
             return ( (_keys).eth() );
 
     }
-
-
-
-
-
-
-
-
-
-    
 
     function receivePlayerInfo(uint256 _pID, address _addr, bytes32 _name, uint256 _laff)
 
@@ -2046,10 +1294,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function receivePlayerNameList(uint256 _pID, bytes32 _name)
 
         external
@@ -2064,10 +1308,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function determinePID(F3Ddatasets.EventReturns memory _eventData_)
 
         private
@@ -2078,13 +1318,9 @@ contract F3Dultra is modularShort {
 
         uint256 _pID = pIDxAddr_[msg.sender];
 
-        
-
         if (_pID == 0)
 
         {
-
-            
 
             _pID = PlayerBook.getPlayerID(msg.sender);
 
@@ -2092,15 +1328,9 @@ contract F3Dultra is modularShort {
 
             uint256 _laff = PlayerBook.getPlayerLAff(_pID);
 
-
-
-            
-
             pIDxAddr_[msg.sender] = _pID;
 
             plyr_[_pID].addr = msg.sender;
-
-
 
             if (_name != "")
 
@@ -2114,15 +1344,9 @@ contract F3Dultra is modularShort {
 
             }
 
-
-
             if (_laff != 0 && _laff != _pID)
 
                 plyr_[_pID].laff = _laff;
-
-
-
-            
 
             _eventData_.compressedData = _eventData_.compressedData + 1;
 
@@ -2131,10 +1355,6 @@ contract F3Dultra is modularShort {
         return (_eventData_);
 
     }
-
-
-
-    
 
     function verifyTeam(uint256 _team)
 
@@ -2156,10 +1376,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function managePlayer(uint256 _pID, F3Ddatasets.EventReturns memory _eventData_)
 
         private
@@ -2168,35 +1384,17 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
-        
-
         if (plyr_[_pID].lrnd != 0)
 
             updateGenVault(_pID, plyr_[_pID].lrnd);
 
-
-
-        
-
         plyr_[_pID].lrnd = rID_;
 
-
-
-        
-
         _eventData_.compressedData = _eventData_.compressedData + 10;
-
-
 
         return(_eventData_);
 
     }
-
-
-
-    
 
     function endRound(F3Ddatasets.EventReturns memory _eventData_)
 
@@ -2206,29 +1404,13 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_;
-
-
-
-        
 
         uint256 _winPID = round_[_rID].plyr;
 
         uint256 _winTID = round_[_rID].team;
 
-
-
-        
-
         uint256 _pot = round_[_rID].pot;
-
-
-
-        
-
-        
 
         uint256 _win = (_pot.mul(48)) / 100;
 
@@ -2239,10 +1421,6 @@ contract F3Dultra is modularShort {
         uint256 _p3d = (_pot.mul(potSplit_[_winTID].p3d)) / 100;
 
         uint256 _res = (((_pot.sub(_win)).sub(_com)).sub(_gen)).sub(_p3d);
-
-
-
-        
 
         uint256 _ppt = (_gen.mul(1000000000000000000)) / (round_[_rID].keys);
 
@@ -2258,33 +1436,15 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         plyr_[_winPID].win = _win.add(plyr_[_winPID].win);
-
-
-
-        
 
         _com = _com.add(_p3d.sub(_p3d / 2));
 
         admin.transfer(_com);
 
-
-
         _res = _res.add(_p3d / 2);
 
-
-
-        
-
         round_[_rID].mask = _ppt.add(round_[_rID].mask);
-
-
-
-        
 
         _eventData_.compressedData = _eventData_.compressedData + (round_[_rID].end * 1000000);
 
@@ -2302,10 +1462,6 @@ contract F3Dultra is modularShort {
 
         _eventData_.newPot = _res;
 
-
-
-        
-
         rID_++;
 
         _rID++;
@@ -2316,15 +1472,9 @@ contract F3Dultra is modularShort {
 
         round_[_rID].pot = _res;
 
-
-
         return(_eventData_);
 
     }
-
-
-
-    
 
     function updateGenVault(uint256 _pID, uint256 _rIDlast)
 
@@ -2338,11 +1488,7 @@ contract F3Dultra is modularShort {
 
         {
 
-            
-
             plyr_[_pID].gen = _earnings.add(plyr_[_pID].gen);
-
-            
 
             plyrRnds_[_pID][_rIDlast].mask = _earnings.add(plyrRnds_[_pID][_rIDlast].mask);
 
@@ -2350,23 +1496,13 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function updateTimer(uint256 _keys, uint256 _rID)
 
         private
 
     {
 
-        
-
         uint256 _now = now;
-
-
-
-        
 
         uint256 _newTime;
 
@@ -2378,10 +1514,6 @@ contract F3Dultra is modularShort {
 
             _newTime = (((_keys) / (1000000000000000000)).mul(rndInc_)).add(round_[_rID].end);
 
-
-
-        
-
         if (_newTime < (rndMax_).add(_now))
 
             round_[_rID].end = _newTime;
@@ -2391,10 +1523,6 @@ contract F3Dultra is modularShort {
             round_[_rID].end = rndMax_.add(_now);
 
     }
-
-
-
-    
 
     function airdrop()
 
@@ -2408,8 +1536,6 @@ contract F3Dultra is modularShort {
 
         uint256 seed = uint256(keccak256(abi.encodePacked(
 
-
-
             (block.timestamp).add
 
             (block.difficulty).add
@@ -2421,8 +1547,6 @@ contract F3Dultra is modularShort {
             ((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add
 
             (block.number)
-
-
 
         )));
 
@@ -2436,10 +1560,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-    
-
     function distributeExternal(uint256 _rID, uint256 _pID, uint256 _eth, uint256 _affID, uint256 _team, F3Ddatasets.EventReturns memory _eventData_)
 
         private
@@ -2448,15 +1568,11 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _p1 = _eth / 100;
 
         uint256 _com = _eth / 50;
 
         _com = _com.add(_p1);
-
-
 
         uint256 _p3d;
 
@@ -2464,37 +1580,13 @@ contract F3Dultra is modularShort {
 
         {
 
-            
-
-            
-
-            
-
-            
-
-            
-
-            
-
             _p3d = _com;
 
             _com = 0;
 
         }
 
-
-
-
-
-        
-
         uint256 _aff = _eth / 10;
-
-
-
-        
-
-        
 
         if (_affID != _pID && plyr_[_affID].name != '') {
 
@@ -2508,43 +1600,25 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
-        
-
         _p3d = _p3d.add((_eth.mul(fees_[_team].p3d)) / (100));
 
         if (_p3d > 0)
 
         {
 
-            
-
             uint256 _potAmount = _p3d / 2;
-
-
 
             admin.transfer(_p3d.sub(_potAmount));
 
-
-
             round_[_rID].pot = round_[_rID].pot.add(_potAmount);
-
-
-
-            
 
             _eventData_.P3DAmount = _p3d.add(_eventData_.P3DAmount);
 
         }
 
-
-
         return(_eventData_);
 
     }
-
-
 
     function potSwap()
 
@@ -2554,21 +1628,13 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _rID = rID_ + 1;
-
-
 
         round_[_rID].pot = round_[_rID].pot.add(msg.value);
 
         emit F3Devents.onPotSwapDeposit(_rID, msg.value);
 
     }
-
-
-
-    
 
     function distributeInternal(uint256 _rID, uint256 _pID, uint256 _eth, uint256 _team, uint256 _keys, F3Ddatasets.EventReturns memory _eventData_)
 
@@ -2578,35 +1644,15 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         uint256 _gen = (_eth.mul(fees_[_team].gen)) / 100;
-
-
-
-        
 
         uint256 _air = (_eth / 100);
 
         airDropPot_ = airDropPot_.add(_air);
 
-
-
-        
-
         _eth = _eth.sub(((_eth.mul(14)) / 100).add((_eth.mul(fees_[_team].p3d)) / 100));
 
-
-
-        
-
         uint256 _pot = _eth.sub(_gen);
-
-
-
-        
-
-        
 
         uint256 _dust = updateMasks(_rID, _pID, _gen, _keys);
 
@@ -2614,29 +1660,15 @@ contract F3Dultra is modularShort {
 
             _gen = _gen.sub(_dust);
 
-
-
-        
-
         round_[_rID].pot = _pot.add(_dust).add(round_[_rID].pot);
-
-
-
-        
 
         _eventData_.genAmount = _gen.add(_eventData_.genAmount);
 
         _eventData_.potAmount = _pot;
 
-
-
         return(_eventData_);
 
     }
-
-
-
-    
 
     function updateMasks(uint256 _rID, uint256 _pID, uint256 _gen, uint256 _keys)
 
@@ -2646,37 +1678,17 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
-
-
-        
-
         uint256 _ppt = (_gen.mul(1000000000000000000)) / (round_[_rID].keys);
 
         round_[_rID].mask = _ppt.add(round_[_rID].mask);
-
-
-
-        
-
-        
 
         uint256 _pearn = (_ppt.mul(_keys)) / (1000000000000000000);
 
         plyrRnds_[_pID][_rID].mask = (((round_[_rID].mask.mul(_keys)) / (1000000000000000000)).sub(_pearn)).add(plyrRnds_[_pID][_rID].mask);
 
-
-
-        
-
         return(_gen.sub((_ppt.mul(round_[_rID].keys)) / (1000000000000000000)));
 
     }
-
-
-
-    
 
     function withdrawEarnings(uint256 _pID)
 
@@ -2686,13 +1698,7 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         updateGenVault(_pID, plyr_[_pID].lrnd);
-
-
-
-        
 
         uint256 _earnings = (plyr_[_pID].win).add(plyr_[_pID].gen).add(plyr_[_pID].aff);
 
@@ -2708,15 +1714,9 @@ contract F3Dultra is modularShort {
 
         }
 
-
-
         return(_earnings);
 
     }
-
-
-
-    
 
     function endTx(uint256 _pID, uint256 _team, uint256 _eth, uint256 _keys, F3Ddatasets.EventReturns memory _eventData_)
 
@@ -2727,8 +1727,6 @@ contract F3Dultra is modularShort {
         _eventData_.compressedData = _eventData_.compressedData + (now * 1000000000000000000) + (_team * 100000000000000000000000000000);
 
         _eventData_.compressedIDs = _eventData_.compressedIDs + _pID + (rID_ * 10000000000000000000000000000000000000000000000000000);
-
-
 
         emit F3Devents.onEndTx
 
@@ -2766,16 +1764,6 @@ contract F3Dultra is modularShort {
 
     }
 
-
-
-
-
-
-
-
-
-    
-
     bool public activated_ = false;
 
     function activate()
@@ -2784,27 +1772,11 @@ contract F3Dultra is modularShort {
 
     {
 
-        
-
         require(msg.sender == admin, "only admin can activate");
-
-
-
-
-
-        
 
         require(activated_ == false, "FOMO Short already activated");
 
-
-
-        
-
         activated_ = true;
-
-
-
-        
 
         rID_ = 1;
 
@@ -2816,55 +1788,7 @@ contract F3Dultra is modularShort {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 library F3Ddatasets {
-
-    
-
-    
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-    
-
-    
-
-        
-
-        
-
-        
 
     struct EventReturns {
 
@@ -2964,21 +1888,9 @@ library F3Ddatasets {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 library F3DKeysCalcShort {
 
     using SafeMath for *;
-
-    
 
     function keysRec(uint256 _curEth, uint256 _newEth)
 
@@ -2994,10 +1906,6 @@ library F3DKeysCalcShort {
 
     }
 
-
-
-    
-
     function ethRec(uint256 _curKeys, uint256 _sellKeys)
 
         internal
@@ -3012,10 +1920,6 @@ library F3DKeysCalcShort {
 
     }
 
-
-
-    
-
     function keys(uint256 _eth)
 
         internal
@@ -3029,10 +1933,6 @@ library F3DKeysCalcShort {
         return ((((((_eth).mul(1000000000000000000)).mul(312500000000000000000000000)).add(5624988281256103515625000000000000000000000000000000000000000000)).sqrt()).sub(74999921875000000000000000000000)) / (156250000);
 
     }
-
-
-
-    
 
     function eth(uint256 _keys)
 
@@ -3049,18 +1949,6 @@ library F3DKeysCalcShort {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 interface PlayerBookInterface {
 
@@ -3082,15 +1970,7 @@ interface PlayerBookInterface {
 
 }
 
-
-
-
-
-
-
 library NameFilter {
-
-    
 
     function nameFilter(string _input)
 
@@ -3106,17 +1986,9 @@ library NameFilter {
 
         uint256 _length = _temp.length;
 
-
-
-        
-
         require (_length <= 32 && _length > 0, "string must be between 1 and 32 characters");
 
-        
-
         require(_temp[0] != 0x20 && _temp[_length-1] != 0x20, "string cannot start or end with space");
-
-        
 
         if (_temp[0] == 0x30)
 
@@ -3128,33 +2000,17 @@ library NameFilter {
 
         }
 
-
-
-        
-
         bool _hasNonNumber;
-
-
-
-        
 
         for (uint256 i = 0; i < _length; i++)
 
         {
 
-            
-
             if (_temp[i] > 0x40 && _temp[i] < 0x5b)
 
             {
 
-                
-
                 _temp[i] = byte(uint(_temp[i]) + 32);
-
-
-
-                
 
                 if (_hasNonNumber == false)
 
@@ -3166,15 +2022,9 @@ library NameFilter {
 
                 (
 
-                    
-
                     _temp[i] == 0x20 ||
 
-                    
-
                     (_temp[i] > 0x60 && _temp[i] < 0x7b) ||
-
-                    
 
                     (_temp[i] > 0x2f && _temp[i] < 0x3a),
 
@@ -3182,15 +2032,9 @@ library NameFilter {
 
                 );
 
-                
-
                 if (_temp[i] == 0x20)
 
                     require( _temp[i+1] != 0x20, "string cannot contain consecutive spaces");
-
-
-
-                
 
                 if (_hasNonNumber == false && (_temp[i] < 0x30 || _temp[i] > 0x39))
 
@@ -3200,11 +2044,7 @@ library NameFilter {
 
         }
 
-
-
         require(_hasNonNumber == true, "string cannot be only numbers");
-
-
 
         bytes32 _ret;
 
@@ -3220,15 +2060,7 @@ library NameFilter {
 
 }
 
-
-
-
-
 library SafeMath {
-
-
-
-    
 
     function mul(uint256 a, uint256 b)
 
@@ -3254,10 +2086,6 @@ library SafeMath {
 
     }
 
-
-
-    
-
     function sub(uint256 a, uint256 b)
 
         internal
@@ -3273,10 +2101,6 @@ library SafeMath {
         return a - b;
 
     }
-
-
-
-    
 
     function add(uint256 a, uint256 b)
 
@@ -3295,10 +2119,6 @@ library SafeMath {
         return c;
 
     }
-
-
-
-    
 
     function sqrt(uint256 x)
 
@@ -3326,10 +2146,6 @@ library SafeMath {
 
     }
 
-
-
-    
-
     function sq(uint256 x)
 
         internal
@@ -3343,10 +2159,6 @@ library SafeMath {
         return (mul(x,x));
 
     }
-
-
-
-    
 
     function pwr(uint256 x, uint256 y)
 

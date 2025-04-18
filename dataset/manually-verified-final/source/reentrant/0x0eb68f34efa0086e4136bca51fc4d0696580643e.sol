@@ -1,22 +1,8 @@
-
-
-
-
-pragma solidity ^0.5.0;
-
-
-
 contract BetingHouse 
 
 {
 
     mapping (address => uint) public _balances;
-
-    
-
-    
-
-
 
     constructor() public payable
 
@@ -26,8 +12,6 @@ contract BetingHouse
 
     }
 
-
-
     function put() public payable 
 
     {
@@ -35,8 +19,6 @@ contract BetingHouse
         _balances[msg.sender] = msg.value;
 
     }
-
-
 
     function get() public payable
 
@@ -48,8 +30,6 @@ contract BetingHouse
 
         (success, data) = msg.sender.call.value(_balances[msg.sender])("");
 
-
-
         if (!success) 
 
         {
@@ -58,13 +38,9 @@ contract BetingHouse
 
         }
 
-        
-
         _balances[msg.sender] = 0;
 
     }
-
-    
 
     function withdraw() public payable
 
@@ -74,15 +50,9 @@ contract BetingHouse
 
         bytes memory data;
 
-        
-
         _balances[msg.sender] = 0;
 
-        
-
         (success, data) = msg.sender.call.value(_balances[msg.sender])("");
-
-
 
         if (!success) 
 
@@ -93,8 +63,6 @@ contract BetingHouse
         }
 
     }
-
-
 
     function() external payable
 

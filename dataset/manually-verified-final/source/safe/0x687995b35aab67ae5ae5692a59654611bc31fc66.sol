@@ -1,13 +1,3 @@
-
-
-
-
-pragma solidity >0.4.24 <0.6.0;
-
-
-
-
-
 contract SafeMath{
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
@@ -26,8 +16,6 @@ contract SafeMath{
 
     }
 
-
-
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
 
         assert(b > 0); 
@@ -40,8 +28,6 @@ contract SafeMath{
 
     }
 
-
-
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
 
         assert(b <= a);
@@ -49,8 +35,6 @@ contract SafeMath{
         return a - b;
 
     }
-
-
 
     function add(uint256 a, uint256 b) internal pure returns (uint256 c) {
 
@@ -74,39 +58,19 @@ contract TK is SafeMath{
 
     uint256 public totalSupply =  100 * 10 ** 8 * 10 ** uint256(decimals);
 
-
-
-    
-
     mapping (address => uint256) public balanceOf;
 
     mapping (address => mapping (address => uint256)) public allowance;
 
-
-
-    
-
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-
-
-    
-
     event Burn(address indexed from, uint256 value);
-
-	
-
-    
 
     constructor() public {
 
         balanceOf[msg.sender] = totalSupply;              
 
     }
-
-
-
-    
 
     function transfer(address _to, uint256 _value) public returns (bool success){
 
@@ -128,10 +92,6 @@ contract TK is SafeMath{
 
     }
 
-
-
-    
-
     function approve(address _spender, uint256 _value) public returns (bool success) {
 
         if (_value <= 0) revert();
@@ -141,12 +101,6 @@ contract TK is SafeMath{
         return true;
 
     }
-
-       
-
-
-
-    
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
 
@@ -171,8 +125,6 @@ contract TK is SafeMath{
         return true;
 
     }
-
-
 
     function burn(uint256 _value) public returns (bool success) {
 

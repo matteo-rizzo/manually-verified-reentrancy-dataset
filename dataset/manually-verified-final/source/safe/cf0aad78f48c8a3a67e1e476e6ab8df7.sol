@@ -1,7 +1,3 @@
-pragma solidity ^0.4.0;
-
-
-
 contract ERC20Constant {
     function totalSupply() constant returns (uint supply);
     function balanceOf(address who) constant returns (uint value);
@@ -42,9 +38,6 @@ contract owned {
     }
 }
 
-
-
-
 contract TokenTrader is owned {
     address public asset; 
     uint256 public buyPrice; 
@@ -75,7 +68,6 @@ contract TokenTrader is owned {
         ActivatedEvent(sellsTokens, buysTokens);
     }
 
-    
     function activate(bool _sellsTokens, bool _buysTokens) {
         sellsTokens = _sellsTokens;
         buysTokens = _buysTokens;
@@ -83,18 +75,12 @@ contract TokenTrader is owned {
         ActivatedEvent(sellsTokens, buysTokens);
     }
 
-    
-    
-    
     function deposit() payable onlyOwner {}
 
-    
     function withdrawAsset(uint256 _value) onlyOwner returns (bool ok) {
         return ERC20(asset).transfer(owner, _value);
     }
 
-    
-    
     function withdrawToken(
         address _token,
         uint256 _value
@@ -102,14 +88,12 @@ contract TokenTrader is owned {
         return ERC20(_token).transfer(owner, _value);
     }
 
-    
     function withdraw(uint256 _value) onlyOwner returns (bool ok) {
         if (this.balance >= _value) {
             return owner.send(_value);
         }
     }
 
-    
     function buy() payable {
         if (sellsTokens || msg.sender == owner) {
             uint order = msg.value / sellPrice;
@@ -128,8 +112,6 @@ contract TokenTrader is owned {
         } else throw; 
     }
 
-    
-    
     function sell(uint256 amount) {
         if (buysTokens || msg.sender == owner) {
             uint256 can_buy = this.balance / buyPrice; 
@@ -138,7 +120,7 @@ contract TokenTrader is owned {
             if (order > can_buy) order = can_buy; 
 
             if (order > 0) {
-                
+
                 if (
                     !ERC20(asset).transferFrom(
                         msg.sender,
@@ -147,21 +129,16 @@ contract TokenTrader is owned {
                     )
                 ) throw;
 
-                
                 if (!msg.sender.send(order * buyPrice)) throw;
             }
             UpdateEvent();
         }
     }
 
-    
     function() payable {
         buy();
     }
 }
-
-
-
 
 contract TokenTraderFactory {
     event TradeListing(bytes32 bookid, address owner, address addr);

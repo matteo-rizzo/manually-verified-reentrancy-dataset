@@ -1,5 +1,3 @@
-pragma solidity ^0.4.19;
-
 contract MONEY_BOX {
     struct Holder {
         uint unlockTime;

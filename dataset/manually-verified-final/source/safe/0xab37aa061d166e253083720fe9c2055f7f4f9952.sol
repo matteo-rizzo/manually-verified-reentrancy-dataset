@@ -1,11 +1,3 @@
-
-
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
-
-
 contract SecretKeeper {
 
   struct SecretMessage {
@@ -19,8 +11,6 @@ contract SecretKeeper {
   }
 
   mapping(address => SecretMessage) private keeper;
-
-
 
   function setMessage(uint256 period , string memory message ) public {
 

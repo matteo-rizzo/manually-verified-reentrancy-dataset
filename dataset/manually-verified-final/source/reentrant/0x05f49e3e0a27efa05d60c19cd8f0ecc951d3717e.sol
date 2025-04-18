@@ -1,16 +1,4 @@
-
-
-
-
-pragma solidity 0.4.25;
-
-
-
-
-
 library SafeMath {
-
-
 
     function mul(uint256 a, uint256 b) internal pure returns(uint256) {
 
@@ -22,21 +10,13 @@ library SafeMath {
 
     }
 
-
-
     function div(uint256 a, uint256 b) internal pure returns(uint256) {
 
-        
-
         uint256 c = a / b;
-
-        
 
         return c;
 
     }
-
-
 
     function sub(uint256 a, uint256 b) internal pure returns(uint256) {
 
@@ -45,8 +25,6 @@ library SafeMath {
         return a - b;
 
     }
-
-
 
     function add(uint256 a, uint256 b) internal pure returns(uint256) {
 
@@ -58,51 +36,9 @@ library SafeMath {
 
     }
 
-
-
 }
-
-
-
-
-
-contract Ownable {
-
-
-
-    address public owner;
-
-
-
-    
-
-    constructor() public {
-
-        owner = msg.sender;
-
-    }
-
-
-
-    
-
-    modifier onlyOwner() {
-
-        require(msg.sender == owner, 'Only the owner can call this method');
-
-        _;
-
-    }
-
-}
-
-
-
-
 
 contract EtherheroStabilizationFund {
-
-
 
     address public etherHero;
 
@@ -114,15 +50,11 @@ contract EtherheroStabilizationFund {
 
     event MoneyAdd(uint holding);
 
-
-
     constructor() public {
 
         etherHero = msg.sender;
 
     }
-
-    
 
     modifier onlyHero() {
 
@@ -132,17 +64,11 @@ contract EtherheroStabilizationFund {
 
     }
 
-
-
     function ReturnEthToEtherhero() public onlyHero returns(bool) {
-
-
 
         uint balance = address(this).balance;
 
         require(balance > estGas, 'Not enough funds for transaction');
-
-
 
         if (etherHero.call.value(address(this).balance).gas(estGas)()) {
 
@@ -160,8 +86,6 @@ contract EtherheroStabilizationFund {
 
     }
 
-
-
     function() external payable {
 
         investFund += msg.value;
@@ -172,25 +96,15 @@ contract EtherheroStabilizationFund {
 
 }
 
-
-
 contract Etherhero is Ownable {
-
-
 
     using SafeMath
 
     for uint;
 
-    
-
     mapping(address => uint) public userDeposit;
 
-    
-
     mapping(address => uint) public userTime;
-
-    
 
     address public projectFund = 0xf846f84841b3242Ccdeac8c43C9cF73Bd781baA7;
 
@@ -204,8 +118,6 @@ contract Etherhero is Ownable {
 
     address public addressStub;
 
-    
-
     uint estGas = 150000;
 
     uint standartPercent = 30; 
@@ -214,21 +126,13 @@ contract Etherhero is Ownable {
 
     uint public minPayment = 5 finney;
 
-    
-
     uint chargingTime = 1 days;
-
-
 
     event NewInvestor(address indexed investor, uint deposit);
 
     event dividendPayment(address indexed investor, uint value);
 
     event NewDeposit(address indexed investor, uint value);
-
-
-
-    
 
     uint public counterDeposits;
 
@@ -237,10 +141,6 @@ contract Etherhero is Ownable {
     uint public counterBeneficiaries;
 
     uint public timeLastayment;
-
-
-
-    
 
     struct Beneficiaries {
 
@@ -258,11 +158,7 @@ contract Etherhero is Ownable {
 
     }
 
-
-
     mapping(address => Beneficiaries) beneficiaries;
-
-
 
     constructor() public {
 
@@ -270,15 +166,9 @@ contract Etherhero is Ownable {
 
     }
 
-    
-
     function insertBeneficiaries(address _address, uint _percentWithdraw, uint _ethWithdraw, uint _deposits) private {
 
-
-
         Beneficiaries storage s_beneficiaries = beneficiaries[_address];
-
-
 
         if (!s_beneficiaries.real) {
 
@@ -306,21 +196,11 @@ contract Etherhero is Ownable {
 
     }
 
-    
-
-    
-
     function getBeneficiaries(address _address) public view returns(address investorAddress, uint persentWithdraw, uint ethWithdraw, uint registerTime) {
-
-
 
         Beneficiaries storage s_beneficiaries = beneficiaries[_address];
 
-
-
         require(s_beneficiaries.real, 'Investor Not Found');
-
-
 
         return (
 
@@ -336,8 +216,6 @@ contract Etherhero is Ownable {
 
     }
 
-
-
     modifier isIssetUser() {
 
         require(userDeposit[msg.sender] > 0, "Deposit not found");
@@ -345,8 +223,6 @@ contract Etherhero is Ownable {
         _;
 
     }
-
-
 
     modifier timePayment() {
 
@@ -356,13 +232,9 @@ contract Etherhero is Ownable {
 
     }
 
-
-
     function calculationOfPayment() public view returns(uint) {
 
         uint interestRate = now.sub(userTime[msg.sender]).div(chargingTime);
-
-        
 
         if (userDeposit[msg.sender] < 10 ether) {
 
@@ -378,8 +250,6 @@ contract Etherhero is Ownable {
 
         }
 
-        
-
         if (userDeposit[msg.sender] >= 10 ether && userDeposit[msg.sender] < 50 ether) {
 
             if (interestRate > 3) {
@@ -393,8 +263,6 @@ contract Etherhero is Ownable {
             }
 
         }
-
-        
 
         if (userDeposit[msg.sender] >= 50 ether) {
 
@@ -412,21 +280,13 @@ contract Etherhero is Ownable {
 
     }
 
-    
-
     function receivePercent() isIssetUser timePayment internal {
-
-       
 
         uint balanceLimit = counterDeposits.mul(responseStubFundLimit).div(1000);
 
         uint payoutRatio = calculationOfPayment();
 
-        
-
         uint remain = counterDeposits.mul(6).div(100);
-
-        
 
         if(addressStub.balance > 0){
 
@@ -438,11 +298,7 @@ contract Etherhero is Ownable {
 
         }
 
-        
-
         require(address(this).balance >= remain, 'contract balance is too small');
-
-
 
         uint rate = userDeposit[msg.sender].mul(standartPercent).div(1000).mul(payoutRatio);
 
@@ -460,8 +316,6 @@ contract Etherhero is Ownable {
 
     }
 
-
-
     function makeDeposit() private {
 
         uint value = msg.value;
@@ -470,23 +324,15 @@ contract Etherhero is Ownable {
 
         uint calcStubFundPercent = value.mul(percentStubFund).div(100);
 
-        
-
         if (msg.value > 0) {
 
-            
-
             require(msg.value >= minPayment, 'Minimum deposit 1 finney');
-
-            
 
             if (userDeposit[msg.sender] == 0) {
 
                 emit NewInvestor(msg.sender, msg.value);
 
             }
-
-            
 
             userDeposit[msg.sender] = userDeposit[msg.sender].add(msg.value);
 
@@ -509,8 +355,6 @@ contract Etherhero is Ownable {
         }
 
     }
-
-
 
     function() external payable {
 

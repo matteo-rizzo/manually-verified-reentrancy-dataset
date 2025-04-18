@@ -1,9 +1,3 @@
-pragma solidity 0.6.2;
-
-
-
-
-
 contract Reentrance {
     mapping(address => uint256) userBalance;
 
@@ -18,9 +12,7 @@ contract Reentrance {
     function withdrawBalance() public {
         bool flag;
         bytes memory data;
-        
-        
-        
+
         (flag, data) = msg.sender.call.value(userBalance[msg.sender])("");
         if (!flag) {
             revert();

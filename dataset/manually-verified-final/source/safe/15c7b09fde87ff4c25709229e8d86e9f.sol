@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.4.0;
-
 contract ArithLib {
 
     function jdouble(uint _ax, uint _ay, uint _az) constant returns (uint, uint, uint);
@@ -25,7 +21,7 @@ contract Laundromat {
         uint[] signature;
         uint[] ring1;
         uint[] ring2;
-        
+
         uint step;
         uint prevStep;
     }
@@ -37,7 +33,7 @@ contract Laundromat {
 
     address private owner;
     bool private atomicLock;
-    
+
     address internal constant arithAddress = 0x600ad7b57f3e6aeee53acb8704a5ed50b60cacd6;
     ArithLib private arithContract;
     mapping (uint => WithdrawInfo) private withdraws;
@@ -51,8 +47,6 @@ contract Laundromat {
 
     event LogDebug(string message);
 
-    
-    
     function Laundromat(uint _participants, uint _payment) {
         owner = msg.sender;
         arithContract = ArithLib(arithAddress);
@@ -60,7 +54,7 @@ contract Laundromat {
         participants = _participants;
         payment = _payment;
     }
-    
+
     function safeSend(address addr, uint value) internal {
 
         if(atomicLock) throw;
@@ -72,9 +66,8 @@ contract Laundromat {
         atomicLock = false;
     }
 
-    
     function deposit(uint _pubkey1, uint _pubkey2) payable {
-        
+
         if(gotParticipants >= participants) throw;
 
         pubkeys1.push(_pubkey1);
@@ -82,7 +75,6 @@ contract Laundromat {
         gotParticipants++;
     }
 
-    
     function withdrawStart(uint[] _signature, uint _x0, uint _Ix, uint _Iy) {
         if(gotParticipants < participants) throw;
         if(consumed[uint(sha3([_Ix, _Iy]))]) throw;
@@ -98,7 +90,7 @@ contract Laundromat {
         withdraw.ring2.length = 0;
         withdraw.ring1.push(_x0);
         withdraw.ring2.push(uint(sha3(_x0)));
-        
+
         withdraw.step = 1;
         withdraw.prevStep = 0;
     }
@@ -106,7 +98,6 @@ contract Laundromat {
     function withdrawStep() {
         WithdrawInfo withdraw = withdraws[uint(msg.sender)];
 
-        
         if(withdraw.step < 1) throw;
         if(withdraw.step > participants) throw;
         if(consumed[uint(sha3([withdraw.Ix, withdraw.Iy]))]) throw;
@@ -119,52 +110,52 @@ contract Laundromat {
         uint k2z;
         uint pub1x;
         uint pub1y;
-        
+
         (k1x, k1y, k1z) = arithContract.jmul(Gx, Gy, 1,
             withdraw.signature[withdraw.prevStep % participants]);
         (k2x, k2y, k2z) = arithContract.jmul(
             pubkeys1[withdraw.step % participants],
             pubkeys2[withdraw.step % participants], 1,
             withdraw.ring2[withdraw.prevStep % participants]);
-        
+
         (k1x, k1y, k1z) = arithContract.jsub(k1x, k1y, k1z, k2x, k2y, k2z);
         (pub1x, pub1y) = arithContract.jdecompose(k1x, k1y, k1z);
-        
+
         (k1x, k1y) = arithContract.hash_pubkey_to_pubkey(
             pubkeys1[withdraw.step % participants],
             pubkeys2[withdraw.step % participants]);
-        
+
         (k1x, k1y, k1z) = arithContract.jmul(k1x, k1y, 1,
             withdraw.signature[withdraw.prevStep % participants]);
-        
+
         (k2x, k2y, k2z) = arithContract.jmul(withdraw.Ix, withdraw.Iy, 1,
             withdraw.ring2[withdraw.prevStep % participants]);
-        
+
         (k1x, k1y, k1z) = arithContract.jsub(k1x, k1y, k1z, k2x, k2y, k2z);
-        
+
         (k1x, k1y) = arithContract.jdecompose(k1x, k1y, k1z);
         withdraw.ring1.push(uint(sha3([uint(withdraw.sender), pub1x, pub1y, k1x, k1y])));
         withdraw.ring2.push(uint(sha3(uint(sha3([uint(withdraw.sender), pub1x, pub1y, k1x, k1y])))));
         withdraw.step++;
         withdraw.prevStep++;
     }
-    
+
     function withdrawFinal() returns (bool) {
         WithdrawInfo withdraw = withdraws[uint(msg.sender)];
-        
+
         if(withdraw.step != (participants + 1)) throw;
         if(consumed[uint(sha3([withdraw.Ix, withdraw.Iy]))]) throw;
         if(withdraw.ring1[participants] != withdraw.ring1[0]) {
-            
+
             LogDebug("Wrong signature");
             return false;
         }
         if(withdraw.ring2[participants] != withdraw.ring2[0]) {
-            
+
             LogDebug("Wrong signature");
             return false;
         }
-        
+
         withdraw.step++;
         consumed[uint(sha3([withdraw.Ix, withdraw.Iy]))] = true;
         safeSend(withdraw.sender, payment);

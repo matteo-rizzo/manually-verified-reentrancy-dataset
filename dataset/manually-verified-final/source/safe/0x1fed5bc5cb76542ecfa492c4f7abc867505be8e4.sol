@@ -1,7 +1,3 @@
-
-
-pragma solidity >=0.4.22 <0.6.0;
-
 contract RigidBit
 {
     address public owner;
@@ -32,7 +28,7 @@ contract RigidBit
     {
         return s[hash].timestamp;
     }
-    
+
     function storeHash(bytes32 hash) public onlyOwner
     {
         assert(s[hash].timestamp == 0);

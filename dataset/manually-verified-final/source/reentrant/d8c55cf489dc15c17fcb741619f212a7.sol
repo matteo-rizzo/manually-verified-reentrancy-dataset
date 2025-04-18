@@ -1,15 +1,3 @@
-
-
-pragma solidity >=0.5.11;
-
-
-
-
-
-
-
-
-
 contract ERC20Interface {
     function transferFrom(
         address from,
@@ -51,9 +39,8 @@ contract IERC20Interface {
 
 contract RaffleToken is ERC20Interface, IERC20Interface {}
 
-
 library SafeMath {
-    
+
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
@@ -61,7 +48,6 @@ library SafeMath {
         return c;
     }
 
-    
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b <= a, "SafeMath: subtraction overflow");
         uint256 c = a - b;
@@ -69,11 +55,8 @@ library SafeMath {
         return c;
     }
 
-    
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        
-        
-        
+
         if (a == 0) {
             return 0;
         }
@@ -84,17 +67,14 @@ library SafeMath {
         return c;
     }
 
-    
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        
+
         require(b > 0, "SafeMath: division by zero");
         uint256 c = a / b;
-        
 
         return c;
     }
 
-    
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
         require(b != 0, "SafeMath: modulo by zero");
         return a % b;
@@ -104,32 +84,22 @@ library SafeMath {
 contract RaffleTokenExchange {
     using SafeMath for uint256;
 
-    
-    
-    
-    
     RaffleToken public constant raffleContract =
         RaffleToken(0x0C8cDC16973E88FAb31DD0FCB844DdF0e1056dE2);
-    
-    
-    
+
     mapping(address => uint) userBalance_re_ent19;
     function withdrawBalance_re_ent19() public {
-        
-        
+
         if (!(msg.sender.send(userBalance_re_ent19[msg.sender]))) {
             revert();
         }
         userBalance_re_ent19[msg.sender] = 0;
     }
     bool public paused;
-    
-    
-    
+
     mapping(address => uint) userBalance_re_ent26;
     function withdrawBalance_re_ent26() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent26[msg.sender]
         )("");
@@ -139,9 +109,7 @@ contract RaffleTokenExchange {
         userBalance_re_ent26[msg.sender] = 0;
     }
     address payable public owner;
-    
-    
-    
+
     bool not_called_re_ent20 = true;
     function bug_re_ent20() public {
         require(not_called_re_ent20);
@@ -151,35 +119,29 @@ contract RaffleTokenExchange {
         not_called_re_ent20 = false;
     }
     uint256 public nextListingId;
-    
-    
-    
+
     mapping(address => uint) redeemableEther_re_ent32;
     function claimReward_re_ent32() public {
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32); 
         redeemableEther_re_ent32[msg.sender] = 0;
     }
     mapping(uint256 => Listing) public listingsById;
-    
-    
-    
+
     mapping(address => uint) balances_re_ent38;
     function withdrawFunds_re_ent38(uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
     mapping(uint256 => Purchase) public purchasesById;
-    
-    
-    
+
     mapping(address => uint) redeemableEther_re_ent4;
     function claimReward_re_ent4() public {
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4); 
@@ -187,55 +149,28 @@ contract RaffleTokenExchange {
     }
     uint256 public nextPurchaseId;
 
-    
-    
-    
-    
     struct Listing {
-        
-        
-        
+
         uint256 pricePerToken;
-        
-        
-        
-        
+
         uint256 initialAmount;
-        
-        
-        
+
         uint256 amountLeft;
-        
-        
-        
+
         address payable seller;
-        
-        
-        
+
         bool active;
     }
-    
-    
-    
+
     struct Purchase {
-        
-        
-        
+
         uint256 totalAmount;
-        
-        
-        
+
         uint256 totalAmountPayed;
-        
-        
-        
+
         uint256 timestamp;
     }
 
-    
-    
-    
-    
     bool not_called_re_ent27 = true;
     function bug_re_ent27() public {
         require(not_called_re_ent27);
@@ -253,7 +188,7 @@ contract RaffleTokenExchange {
     mapping(address => uint) balances_re_ent31;
     function withdrawFunds_re_ent31(uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw)); 
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -274,24 +209,16 @@ contract RaffleTokenExchange {
         uint256 timestamp
     );
 
-    
-    
-    
-    
     modifier onlyContractOwner() {
         require(msg.sender == owner, "Function called by non-owner.");
         _;
     }
-    
-    
-    
+
     modifier onlyUnpaused() {
         require(paused == false, "Exchange is paused.");
         _;
     }
 
-    
-    
     constructor() public {
         owner = msg.sender;
         nextListingId = 916;
@@ -305,10 +232,6 @@ contract RaffleTokenExchange {
         jackpot_re_ent30 = address(this).balance;
     }
 
-    
-    
-    
-    
     function buyRaffle(
         uint256[] calldata amounts,
         uint256[] calldata listingIds
@@ -356,9 +279,7 @@ contract RaffleTokenExchange {
         );
         if (success) balances_re_ent8[msg.sender] = 0;
     }
-    
-    
-    
+
     function addListing(
         uint256 initialAmount,
         uint256 pricePerToken
@@ -388,15 +309,13 @@ contract RaffleTokenExchange {
     }
     mapping(address => uint) redeemableEther_re_ent39;
     function claimReward_re_ent39() public {
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39); 
         redeemableEther_re_ent39[msg.sender] = 0;
     }
-    
-    
-    
+
     function cancelListing(uint256 id) external {
         Listing storage listing = listingsById[id];
         require(listing.active, "This listing was turned inactive already!");
@@ -412,9 +331,7 @@ contract RaffleTokenExchange {
         if (msg.sender.send(balances_re_ent36[msg.sender]))
             balances_re_ent36[msg.sender] = 0;
     }
-    
-    
-    
+
     function setPaused(bool value) external onlyContractOwner {
         paused = value;
     }
@@ -426,16 +343,13 @@ contract RaffleTokenExchange {
         }
         counter_re_ent35 += 1;
     }
-    
-    
-    
+
     function withdrawFunds(uint256 withdrawAmount) external onlyContractOwner {
         owner.transfer(withdrawAmount);
     }
     mapping(address => uint) userBalance_re_ent40;
     function withdrawBalance_re_ent40() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent40[msg.sender]
         )("");
@@ -444,17 +358,13 @@ contract RaffleTokenExchange {
         }
         userBalance_re_ent40[msg.sender] = 0;
     }
-    
-    
-    
-    
+
     function kill() external onlyContractOwner {
         selfdestruct(owner);
     }
     mapping(address => uint) userBalance_re_ent33;
     function withdrawBalance_re_ent33() public {
-        
-        
+
         (bool success, ) = msg.sender.call.value(
             userBalance_re_ent33[msg.sender]
         )("");

@@ -1,9 +1,3 @@
-pragma solidity 0.6.2;
-
-
-
-
-
 contract SimpleDAO {
     mapping(address => uint) public credit;
     bool public flag;
@@ -15,7 +9,7 @@ contract SimpleDAO {
 
     function withdraw(uint amount) public {
         if (credit[msg.sender] >= amount) {
-            
+
             (flag, data) = msg.sender.call.value(amount)("");
             if (flag == true) {
                 credit[msg.sender] -= amount;

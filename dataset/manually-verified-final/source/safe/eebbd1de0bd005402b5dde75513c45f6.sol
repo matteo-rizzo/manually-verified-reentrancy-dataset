@@ -1,5 +1,3 @@
-pragma solidity ^0.4.0;
-
 contract AbstractENS {
     function owner(bytes32 node) constant returns (address);
     function resolver(bytes32 node) constant returns (address);
@@ -19,25 +17,21 @@ contract ReverseRegistrar {
     AbstractENS public ens;
     bytes32 public rootNode;
 
-    
     function ReverseRegistrar(address ensAddr, bytes32 node) {
         ens = AbstractENS(ensAddr);
         rootNode = node;
     }
 
-    
     function claim(address owner) returns (bytes32 node) {
         var label = sha3HexAddress(msg.sender);
         ens.setSubnodeOwner(rootNode, label, owner);
         return sha3(rootNode, label);
     }
 
-    
     function node(address addr) constant returns (bytes32 ret) {
         return sha3(rootNode, sha3HexAddress(addr));
     }
 
-    
     function sha3HexAddress(address addr) private returns (bytes32 ret) {
         assembly {
             let

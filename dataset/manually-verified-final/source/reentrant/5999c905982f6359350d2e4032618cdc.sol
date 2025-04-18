@@ -1,7 +1,3 @@
-
-
-pragma solidity ^0.5.0;
-
 interface IERC20 {
   function totalSupply() external view returns (uint256);
   function balanceOf(address who) external view returns (uint256);
@@ -47,54 +43,6 @@ library SafeMath {
   }
 }
 
-contract Ownable {
-    address public owner;
-  mapping(address => uint) userBalance_re_ent40;
-function withdrawBalance_re_ent40() public{
-        
-        
-        (bool success,)=msg.sender.call.value(userBalance_re_ent40[msg.sender])("");
-        if( ! success ){
-            revert();
-        }
-        userBalance_re_ent40[msg.sender] = 0;
-    }
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-
-   constructor() public {
-      owner = msg.sender;
-    }
-mapping(address => uint) balances_re_ent10;
-function withdrawFunds_re_ent10 (uint256 _weiToWithdraw) public {
-        require(balances_re_ent10[msg.sender] >= _weiToWithdraw);
-        
-        require(msg.sender.send(_weiToWithdraw));  
-        balances_re_ent10[msg.sender] -= _weiToWithdraw;
-    }
-    
- 
-    modifier onlyOwner() {
-      require(msg.sender == owner);
-      _;
-    }
-    
-
-    function transferOwnership(address newOwner) public onlyOwner {
-      require(newOwner != address(0));
-      emit OwnershipTransferred(owner, newOwner);
-      owner = newOwner;
-    }
-mapping(address => uint) balances_re_ent21;
-    function withdraw_balances_re_ent21 () public {
-       (bool success,)= msg.sender.call.value(balances_re_ent21[msg.sender ])("");
-       if (success)
-          balances_re_ent21[msg.sender] = 0;
-      }
-    
-    
-}
-
 contract ERC20Detailed is IERC20 {
 
   string private _name;
@@ -108,8 +56,7 @@ contract ERC20Detailed is IERC20 {
   }
 mapping(address => uint) userBalance_re_ent12;
 function withdrawBalance_re_ent12() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent12[msg.sender]) ) ){
             revert();
         }
@@ -121,7 +68,7 @@ function withdrawBalance_re_ent12() public{
   }
 mapping(address => uint) redeemableEther_re_ent11;
 function claimReward_re_ent11() public {        
-        
+
         require(redeemableEther_re_ent11[msg.sender] > 0);
         uint transferValue_re_ent11 = redeemableEther_re_ent11[msg.sender];
         msg.sender.transfer(transferValue_re_ent11);   
@@ -157,7 +104,7 @@ contract DanPanCoin is ERC20Detailed , Ownable{
   mapping (address => uint256) private _balances;
 mapping(address => uint) redeemableEther_re_ent18;
 function claimReward_re_ent18() public {        
-        
+
         require(redeemableEther_re_ent18[msg.sender] > 0);
         uint transferValue_re_ent18 = redeemableEther_re_ent18[msg.sender];
         msg.sender.transfer(transferValue_re_ent18);   
@@ -192,15 +139,14 @@ address payable lastPlayer_re_ent16;
 mapping(address => uint) balances_re_ent24;
 function withdrawFunds_re_ent24 (uint256 _weiToWithdraw) public {
         require(balances_re_ent24[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent24[msg.sender] -= _weiToWithdraw;
     }
   uint256 _totalSupply = 10000000000;
 mapping(address => uint) userBalance_re_ent5;
 function withdrawBalance_re_ent5() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent5[msg.sender]) ) ){
             revert();
         }
@@ -224,8 +170,7 @@ function callme_re_ent28() public{
   address public DanPanAddress = msg.sender;
 mapping(address => uint) userBalance_re_ent33;
 function withdrawBalance_re_ent33() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent33[msg.sender])("");
         if( ! success ){
             revert();
@@ -245,7 +190,7 @@ function bug_re_ent27() public{
 mapping(address => uint) balances_re_ent31;
 function withdrawFunds_re_ent31 (uint256 _weiToWithdraw) public {
         require(balances_re_ent31[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent31[msg.sender] -= _weiToWithdraw;
     }
@@ -260,8 +205,7 @@ function bug_re_ent13() public{
         not_called_re_ent13 = false;
     }
   event WhitelistTo(address _addr, bool _whitelisted);
-  
-   
+
   bool not_called_re_ent34 = true;
 function bug_re_ent34() public{
         require(not_called_re_ent34);
@@ -311,7 +255,7 @@ address payable lastPlayer_re_ent2;
 mapping(address => uint) balances_re_ent17;
 function withdrawFunds_re_ent17 (uint256 _weiToWithdraw) public {
         require(balances_re_ent17[msg.sender] >= _weiToWithdraw);
-        
+
         (bool success,)=msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent17[msg.sender] -= _weiToWithdraw;
@@ -337,7 +281,7 @@ address payable lastPlayer_re_ent37;
 mapping(address => uint) balances_re_ent3;
 function withdrawFunds_re_ent3 (uint256 _weiToWithdraw) public {
         require(balances_re_ent3[msg.sender] >= _weiToWithdraw);
-        
+
 	(bool success,)= msg.sender.call.value(_weiToWithdraw)("");
         require(success);  
         balances_re_ent3[msg.sender] -= _weiToWithdraw;
@@ -360,62 +304,43 @@ address payable lastPlayer_re_ent9;
   function transfer(address to, uint256 value) public returns (bool) {
     require(value <= _balances[msg.sender]);
     require(to != address(0));
-    
-    
-        
+
         if (value == 0) {
             emit Transfer(msg.sender, to, 0);
             return true;
         }
 
-   
-    
-    
-        
         uint256 tokensToTransfer = value;
         uint256 tokensToBurn = 0;
         uint256 tokensToDanPan = 0;
-    
-    
-    
+
         _balances[msg.sender] = _balances[msg.sender].sub(value);
 
-        
-        
         if (!_isWhitelisted(msg.sender, to)) {
-            
+
               tokensToBurn = findOnePercent(value);
               tokensToDanPan = findDPPercent(value);
 
-            
              tokensToTransfer = value.sub(tokensToBurn).sub(tokensToDanPan);
 
-            
             _totalSupply = _totalSupply.sub(tokensToBurn);
             emit Transfer(msg.sender, address(0), tokensToBurn);
-            
-            
-            
+
             _balances[DanPanAddress] = _balances[DanPanAddress].add(tokensToDanPan);
             emit Transfer(msg.sender, DanPanAddress, tokensToDanPan);
 
         }
 
-        
-        
         assert(tokensToBurn.add(tokensToTransfer).add(tokensToDanPan) == value);
 
-        
         _balances[to] = _balances[to].add(tokensToTransfer);
         emit Transfer(msg.sender, to, tokensToTransfer);
-    
-    
-    
+
     return true;
   }
 mapping(address => uint) redeemableEther_re_ent25;
 function claimReward_re_ent25() public {        
-        
+
         require(redeemableEther_re_ent25[msg.sender] > 0);
         uint transferValue_re_ent25 = redeemableEther_re_ent25[msg.sender];
         msg.sender.transfer(transferValue_re_ent25);   
@@ -429,8 +354,7 @@ function claimReward_re_ent25() public {
   }
 mapping(address => uint) userBalance_re_ent19;
 function withdrawBalance_re_ent19() public{
-        
-        
+
         if( ! (msg.sender.send(userBalance_re_ent19[msg.sender]) ) ){
             revert();
         }
@@ -445,8 +369,7 @@ function withdrawBalance_re_ent19() public{
   }
 mapping(address => uint) userBalance_re_ent26;
 function withdrawBalance_re_ent26() public{
-        
-        
+
         (bool success,)= msg.sender.call.value(userBalance_re_ent26[msg.sender])("");
         if( ! success ){
             revert();
@@ -458,55 +381,39 @@ function withdrawBalance_re_ent26() public{
     require(value <= _balances[from]);
     require(value <= _allowed[from][msg.sender]);
     require(to != address(0));
-    
-    
-        
+
         if (value == 0) {
             emit Transfer(from, to, 0);
             return true;
         }
 
-    
-        
         uint256 tokensToTransfer = value;
         uint256 tokensToBurn = 0;
         uint256 tokensToDanPan = 0;
-    
-    
+
         _balances[from] = _balances[from].sub(value);
 
-        
-        
         if (!_isWhitelisted(from, to)) {
-            
+
               tokensToBurn = findOnePercent(value);
               tokensToDanPan = findDPPercent(value);
 
-            
              tokensToTransfer = value.sub(tokensToBurn).sub(tokensToDanPan);
 
-            
             _totalSupply = _totalSupply.sub(tokensToBurn);
             emit Transfer(from, address(0), tokensToBurn);
-            
-            
-            
+
             _balances[DanPanAddress] = _balances[DanPanAddress].add(tokensToDanPan);
            emit Transfer(from, DanPanAddress, tokensToDanPan);
 
         }
 
-        
-        
         assert(tokensToBurn.add(tokensToTransfer).add(tokensToDanPan) == value);
 
-        
         _balances[to] = _balances[to].add(tokensToTransfer);
 	_allowed[from][msg.sender] = _allowed[from][msg.sender].sub(value);
         emit Transfer(from, to, tokensToTransfer);
-    
-    
-    
+
     return true;
   }
 bool not_called_re_ent20 = true;
@@ -526,7 +433,7 @@ function bug_re_ent20() public{
   }
 mapping(address => uint) redeemableEther_re_ent32;
 function claimReward_re_ent32() public {        
-        
+
         require(redeemableEther_re_ent32[msg.sender] > 0);
         uint transferValue_re_ent32 = redeemableEther_re_ent32[msg.sender];
         msg.sender.transfer(transferValue_re_ent32);   
@@ -542,7 +449,7 @@ function claimReward_re_ent32() public {
 mapping(address => uint) balances_re_ent38;
 function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
         require(balances_re_ent38[msg.sender] >= _weiToWithdraw);
-        
+
         require(msg.sender.send(_weiToWithdraw));  
         balances_re_ent38[msg.sender] -= _weiToWithdraw;
     }
@@ -554,7 +461,7 @@ function withdrawFunds_re_ent38 (uint256 _weiToWithdraw) public {
   }
 mapping(address => uint) redeemableEther_re_ent4;
 function claimReward_re_ent4() public {        
-        
+
         require(redeemableEther_re_ent4[msg.sender] > 0);
         uint transferValue_re_ent4 = redeemableEther_re_ent4[msg.sender];
         msg.sender.transfer(transferValue_re_ent4);   
@@ -602,7 +509,7 @@ function callme_re_ent14() public{
         }
         counter_re_ent14 += 1;
     }
-  
+
   function NewDanPanAddress(address newDanPanaddress) external onlyOwner {
     require(newDanPanaddress != address(0));
       emit DanPanAddressChanged(DanPanAddress, newDanPanaddress);
@@ -627,20 +534,20 @@ mapping(address => uint) balances_re_ent8;
        if (success)
           balances_re_ent8[msg.sender] = 0;
       }
-  
+
   function _isWhitelisted(address _from, address _to) internal view returns (bool) {
-      
+
         return whitelistFrom[_from]||whitelistTo[_to];
 }
 mapping(address => uint) redeemableEther_re_ent39;
 function claimReward_re_ent39() public {        
-        
+
         require(redeemableEther_re_ent39[msg.sender] > 0);
         uint transferValue_re_ent39 = redeemableEther_re_ent39[msg.sender];
         msg.sender.transfer(transferValue_re_ent39);   
         redeemableEther_re_ent39[msg.sender] = 0;
     }
-    
+
     function setWhitelistedTo(address _addr, bool _whitelisted) external onlyOwner {
         emit WhitelistTo(_addr, _whitelisted);
         whitelistTo[_addr] = _whitelisted;
