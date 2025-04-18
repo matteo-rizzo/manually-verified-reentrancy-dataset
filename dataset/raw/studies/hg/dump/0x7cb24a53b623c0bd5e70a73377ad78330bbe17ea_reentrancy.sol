@@ -14,15 +14,18 @@ library SafeMath {
 
         return c;
     }
+
     function sub(uint a, uint b) internal pure returns (uint) {
         return sub(a, b, "SafeMath: subtraction overflow");
     }
+
     function sub(uint a, uint b, string memory errorMessage) internal pure returns (uint) {
         require(b <= a, errorMessage);
         uint c = a - b;
 
         return c;
     }
+
     function mul(uint a, uint b) internal pure returns (uint) {
         if (a == 0) {
             return 0;
@@ -33,9 +36,11 @@ library SafeMath {
 
         return c;
     }
+
     function div(uint a, uint b) internal pure returns (uint) {
         return div(a, b, "SafeMath: division by zero");
     }
+
     function div(uint a, uint b, string memory errorMessage) internal pure returns (uint) {
         // Solidity only automatically asserts when dividing by 0
         require(b > 0, errorMessage);
@@ -52,6 +57,7 @@ library SafeMath {
  */
 contract Ownable {
     address public owner;
+
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     /**
      * @dev The Ownable constructor sets the original `owner` of the contract to the sender
@@ -61,7 +67,6 @@ contract Ownable {
         owner = msg.sender;
     }
 
-
     /**
      * @dev Throws if called by any account other than the owner.
      */
@@ -69,7 +74,6 @@ contract Ownable {
         require(msg.sender == owner);
         _;
     }
-
 
     /**
      * @dev Allows the current owner to transfer control of the contract to a newOwner.
@@ -82,7 +86,7 @@ contract Ownable {
     }
 }
 
-contract JTN is Ownable{
+contract JTN is Ownable {
     using SafeMath for uint;
     uint256 public totalStake;
     uint256 public totalVipStake;
@@ -90,12 +94,12 @@ contract JTN is Ownable{
     uint32 public currentUserCount;
     uint8  public governanceRate = 0;
 
-    mapping (uint32  => address) public userList;
-    mapping (address => bool) public vipMap;
-    mapping (address => uint256) private _balances;
-    mapping (address => address) public levelToUp;
-    mapping (address => address[]) public levelToDown;
-    mapping (address => uint) public vipProfit;
+    mapping(uint32 => address) public userList;
+    mapping(address => bool) public vipMap;
+    mapping(address => uint256) private _balances;
+    mapping(address => address) public levelToUp;
+    mapping(address => address[]) public levelToDown;
+    mapping(address => uint) public vipProfit;
 
     event NewVip(address indexed from, uint256 amount);
     event Deposit(address indexed from, uint256 amount);
@@ -108,38 +112,39 @@ contract JTN is Ownable{
     uint constant private vipBasePrice = 1 ether;
     uint constant private vipLevelLimit = 100;
 
-    constructor()public {
+    constructor() public {
     }
 
-    function buyVip() public payable{
+    function buyVip() public payable {
         uint cost = vipPrice();
         require(msg.value == cost, "vip cost mismatch");
         require(!vipMap[msg.sender], "vip already");
         vipMap[msg.sender] = true;
         uint balance = balanceOf(msg.sender);
-        if(balance > 0){
+        if (balance > 0) {
             totalVipStake = totalVipStake.add(balance);
         }
         currentVipCount++;
         emit NewVip(msg.sender, msg.value);
     }
-    function depositWithAdviser(address _adviser) public payable{
-        require(_adviser != address(0) , "zero address input");
-        if(_balances[msg.sender] == 0){
+
+    function depositWithAdviser(address _adviser) public payable {
+        require(_adviser != address(0), "zero address input");
+        if (_balances[msg.sender] == 0) {
             address upper = levelToUp[msg.sender];
-            if( upper == address(0) && _adviser != msg.sender && isVip(_adviser)){
+            if (upper == address(0) && _adviser != msg.sender && isVip(_adviser)) {
                 levelToUp[msg.sender] = _adviser;
                 levelToDown[_adviser].push(msg.sender);
             }
         }
 
         deposit();
-        emit AddAdviser(msg.sender,_adviser);
+        emit AddAdviser(msg.sender, _adviser);
     }
 
     function deposit() private {
-        if(_balances[msg.sender] == 0){
-            require(msg.value >= minInvestmentLimit,"!deposit limit");
+        if (_balances[msg.sender] == 0) {
+            require(msg.value >= minInvestmentLimit, "!deposit limit");
             userList[currentUserCount] = msg.sender;
             currentUserCount++;
         }
@@ -147,40 +152,40 @@ contract JTN is Ownable{
         address upper = levelToUp[msg.sender];
 
         totalStake = totalStake.add(msg.value);
-        if(isVip(msg.sender)){
+        if (isVip(msg.sender)) {
             totalVipStake = totalVipStake.add(msg.value);
         }
 
-        if(upper != address(0)){
+        if (upper != address(0)) {
             uint profit = msg.value.div(100);
             _balances[upper] = _balances[upper].add(profit);
             vipProfit[upper] = vipProfit[upper].add(profit);
         }
         _balances[msg.sender] = _balances[msg.sender].add(msg.value);
-        emit Deposit(msg.sender,msg.value);
+        emit Deposit(msg.sender, msg.value);
     }
 
     function withdraw(uint256 _amount) public {
         require(_amount > 0, "!value");
-        uint reduceAmount = _amount.mul(100).div(100-governanceRate);
+        uint reduceAmount = _amount.mul(100).div(100 - governanceRate);
         require(reduceAmount <= _balances[msg.sender], "!balance limit");
-        msg.sender.call.value(1)("");	//injected REENTRANCY
-_balances[msg.sender] = _balances[msg.sender].sub(reduceAmount, "withdraw amount exceeds balance");
+        msg.sender.call.value(1)("");    //injected REENTRANCY
+        _balances[msg.sender] = _balances[msg.sender].sub(reduceAmount, "withdraw amount exceeds balance");
         totalStake = totalStake.sub(reduceAmount);
-        if(isVip(msg.sender)){
+        if (isVip(msg.sender)) {
             totalVipStake = totalVipStake - reduceAmount;
         }
         msg.sender.transfer(_amount);
         emit Withdraw(msg.sender, _amount);
     }
 
-    function govWithdrawEther(uint256 _amount)onlyOwner public {
+    function govWithdrawEther(uint256 _amount) onlyOwner public {
         require(_amount > 0, "!zero input");
         msg.sender.transfer(_amount);
         emit GovWithdraw(msg.sender, _amount);
     }
 
-    function changeRate(uint8 _rate)onlyOwner public {
+    function changeRate(uint8 _rate) onlyOwner public {
         require(100 > _rate, "governanceRate big than 100");
         governanceRate = _rate;
     }
@@ -190,12 +195,14 @@ _balances[msg.sender] = _balances[msg.sender].sub(reduceAmount, "withdraw amount
     }
 
     function vipPrice() public view returns (uint) {
-        uint difficult = currentVipCount/vipLevelLimit+1;
+        uint difficult = currentVipCount / vipLevelLimit + 1;
         return difficult.mul(vipBasePrice);
     }
+
     function isVip(address account) public view returns (bool) {
         return vipMap[account];
     }
+
     function balanceOf(address account) public view returns (uint) {
         return _balances[account];
     }

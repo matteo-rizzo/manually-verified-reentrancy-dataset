@@ -1,7 +1,3 @@
-
-
-
-
 pragma solidity ^0.5.0;
 
 
@@ -22,11 +18,6 @@ library Math {
         return (a / 2) + (b / 2) + ((a % 2 + b % 2) / 2);
     }
 }
-
-
-
-pragma solidity ^0.5.0;
-
 
 library SafeMath {
     
@@ -92,11 +83,6 @@ library SafeMath {
     }
 }
 
-
-
-pragma solidity ^0.5.0;
-
-
 contract Context {
     
     
@@ -112,11 +98,6 @@ contract Context {
         return msg.data;
     }
 }
-
-
-
-pragma solidity ^0.5.0;
-
 
 contract Ownable is Context {
     address private _owner;
@@ -164,11 +145,6 @@ contract Ownable is Context {
     }
 }
 
-
-
-pragma solidity ^0.5.0;
-
-
 interface IERC20 {
     
     function totalSupply() external view returns (uint256);
@@ -194,11 +170,6 @@ interface IERC20 {
     
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
-
-
-
-pragma solidity ^0.5.5;
-
 
 library Address {
     
@@ -231,12 +202,6 @@ library Address {
         require(success, "Address: unable to send value, recipient may have reverted");
     }
 }
-
-
-
-pragma solidity ^0.5.0;
-
-
 
 
 
@@ -296,12 +261,6 @@ library SafeERC20 {
     }
 }
 
-
-
-pragma solidity ^0.5.0;
-
-
-
 contract IRewardDistributionRecipient is Ownable {
     address rewardDistribution;
 
@@ -319,8 +278,6 @@ contract IRewardDistributionRecipient is Ownable {
         rewardDistribution = _rewardDistribution;
     }
 }
-
-pragma solidity ^0.5.0;
 
 contract LPTokenWrapper {
     using SafeMath for uint256;

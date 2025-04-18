@@ -1,7 +1,7 @@
 import argparse
 import os
 import shutil
-
+from tqdm import tqdm
 from sklearn.model_selection import KFold
 
 
@@ -27,12 +27,18 @@ def create_cv_split(split_index, dataset_folder, k):
     os.makedirs(train_dir, exist_ok=True)
     os.makedirs(test_dir, exist_ok=True)
 
+    path_to_src = os.path.join(dataset_folder, "source")
+    path_to_ast = os.path.join(dataset_folder, "ast")
+    path_to_cfg = os.path.join(dataset_folder, "cfg")
+
     # Iterate over each class subfolder
-    for class_name in os.listdir(dataset_folder):
-        class_folder = os.path.join(dataset_folder, class_name)
-        if os.path.isdir(class_folder):
-            files = [f for f in os.listdir(class_folder)
-                     if os.path.isfile(os.path.join(class_folder, f))]
+    for class_name in os.listdir(path_to_src):
+        class_folder_src = os.path.join(path_to_src, class_name)
+        class_folder_ast = os.path.join(path_to_ast, class_name)
+        class_folder_cfg = os.path.join(path_to_cfg, class_name)
+        if os.path.isdir(class_folder_src):
+            files = [f for f in os.listdir(class_folder_src)
+                     if os.path.isfile(os.path.join(class_folder_src, f))]
             files.sort()  # Ensure a fixed order for reproducibility
             if len(files) < k:
                 print(
@@ -44,25 +50,51 @@ def create_cv_split(split_index, dataset_folder, k):
             splits = list(kf.split(files))
             train_indices, test_indices = splits[split_index]
 
-            train_files = [files[i] for i in train_indices]
-            test_files = [files[i] for i in test_indices]
+            train_files = [files[i].split(".")[0] for i in train_indices]
+            test_files = [files[i].split(".")[0] for i in test_indices]
 
             # Create the subdirectories for this class in train and test splits
-            train_class_dir = os.path.join(train_dir, class_name)
-            test_class_dir = os.path.join(test_dir, class_name)
-            os.makedirs(train_class_dir, exist_ok=True)
-            os.makedirs(test_class_dir, exist_ok=True)
+            train_class_dir_src = os.path.join(train_dir, "source", class_name)
+            os.makedirs(train_class_dir_src, exist_ok=True)
+            test_class_dir_src = os.path.join(test_dir, "source", class_name)
+            os.makedirs(test_class_dir_src, exist_ok=True)
+
+            train_class_dir_ast = os.path.join(train_dir, "ast", class_name)
+            os.makedirs(train_class_dir_ast, exist_ok=True)
+            test_class_dir_ast = os.path.join(test_dir, "ast", class_name)
+            os.makedirs(test_class_dir_ast, exist_ok=True)
+
+            train_class_dir_cfg = os.path.join(train_dir, "cfg", class_name)
+            os.makedirs(train_class_dir_cfg, exist_ok=True)
+            test_class_dir_cfg = os.path.join(test_dir, "cfg", class_name)
+            os.makedirs(test_class_dir_cfg, exist_ok=True)
 
             # Copy training files
-            for filename in train_files:
-                src = os.path.join(class_folder, filename)
-                dst = os.path.join(train_class_dir, filename)
+            for filename in tqdm(train_files, desc="Copying train files"):
+                src = os.path.join(class_folder_src, filename + ".sol")
+                dst = os.path.join(train_class_dir_src, filename + ".sol")
+                shutil.copy2(src, dst)
+
+                src = os.path.join(class_folder_ast, filename + ".json")
+                dst = os.path.join(train_class_dir_ast, filename + ".json")
+                shutil.copy2(src, dst)
+
+                src = os.path.join(class_folder_cfg, filename + ".json")
+                dst = os.path.join(train_class_dir_cfg, filename + ".json")
                 shutil.copy2(src, dst)
 
             # Copy testing files
-            for filename in test_files:
-                src = os.path.join(class_folder, filename)
-                dst = os.path.join(test_class_dir, filename)
+            for filename in tqdm(test_files, desc="Copying test files"):
+                src = os.path.join(class_folder_src, filename + ".sol")
+                dst = os.path.join(test_class_dir_src, filename + ".sol")
+                shutil.copy2(src, dst)
+
+                src = os.path.join(class_folder_ast, filename + ".json")
+                dst = os.path.join(test_class_dir_ast, filename + ".json")
+                shutil.copy2(src, dst)
+
+                src = os.path.join(class_folder_cfg, filename + ".json")
+                dst = os.path.join(test_class_dir_cfg, filename + ".json")
                 shutil.copy2(src, dst)
 
 
@@ -71,9 +103,9 @@ def main():
         description="Create k cross-validation splits for a dataset using scikit-learn's KFold split. "
                     "The dataset folder should contain subfolders for each class."
     )
-    parser.add_argument("--data_dir", type=str, required=True,
+    parser.add_argument("--data-dir", type=str, required=True,
                         help="Path to the dataset folder (which contains class subfolders)")
-    parser.add_argument("--cv_splits", type=int, default=5,
+    parser.add_argument("--cv-splits", type=int, default=5,
                         help="Number of cross-validation folds to create")
     args = parser.parse_args()
 

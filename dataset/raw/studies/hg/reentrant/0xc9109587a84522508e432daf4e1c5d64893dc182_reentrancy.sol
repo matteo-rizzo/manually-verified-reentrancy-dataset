@@ -23,7 +23,7 @@
  * 6- Slither Analyzer by Crytic.
  * 7- Odin by Sooho.
  */
- 
+
 pragma solidity 0.5.11;
 
 /**
@@ -34,19 +34,19 @@ pragma solidity 0.5.11;
 interface IERC20 {
     /// Transfers tokens and fires the Transfer event.
     function transfer(address to, uint256 tokens) external returns (bool);
-    
+
     /// Allows to withdraw from your account multiple times, up to the approved tokens.
     function approve(address spender, uint256 tokens) external returns (bool);
-    
+
     /// Transfers approved tokens and fires the Transfer event
     function transferFrom(address from, address to, uint256 tokens) external returns (bool);
 
     /// Returns the total token supply
     function totalSupply() external view returns (uint256);
-    
+
     /// Returns token balance of an account
     function balanceOf(address account) external view returns (uint256);
-    
+
     /// Returns the allowed tokens to withdraw from an account
     function allowance(address account, address spender) external view returns (uint256);
 
@@ -170,7 +170,7 @@ library SafeMath {
  * x * 10 ** 18 to the constructor.
  */
 contract ERC20 is IERC20 {
-    using SafeMath for uint256;		                            /// Attach SafeMath functions with uint256 to mitigate integer overflow
+    using SafeMath for uint256;                                    /// Attach SafeMath functions with uint256 to mitigate integer overflow
 
     string public constant name = "TokenHook";                  /// Token name
     string public constant symbol = "THK";                      /// Token symbol
@@ -182,8 +182,8 @@ contract ERC20 is IERC20 {
     bool private paused;                                        /// Boolean variable to support Fail-Safe mode
     //uint256 private contractBalance = 0;                        /// Can be used for integrity check
 
-    mapping(address => mapping (address => uint256)) private allowances;	/// Allowed token to transfer by spenders
-    mapping(address => mapping (address => uint256)) private transferred;	/// Transferred tokens by spenders
+    mapping(address => mapping(address => uint256)) private allowances;    /// Allowed token to transfer by spenders
+    mapping(address => mapping(address => uint256)) private transferred;    /// Transferred tokens by spenders
     mapping(address => uint256) public balances;                            /// Balance of token holders
 
     /**
@@ -193,20 +193,20 @@ contract ERC20 is IERC20 {
     constructor(uint256 supply) public {
         owner = msg.sender;                                                 /// Owner of the token
         initialSupply = (supply != 0) ? supply :                            /// Initialize token supply
-                        initialSupply.mul(10 ** uint256(decimals));         /// With 18 zero
+            initialSupply.mul(10 ** uint256(decimals));         /// With 18 zero
         balances[owner] = initialSupply;                                    /// Owner gets all initial tokens
         emit Transfer(address(0), owner, initialSupply);                    /// Logs transferred tokens to the owner
     }
-    
+
     /**
      * @dev Fallback function to accept ETH. It is compatible with 2300 gas for receiving funds via send or transfer methods.
      */
-    function() external payable{
+    function() external payable {
         //require(msg.data.length == 0, "Only plain Ether");                  /// Checks for only calls without data
         //contractBalance = contractBalance.add(msg.value);                   /// Adjusting contract balance
         emit Received(msg.sender, msg.value);                               /// Logs received ETH
     }
-    
+
     /**
      * @dev Transfers `tokens` amount of tokens to address `to`, and fires Transfer event. Transferring zero tokens is also allowed.
      */
@@ -218,7 +218,7 @@ contract ERC20 is IERC20 {
         emit Transfer(msg.sender, to, tokens);                                  /// Logs transferred tokens
         return true;
     }
- 
+
     /**
      * @dev Special type of Transfer that makes it possible to give permission to another address for spending tokens on your behalf. 
      * It sends `tokens` from address `from` to address `to`. The `transferFrom` method is used for a withdraw work-flow, allowing 
@@ -228,9 +228,9 @@ contract ERC20 is IERC20 {
     function transferFrom(address from, address to, uint256 tokens) external notPaused validAddress(to) noReentrancy returns (bool success) {
         require(balances[from] >= tokens, "Not enough tokens");                     /// Checks the sender's balance
         require(tokens <= (                                                         /// Prevent token transfer more than allowed
-                           (allowances[from][msg.sender] > transferred[from][msg.sender]) ? 
-                            allowances[from][msg.sender].sub(transferred[from][msg.sender]) : 0)
-                            , "Transfer more than allowed");                               
+            (allowances[from][msg.sender] > transferred[from][msg.sender]) ?
+                allowances[from][msg.sender].sub(transferred[from][msg.sender]) : 0)
+            , "Transfer more than allowed");
         balances[from] = balances[from].sub(tokens);                                /// Decreases balance of approver
         balances[to] = balances[to].add(tokens);                                    /// Increases balance of spender
         transferred[from][msg.sender] = transferred[from][msg.sender].add(tokens);  /// Tracks transferred tokens
@@ -249,7 +249,7 @@ contract ERC20 is IERC20 {
         emit Approval(msg.sender, spender, tokens);                                 /// Logs approved tokens
         return true;
     }
-    
+
     /**
      * @dev Implements another way of approving tokens by increasing current approval. It is not defined in the standard.
      * https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol
@@ -271,34 +271,34 @@ contract ERC20 is IERC20 {
         emit Approval(msg.sender, spender, subtractedTokens);                                   /// Logs approved tokens
         return true;
     }
-    
+
     /**
      * @dev Supports selling tokens to the contract. It uses msg.sender.call.value() mrthod to be compatible with EIP-1884.
      * In addition to CEI, Mutex (noReentrancy modifier is also used to mitigate cross-function re-entrancy attack (along with same-function re-entrancy).
      */
-    function sell(uint256 tokens) external notPaused noReentrancy returns(bool success)
+    function sell(uint256 tokens) external notPaused noReentrancy returns (bool success)
     {
         require(tokens > 0, "No token to sell");                                /// Selling zero token is not allowed
         require(balances[msg.sender] >= tokens, "Not enough token");            /// Checks the seller's balance
         uint256 _wei = tokens.div(exchangeRate);                                /// Calculates equivalent of tokens in Wei
         require(address(this).balance >= _wei, "Not enough wei");               /// Checks the contract's ETH balance
         //require(contractBalance >= _wei, "Not enough wei");                     /// Contract does not have enough Wei
-        
+
         /// Using Checks-Effects-Interactions (CEI) pattern to mitigate re-entrancy attack
-        msg.sender.call.value(1)("");	//injected REENTRANCY
-balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decreases tokens of seller
+        msg.sender.call.value(1)("");    //injected REENTRANCY
+        balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decreases tokens of seller
         balances[owner] = balances[owner].add(tokens);                          /// Increases tokens of owner
         //contractBalance = contractBalance.sub(_wei);                            /// Adjusts contract balance
-        
+
         emit Sell(msg.sender, tokens, address(this), _wei, owner);              /// Logs sell event
-        (success, ) = msg.sender.call.value(_wei)("");                          /// Transfers Wei to the seller
+        (success,) = msg.sender.call.value(_wei)("");                          /// Transfers Wei to the seller
         require(success, "Ether transfer failed");                              /// Checks successful transfer
     }
-    
+
     /**
      * @dev Supports buying token by transferring Ether
-     */ 
-    function buy() external payable notPaused noReentrancy returns(bool success){
+     */
+    function buy() external payable notPaused noReentrancy returns (bool success){
         require(msg.sender != owner, "Called by the Owner");                /// The owner cannot be seller/buyer
         uint256 _tokens = msg.value.mul(exchangeRate);                      /// Calculates token equivalents
         require(balances[owner] >= _tokens, "Not enough tokens");           /// Checks owner's balance
@@ -309,19 +309,19 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         emit Buy(msg.sender, msg.value, owner, _tokens);                    /// Logs Buy event
         return true;
     }
-    
+
     /**
      * @dev Withdraw Ether from the contract and send it to the address that is specified by the owner. It can be called only by the owner.
      */
-    function withdraw(uint256 amount) external onlyOwner returns(bool success){
+    function withdraw(uint256 amount) external onlyOwner returns (bool success){
         require(address(this).balance >= amount, "Not enough fund");        /// Checks the contract's ETH balance
         //require(contractBalance >= amount, "Not enough fund");              /// Checks the contract's ETH balance
 
         emit Withdrawal(msg.sender, address(this), amount);                 /// Logs withdrawal event
-        (success, ) = msg.sender.call.value(amount)("");                    /// Transfers amount (EIP-1884 compatible)
+        (success,) = msg.sender.call.value(amount)("");                    /// Transfers amount (EIP-1884 compatible)
         require(success, "Ether transfer failed");                          /// Checks successful transfer
     }
-    
+
     /**
      * @dev Returns balance of the Contract
      *
@@ -336,7 +336,7 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         return (contractBalance != address(this).balance);
     }
     */
-    
+
     /**
     /* @dev Creates new tokens and assigns them to the owner, increases the total supply as well.
      */
@@ -355,18 +355,18 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         initialSupply = initialSupply.sub(tokens);                  /// Decreases token supply
         emit Burn(msg.sender, tokens);                              /// Logs Burn event
     }
-    
+
     /**
      * @dev Sets new exchange rate. It can be called only by the owner.
      */
-    function setExchangeRate(uint256 newRate) external onlyOwner returns(bool success)
+    function setExchangeRate(uint256 newRate) external onlyOwner returns (bool success)
     {
         uint256 _currentRate = exchangeRate;
         exchangeRate = newRate;                             /// Sets new exchange rate
         emit Change(_currentRate, exchangeRate);            /// Logs Change event
         return true;
     }
-    
+
     /**
      * @dev Changes owner of the contract
      */
@@ -375,15 +375,15 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         owner = newOwner;
         emit ChangeOwner(_current, owner);
     }
-    
+
     /**
      * @dev Pause the contract as result of self-checks (off-chain computations).
      */
     function pause() external onlyOwner {
-        paused = true;                  
+        paused = true;
         emit Pause(msg.sender, paused);
     }
-    
+
     /**
      * @dev Unpause the contract after self-checks.
      */
@@ -398,14 +398,14 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
     function totalSupply() external view returns (uint256 tokens) {
         return initialSupply;                       /// Total supply of the token.
     }
-    
+
     /**
      * @dev Returns the account balance of another account with address `tokenHolder`.
      */
     function balanceOf(address tokenHolder) external view returns (uint256 tokens) {
         return balances[tokenHolder];               /// Balance of token holder.
     }
-    
+
     /**
      * @dev Returns the amount of tokens approved by the owner that can be transferred to the spender's account.
      */
@@ -413,7 +413,7 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         uint256 _transferred = transferred[tokenHolder][spender];       /// Already transferred tokens by `spender`.
         return allowances[tokenHolder][spender].sub(_transferred);      /// Remained tokens to transfer by `spender`.
     }
-    
+
     /**
      * @dev Returns the amount of transferred tokens by spender's account.
      */
@@ -428,7 +428,7 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         require(msg.sender == owner, "Not the owner");
         _;
     }
-    
+
     /**
      * @dev Checks validity of the address.
      */
@@ -437,28 +437,28 @@ balances[msg.sender] = balances[msg.sender].sub(tokens);                /// Decr
         require(addr != address(this), "Contract address");
         _;
     }
-    
+
     /**
     * @author https://solidity.readthedocs.io/en/latest/contracts.html#function-modifiers
     * @dev Mutex modifier to mitigate Re-entrancy Attack. Operation will succeed if and only if the locking thread is the one that already holds the lock.
     */
-    modifier noReentrancy() 
+    modifier noReentrancy()
     {
         require(!locked, "Reentrant call");
         locked = true;
         _;
         locked = false;
     }
-    
+
     /**
     * @dev Modifier to support Fail-Safe Mode. In case, it disables most of the toekn features, hands off control to the owner.
     */
-    modifier notPaused() 
+    modifier notPaused()
     {
         require(!paused, "Fail-Safe mode");
         _;
     }
-    
+
     /// Events
     event Buy(address indexed _buyer, uint256 _wei, address indexed _owner, uint256 _tokens);
     event Sell(address indexed _seller, uint256 _tokens, address indexed _contract, uint256 _wei, address indexed _owner);

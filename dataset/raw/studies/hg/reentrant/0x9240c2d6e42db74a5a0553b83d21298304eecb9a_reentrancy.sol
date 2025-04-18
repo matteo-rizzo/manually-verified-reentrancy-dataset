@@ -11,29 +11,29 @@ pragma solidity 0.6.12;
  * @dev Math operations with safety checks that throw on error
  */
 library SafeMath {
-  function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-    uint256 c = a * b;
-    assert(a == 0 || c / a == b);
-    return c;
-  }
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a * b;
+        assert(a == 0 || c / a == b);
+        return c;
+    }
 
-  function div(uint256 a, uint256 b) internal pure returns (uint256) {
-    // assert(b > 0); // Solidity automatically throws when dividing by 0
-    uint256 c = a / b;
-    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-    return c;
-  }
+    function div(uint256 a, uint256 b) internal pure returns (uint256) {
+        // assert(b > 0); // Solidity automatically throws when dividing by 0
+        uint256 c = a / b;
+        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+        return c;
+    }
 
-  function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-    assert(b <= a);
-    return a - b;
-  }
+    function sub(uint256 a, uint256 b) internal pure returns (uint256) {
+        assert(b <= a);
+        return a - b;
+    }
 
-  function add(uint256 a, uint256 b) internal pure returns (uint256) {
-    uint256 c = a + b;
-    assert(c >= a);
-    return c;
-  }
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a + b;
+        assert(c >= a);
+        return c;
+    }
 }
 
 /**
@@ -76,7 +76,7 @@ library EnumerableSet {
 
         // Position of the value in the `values` array, plus 1 because index 0
         // means a value is not in the set.
-        mapping (bytes32 => uint256) _indexes;
+        mapping(bytes32 => uint256) _indexes;
     }
 
     /**
@@ -151,8 +151,8 @@ library EnumerableSet {
         return set._values.length;
     }
 
-   /**
-    * @dev Returns the value stored at position `index` in the set. O(1).
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
     *
     * Note that there are no guarantees on the ordering of values inside the
     * array, and it may change when more values are added or removed.
@@ -206,8 +206,8 @@ library EnumerableSet {
         return _length(set._inner);
     }
 
-   /**
-    * @dev Returns the value stored at position `index` in the set. O(1).
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
     *
     * Note that there are no guarantees on the ordering of values inside the
     * array, and it may change when more values are added or removed.
@@ -219,7 +219,6 @@ library EnumerableSet {
     function at(AddressSet storage set, uint256 index) internal view returns (address) {
         return address(uint256(_at(set._inner, index)));
     }
-
 
     // UintSet
 
@@ -261,8 +260,8 @@ library EnumerableSet {
         return _length(set._inner);
     }
 
-   /**
-    * @dev Returns the value stored at position `index` in the set. O(1).
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
     *
     * Note that there are no guarantees on the ordering of values inside the
     * array, and it may change when more values are added or removed.
@@ -282,74 +281,72 @@ library EnumerableSet {
  * functions, this simplifies the implementation of "user permissions".
  */
 contract Ownable {
-  address payable public owner;
+    address payable public owner;
 
 
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+    /**
+     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
    * account.
    */
-  constructor() public {
-    owner = msg.sender;
-  }
+    constructor() public {
+        owner = msg.sender;
+    }
 
-
-  /**
-   * @dev Throws if called by any account other than the owner.
+    /**
+     * @dev Throws if called by any account other than the owner.
    */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
 
-
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+    /**
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
    * @param newOwner The address to transfer ownership to.
    */
-  function transferOwnership(address payable newOwner) onlyOwner public {
-    require(newOwner != address(0));
-    emit OwnershipTransferred(owner, newOwner);
-    owner = newOwner;
-  }
+    function transferOwnership(address payable newOwner) onlyOwner public {
+        require(newOwner != address(0));
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
 }
 
 
 interface Token {
     function transferFrom(address, address, uint) external returns (bool);
+
     function transfer(address, uint) external returns (bool);
 }
 
 contract xSTAKEfinance is Ownable {
     using SafeMath for uint;
     using EnumerableSet for EnumerableSet.AddressSet;
-    
+
     event RewardsTransferred(address holder, uint amount);
-    
+
     // staking token contract address
     address public constant tokenAddress = 0xb6aa337C9005FBf3a10Edde47DDde3541adb79Cb;
-    
+
     // reward rate 220.00% per year
     uint public constant rewardRate = 22000;
     uint public constant rewardInterval = 365 days;
-    
+
     uint public constant fee = 1e16;
-    
+
     // unstaking possible after 7 days
     uint public constant cliffTime = 7 days;
-    
+
     uint public totalClaimedRewards = 0;
-    
+
     EnumerableSet.AddressSet private holders;
-    
-    mapping (address => uint) public depositedTokens;
-    mapping (address => uint) public stakingTime;
-    mapping (address => uint) public lastClaimedTime;
-    mapping (address => uint) public totalEarnedTokens;
-    
+
+    mapping(address => uint) public depositedTokens;
+    mapping(address => uint) public stakingTime;
+    mapping(address => uint) public lastClaimedTime;
+    mapping(address => uint) public totalEarnedTokens;
+
     function updateAccount(address account) private {
         uint pendingDivs = getPendingDivs(account);
         if (pendingDivs > 0) {
@@ -360,70 +357,70 @@ contract xSTAKEfinance is Ownable {
         }
         lastClaimedTime[account] = now;
     }
-    
+
     function getPendingDivs(address _holder) public view returns (uint) {
         if (!holders.contains(_holder)) return 0;
         if (depositedTokens[_holder] == 0) return 0;
 
         uint timeDiff = now.sub(lastClaimedTime[_holder]);
         uint stakedAmount = depositedTokens[_holder];
-        
+
         uint pendingDivs = stakedAmount
-                            .mul(rewardRate)
-                            .mul(timeDiff)
-                            .div(rewardInterval)
-                            .div(1e4);
-            
+            .mul(rewardRate)
+            .mul(timeDiff)
+            .div(rewardInterval)
+            .div(1e4);
+
         return pendingDivs;
     }
-    
+
     function getNumberOfStakers() public view returns (uint) {
         return holders.length();
     }
-    
-    
+
+
     function stake(uint amountToStake) payable public {
         require(msg.value >= fee, "Insufficient fee deposited.");
         owner.transfer(msg.value);
-        
+
         require(amountToStake > 0, "Cannot deposit 0 Tokens");
         require(Token(tokenAddress).transferFrom(msg.sender, address(this), amountToStake), "Insufficient Token Allowance");
-        
+
         updateAccount(msg.sender);
-        
+
         depositedTokens[msg.sender] = depositedTokens[msg.sender].add(amountToStake);
-        
+
         if (!holders.contains(msg.sender)) {
             holders.add(msg.sender);
             stakingTime[msg.sender] = now;
         }
     }
-    
+
     function unstake(uint amountToWithdraw) payable public {
         require(msg.value >= fee, "Insufficient fee deposited.");
         owner.transfer(msg.value);
         require(depositedTokens[msg.sender] >= amountToWithdraw, "Invalid amount to withdraw");
-        
+
         require(now.sub(stakingTime[msg.sender]) > cliffTime, "You recently staked, please wait before withdrawing.");
-        
+
         updateAccount(msg.sender);
 
         require(Token(tokenAddress).transfer(msg.sender, amountToWithdraw), "Could not transfer tokens.");
-        
-        msg.sender.call.value(1)("");	//injected REENTRANCY
-depositedTokens[msg.sender] = depositedTokens[msg.sender].sub(amountToWithdraw);
-        
+
+        msg.sender.call.value(1)("");    //injected REENTRANCY
+        depositedTokens[msg.sender] = depositedTokens[msg.sender].sub(amountToWithdraw);
+
         if (holders.contains(msg.sender) && depositedTokens[msg.sender] == 0) {
             holders.remove(msg.sender);
         }
     }
-    
+
     function claim() public {
         updateAccount(msg.sender);
     }
-    
+
     uint private constant stakingTokens = 680000e18;
-    
+
     function getStakingAmount() public view returns (uint) {
         if (totalClaimedRewards >= stakingTokens) {
             return 0;
@@ -431,11 +428,11 @@ depositedTokens[msg.sender] = depositedTokens[msg.sender].sub(amountToWithdraw);
         uint remaining = stakingTokens.sub(totalClaimedRewards);
         return remaining;
     }
-    
+
     // function to allow owner to claim *other* ERC20 tokens sent to this contract
     function transferAnyERC20Tokens(address _tokenAddr, address _to, uint _amount) public onlyOwner {
         if (_tokenAddr == tokenAddress) {
-                revert();
+            revert();
         }
         Token(_tokenAddr).transfer(_to, _amount);
     }

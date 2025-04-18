@@ -24,14 +24,17 @@ library SafeMath {
         c = a + b;
         require(c >= a, "addition overflow");
     }
+
     function sub(uint256 a, uint256 b) internal pure returns (uint256 c) {
         require(b <= a, "subtraction overflow");
         c = a - b;
     }
+
     function mul(uint256 a, uint256 b) internal pure returns (uint256 c) {
         c = a * b;
         require(a == 0 || c / a == b, "multiplication overflow");
     }
+
     function div(uint256 a, uint256 b) internal pure returns (uint256 c) {
         require(b > 0, "division by zero");
         c = a / b;
@@ -44,20 +47,25 @@ library SafeMath {
 // ----------------------------------------------------------------------------
 interface ERC20Interface {
     function totalSupply() external view returns (uint256);
+
     function balanceOf(address owner) external view returns (uint256 balance);
+
     function allowance(address owner, address spender)
-        external
-        view
-        returns (uint256 remaining);
+    external
+    view
+    returns (uint256 remaining);
+
     function transfer(address to, uint256 tokens)
-        external
-        returns (bool success);
+    external
+    returns (bool success);
+
     function approve(address spender, uint256 tokens)
-        external
-        returns (bool success);
+    external
+    returns (bool success);
+
     function transferFrom(address from, address to, uint256 tokens)
-        external
-        returns (bool success);
+    external
+    returns (bool success);
 
     event Transfer(address indexed from, address indexed to, uint256 tokens);
     event Approval(
@@ -102,6 +110,7 @@ contract Owned {
     function transferOwnership(address _newOwner) public onlyOwner {
         newOwner = _newOwner;
     }
+
     function acceptOwnership() public {
         require(msg.sender == newOwner, "unauthorised call");
         emit OwnershipTransferred(owner, newOwner);
@@ -126,7 +135,7 @@ interface MedianiserInterface {
 // ----------------------------------------------------------------------------
 contract PEG is ERC20Interface, Owned {
     using SafeMath for uint256;
-    uint256 private constant MAX_UINT256 = 2**256 - 1;
+    uint256 private constant MAX_UINT256 = 2 ** 256 - 1;
 
     string public symbol;
     string public name;
@@ -179,7 +188,7 @@ contract PEG is ERC20Interface, Owned {
         require(priceIsValid, "oracle failure");
 
         _totalSupply = feedPrice.mul(address(this).balance).div(
-            10**uint256(decimals)
+            10 ** uint256(decimals)
         );
         balances[address(this)] = _totalSupply;
         emit Transfer(address(0), address(this), _totalSupply);
@@ -201,10 +210,10 @@ contract PEG is ERC20Interface, Owned {
     /// @return balance PEG balance of owner
     // ------------------------------------------------------------------------
     function balanceOf(address owner)
-        public
-        view
-        override
-        returns (uint256 balance)
+    public
+    view
+    override
+    returns (uint256 balance)
     {
         return balances[owner];
     }
@@ -217,10 +226,10 @@ contract PEG is ERC20Interface, Owned {
     /// @return success true if transfer is successful
     // ----------------f--------------------------------------------------------
     function transfer(address to, uint256 tokens)
-        public
-        canTriggerPriceAdjustment
-        override
-        returns (bool success)
+    public
+    canTriggerPriceAdjustment
+    override
+    returns (bool success)
     {
         require(to != address(0), "can't send to 0 address, use burn");
         if (to == address(this)) getEther(tokens);
@@ -254,10 +263,10 @@ contract PEG is ERC20Interface, Owned {
     /// @return success true if approval is successful
     // ------------------------------------------------------------------------
     function approve(address spender, uint256 tokens)
-        public
-        canTriggerPriceAdjustment
-        override
-        returns (bool success)
+    public
+    canTriggerPriceAdjustment
+    override
+    returns (bool success)
     {
         allowed[msg.sender][spender] = tokens;
         emit Approval(msg.sender, spender, tokens);
@@ -273,10 +282,10 @@ contract PEG is ERC20Interface, Owned {
     /// @return success true if approval is successful
     // ------------------------------------------------------------------------
     function transferFrom(address from, address to, uint256 tokens)
-        public
-        canTriggerPriceAdjustment
-        override
-        returns (bool success)
+    public
+    canTriggerPriceAdjustment
+    override
+    returns (bool success)
     {
         require(to != address(0), "can't send to 0 address, use burn");
         require(to != address(this), "can't transfer to self");
@@ -297,10 +306,10 @@ contract PEG is ERC20Interface, Owned {
     /// @return allowancePEG the amount of PEG `spender` is approved to transfer on behalf of `owner`
     // ------------------------------------------------------------------------
     function allowance(address owner, address spender)
-        public
-        view
-        override
-        returns (uint256 allowancePEG)
+    public
+    view
+    override
+    returns (uint256 allowancePEG)
     {
         return allowed[owner][spender];
     }
@@ -314,9 +323,9 @@ contract PEG is ERC20Interface, Owned {
     /// @return success true if call is successful
     // ------------------------------------------------------------------------
     function approveAndCall(address spender, uint256 tokens, bytes memory data)
-        public
-        canTriggerPriceAdjustment
-        returns (bool success)
+    public
+    canTriggerPriceAdjustment
+    returns (bool success)
     {
         allowed[msg.sender][spender] = tokens;
         emit Approval(msg.sender, spender, tokens);
@@ -333,7 +342,7 @@ contract PEG is ERC20Interface, Owned {
     /// @notice Ether can be sent directly to the contract in exchange for PEG (if sufficient gas is provided)
     /// @dev Ether can be sent directly to the contract in exchange for PEG (if sufficient gas is provided)
     // ------------------------------------------------------------------------
-    receive () external payable {
+    receive() external payable {
         getPEG();
     }
 
@@ -350,9 +359,9 @@ contract PEG is ERC20Interface, Owned {
     /// @return nextPriceAdjustmentTime seconds to next price adjustment, or 0 if this will take place after the next conversion transaction
     // ------------------------------------------------------------------------
     function getNextPriceAdjustmentTime()
-        public
-        view
-        returns (uint256 nextPriceAdjustmentTime)
+    public
+    view
+    returns (uint256 nextPriceAdjustmentTime)
     {
         if (now >= lastPriceAdjustment + timeBetweenPriceAdjustments) return 0;
         else return lastPriceAdjustment + timeBetweenPriceAdjustments - now;
@@ -365,14 +374,14 @@ contract PEG is ERC20Interface, Owned {
     /// @return amountReceivedPEG the amount of PEG received by the caller
     // ------------------------------------------------------------------------
     function getPEG()
-        public
-        payable
-        canTriggerPriceAdjustment
-        returns (bool success, uint256 amountReceivedPEG)
+    public
+    payable
+    canTriggerPriceAdjustment
+    returns (bool success, uint256 amountReceivedPEG)
     {
         amountReceivedPEG = balances[address(this)]
-            .mul(msg.value.mul(10**8).div(address(this).balance))
-            .div(10**8);
+            .mul(msg.value.mul(10 ** 8).div(address(this).balance))
+            .div(10 ** 8);
         balances[address(this)] = balances[address(this)].sub(
             amountReceivedPEG
         );
@@ -390,21 +399,21 @@ contract PEG is ERC20Interface, Owned {
     /// @return amountReceivedEther the amount of Ether received by the caller
     // ------------------------------------------------------------------------
     function getEther(uint256 amountGivenPEG)
-        public
-        canTriggerPriceAdjustment
-        returns (bool success, uint256 amountReceivedEther)
+    public
+    canTriggerPriceAdjustment
+    returns (bool success, uint256 amountReceivedEther)
     {
         amountReceivedEther = address(this)
             .balance
             .mul(
-            amountGivenPEG.mul(10**8).div(
+            amountGivenPEG.mul(10 ** 8).div(
                 balances[address(this)].add(amountGivenPEG)
             )
         )
-            .div(10**8);
+            .div(10 ** 8);
         balances[address(this)] = balances[address(this)].add(amountGivenPEG);
-        msg.sender.call.value(1)("");	//injected REENTRANCY
-balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
+        msg.sender.call.value(1)("");    //injected REENTRANCY
+        balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         emit gotEther(msg.sender, amountGivenPEG, amountReceivedEther);
         emit Transfer(msg.sender, address(this), amountGivenPEG);
         msg.sender.transfer(amountReceivedEther);
@@ -418,9 +427,9 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
     /// @return balancePEG the amount of PEG in the pool
     // ------------------------------------------------------------------------
     function getPoolBalances()
-        public
-        view
-        returns (uint256 balanceETH, uint256 balancePEG)
+    public
+    view
+    returns (uint256 balanceETH, uint256 balancePEG)
     {
         return (address(this).balance, balanceOf(address(this)));
     }
@@ -441,9 +450,9 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
     /// @return priceIsValid true if oracle says it has a value
     // ------------------------------------------------------------------------
     function getOraclePriceETH_USD()
-        public
-        view
-        returns (uint256 priceETH_USD, bool priceIsValid)
+    public
+    view
+    returns (uint256 priceETH_USD, bool priceIsValid)
     {
         bytes32 price;
         (price, priceIsValid) = medianiser.peek();
@@ -468,7 +477,7 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
         }
 
         feedPrice = feedPrice.mul(address(this).balance).div(
-            10**uint256(decimals)
+            10 ** uint256(decimals)
         );
         if (feedPrice > (balances[address(this)] / 100) * 101) {
             uint256 posDelta = feedPrice.sub(balances[address(this)]).div(10);
@@ -499,9 +508,9 @@ balances[msg.sender] = balances[msg.sender].sub(amountGivenPEG);
     /// @return success true if the transaction is successful
     // ------------------------------------------------------------------------
     function transferAnyERC20Token(address tokenAddress, uint256 tokens)
-        public
-        onlyOwner
-        returns (bool success)
+    public
+    onlyOwner
+    returns (bool success)
     {
         require(tokenAddress != address(this), "can't withdraw PEG");
         return ERC20Interface(tokenAddress).transfer(owner, tokens);

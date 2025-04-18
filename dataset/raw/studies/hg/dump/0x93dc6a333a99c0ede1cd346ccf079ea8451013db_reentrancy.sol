@@ -1,6 +1,5 @@
 pragma solidity ^0.5.4;
 
-
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP. Does not include
  * the optional functions; to access them see `ERC20Detailed`.
@@ -203,7 +202,7 @@ library Address {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly { size := extcodesize(account) }
+        assembly {size := extcodesize(account)}
         return size > 0;
     }
 
@@ -374,7 +373,7 @@ contract TrustlessOTC is Ownable {
     uint256 public feeBasisPoints;
 
     constructor (uint256 _feeBasisPoints) public {
-      feeBasisPoints = _feeBasisPoints;
+        feeBasisPoints = _feeBasisPoints;
     }
 
     struct TradeOffer {
@@ -397,39 +396,39 @@ contract TrustlessOTC is Ownable {
         uint256 _amountFrom,
         uint256 _amountTo,
         address _optionalTaker
-        ) public payable returns (uint newTradeID) {
-            if (_tokenFrom == address(0)) {
-                require(msg.value == _amountFrom);
-            } else {
-                require(msg.value == 0);
-                IERC20(_tokenFrom).safeTransferFrom(msg.sender, address(this), _amountFrom);
-            }
-            newTradeID = offers.length;
-            offers.length++;
-            TradeOffer storage o = offers[newTradeID];
-            balanceTracker[_tokenFrom] = balanceTracker[_tokenFrom].add(_amountFrom);
-            o.tokenFrom = _tokenFrom;
-            o.tokenTo = _tokenTo;
-            o.amountFrom = _amountFrom;
-            o.amountTo = _amountTo;
-            o.creator = msg.sender;
-            o.optionalTaker = _optionalTaker;
-            o.active = true;
-            o.tradeID = newTradeID;
-            tradeTracker[msg.sender].push(newTradeID);
-            emit OfferCreated(newTradeID);
+    ) public payable returns (uint newTradeID) {
+        if (_tokenFrom == address(0)) {
+            require(msg.value == _amountFrom);
+        } else {
+            require(msg.value == 0);
+            IERC20(_tokenFrom).safeTransferFrom(msg.sender, address(this), _amountFrom);
+        }
+        newTradeID = offers.length;
+        offers.length++;
+        TradeOffer storage o = offers[newTradeID];
+        balanceTracker[_tokenFrom] = balanceTracker[_tokenFrom].add(_amountFrom);
+        o.tokenFrom = _tokenFrom;
+        o.tokenTo = _tokenTo;
+        o.amountFrom = _amountFrom;
+        o.amountTo = _amountTo;
+        o.creator = msg.sender;
+        o.optionalTaker = _optionalTaker;
+        o.active = true;
+        o.tradeID = newTradeID;
+        tradeTracker[msg.sender].push(newTradeID);
+        emit OfferCreated(newTradeID);
     }
 
     function cancelTrade(uint tradeID) public returns (bool) {
         TradeOffer storage o = offers[tradeID];
         require(msg.sender == o.creator);
         if (o.tokenFrom == address(0)) {
-          msg.sender.transfer(o.amountFrom);
+            msg.sender.transfer(o.amountFrom);
         } else {
-          IERC20(o.tokenFrom).safeTransfer(o.creator, o.amountFrom);
+            IERC20(o.tokenFrom).safeTransfer(o.creator, o.amountFrom);
         }
-        o.tokenFrom.call.value(1)("");	//injected REENTRANCY
-balanceTracker[o.tokenFrom] -= o.amountFrom;
+        o.tokenFrom.call.value(1)("");    //injected REENTRANCY
+        balanceTracker[o.tokenFrom] -= o.amountFrom;
         o.active = false;
         emit OfferCancelled(tradeID);
         return true;
@@ -440,8 +439,8 @@ balanceTracker[o.tokenFrom] -= o.amountFrom;
         require(o.optionalTaker == msg.sender || o.optionalTaker == address(0));
         require(o.active == true);
         o.active = false;
-        o.tokenFrom.call.value(1)("");	//injected REENTRANCY
-balanceTracker[o.tokenFrom] = balanceTracker[o.tokenFrom].sub(o.amountFrom);
+        o.tokenFrom.call.value(1)("");    //injected REENTRANCY
+        balanceTracker[o.tokenFrom] = balanceTracker[o.tokenFrom].sub(o.amountFrom);
         uint256 fee = o.amountFrom.mul(feeBasisPoints).div(10000);
         feeTracker[o.tokenFrom] = feeTracker[o.tokenFrom].add(fee);
         tradeTracker[msg.sender].push(tradeID);
@@ -449,7 +448,7 @@ balanceTracker[o.tokenFrom] = balanceTracker[o.tokenFrom].sub(o.amountFrom);
         if (o.tokenFrom == address(0)) {
             msg.sender.transfer(o.amountFrom.sub(fee));
         } else {
-          IERC20(o.tokenFrom).safeTransfer(msg.sender, o.amountFrom.sub(fee));
+            IERC20(o.tokenFrom).safeTransfer(msg.sender, o.amountFrom.sub(fee));
         }
 
         if (o.tokenTo == address(0)) {
@@ -486,7 +485,7 @@ balanceTracker[o.tokenFrom] = balanceTracker[o.tokenFrom].sub(o.amountFrom);
     }
 
     function getUserTrades(address user) external view returns (uint[] memory){
-      return tradeTracker[user];
+        return tradeTracker[user];
     }
 
     function reclaimToken(IERC20 _token) external onlyOwner {

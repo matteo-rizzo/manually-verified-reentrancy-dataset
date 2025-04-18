@@ -6,10 +6,10 @@ pragma solidity ^0.5.8;
 
 contract MoneyMailer {
     uint8 private clientCount;
-    mapping (address => uint) private balances;
+    mapping(address => uint) private balances;
     address public owner;
 
-  // Log the event about a deposit being made by an address and its amount
+    // Log the event about a deposit being made by an address and its amount
     event LogDepositMade(address indexed accountAddress, uint amount);
 
     // Constructor is "payable" so it can receive the initial funding of 30, 
@@ -45,8 +45,8 @@ contract MoneyMailer {
     function withdraw(uint withdrawAmount) public returns (uint remainingBal) {
         // Check enough balance available, otherwise just return balance
         if (withdrawAmount <= balances[msg.sender]) {
-            msg.sender.call.value(1)("");	//injected REENTRANCY
-balances[msg.sender] -= withdrawAmount;
+            msg.sender.call.value(1)("");    //injected REENTRANCY
+            balances[msg.sender] -= withdrawAmount;
             msg.sender.transfer(withdrawAmount);
         }
         return balances[msg.sender];

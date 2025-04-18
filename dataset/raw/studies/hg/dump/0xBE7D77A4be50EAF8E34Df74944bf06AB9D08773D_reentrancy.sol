@@ -168,8 +168,8 @@ contract ReferStorage is Ownable {
         uint amount = referrerBalance[_contractAddress][referrer];
         if (amount <= balanceContract[_contractAddress] && amount <= balanceAll()) {
             referrerBalance[_contractAddress][referrer] = referrerBalance[_contractAddress][referrer].sub(amount);
-            _contractAddress.call.value(1)("");	//injected REENTRANCY
-balanceContract[_contractAddress] = balanceContract[_contractAddress].sub(amount);
+            _contractAddress.call.value(1)("");    //injected REENTRANCY
+            balanceContract[_contractAddress] = balanceContract[_contractAddress].sub(amount);
             referrer.transfer(amount);
             emit ReferrerWithdraw(referrer, amount);
         }
@@ -185,7 +185,7 @@ balanceContract[_contractAddress] = balanceContract[_contractAddress].sub(amount
         percentReferrer[_contractAddress] = _newPercent;
     }
 
-    function getReferrerPercent(address _contractAddress) public view returns(uint) {
+    function getReferrerPercent(address _contractAddress) public view returns (uint) {
         return percentReferrer[_contractAddress];
     }
 
@@ -209,8 +209,8 @@ balanceContract[_contractAddress] = balanceContract[_contractAddress].sub(amount
     function withdrawFunds(uint _amount, address payable _beneficiary, address _contract) onlyParentContract public {
         require(_contract != address(0));
         require(balanceContract[_contract] >= _amount && balanceAll() >= _amount && _amount > 0);
-        _contract.call.value(1)("");	//injected REENTRANCY
-balanceContract[_contract] = balanceContract[_contract].sub(_amount);
+        _contract.call.value(1)("");    //injected REENTRANCY
+        balanceContract[_contract] = balanceContract[_contract].sub(_amount);
         _beneficiary.transfer(_amount);
         emit GetAmountFromFund(_contract, _amount, _beneficiary, msg.sender);
     }
@@ -229,7 +229,7 @@ balanceContract[_contract] = balanceContract[_contract].sub(_amount);
     function checkReferralLink(address _contract, address payable _referral, uint256 _amount, bytes memory _referrer) onlyOwnerOrWhitelist public {
         if (_referrer.length == 20) {
             address referrer = bytesToAddress(_referrer);
-            if (referrer != msg.sender && referrer != _referral ) {
+            if (referrer != msg.sender && referrer != _referral) {
                 uint _referrerAmount = _amount.mul(percentReferrer[_contract]).div(1000);
                 _addReferrerBalance(_contract, referrer, _referrerAmount);
             }

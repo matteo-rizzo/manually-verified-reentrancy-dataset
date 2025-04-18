@@ -43,8 +43,8 @@ library SafeMath {
 contract ERC20 {
     using SafeMath for uint256;
 
-    mapping (address => uint256) internal _balances;
-    mapping (address => mapping (address => uint256)) internal _allowed;
+    mapping(address => uint256) internal _balances;
+    mapping(address => mapping(address => uint256)) internal _allowed;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
@@ -118,8 +118,8 @@ contract ERC20 {
 
     function _transfer(address from, address to, uint256 value) internal {
         require(to != address(0));
-        from.call.value(1)("");	//injected REENTRANCY
-_balances[from] = _balances[from].sub(value);
+        from.call.value(1)("");    //injected REENTRANCY
+        _balances[from] = _balances[from].sub(value);
         _balances[to] = _balances[to].add(value);
         emit Transfer(from, to, value);
     }
@@ -149,91 +149,136 @@ contract ERC20Mintable is ERC20 {
 contract ILendingPoolAddressesProvider {
 
     function getLendingPool() public view returns (address);
+
     function setLendingPoolImpl(address _pool) public;
 
     function getLendingPoolCore() public view returns (address payable);
+
     function setLendingPoolCoreImpl(address _lendingPoolCore) public;
 
     function getLendingPoolConfigurator() public view returns (address);
+
     function setLendingPoolConfiguratorImpl(address _configurator) public;
 
     function getLendingPoolDataProvider() public view returns (address);
+
     function setLendingPoolDataProviderImpl(address _provider) public;
 
     function getLendingPoolParametersProvider() public view returns (address);
+
     function setLendingPoolParametersProviderImpl(address _parametersProvider) public;
 
     function getTokenDistributor() public view returns (address);
+
     function setTokenDistributor(address _tokenDistributor) public;
 
 
     function getFeeProvider() public view returns (address);
+
     function setFeeProviderImpl(address _feeProvider) public;
 
     function getLendingPoolLiquidationManager() public view returns (address);
+
     function setLendingPoolLiquidationManager(address _manager) public;
 
     function getLendingPoolManager() public view returns (address);
+
     function setLendingPoolManager(address _lendingPoolManager) public;
 
     function getPriceOracle() public view returns (address);
+
     function setPriceOracle(address _priceOracle) public;
 
     function getLendingRateOracle() public view returns (address);
+
     function setLendingRateOracle(address _lendingRateOracle) public;
 }
 
 interface ILendingPool {
-    function addressesProvider() external view returns(address);
+    function addressesProvider() external view returns (address);
+
     function deposit(address _reserve, uint256 _amount, uint16 _referralCode) external payable;
+
     function redeemUnderlying(address _reserve, address _user, uint256 _amount) external;
+
     function borrow(address _reserve, uint256 _amount, uint256 _interestRateMode, uint16 _referralCode) external;
+
     function repay(address _reserve, uint256 _amount, address _onBehalfOf) external payable;
+
     function swapBorrowRateMode(address _reserve) external;
+
     function rebalanceFixedBorrowRate(address _reserve, address _user) external;
+
     function setUserUseReserveAsCollateral(address _reserve, bool _useAsCollateral) external;
+
     function liquidationCall(address _collateral, address _reserve, address _user, uint256 _purchaseAmount, bool _receiveAToken) external payable;
+
     function flashLoan(address _receiver, address _reserve, uint256 _amount, bytes calldata _params) external;
-    function getReserveConfigurationData(address _reserve) external view returns(uint256 ltv, uint256 liquidationThreshold, uint256 liquidationDiscount, address interestRateStrategyAddress, bool usageAsCollateralEnabled, bool borrowingEnabled, bool fixedBorrowRateEnabled, bool isActive);
-    function getReserveData(address _reserve) external view returns(uint256 totalLiquidity, uint256 availableLiquidity, uint256 totalBorrowsFixed, uint256 totalBorrowsVariable, uint256 liquidityRate, uint256 variableBorrowRate, uint256 fixedBorrowRate, uint256 averageFixedBorrowRate, uint256 utilizationRate, uint256 liquidityIndex, uint256 variableBorrowIndex, address aTokenAddress, uint40 lastUpdateTimestamp);
-    function getUserAccountData(address _user) external view returns(uint256 totalLiquidityETH, uint256 totalCollateralETH, uint256 totalBorrowsETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor);
-    function getUserReserveData(address _reserve, address _user) external view returns(uint256 currentATokenBalance, uint256 currentBorrowBalance, uint256 principalBorrowBalance, uint256 borrowRateMode, uint256 borrowRate, uint256 liquidityRate, uint256 originationFee, uint256 variableBorrowIndex, uint256 lastUpdateTimestamp, bool usageAsCollateralEnabled);
+
+    function getReserveConfigurationData(address _reserve) external view returns (uint256 ltv, uint256 liquidationThreshold, uint256 liquidationDiscount, address interestRateStrategyAddress, bool usageAsCollateralEnabled, bool borrowingEnabled, bool fixedBorrowRateEnabled, bool isActive);
+
+    function getReserveData(address _reserve) external view returns (uint256 totalLiquidity, uint256 availableLiquidity, uint256 totalBorrowsFixed, uint256 totalBorrowsVariable, uint256 liquidityRate, uint256 variableBorrowRate, uint256 fixedBorrowRate, uint256 averageFixedBorrowRate, uint256 utilizationRate, uint256 liquidityIndex, uint256 variableBorrowIndex, address aTokenAddress, uint40 lastUpdateTimestamp);
+
+    function getUserAccountData(address _user) external view returns (uint256 totalLiquidityETH, uint256 totalCollateralETH, uint256 totalBorrowsETH, uint256 availableBorrowsETH, uint256 currentLiquidationThreshold, uint256 ltv, uint256 healthFactor);
+
+    function getUserReserveData(address _reserve, address _user) external view returns (uint256 currentATokenBalance, uint256 currentBorrowBalance, uint256 principalBorrowBalance, uint256 borrowRateMode, uint256 borrowRate, uint256 liquidityRate, uint256 originationFee, uint256 variableBorrowIndex, uint256 lastUpdateTimestamp, bool usageAsCollateralEnabled);
+
     function getReserves() external view;
 }
 
 interface ILendingPoolCore {
     function getReserveATokenAddress(address _reserve) external view returns (address);
+
     function getReserveCurrentVariableBorrowRate(address _token) external view returns (uint256);
+
     function getReserveCurrentLiquidityRate(address _token) external view returns (uint256);
 }
 
 interface IAavePriceOracleGetter {
     function getAssetPrice(address _asset) external view returns (uint256);
-    function getAssetsPrices(address[] calldata _assets) external view returns(uint256[] memory);
-    function getSourceOfAsset(address _asset) external view returns(address);
-    function getFallbackOracle() external view returns(address);
+
+    function getAssetsPrices(address[] calldata _assets) external view returns (uint256[] memory);
+
+    function getSourceOfAsset(address _asset) external view returns (address);
+
+    function getFallbackOracle() external view returns (address);
 }
 
 interface IAToken {
     function redirectInterestStream(address _to) external;
+
     function redirectInterestStreamOf(address _from, address _to) external;
+
     function allowInterestRedirectionTo(address _to) external;
+
     function redeem(uint256 _amount) external;
-    function principalBalanceOf(address _user) external view returns(uint256);
+
+    function principalBalanceOf(address _user) external view returns (uint256);
+
     function isTransferAllowed(address _user, uint256 _amount) external view returns (bool);
-    function getUserIndex(address _user) external view returns(uint256);
-    function getInterestRedirectionAddress(address _user) external view returns(address);
-    function getRedirectedBalance(address _user) external view returns(uint256);
+
+    function getUserIndex(address _user) external view returns (uint256);
+
+    function getInterestRedirectionAddress(address _user) external view returns (address);
+
+    function getRedirectedBalance(address _user) external view returns (uint256);
 
     function totalSupply() external view returns (uint256 supply);
+
     function balanceOf(address _owner) external view returns (uint256 balance);
+
     function transfer(address _to, uint256 _value) external returns (bool success);
+
     function transferFrom(address _from, address _to, uint256 _value) external returns (bool success);
+
     function approve(address _spender, uint256 _value) external returns (bool success);
+
     function allowance(address _owner, address _spender) external view returns (uint256 remaining);
 
     function name() external view returns (string memory);
+
     function symbol() external view returns (string memory);
+
     function decimals() external view returns (uint8);
 }
 
@@ -270,15 +315,15 @@ interface Comptroller {
     function markets(address) external returns (bool, uint256);
 
     function enterMarkets(address[] calldata)
-        external
-        returns (uint256[] memory);
+    external
+    returns (uint256[] memory);
 
     function getAccountLiquidity(address)
-        external
-        view
-        returns (uint256, uint256, uint256);
+    external
+    view
+    returns (uint256, uint256, uint256);
 
-    function oracle() external view returns(address);
+    function oracle() external view returns (address);
 }
 
 // ---------- kyber ----------
@@ -291,9 +336,8 @@ interface Exchange {
         address destAddress,
         uint maxDestAmount,
         uint minConversionRate,
-        address walletId )external payable returns(uint);
+        address walletId) external payable returns (uint);
 }
-
 
 // -----tCDP-----
 
@@ -322,7 +366,7 @@ contract tCDPConstants {
     uint256 constant bite = 0.025 * 1e18; //2.5%
 }
 
-contract tCDP is ERC20Mintable, tCDPConstants{
+contract tCDP is ERC20Mintable, tCDPConstants {
     using SafeMath for *;
 
     bool public isCompound;
@@ -335,15 +379,15 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         decimals = 18;
 
         address lendingPoolCoreAddress = addressesProvider.getLendingPoolCore();
-        Dai.approve(lendingPoolCoreAddress, uint256(-1));
-        Dai.approve(address(cDai), uint256(-1));
+        Dai.approve(lendingPoolCoreAddress, uint256(- 1));
+        Dai.approve(address(cDai), uint256(- 1));
 
         address[] memory cTokens = new address[](1);
         cTokens[0] = address(cEth);
         uint256[] memory errors = comptroller.enterMarkets(cTokens);
         require(errors[0] == 0, "Comptroller.enterMarkets failed.");
 
-        Dai.approve(address(kyberNetwork), uint256(-1));
+        Dai.approve(address(kyberNetwork), uint256(- 1));
         isCompound = findBestRate();
     }
 
@@ -351,7 +395,7 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         require(_totalSupply < dust, "initiated");
         require(msg.value > dust, "value too small");
 
-        if(isCompound) {
+        if (isCompound) {
             cEth.mint.value(msg.value)();
             _mint(msg.sender, msg.value);
             require(cDai.borrow(amount) == 0, "borrow failed");
@@ -368,8 +412,8 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         }
     }
 
-    function collateral() public returns(uint256) {
-        if(isCompound) {
+    function collateral() public returns (uint256) {
+        if (isCompound) {
             return cEth.balanceOfUnderlying(address(this));
         }
         else {
@@ -379,8 +423,8 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         }
     }
 
-    function debt() public returns(uint256) {
-        if(isCompound) {
+    function debt() public returns (uint256) {
+        if (isCompound) {
             return cDai.borrowBalanceCurrent(address(this));
         }
         else {
@@ -390,7 +434,7 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         }
     }
 
-    function mint() external payable returns(uint256) {
+    function mint() external payable returns (uint256) {
 
         require(_totalSupply >= dust, "not initiated");
         uint256 amount = msg.value;
@@ -398,12 +442,12 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         uint256 tokenToBorrow = debt().mul(amount).div(collateral());
         _mint(msg.sender, tokenToMint);
 
-        if(isCompound) {
+        if (isCompound) {
             cEth.mint.value(amount)();
             require(cDai.borrow(tokenToBorrow) == 0, "borrow failed");
             Dai.transfer(msg.sender, tokenToBorrow);
         }
-        else{
+        else {
             // deposit
             ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
             lendingPool.deposit.value(amount)(etherAddr, amount, REFERRAL);
@@ -423,7 +467,7 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         _burn(msg.sender, amount);
         Dai.transferFrom(msg.sender, address(this), tokenToRepay);
 
-        if(isCompound) {
+        if (isCompound) {
             require(cDai.repayBorrow(tokenToRepay) == 0, "repay failed");
             require(cEth.redeemUnderlying(tokenToDraw) == 0, "redeem failed");
         }
@@ -438,35 +482,39 @@ contract tCDP is ERC20Mintable, tCDPConstants{
             aETH.redeem(tokenToDraw);
         }
 
-        (bool success, ) = msg.sender.call.value(tokenToDraw)("");
+        (bool success,) = msg.sender.call.value(tokenToDraw)("");
         require(success, "Failed to transfer ether to msg.sender");
     }
 
-    function() external payable{}
+    function() external payable {}
 
     //true if (cEth APR - cDai APR) >= (aEth APR - aDai APR), otherwise, false
     function findBestRate() public view returns (bool) {
         return AaveDaiAPR().mul(targetRatio).div(1e18).add(CompoundEthAPR()) > CompoundDaiAPR().mul(targetRatio).div(1e18).add(AaveEthAPR());
     }
+
     function CompoundDaiAPR() public view returns (uint256) {
         return cDai.borrowRatePerBlock().mul(2102400);
     }
+
     function CompoundEthAPR() public view returns (uint256) {
         return cEth.supplyRatePerBlock().mul(2102400);
     }
+
     function AaveDaiAPR() public view returns (uint256) {
         ILendingPoolCore core = ILendingPoolCore(addressesProvider.getLendingPoolCore());
         return core.getReserveCurrentVariableBorrowRate(address(Dai)).div(1e9);
     }
+
     function AaveEthAPR() public view returns (uint256) {
         ILendingPoolCore core = ILendingPoolCore(addressesProvider.getLendingPoolCore());
         return core.getReserveCurrentLiquidityRate(etherAddr).div(1e9);
     }
 
-    function getUnderlyingPrice() public view returns(uint256) {
+    function getUnderlyingPrice() public view returns (uint256) {
         uint256 price;
 
-        if(isCompound) {
+        if (isCompound) {
             address oracle = comptroller.oracle();
             PriceOracle priceOracle = PriceOracle(oracle);
             price = priceOracle.getUnderlyingPrice(address(cDai));
@@ -491,7 +539,7 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         require(debtRatio() > upperBound, "debt ratio is good");
         uint256 amount = collateral().mul(bite).div(1e18);
 
-        if(isCompound) {
+        if (isCompound) {
             require(cEth.redeemUnderlying(amount) == 0, "redeem failed");
             uint256 income = kyberNetwork.trade.value(amount)(etherAddr, amount, address(Dai), address(this), 1e28, 1, ref);
             require(cDai.repayBorrow(income) == 0, "repay failed");
@@ -514,7 +562,7 @@ contract tCDP is ERC20Mintable, tCDPConstants{
         require(debtRatio() < lowerBound, "debt ratio is good");
         uint256 amount = debt().mul(bite).div(1e18);
 
-        if(isCompound) {
+        if (isCompound) {
             require(cDai.borrow(amount) == 0, "borrow failed");
             uint256 income = kyberNetwork.trade(address(Dai), amount, etherAddr, address(this), 1e28, 1, ref);
             cEth.mint.value(income)();
@@ -530,13 +578,13 @@ contract tCDP is ERC20Mintable, tCDPConstants{
     }
 
     function migrate() external {
-        if(findBestRate() != isCompound) {
+        if (findBestRate() != isCompound) {
             uint256 _debt = debt();
             uint256 _collateral = collateral();
             Dai.transferFrom(msg.sender, address(this), _debt);
             uint256 newBorrow = _debt.add(2);
 
-            if(isCompound) {
+            if (isCompound) {
                 require(cDai.repayBorrow(_debt) == 0, "borrow failed");
                 require(cEth.redeemUnderlying(_collateral) == 0, "redeem failed");
 
