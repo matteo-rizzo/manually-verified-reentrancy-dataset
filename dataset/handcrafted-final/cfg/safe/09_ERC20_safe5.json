@@ -1,0 +1,52 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "REF_0(bool)",
+    "REF_2(bool)",
+    "REF_2(bool) (",
+    "TMP_3(uint256) = HIGH_LEVEL_CALL, dest:TMP_2(IERC20), function:balanceOf, arguments:",
+    "TMP_8(bool) = HIGH_LEVEL_CALL, dest:TMP_7(IERC20), function:transfer, arguments:",
+    "donated",
+    "donated) := True(bool)\"]",
+    "require(bool)(! donated"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(bool)",
+      "target": "donated"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_2(bool)",
+      "target": "donated"
+    },
+    {
+      "source": "REF_2(bool) (",
+      "target": "donated) := True(bool)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "REF_0(",
+    "REF_0(uint256)",
+    "REF_2(uint256)",
+    "REF_3(",
+    "REF_3(uint256)",
+    "TMP_12(bool) = HIGH_LEVEL_CALL, dest:token(IERC20), function:transfer, arguments:",
+    "TMP_5(bool) = HIGH_LEVEL_CALL, dest:token(IERC20), function:transferFrom, arguments:",
+    "require(bool,string)(stakedAmounts",
+    "stakedAmounts",
+    "stakedAmounts) = REF_0 (c)+ amount\"]",
+    "stakedAmounts) = REF_3 (c)- amount\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_3(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "REF_3(",
+      "target": "stakedAmounts) = REF_3 (c)- amount\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "REF_0(",
+      "target": "stakedAmounts) = REF_0 (c)+ amount\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    }
+  ]
+}

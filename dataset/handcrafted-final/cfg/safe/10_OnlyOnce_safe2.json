@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "REF_0(bool)",
+    "REF_1(uint256)",
+    "REF_2(bool)",
+    "REF_2(bool) (",
+    "REF_4(",
+    "REF_4(uint256)",
+    "REF_5(bool)",
+    "REF_5(bool) (",
+    "REF_6(",
+    "REF_6(uint256)",
+    "TUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:",
+    "balances",
+    "balances) = REF_4 (c)- amt\"]",
+    "balances) = REF_6 (c)+ msg.value\"]",
+    "done",
+    "done) := True(bool)\"]",
+    "done) := success(bool)\"]",
+    "require(bool,string)(! done",
+    "require(bool,string)(balances"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_6(",
+      "target": "balances) = REF_6 (c)+ msg.value\"]"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_0(bool)",
+      "target": "done"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_1(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_2(bool)",
+      "target": "done"
+    },
+    {
+      "source": "REF_2(bool) (",
+      "target": "done) := True(bool)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "5",
+      "target": "6"
+    },
+    {
+      "source": "6",
+      "target": "7"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "balances"
+    },
+    {
+      "source": "REF_4(",
+      "target": "balances) = REF_4 (c)- amt\"]"
+    },
+    {
+      "source": "7",
+      "target": "8"
+    },
+    {
+      "source": "REF_5(bool)",
+      "target": "done"
+    },
+    {
+      "source": "REF_5(bool) (",
+      "target": "done) := success(bool)\"]"
+    }
+  ]
+}
