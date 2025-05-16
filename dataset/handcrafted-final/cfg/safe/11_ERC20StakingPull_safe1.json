@@ -1,0 +1,136 @@
+{
+  "nodes": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "REF_0(",
+    "REF_0(uint256)",
+    "REF_2(uint256)",
+    "REF_3(",
+    "REF_3(uint256)",
+    "REF_4(",
+    "REF_4(uint256)",
+    "REF_5(uint256)",
+    "REF_6(uint256)",
+    "REF_6(uint256) (",
+    "TMP_14(bool) = HIGH_LEVEL_CALL, dest:token(IERC20), function:transfer, arguments:",
+    "TMP_5(bool) = HIGH_LEVEL_CALL, dest:token(IERC20), function:transferFrom, arguments:",
+    "amount = pendingWithdrawals",
+    "pendingWithdrawals",
+    "pendingWithdrawals) := 0(uint256)\"]",
+    "pendingWithdrawals) = REF_4 (c)+ amount\"]",
+    "require(bool,string)(stakedAmounts",
+    "stakedAmounts",
+    "stakedAmounts) = REF_0 (c)+ amount\"]",
+    "stakedAmounts) = REF_3 (c)- amount\"]"
+  ],
+  "edges": [
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_0(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "REF_0(",
+      "target": "stakedAmounts) = REF_0 (c)+ amount\"]"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "REF_5(uint256)",
+      "target": "pendingWithdrawals"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_6(uint256)",
+      "target": "pendingWithdrawals"
+    },
+    {
+      "source": "REF_6(uint256) (",
+      "target": "pendingWithdrawals) := 0(uint256)\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    },
+    {
+      "source": "1",
+      "target": "2"
+    },
+    {
+      "source": "REF_2(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "2",
+      "target": "3"
+    },
+    {
+      "source": "REF_3(uint256)",
+      "target": "stakedAmounts"
+    },
+    {
+      "source": "REF_3(",
+      "target": "stakedAmounts) = REF_3 (c)- amount\"]"
+    },
+    {
+      "source": "3",
+      "target": "4"
+    },
+    {
+      "source": "REF_4(uint256)",
+      "target": "pendingWithdrawals"
+    },
+    {
+      "source": "REF_4(",
+      "target": "pendingWithdrawals) = REF_4 (c)+ amount\"]"
+    },
+    {
+      "source": "4",
+      "target": "5"
+    },
+    {
+      "source": "0",
+      "target": "1"
+    }
+  ]
+}
