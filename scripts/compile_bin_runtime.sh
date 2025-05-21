@@ -62,9 +62,6 @@ for file in "$DIRECTORY"/*.sol; do
 
     echo "🚀 Compiling with $SOLC_PATH"
 
-    # Create output directory
-
-
     # Compile the Solidity file
     out_file=`basename ${file%.*}`
     "$SOLC_PATH" $COMPILATION_FLAGS "$file" --output-dir $out_dir/$out_file
