@@ -12,7 +12,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-contract MiniToken {
+contract C {
     string public name = "MiniToken";
     string public symbol = "MINI";
     uint8 public decimals = 18;
