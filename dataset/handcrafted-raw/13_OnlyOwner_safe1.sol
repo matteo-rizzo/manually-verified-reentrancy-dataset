@@ -10,6 +10,7 @@ contract ControlledPayout {
 
     address public owner;
     PendingPayment[] private pendingPayments;
+    bool private flag;
 
     constructor() {
         owner = msg.sender;
@@ -20,12 +21,19 @@ contract ControlledPayout {
         _;
     }
 
-    function requestPay(address payable recipient) public payable {
+    modifier nonReentrant() {
+        require(!flag, "Locked");
+        flag = true;
+        _;
+        flag = false;
+    }
+
+    function requestPay(address payable recipient) nonReentrant public payable {
         require(msg.value > 0, "No credit");
         pendingPayments.push(PendingPayment({recipient: recipient, amount: msg.value}));
     }
 
-    function payAll() public {
+    function payAll() nonReentrant public {
         for (uint256 i = 0; i < pendingPayments.length; ++i)
             pay(pendingPayments[i].recipient, pendingPayments[i].amount);
         delete pendingPayments;
