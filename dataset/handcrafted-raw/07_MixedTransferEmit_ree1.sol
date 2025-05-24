@@ -3,20 +3,17 @@ pragma solidity ^0.8.0;
 // SPDX-License-Identifier: GPL-3.0
 contract C {
     mapping (address => uint256) public balances;
+    event Withdrawn(uint amt);
 
-    modifier isHuman() {
-        address _addr = msg.sender;
-        uint256 _codeLength;
-        assembly {_codeLength := extcodesize(_addr)}
-        require(_codeLength == 0, "sorry humans only");
-        _;
-    }
-
-    function withdraw(uint256 amt) isHuman() public {
+    function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        payable(msg.sender).transfer(amt);
+
+        (bool success, ) = msg.sender.call{value:0}("");
         require(success, "Call failed");
         balances[msg.sender] -= amt;
+
+        emit Withdrawn(amt);
     }
 
     function deposit() public payable {

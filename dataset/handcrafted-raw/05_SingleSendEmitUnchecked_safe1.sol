@@ -4,13 +4,16 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-    address private target = 0xD591678684E7c2f033b5eFF822553161bdaAd781;    // coin_base
+    event Sent(uint256 amt);
 
     function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = target.call{value:amt}("");
-        require(success, "Call failed");
-        balances[msg.sender] -= amt;
+        bool success1 = payable(msg.sender).send(amt);
+        require(success1, "Send failed");
+        unchecked {
+            balances[msg.sender] -= amt;
+        }
+        emit Sent(amt);
     }
 
     function deposit() public payable {

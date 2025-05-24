@@ -3,15 +3,17 @@ pragma solidity ^0.8.0;
 // SPDX-License-Identifier: GPL-3.0
 contract C {
     mapping (address => uint256) public balances;
-
-    error InsufficientFunds(address caller, uint256 amt);
+    event Withdrawn(uint amt);
 
     function withdraw(uint256 amt) public {
-        if(balances[msg.sender] < amt)
-            revert InsufficientFunds(msg.sender, amt);
-        (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
+        require(balances[msg.sender] >= amt, "Insufficient funds");
+        payable(msg.sender).transfer(amt);
         balances[msg.sender] -= amt;
+
+        (bool success, ) = msg.sender.call{value:0}("");
+        require(success, "Call failed");
+
+        emit Withdrawn(amt);
     }
 
     function deposit() public payable {
