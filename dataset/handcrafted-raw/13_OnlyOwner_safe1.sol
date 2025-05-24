@@ -28,6 +28,8 @@ contract ControlledPayout {
         flag = false;
     }
 
+    // the nonReentrant mod is necessary to prevent attackers reenter into the requestPay() and increase 
+    // the array length while iterating within the payAll()
     function requestPay(address payable recipient) nonReentrant public payable {
         require(msg.value > 0, "No credit");
         pendingPayments.push(PendingPayment({recipient: recipient, amount: msg.value}));

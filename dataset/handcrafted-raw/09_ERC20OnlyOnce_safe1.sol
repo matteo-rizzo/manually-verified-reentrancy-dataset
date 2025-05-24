@@ -20,7 +20,7 @@ contract C {
         require(!donated[msg.sender]);
         require(IERC20(token).balanceOf(msg.sender) >= amount * 2, "Need at least double to donate");
         donated[msg.sender] = true;
-        bool success = IERC20(token).transfer(to, amount);       
+        bool success = IERC20(token).transferFrom(msg.sender, to, amount);       
         donated[msg.sender] = success;        // only-once pattern allows sidefx on the mutex without leading to reentrancy
         return success;
     }

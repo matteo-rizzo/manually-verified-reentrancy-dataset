@@ -20,6 +20,8 @@ contract ControlledPayout {
         _;
     }
 
+    // while the owner is iterating within the payAll(), attackers may reenter into the requestPay()
+    // and increase the array length
     function requestPay(address payable recipient) public payable {
         require(msg.value > 0, "No credit");
         pendingPayments.push(PendingPayment({recipient: recipient, amount: msg.value}));
