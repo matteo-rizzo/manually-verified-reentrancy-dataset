@@ -5,7 +5,7 @@ contract C {
     mapping (address => uint256) public balances;
 
     modifier isHuman() {
-        require(tx.origin != msg.sender, "Not EOA");
+        require(tx.origin == msg.sender, "Not EOA");
         _;
     }
 
