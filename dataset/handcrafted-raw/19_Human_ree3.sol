@@ -19,7 +19,6 @@ contract C {
         balances[msg.sender] -= amt;
     }
 
-    
     function deposit() isHuman() public payable {
         balances[msg.sender] += msg.value;       
     }

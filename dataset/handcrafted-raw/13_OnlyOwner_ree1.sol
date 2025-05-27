@@ -33,9 +33,8 @@ contract ControlledPayout {
         delete pendingPayments;
     }
 
-    function pay(address payable recipient, uint256 amount) public {
+    function pay(address payable recipient, uint256 amount) onlyOwner public {
         require(address(this).balance >= amount, "Insufficient balance");
-
         (bool success, ) = recipient.call{value: amount}("");
         require(success, "Transfer failed");
     }

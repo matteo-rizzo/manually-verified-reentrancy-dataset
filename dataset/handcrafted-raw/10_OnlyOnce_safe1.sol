@@ -11,7 +11,6 @@ contract C {
         done[msg.sender] = true;
         balances[msg.sender] -= amt;
         (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
         done[msg.sender] = success;
     }
 

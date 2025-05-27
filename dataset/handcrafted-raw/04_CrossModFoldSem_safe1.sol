@@ -33,7 +33,7 @@ contract C {
         update(msg.sender, -int256(amt));
     }
 
-    function deposit() nonReentrant public payable {
+    function deposit() public payable {
         balances[msg.sender] += msg.value;       
     }
 

@@ -5,26 +5,26 @@ contract C {
     bool flag = false;
     mapping (address => uint256) public balances;
 
-    function toggle() internal {
-        flag = !flag;
+
+    modifier nonReentrant() {
+        require(!flag, "Locked");
+        flag = true;
+        _;
+        flag = false;
     }
 
-    function withdraw(uint256 amt) public {
-        require(!flag, "Locked");
-        toggle();
-
-
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+    function withdrawAll() nonReentrant public {
+        (bool success, ) = msg.sender.call{value:balances[msg.sender]}("");
         require(success, "Call failed");
-        balances[msg.sender] -= amt;
-
-
-        toggle();
+        update();
     }
 
     function deposit() public payable {
         balances[msg.sender] += msg.value;       
+    }
+
+    function update() internal {
+        balances[msg.sender] = 0;
     }
 
 }

@@ -21,6 +21,7 @@ contract C {
         require(IERC20(token).balanceOf(msg.sender) >= amount * 2, "Need at least double to donate");
         donated[msg.sender] = true;
         bool success = IERC20(token).transferFrom(msg.sender, to, amount);       
+        // this require reverts the boolean donated[msg.sender] to false
         require(success, "Donation failed");
     }
 }

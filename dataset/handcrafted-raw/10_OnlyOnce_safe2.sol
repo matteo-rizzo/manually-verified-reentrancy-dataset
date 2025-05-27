@@ -10,7 +10,6 @@ contract C {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         done[msg.sender] = true;
         (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
         balances[msg.sender] -= amt;    // this does NOT lead to a reentrancy even though the sidefx is after the call()
         done[msg.sender] = success;
     }
