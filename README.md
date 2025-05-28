@@ -1,110 +1,122 @@
-# Manually Verified Reentrancy Dataset
+# Manually Verified Reentrancy Datasets for Smart Contracts
 
-A repository of **manually verified** Solidity smart contracts, categorized as either **safe** or **reentrant**. This dataset was constructed by consolidating data from three studies:
+This repository provides two meticulously curated and **manually verified** benchmark datasets for reentrancy vulnerability research in Solidity smart contracts. Our goal is to offer high-quality resources that address the limitations of noisy, automatically-labeled datasets commonly used in prior work. All contracts in the final benchmarks are labeled according to a **clearly defined reentrancy taxonomy** detailed in our accompanying paper.
 
-- **cgt** ([Consolidated Ground Truth](https://github.com/gsalzer/cgt))
-- **hg** ([HuangGai](https://github.com/xf97/HuangGai))
-- **rs** ([Reentrancy Study](https://github.com/InPlusLab/ReentrancyStudy-Data))
+The two primary datasets contributed are:
 
-The `cgt` and `hg` datasets contain **only reentrant** contracts, while `rs` is split between **safe** and **reentrant** contracts based on `reentrancy_information.csv`.
+1.  **Aggregated Benchmark (High-Confidence Set):** A collection of **436 unique contracts (122 reentrant, 314 safe)**. This benchmark was derived from the aggregation of three public academic sources, followed by a rigorous manual verification and relabeling process based on our taxonomy:
+      * [Consolidated Ground Truth (CGT)](https://github.com/gsalzer/cgt) (`cgt`)
+      * [HuangGai (HG)](https://github.com/xf97/HuangGai) (`hg`)
+      * [Reentrancy Study (RS)](https://github.com/InPlusLab/ReentrancyStudy-Data) (`rs`)
+2.  **Taxonomy Reentrancy Scenarios (TRS):** A novel, handcrafted set of **150 unique contracts**. This dataset is specifically constructed to represent a defined **taxonomy of reentrancy scenarios**, including those that are subtle, involve modern Solidity features, or exhibit complex control flows, making them challenging for existing detectors. Each contract in the TRS has also been manually verified and labeled according to our taxonomy.
 
----
+This repository includes the original source data (where permissible by original licenses), scripts for preprocessing the initial aggregated pool, and, most importantly, the final benchmark datasets themselves.
 
-## Data Preparation Workflow
+-----
 
-The following pipeline is used to generate the final dataset:
+## Dataset Construction Overview
 
-1. **Merge study data**: Run `merge_studies.py` to combine contracts from the `cgt`, `hg`, and `rs` directories into a single folder. Files are renamed to the format `{contract address}_{study ID}.sol`.
+The final benchmark datasets are the result of a multi-stage process detailed in our paper:
 
-2. **Deduplicate contracts**: Run `deduplicate.py` to remove duplicate contracts across studies.
+**1. Initial Pool Aggregation & Preprocessing (Scripts Provided):**
+This initial phase involves creating a large pool of unique, compilable Solidity contracts from the three source studies (`cgt`, `hg`, `rs`). The provided scripts in the `scripts/` directory automate these preprocessing steps:
 
-3. **Filter compilable contracts**: Run `filter_compilable_contracts.sh` to keep only those contracts that compile successfully.
+  * **Merge study data (`scripts/merge_studies.py`):** Combines contracts from the source study directories (assumed to be placed in `cgt/`, `hg/`, `rs/` locally). Files are renamed (`{contract_address}_{study_ID}.sol`).
+  * **Deduplicate contracts (`scripts/deduplicate.py`):** Removes exact duplicates based on file hashes.
+  * **Filter compilable contracts (`scripts/filter_compilable_contracts.sh`):** Retains only contracts that compile successfully using standard `solc` compilers (versions 0.4.\* to 0.8.\*, matching contract pragmas).
+  * **Remove non-custom/library code (`scripts/prune.py`):** Filters out common OpenZeppelin libraries or other non-custom code not central to the contract's unique logic.
 
-4. **Remove non-custom code**: Run `prune.py` to remove library contracts and other unwanted code.
+**Notes on Original Source Preprocessing:**
 
-### About the `hg` Dataset
+  * **`hg` Dataset:** The original `hg` dump included `.txt` files with line numbers for detected issues. These are omitted here to focus on source code. The `hg/dumpt2contracts.py` script was used for initial filtering of relevant files from the original `hg` source.
+  * **`rs` Dataset:** Contracts from the original `rs` study were initially categorized using its `reentrancy_information.csv`. The `rs/dumpt2contracts.py` script was used for this initial split.
 
-The `hg` dump initially contained both `.sol` files and corresponding `.txt` files that pointed out the line numbers where reentrancy issues were detected. This repository omits the `.txt` files to keep the dataset purely focused on contract code. You can use the script `hg/dumpt2contracts.py` for filtering out non relevant files.
+**2. Manual Verification & Final Benchmark Creation (Core Contribution):**
 
-### About the `rs` Dataset
+Following the initial preprocessing, a rigorous manual verification phase was undertaken based on our defined reentrancy taxonomy:
 
-Contracts from the `rs` study dump are split into `reentrant` vs `safe` using `reentrancy_information.csv`. You can use the script `rs/dumpt2contracts.py` for that.
+  * **Aggregated Benchmark (High-Confidence Set):**
 
----
+      * From the preprocessed pool (containing 145 potentially reentrant and 73,434 potentially safe contracts based on original labels), all 145 "potentially reentrant" contracts were manually inspected and relabeled.
+      * From the "potentially safe" pool, a diverse sample of 291 contracts (those confidently marked safe by prior human analysis and multiple tools) was manually inspected and relabeled.
+      * This meticulous process yielded the final **Aggregated Benchmark of 436 high-confidence contracts (122 reentrant, 314 safe)**. This set is recommended as the gold standard for evaluating general reentrancy detection.
 
-## Scripts
+  * **Taxonomy Reentrancy Scenarios (TRS):**
 
-Below is a brief overview of the scripts included in `scripts/`:
+      * This is a separate, novel collection of **150 handcrafted or carefully selected contracts.**
+      * It is constructed to cover a **defined taxonomy of reentrancy scenarios**, focusing on patterns that are subtle, involve modern Solidity features, or exhibit complex control flows, thus challenging existing detectors.
+      * All 150 TRS contracts were **manually created and/or verified** according to our taxonomy, with their labels (reentrant/safe within the context of the specific scenario) confirmed.
 
-1. **`merge_studies.py`**  
-   Merges the data from the `cgt`, `hg`, and `rs` folders into a single directory. Contracts are renamed according to the convention `{contract address}_{study ID}.sol`.
+-----
 
-2. **`deduplicate.py`**  
-   Identifies and removes duplicate Solidity contracts. Duplicate detection relies on file hashes.
+## Accessing the Final Datasets
 
-3. **`filter_by_length.py`**  
-   (Optional) Filters out contracts below a certain size threshold (e.g., very short or empty files).
+The final, manually verified benchmark datasets are the primary contributions intended for direct use in research:
 
-4. **`filter_compilable_contracts.sh`**  
-   Compiles the contracts (using `solc`) and discards any that fail to compile.
+  * **Aggregated Benchmark (436 contracts):** Located in `/dataset/aggregated_benchmark/`
+  * **Taxonomy Reentrancy Scenarios (TRS - 150 contracts):** Located in `/dataset/trs/`
 
-5. **`prune.py`**  
-   Removes known libraries or other non-custom code that is not relevant for reentrancy analysis.
+Each directory typically contains subfolders for `reentrant` and `safe` contracts. The scripts in the `/scripts` directory are available for users interested in reproducing the preprocessing steps for the initial, larger contract pool from the original sources.
 
-6. **`source2ast.sh`**  
-   Generates an Abstract Syntax Tree (AST) for each contract using `solc --ast`.
+-----
 
-7. **`source2cfg.py`**  
-   Generates a control flow graph (CFG) for each contract using Slyther.
+## Scripts Overview
 
----
+The `scripts/` directory contains:
 
-## Usage
+1.  **`merge_studies.py`**: Merges data from `cgt`, `hg`, `rs` folders. Renames contracts to `{contract_address}_{study_ID}.sol`.
+2.  **`deduplicate.py`**: Identifies and removes duplicate Solidity contracts based on file hashes.
+3.  **`filter_by_length.py`**: (Optional) Filters out contracts below a specified size threshold.
+4.  **`filter_compilable_contracts.sh`**: Compiles contracts with `solc` and discards failures. Requires `solc` to be installed and ideally multiple versions accessible (e.g., via `solc-select`) to handle different `pragma` directives.
+5.  **`prune.py`**: Removes known libraries or other non-custom code.
+6.  **`source2ast.sh`**: (Utility) Generates Abstract Syntax Trees (ASTs) using `solc --ast`.
+7.  **`source2cfg.py`**: (Utility) Generates Control Flow Graphs (CFGs) using Slither. Requires `slither-analyzer`.
 
-1. **Clone this repository**:
-   ```bash
-   git clone https://github.com/your-username/manually-verified-reentrancy-dataset.git
-   cd manually-verified-reentrancy-dataset
-   ```
-2. **Install dependencies**:
-   - Python 3.x
-   - Bash shell with `solc` installed
-   - Other Python packages if needed (see imports in `*.py` files).
+-----
 
-3. **Run scripts in order**:
-   ```bash
-   # Merge data
-   python scripts/merge_studies.py
+## Usage Guide
 
-   # Deduplicate
-   python scripts/filter_duplicates.py
+1.  **Clone this repository**:
 
-   # Filter compilable
-   bash scripts/filter_compilable_contracts.sh
+    ```bash
+    git clone https://github.com/your-username/manually-verified-reentrancy-dataset.git
+    cd manually-verified-reentrancy-dataset
+    ```
 
-   # Prune libraries
-   python scripts/prune.py
-   ```
-   Adjust or skip steps as needed for your specific use case.
+2.  **Access Final Datasets**: For most research purposes, navigate to the `/dataset/` directory and use the `aggregated_benchmark` and `trs` datasets directly.
 
----
+3.  **Reproduce Preprocessing (Optional)**:
+
+      * Place the original, unaltered `cgt`, `hg`, and `rs` datasets into their respective subdirectories (e.g., `source_datasets/cgt/`, `source_datasets/hg/`, `source_datasets/rs/`) at the root of this repository or adjust paths in scripts.
+      * Ensure Python 3.x and a Bash shell with `solc` (preferably managed by `solc-select` for version flexibility) are installed.
+      * Install any Python packages listed in the import statements of the `*.py` scripts (e.g., `pip install slither-analyzer`).
+      * Execute the preprocessing scripts in order from the `scripts/` directory:
+        ```bash
+        python merge_studies.py # Ensure script points to correct source_datasets paths
+        python deduplicate.py
+        bash filter_compilable_contracts.sh
+        python prune.py
+        ```
+      * Adjust paths within scripts if your source data layout differs.
+
+-----
 
 ## Contributing
 
-1. Fork this repository.
-2. Create a new branch for your changes: `git checkout -b feature/your-feature`.
-3. Commit your changes: `git commit -m 'Add some feature'`.
-4. Push to your branch: `git push origin feature/your-feature`.
-5. Create a new Pull Request on GitHub.
+1.  Fork this repository.
+2.  Create a new branch: `git checkout -b feature/your-feature`.
+3.  Commit your changes: `git commit -m 'Add some feature'`.
+4.  Push to your branch: `git push origin feature/your-feature`.
+5.  Create a new Pull Request.
 
----
+-----
 
 ## License
 
-The dataset and scripts in this repository are distributed for research and educational purposes. Please review the [LICENSE](LICENSE) file for more information.
+The dataset and scripts in this repository are distributed for research and educational purposes. Please review the LICENSE file for more information.
 
----
+-----
 
 ## Disclaimer
 
-This repository aims to provide a **manually verified** dataset to assist with reentrancy analysis and research on Solidity smart contracts. However, any **usage of the dataset is entirely at your own risk**. Smart contracts are inherently risky, and security issues may remain undetected. Always conduct your own independent audits before deploying or interacting with any contract.
+This repository aims to provide **manually verified** datasets to assist with reentrancy analysis and research on Solidity smart contracts. However, any **usage of the dataset is entirely at your own risk**. Smart contracts are inherently risky, and security issues may remain undetected. Always conduct your own independent audits before deploying or interacting with any contract.
