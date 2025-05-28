@@ -779,6 +779,7 @@ contract DemaxPair is BaseShareField {
         uint256 _amount0Out = amount0Out;
         uint256 _amount1Out = amount1Out;
         require(amount0In > 0 || amount1In > 0, 'DEMAX PAIR : INSUFFICIENT_INPUT_AMOUNT');
+        
         _update(balance0, balance1, _reserve0, _reserve1);
         emit Swap(msg.sender, amount0In, amount1In, _amount0Out, _amount1Out, to);
     }
