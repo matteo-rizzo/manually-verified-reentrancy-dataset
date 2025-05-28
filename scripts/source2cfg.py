@@ -603,7 +603,7 @@ def main():
         description="Generate combined function-level CFGs from Solidity files using Slither and py-solc-x.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("-i", "--input", type=Path, default="dataset/manually-verified-final/missing/safe", help="Input directory.")
+    parser.add_argument("-i", "--input", type=Path, default="dataset/handcrafted-raw", help="Input directory.")
     parser.add_argument("-o", "--output", type=Path, default="logs/cfg",
                         help="Base output directory for combined CFG JSONs.")  # Changed default
     parser.add_argument("-v", "--version", default=DEFAULT_SOLC_VERSION, help="Solc version for --single or fallback.")

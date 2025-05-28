@@ -484,7 +484,7 @@ def main():
         description="Generate Solidity ASTs using py-solc-x for version management.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("-i", "--input", type=Path, default="dataset/manually-verified-final/source",
+    parser.add_argument("-i", "--input", type=Path, default="dataset/handcrafted-raw",
                         help="Input directory.")
     parser.add_argument("-o", "--output", type=Path, default="logs",
                         help="Base output directory (ASTs in 'ast' subdir).")

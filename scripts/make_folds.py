@@ -1,8 +1,9 @@
 import argparse
 import os
 import shutil
-from tqdm import tqdm
+
 from sklearn.model_selection import KFold
+from tqdm import tqdm
 
 
 def create_cv_split(split_index, dataset_folder, k):
@@ -105,7 +106,7 @@ def main():
     )
     parser.add_argument("--data-dir", type=str, required=True,
                         help="Path to the dataset folder (which contains class subfolders)")
-    parser.add_argument("--cv-splits", type=int, default=5,
+    parser.add_argument("--cv-splits", type=int, default=3,
                         help="Number of cross-validation folds to create")
     args = parser.parse_args()
 
