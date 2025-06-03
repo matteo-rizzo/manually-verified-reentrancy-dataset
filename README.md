@@ -1,6 +1,6 @@
 # Manually Verified Reentrancy Datasets for Smart Contracts
 
-This repository provides two meticulously curated and **manually verified** benchmark datasets for reentrancy vulnerability research in Solidity smart contracts. Our goal is to offer high-quality resources that address the limitations of noisy, automatically-labeled datasets commonly used in prior work. All contracts in the final benchmarks are labeled according to a **clearly defined reentrancy taxonomy** detailed in our accompanying paper.
+This repository provides two curated and **manually verified** benchmark datasets for reentrancy vulnerability research in Solidity smart contracts. Our goal is to offer high-quality resources that address the limitations of noisy, automatically-labeled datasets commonly used in prior work. All contracts in the final benchmarks are labeled according to a **clearly defined reentrancy taxonomy** detailed in our accompanying paper.
 
 The two primary datasets contributed are:
 
@@ -8,7 +8,7 @@ The two primary datasets contributed are:
       * [Consolidated Ground Truth (CGT)](https://github.com/gsalzer/cgt) (`cgt`)
       * [HuangGai (HG)](https://github.com/xf97/HuangGai) (`hg`)
       * [Reentrancy Study (RS)](https://github.com/InPlusLab/ReentrancyStudy-Data) (`rs`)
-2.  **Taxonomy Reentrancy Scenarios (TRS):** A novel, handcrafted set of **150 unique contracts**. This dataset is specifically constructed to represent a defined **taxonomy of reentrancy scenarios**, including those that are subtle, involve modern Solidity features, or exhibit complex control flows, making them challenging for existing detectors. Each contract in the TRS has also been manually verified and labeled according to our taxonomy.
+2.  **Taxonomic Reentrancy Scenarios (TRS):** A novel, handcrafted set of **150 unique contracts**. This dataset is specifically constructed to represent a defined **taxonomy of reentrancy scenarios**, including those that are subtle, involve modern Solidity features, or exhibit complex control flows, making them challenging for existing detectors. Each contract in the TRS has also been manually verified and labeled according to our taxonomy.
 
 This repository includes the original source data (where permissible by original licenses), scripts for preprocessing the initial aggregated pool, and, most importantly, the final benchmark datasets themselves.
 
@@ -21,7 +21,7 @@ The final benchmark datasets are the result of a multi-stage process detailed in
 **1. Initial Pool Aggregation & Preprocessing (Scripts Provided):**
 This initial phase involves creating a large pool of unique, compilable Solidity contracts from the three source studies (`cgt`, `hg`, `rs`). The provided scripts in the `scripts/` directory (at the project root) automate these preprocessing steps:
 
-  * **Merge study data (`scripts/merge_studies.py`):** Combines contracts from the source study directories (assumed to be placed in `cgt/`, `hg/`, `rs/` locally within a staging area like `source_datasets/`). Files are renamed (`{contract_address}_{study_ID}.sol`).
+  * **Merge study data (`scripts/merge_studies.py`):** Combines contracts from the source study directories (assumed to be placed in `cgt/`, `hg/`, `rs/` locally within a staging area `dataset_contruction/studies/`). Files are renamed (`{contract_address}_{study_ID}.sol`).
   * **Deduplicate contracts (`scripts/deduplicate.py`):** Removes exact duplicates based on file hashes.
   * **Filter compilable contracts (`scripts/filter_compilable_contracts.sh`):** Retains only contracts that compile successfully using standard `solc` compilers (versions 0.4.\* to 0.8.\*, matching contract pragmas).
   * **Remove non-custom/library code (`scripts/prune.py`):** Filters out common OpenZeppelin libraries or other non-custom code not central to the contract's unique logic.
@@ -53,8 +53,8 @@ Following the initial preprocessing, a rigorous manual verification phase was un
 
 The final, manually verified benchmark datasets are the primary contributions intended for direct use in research:
 
-  * **Aggregated Benchmark (436 contracts):** Located in `/final_benchmarks/aggregated_benchmark/`
-  * **Taxonomy Reentrancy Scenarios (TRS - 150 contracts):** Located in `/final_benchmarks/trs/`
+  * **Aggregated Benchmark (436 contracts):** Located in `/dataset/aggregated_benchmark/`
+  * **Taxonomy Reentrancy Scenarios (TRS - 150 contracts):** Located in `/dataset/trs/`
 
 Each directory typically contains subfolders for `reentrant` and `safe` contracts. The scripts in the `/scripts` directory (at the project root) are available for users interested in reproducing the preprocessing steps for the initial, larger contract pool from the original sources. The scripts for running experiments on the final datasets are located within the `src/` directory.
 
@@ -114,7 +114,7 @@ This section guides you through reproducing the experiments presented in our pap
 
 ### 2\. Dataset Preparation for Model Experiments
 
-While the root-level `scripts/` prepare a large initial pool, for running the ML/DL/LLM experiments as described in the paper, you will primarily use the final, manually verified datasets located in `/final_benchmarks/`.
+While the root-level `scripts/` prepare a large initial pool, for running the ML/DL/LLM experiments as described in the paper, you will primarily use the final, manually verified datasets located in `/dataset/`.
 
   * The script `src/ml_dl/scripts/create_dataset_manually_verified.py` is responsible for taking these final benchmark contracts and structuring them into the specific train/validation/test splits (e.g., using 3-fold cross-validation) required by the ML/DL models. Consult this script for its exact inputs and outputs.
   * LLM experiments will run on test splits derived from these final benchmarks.
