@@ -1,7 +1,7 @@
 
 In this document we recap for each existing analyzer tool what kind of analysis it performs for Reentrancy.
 
-# CONKAS
+# Conkas
 analyzes bytecode
 syntactic + symbolic execution + sat solver
 
@@ -10,7 +10,7 @@ Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints bet
 supports Solidity up to 0.6.11
 
 
-# CONFUZZIUS
+# ConFuzzius
 analyzes bytecode
 syntactic + symbolic execution + sat solver + fuzzing
 
@@ -42,7 +42,7 @@ syntactic + symbolic execution + sat solver
 if the following conditions occurs, it is considered reentrant:
 - detects these external calls: CALL, DELEGATECALL, CALLCODE
 - an external call is made with >2300 gas
-- the call target (receiver) is symbolic or dynamic
+- the call target is symbolic or dynamic
 - a state access occurs **after** the external call
 	- state accesses are: SLOAD, SSTORE, CREATE, CREATE2
 	- this means that read accesses are considered risky!
