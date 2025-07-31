@@ -47,3 +47,16 @@ if the following conditions occurs, it is considered reentrant:
 	- state accesses are: SLOAD, SSTORE, CREATE, CREATE2
 	- this means that read accesses are considered risky!
 
+
+# Oyente
+analyzes bytecode
+syntactic + symbolic execution + sat solver
+
+outdated as it checks CALLCODE (ancestor of DELEGATECALL) and some obsolete reentrancy pattern/antipatterns
+
+uses symbolic execution and path conditions, which are predicates marking each statement telling whether that statement can be reached or not and under what assumptions (i.e. what values variables must assume to make the statement reachable)
+path conditions become lists of constraints solved by Z3
+
+for detecting reentrancy in particular it checks SSTOREs after CALLs/CALLCODEs. This is a syntactic mechanism that is enhanced by the symbolic execution and the sat solving, restricting case to reachable/feasible paths 
+
+
