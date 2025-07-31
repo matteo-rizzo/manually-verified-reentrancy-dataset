@@ -71,3 +71,24 @@ To detected reentrancy, the following criteria are implemented:
 	- CALLs whose money value is a constant equal to 0 are discarded
 	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
 	
+
+# Smartcheck
+analyzes source code
+uses ANTLR for Java and produces a XML AST, then performs queries on the tree using XPath and regexps - it is a purely syntactic tool.
+in the implementation there are no rules define for detecting reentrancy, though the paper mentions them.
+
+
+# Semgrep
+first of all: semgrep is a general-purpose grep-like tool detecting complex syntactic schemes and has nothing to do with Solidity and vulnerabilities.
+rules for detecting vulnerabilities in Solidity have been defined for semgrep 
+
+analyzes source code
+uses semgrep for grepping known method calls and small syntactic/lexical patterns that are considered vulnerable
+detects a number of ERC-related reentrant calls but does not implement any general detector for real-world reentrant code
+should not even be included in smartbugs
+
+
+# sFuzz
+this is not a static analyzer, it's a fuzzer: it generates attacker contracts and runs them on a customized evm
+
+supports Solidity up to 0.4.x
