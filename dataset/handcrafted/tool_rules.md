@@ -43,7 +43,7 @@ if the following conditions occurs, it is considered reentrant:
 - detects these external calls: CALL, DELEGATECALL, CALLCODE
 - an external call is made with >2300 gas
 - the call target is symbolic or dynamic
-- a state access occurs **after** the external call
+- a state access occurs after the external call
 	- state accesses are: SLOAD, SSTORE, CREATE, CREATE2
 	- this means that read accesses are considered risky!
 
@@ -60,3 +60,14 @@ path conditions become lists of constraints solved by Z3
 for detecting reentrancy in particular it checks SSTOREs after CALLs/CALLCODEs. This is a syntactic mechanism that is enhanced by the symbolic execution and the sat solving, restricting case to reachable/feasible paths 
 
 
+# Securify
+analyzes bytecode
+syntactic + contract call dependence analysus + fact checking
+Securify is a java program that parses bytecode and detects potential vulnerabilities via some advanced syntax-based analysis aided by dataflow analysis.
+The program produces a .facts file that is the input of Soufflé (a Datalog variant), which completes the detection.
+
+To detected reentrancy, the following criteria are implemented:
+- CALL instructions are detected
+	- CALLs whose money value is a constant equal to 0 are discarded
+	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
+	
