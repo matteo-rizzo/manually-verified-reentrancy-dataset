@@ -7,7 +7,7 @@ contract C {
 
     function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = msg.sender.delegatecall{value:amt}("");
+        (bool success, ) = msg.sender.delegatecall("");
         require(success, "Call failed");
         balances[msg.sender] -= amt;
     }

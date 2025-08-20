@@ -12,16 +12,18 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-contract C {
+contract MiniToken {
 
-    uint constant public MAX_AMOUNT = 10**3;
+    mapping (address => bool) private donated;
 
-    mapping (address => uint) private received;
-
-    function donate(address token, address to, uint256 amount) public {
-        require(received[to] < MAX_AMOUNT, "Already received maximum amount");
-        bool success = IERC20(token).transfer(to, amount);
-        received[to] += amount;
-        require(success, "Transfer failed");
+    function donateTokens(address token, address to, uint256 amount) public {
+        require(!donated[msg.sender]);
+        (bool success, bytes memory data) = token.staticcall(abi.encodeWithSignature("balanceOf(address)", msg.sender));
+        require(success, "Balance query failed");
+        uint256 bal = abi.decode(data, (uint256));
+        require(bal >= amount * 2, "Need at least double to donate");
+        success = IERC20(token).transfer(to, amount);       
+        require(success, "Donation failed");
+        donated[msg.sender] = true;
     }
 }
