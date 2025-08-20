@@ -3,23 +3,23 @@ pragma solidity ^0.8.0;
 // SPDX-License-Identifier: GPL-3.0
 contract C {
     mapping (address => uint256) private balances;
-
-    bool private flag = false;
+    mapping (address => bool) private flags;    // mutex flags on a per-address basis
 
     function withdraw(uint256 amt) public {
-        require(!flag);
-        // missing flag = true breaks mutex
+        require(!flags[msg.sender]);
+        flags[msg.sender] = true;
 
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;    // side effect BEFORE external call is safe anyway, even with broken mutex
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
+        balances[msg.sender] -= amt;    // side effect can be AFTER external call thanks to the mutex
 
-        flag = false;
+        flags[msg.sender] = false;
     }
 
     function deposit() public payable {
-        require(!flag);
+        require(!flags[msg.sender]);
         balances[msg.sender] += msg.value;       
     }
+
 }
