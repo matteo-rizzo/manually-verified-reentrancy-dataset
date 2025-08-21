@@ -15,7 +15,7 @@ contract C {
         require(balances[from] >= amt, "Insufficient funds");
         (bool success, ) = to.call{value:amt}("");
         require(success, "Call failed");
-        balances[from] -= amt;    // side effect after call
+        balances[from] -= amt;    // side effect after call is safe thanks to the modifier, which prevents reentrancy
     }
 
     function deposit() public payable isHuman() {

