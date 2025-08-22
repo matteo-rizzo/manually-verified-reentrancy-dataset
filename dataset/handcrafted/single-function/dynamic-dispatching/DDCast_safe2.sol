@@ -9,12 +9,15 @@ interface I {
 contract C {
     mapping (address => uint256) public balances;
 
-
     function withdraw(address addr, uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = I(addr).pay();   // pay() implementation is unknown and could be malicious
+        balances[msg.sender] -= amt;        // side effect
+        (bool success, ) = I(addr).pay();   // pay() implementation is unknown and could be malicious, though the side effect is before, so it's safe
         require(success, "Call failed");
-        balances[msg.sender] -= amt;
+    }
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;       
     }
 
 }

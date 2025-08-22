@@ -9,17 +9,15 @@ interface I {
 contract C {
     mapping (address => uint256) public balances;
 
-    I private obj;
-
-    constructor(address addr) {
-        obj = I(addr);      // initialized at construction time
-    }
-
-    function withdraw(, uint256 amt) public {
+    function withdraw(address addr, uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        (bool success, ) = obj.pay();   // pay() implementation is unknown and could be malicious
+        (bool success, ) = I(addr).pay();   // pay() implementation is unknown and could be malicious
         require(success, "Call failed");
         balances[msg.sender] -= amt;
+    }
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;       
     }
 
 }

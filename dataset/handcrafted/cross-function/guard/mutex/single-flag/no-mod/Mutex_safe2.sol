@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    bool flag = false;
+    bool private flag = false;
     mapping (address => uint256) public balances;
 
     function transfer(address to, uint256 amt) public {
