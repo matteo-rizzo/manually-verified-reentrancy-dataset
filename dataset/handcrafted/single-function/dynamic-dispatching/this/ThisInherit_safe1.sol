@@ -2,11 +2,11 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 
-// this contract 
 contract C {
     mapping (address => uint256) internal balances;
 
-    function pay(uint256 amt) public returns (bool) {
+    // despite this function is virtual (and can therefore be overridden) the contract is safe
+    function pay(uint256 amt) public virtual returns (bool) {
         balances[msg.sender] -= amt;    // side effect before call makes this safe
         (bool b, ) = msg.sender.call{value: amt}("");
         return b;
@@ -14,7 +14,7 @@ contract C {
 
     function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        bool success = this.pay(amt);   // pay() is dynamically dispatched (obj.method() syntax always emits a CALL) but it always resolves the local method above
+        bool success = this.pay(amt);   // this is dynamically dispatched (obj.method() syntax always emits a CALL) but it always resolves the local method above, so it is not treated as an external call
         require(success, "Call failed");
     }
 

@@ -1,17 +1,22 @@
 pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
+
+interface I {
+    function transfer(uint256 amt) external returns (bool);
+}
+
 contract C {
     mapping (address => uint256) public balances;
 
-    function pay(uint256 amt) internal {
-        (bool success, ) = msg.sender.call{value:amt}("");
+    function pay(address addr, uint256 amt) internal {
+        bool success = I(addr).transfer(amt);   // the implementation is unknown and could be malicious
         require(success, "Call failed");
     }
 
-    function withdraw(uint256 amt) public {
+    function withdraw(address addr, uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        pay(amt);
+        pay(addr, amt);
         update(amt);
     }
 
