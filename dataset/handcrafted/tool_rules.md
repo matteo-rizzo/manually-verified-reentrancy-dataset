@@ -1,15 +1,6 @@
 
 In this document we recap for each existing analyzer tool what kind of analysis it performs for Reentrancy.
 
-# Conkas
-analyzes bytecode
-syntactic + symbolic execution + sat solver
-
-Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints between loads and stores, uses Z3 as sat solver for detecting dependencies and excluding certain cases
-
-supports Solidity up to 0.6.11
-
-
 # ConFuzzius
 analyzes bytecode
 syntactic + symbolic execution + sat solver + fuzzing
@@ -22,6 +13,29 @@ syntactic + symbolic execution + sat solver + fuzzing
 - it is NOT reentrant when: value = 0 OR address is constant
 
 supports EVM down to 2019 (Petersburg)
+
+# Conkas
+analyzes bytecode
+syntactic + symbolic execution + sat solver
+
+Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints between loads and stores, uses Z3 as sat solver for detecting dependencies and excluding certain cases
+
+supports Solidity up to 0.6.11
+
+# Ethainter
+todo
+
+# eThor
+todo
+
+# HoneyBadger
+todo?
+
+# MadMax
+todo
+
+# Maian
+todo
 
 
 # Manticore
@@ -47,6 +61,8 @@ if the following conditions occurs, it is considered reentrant:
 	- state accesses are: SLOAD, SSTORE, CREATE, CREATE2
 	- this means that read accesses are considered risky!
 
+# Osiris
+discarded because it does not etect reentrancy
 
 # Oyente
 analyzes bytecode
@@ -59,6 +75,9 @@ path conditions become lists of constraints solved by Z3
 
 for detecting reentrancy in particular it checks SSTOREs after CALLs/CALLCODEs. This is a syntactic mechanism that is enhanced by the symbolic execution and the sat solving, restricting case to reachable/feasible paths 
 
+# Pakala
+todo
+
 
 # Securify
 analyzes bytecode
@@ -70,15 +89,13 @@ To detected reentrancy, the following criteria are implemented:
 - CALL instructions are detected
 	- CALLs whose money value is a constant equal to 0 are discarded
 	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
+
+# Securify2
 	
 
-# Smartcheck
-analyzes source code
-uses ANTLR for Java and produces a XML AST, then performs queries on the tree using XPath and regexps - it is a purely syntactic tool.
-in the implementation there are no rules define for detecting reentrancy, though the paper mentions them.
 
 
-# Semgrep
+# Semgrep -> todo: UPDATE WITH SECURITY
 first of all: semgrep is a general-purpose grep-like tool detecting complex syntactic schemes and has nothing to do with Solidity and vulnerabilities.
 rules for detecting vulnerabilities in Solidity have been defined for semgrep 
 
@@ -90,5 +107,25 @@ should not even be included in smartbugs
 
 # sFuzz
 this is not a static analyzer, it's a fuzzer: it generates attacker contracts and runs them on a customized evm
-
 supports Solidity up to 0.4.x
+
+# Slither
+todo
+
+# Smartcheck
+analyzes source code
+uses ANTLR for Java and produces a XML AST, then performs queries on the tree using XPath and regexps - it is a purely syntactic tool.
+in the implementation there are no rules define for detecting reentrancy, though the paper mentions them.
+
+
+# Solhint
+todo
+
+
+# teEther
+todo
+
+
+
+# Vandal
+todo
