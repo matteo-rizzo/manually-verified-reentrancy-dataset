@@ -4,11 +4,12 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-    function withdraw(address target, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw(address target) public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = target.call{value:amt}("");    
         require(success, "Call failed");
-        balances[msg.sender] -= amt;    // side effect AFTER the call makes this contract vulnerable to reentrancy
+        balances[msg.sender] = 0;    // side effect AFTER the call makes this contract vulnerable to reentrancy
     }
 
     function deposit() public payable {

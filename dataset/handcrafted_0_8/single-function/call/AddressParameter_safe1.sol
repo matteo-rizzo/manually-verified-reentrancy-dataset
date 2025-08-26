@@ -4,9 +4,9 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-    function withdraw(address target, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;    // side effect BEFORE the call makes this contract safe
+    function withdraw(address target) public {
+        uint256 amt = balances[msg.sender];
+        balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
         (bool success, ) = target.call{value:amt}("");    
         require(success, "Call failed");
     }

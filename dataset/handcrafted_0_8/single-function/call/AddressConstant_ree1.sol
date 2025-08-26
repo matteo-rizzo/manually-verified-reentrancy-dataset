@@ -6,11 +6,12 @@ contract C {
 
     address private target = 0xD591678684E7c2f033b5eFF822553161bdaAd781; 
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = target.call{value:amt}("");      // calls to a constant target address are potentially malicious
         require(success, "Call failed");
-        balances[msg.sender] -= amt;    // side effect AFTER the call makes the contract vulnerable to reentrancy
+        balances[msg.sender] = 0;    // side effect AFTER the call makes the contract vulnerable to reentrancy
     }
 
     function deposit() public payable {

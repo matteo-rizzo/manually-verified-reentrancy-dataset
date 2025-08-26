@@ -14,11 +14,12 @@ contract C {
         _;
     }
 
-    function transfer(address from, address to, uint256 amt) isHuman() public {
-        require(balances[from] >= amt, "Insufficient funds");
+    function transfer(address from, address to) isHuman() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = to.call{value:amt}("");
         require(success, "Call failed");
-        balances[from] -= amt;    // side effect after call
+        balances[from] = 0;    // side effect after call
     }
 
     function deposit() public payable isHuman() {

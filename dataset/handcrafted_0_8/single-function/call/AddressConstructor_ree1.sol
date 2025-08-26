@@ -10,11 +10,12 @@ contract C {
         target = t;
     }
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = target.call{value:amt}("");      // calls to any address are potentially malicious
         require(success, "Call failed");
-        balances[msg.sender] -= amt;    // side effect AFTER the call makes the contract vulnerable to reentrancy
+        balances[msg.sender] = 0;    // side effect AFTER the call makes the contract vulnerable to reentrancy
     }
 
     function deposit() public payable {

@@ -10,9 +10,10 @@ contract C {
         target = t;
     }
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;    // side effect BEFORE the call makes this contract safe
+    function withdraw() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
         (bool success, ) = target.call{value:amt}("");    
         require(success, "Call failed");
     }
