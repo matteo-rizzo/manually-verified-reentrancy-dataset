@@ -9,15 +9,14 @@ contract C {
         require(!flags[msg.sender]);
         // missing flags[msg.sender] = true;
         _;
-        flags[msg.sender] = false;
+        // missing flags[msg.sender] = false;
     }
 
-    function withdraw() public nonReentrant() {
-        uint256 amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
+    function withdraw(uint256 amt) public nonReentrant() {
+        require(balances[msg.sender] >= amt, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect can be AFTER external call thanks to the mutex
+        balances[msg.sender] -= amt;    // side effect can be AFTER external call thanks to the mutex
 
     }
 

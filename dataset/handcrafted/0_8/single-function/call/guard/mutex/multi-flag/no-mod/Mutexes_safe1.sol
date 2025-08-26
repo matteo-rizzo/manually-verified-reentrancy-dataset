@@ -5,15 +5,14 @@ contract C {
     mapping (address => uint256) private balances;
     mapping (address => bool) private flags;    // mutex flags on a per-address basis
 
-    function withdraw() public {
+    function withdraw(uint256 amt) public {
         require(!flags[msg.sender]);
         flags[msg.sender] = true;
 
-        uint256 amt = balances[msg.sender];
         require(balances[msg.sender] >= amt, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect can be AFTER external call thanks to the mutex
+        balances[msg.sender] -= amt;    // side effect can be AFTER external call thanks to the mutex
 
         flags[msg.sender] = false;
     }

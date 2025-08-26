@@ -7,7 +7,7 @@ contract C {
     bool private flag = false;
 
     function withdraw(uint256 amt) public {
-        // missing require on flag
+        // missing require(!flag);
 
         flag = true;
 
@@ -16,7 +16,7 @@ contract C {
         require(success, "Call failed");
         balances[msg.sender] -= amt;    // side effect after call
 
-        // missing flag = false
+        // missing flag = false;
     }
 
     function deposit() public payable {

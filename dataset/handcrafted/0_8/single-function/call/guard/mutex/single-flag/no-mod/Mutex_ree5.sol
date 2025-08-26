@@ -7,7 +7,7 @@ contract C {
     bool private flag = false;
 
     function withdraw(uint256 amt) public {
-        // missing require on flag
+        // missing require(!flag)
 
         flag = true;
 
