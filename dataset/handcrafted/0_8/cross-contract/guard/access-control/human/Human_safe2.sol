@@ -12,7 +12,7 @@ contract C {
     }
 
     function transfer(address from, address to) isHuman() public {
-        uint256 amt = balances[msg.sender];
+        uint256 amt = balances[from];
         require(amt > 0, "Insufficient funds");
         balances[from] = 0;    // side effect before call
         (bool success, ) = to.call{value:amt}("");
