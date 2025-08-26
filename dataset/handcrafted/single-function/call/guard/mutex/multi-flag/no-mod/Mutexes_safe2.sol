@@ -10,7 +10,7 @@ contract C {
         flags[msg.sender] = true;
 
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;    // side effect BEFORE external call respecting CEI
+        balances[msg.sender] -= amt;    // side effect BEFORE external call respecting CEI is safe anyway
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
 

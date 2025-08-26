@@ -7,14 +7,14 @@ contract C {
 
     function withdraw(uint256 amt) public {
         require(!flags[msg.sender]);
-        flags[msg.sender] = true;
+        // missing flags[msg.sender] = true;
 
         require(balances[msg.sender] >= amt, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
         balances[msg.sender] -= amt;     // side effect after call
 
-        // missing flags[msg.sender] = false;
+        flags[msg.sender] = false;
     }
 
     function deposit() public payable {

@@ -9,7 +9,7 @@ contract C {
         require(!flags[msg.sender]);
         // missing flags[msg.sender] = true;
         _;
-        flags[msg.sender] = false;
+        // missing flags[msg.sender] = false;
     }
 
     function withdraw(uint256 amt) public nonReentrant() {
