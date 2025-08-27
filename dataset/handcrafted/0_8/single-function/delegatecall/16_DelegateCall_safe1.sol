@@ -17,13 +17,27 @@ contract C {
         logic = _logic;
     }
 
-    function deposit() external payable {
+    function deposit() nonReentrant external payable {
         balances[msg.sender] += msg.value;
     }
 
     function withdraw() nonReentrant external {
-        (bool success, ) = logic.delegatecall(abi.encodeWithSignature("withdraw(address)", msg.sender));
+        (bool success, ) = logic.delegatecall(abi.encodeWithSignature("f(address)", msg.sender));
         require(success, "delegatecall failed");
     }
 
+}
+
+contract Logic {
+    address public logic;
+
+    function f(address a) public {
+        logic = a;
+    }
+}
+
+contract CallerHarmless {
+    function main(address logic) public {
+        C c = new C(address(logic));
+    }
 }
