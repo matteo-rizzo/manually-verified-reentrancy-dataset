@@ -9,6 +9,8 @@ contract C {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");      
 
+        balances[msg.sender] = 0;    // side effect BEFORE constructor call prevents reentrancy
+
         // the following assembly block is equivalent to the classic external call
         // (bool success, ) = msg.sender.call{value: amt}("");
 		address addr;
@@ -17,9 +19,8 @@ contract C {
             if iszero(addr) {
                 revert(0, 0)
             }
-        }        
+        }
 
-        balances[msg.sender] = 0;    // side effect AFTER call makes this vulnerable to reentrancy
     }
 
     function deposit() public payable {

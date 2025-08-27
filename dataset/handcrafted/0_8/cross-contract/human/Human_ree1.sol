@@ -28,10 +28,8 @@ contract C {
 }
 
 // an attacker performs from off-chain:
-// deposit{value: 100}()
-// then, transfer(self, attacker)
-// where self is the EOA of the attacker
-// and attacker is an instance of the Attacker contract
+//    deposit{value: 100}();
+//    transfer(SELF, attacker);   // where SELF is the EOA of the attacker and attacker is an instance of the Attacker contract
 // contract Attacker {
 
 //     address attacker_eoa;
