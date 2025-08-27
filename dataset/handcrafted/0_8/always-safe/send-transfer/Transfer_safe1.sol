@@ -4,10 +4,11 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         payable(msg.sender).transfer(amt);
-        balances[msg.sender] -= amt;
+        balances[msg.sender] = 0;
     }
 
     function deposit() public payable {
