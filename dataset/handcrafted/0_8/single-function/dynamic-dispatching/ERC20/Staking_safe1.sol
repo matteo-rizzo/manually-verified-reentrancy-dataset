@@ -15,10 +15,7 @@ interface IERC20 {
 contract StakableToken {
     uint256 public totalSupply;
     IERC20 private token;
-    bool private flag = false;
 
-    mapping(address => uint256) private balances;
-    mapping(address => mapping(address => uint256)) private allowances;
     mapping(address => uint256) public stakedAmounts;
     mapping(address => uint256) public pendingWithdrawals;
     
@@ -30,37 +27,32 @@ contract StakableToken {
         token = IERC20(a);
     }
 
-    modifier nonReentrant() {
-        require(!flag, "Locked");
-        flag = true;
-        _;
-        flag = false;
-    }
-
     function stake(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
 
-        emit Staked(msg.sender, amount);
         stakedAmounts[msg.sender] += amount;
+        emit Staked(msg.sender, amount);
         bool success = token.transferFrom(msg.sender, address(this), amount);
         require(success, "transferFrom failed");
     }
 
-    function unstake(uint256 amount) nonReentrant external {
+    function unstake(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
         require(stakedAmounts[msg.sender] >= amount, "Not enough staked");
 
-        emit RequestedUnstake(msg.sender, amount);
         stakedAmounts[msg.sender] -= amount;
         pendingWithdrawals[msg.sender] += amount;
+
+        emit RequestedUnstake(msg.sender, amount);
     }
 
     function withdraw() external {
         uint256 amount = pendingWithdrawals[msg.sender];
         require(amount > 0, "Nothing to withdraw");
 
-        emit Withdrawn(msg.sender, amount);
-        require(token.transfer(msg.sender, amount), "transfer failed");
         pendingWithdrawals[msg.sender] = 0;
+        require(token.transfer(msg.sender, amount), "transfer failed");
+
+        emit Withdrawn(msg.sender, amount);
     }
 }

@@ -14,34 +14,45 @@ interface IERC20 {
 
 contract StakableToken {
     uint256 public totalSupply;
+    IERC20 private token;
 
-    mapping(address => uint256) private balances;
-    mapping(address => mapping(address => uint256)) private allowances;
     mapping(address => uint256) public stakedAmounts;
+    mapping(address => uint256) public pendingWithdrawals;
     
     event Staked(address indexed user, uint256 amount);
-    event Unstaked(address indexed user, uint256 amount);
+    event RequestedUnstake(address indexed user, uint256 amount);
+    event Withdrawn(address indexed user, uint256 amount);
 
+    constructor(address a) {
+        token = IERC20(a);
+    }
 
-    function stake(address token, uint256 amount) external {
+    function stake(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
-
-        bool success = IERC20(token).transferFrom(msg.sender, address(this), amount);
-        require(success, "transferFrom failed");
 
         stakedAmounts[msg.sender] += amount;
         emit Staked(msg.sender, amount);
+        bool success = token.transferFrom(msg.sender, address(this), amount);
+        require(success, "transferFrom failed");
     }
 
-    function unstake(address token, uint256 amount) external {
+    function unstake(uint256 amount) external {
         require(amount > 0, "Amount must be > 0");
         require(stakedAmounts[msg.sender] >= amount, "Not enough staked");
 
-        bool success = IERC20(token).transfer(msg.sender, amount);
-        require(success, "transfer failed");
-
         stakedAmounts[msg.sender] -= amount;
-        emit Unstaked(msg.sender, amount);
+        pendingWithdrawals[msg.sender] += amount;
 
+        emit RequestedUnstake(msg.sender, amount);
+    }
+
+    function withdraw() external {
+        uint256 amount = pendingWithdrawals[msg.sender];
+        require(amount > 0, "Nothing to withdraw");
+
+        require(token.transfer(msg.sender, amount), "transfer failed");
+        pendingWithdrawals[msg.sender] = 0;
+
+        emit Withdrawn(msg.sender, amount);
     }
 }
