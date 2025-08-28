@@ -25,7 +25,12 @@ for dirpath, dirnames, filenames in os.walk(src_root):
                 r'\1.value(\2)',
                 content
             )
-            content = re.sub(r"payable", "", content)
+            content = re.sub(r"payable\(", "(", content)
+            content = re.sub(r"receive", "function", content)
+
+            content = re.sub(r'(\bconstructor\s*\([^)]*\))\s*(?={)', r'\1 public ',content)
+
+
 
             with open(dst_file, "w") as f:
                 f.write(content)
