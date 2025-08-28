@@ -25,6 +25,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
                 r'\1.value(\2)',
                 content
             )
+            content = re.sub(r"payable", "", content)
 
             with open(dst_file, "w") as f:
                 f.write(content)
