@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    bool flag = false;
+    bool private flag = false;
     mapping (address => uint256) public balances;
 
 
@@ -13,21 +13,27 @@ contract C {
         flag = false;
     }
 
-    function transfer(address to, uint256 amt) public {
+
+    function transfer(address to, uint256 amt) nonReentrant public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
         balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() nonReentrant public {
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] -= amt;
+        balances[msg.sender] = 0; // this is a side effect after an external call
     }
 
+    
+    // this function is not protected by the modifier
+    // so an attacker could potentially reenter after the external call and deposit some money
     function deposit() public payable {
         balances[msg.sender] += msg.value;       
     }
 
 }
+

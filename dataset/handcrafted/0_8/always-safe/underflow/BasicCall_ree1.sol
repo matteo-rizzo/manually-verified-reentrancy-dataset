@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-
     function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");

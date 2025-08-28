@@ -1,8 +1,8 @@
 import os
 import re
 
-src_root = "handcrafted_0_8"
-dst_root = "handcrafted_0_5"
+src_root = "handcrafted/0_8"
+dst_root = "handcrafted/0_5"
 
 for dirpath, dirnames, filenames in os.walk(src_root):
     rel_path = os.path.relpath(dirpath, src_root)

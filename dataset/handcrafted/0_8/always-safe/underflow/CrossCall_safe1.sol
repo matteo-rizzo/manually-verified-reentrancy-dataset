@@ -5,12 +5,11 @@ contract C {
     mapping (address => uint256) public balances;
 
     // an attacker can reenter here, producing a classic single-function reentrancy scenario
-    function withdraw() public {
-        uint amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
+    function withdraw(uint256 amt) public {
+        require(balances[msg.sender] >= amt, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");  
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect AFTER call makes this subject to reentrancy
+        balances[msg.sender] -= amt;    // side effect AFTER call makes this subject to reentrancy
     }
 
     // or can reenter here, producing a cross-function scenario

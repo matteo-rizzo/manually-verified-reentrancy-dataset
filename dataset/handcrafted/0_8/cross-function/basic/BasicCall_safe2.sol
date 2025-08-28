@@ -8,9 +8,9 @@ contract C {
     function withdraw() public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
+        balances[msg.sender] = 0;    // side effect BEFORE call makes this safe
         (bool success, ) = msg.sender.call{value:amt}("");  
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect AFTER call makes this subject to reentrancy
     }
 
     // or can reenter here, producing a cross-function scenario
