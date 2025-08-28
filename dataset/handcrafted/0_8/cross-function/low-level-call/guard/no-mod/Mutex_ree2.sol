@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    bool flag = false;
+    bool private flag = false;
     mapping (address => uint256) public balances;
 
     function transfer(address to, uint256 amt) public {
@@ -12,25 +12,24 @@ contract C {
         balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) public {
+    function withdraw() public {
         require(!flag, "Locked");
         flag = true;
-
-
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        unchecked {
-            balances[msg.sender] -= amt;
-        }
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-
-
+        balances[msg.sender] = 0; // this is a side effect after an external call
         flag = false;
     }
 
+    
+    // this function is not protected by the mutex
+    // so an attacker could potentially reenter after the external call and deposit some money, which is eventually LOST because the balance is zeroed after returning from the reentrancy
+    // this means that calling deposit() for reentering produces a data corruption that does NOT produce a money theft, but rather a money LOSS
     function deposit() public payable {
-        require(!flag, "Locked");
         balances[msg.sender] += msg.value;       
     }
 
 }
+

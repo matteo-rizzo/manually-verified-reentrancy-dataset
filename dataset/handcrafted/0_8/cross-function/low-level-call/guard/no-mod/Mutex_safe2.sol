@@ -5,6 +5,8 @@ contract C {
     bool private flag = false;
     mapping (address => uint256) public balances;
 
+    // all functions are protected by the mutex so an attacker can not reenter anywhere and the contract is safe
+    
     function transfer(address to, uint256 amt) public {
         require(!flag, "Locked");
         require(balances[msg.sender] >= amt, "Insufficient funds");
@@ -12,17 +14,14 @@ contract C {
         balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) public {
+    function withdraw() public {
         require(!flag, "Locked");
         flag = true;
-
-
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        balances[msg.sender] = 0;               // side effect is before and function is protected, so it's super safe
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-
-
         flag = false;
     }
 
@@ -32,3 +31,4 @@ contract C {
     }
 
 }
+

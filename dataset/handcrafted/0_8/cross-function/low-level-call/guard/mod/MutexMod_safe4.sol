@@ -8,30 +8,27 @@ contract C {
 
     modifier nonReentrant() {
         require(!flag, "Locked");
-        flag = true;
+        // missing flag = true;
         _;
         flag = false;
     }
-
-
+   
     function transfer(address to, uint256 amt) nonReentrant public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
         balances[msg.sender] -= amt;
     }
 
+    // this function is protected by a broken modifier, although the side effect is BEFORE the call and the contract is safe anyway
     function withdraw() nonReentrant public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
+        balances[msg.sender] = 0;       // side effect before call makes this safe anyway
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] = 0; // this is a side effect after an external call
     }
 
-    
-    // this function is not protected by the modifier
-    // so an attacker could potentially reenter after the external call and deposit some money
-    function deposit() public payable {
+    function deposit() nonReentrant public payable {
         balances[msg.sender] += msg.value;       
     }
 

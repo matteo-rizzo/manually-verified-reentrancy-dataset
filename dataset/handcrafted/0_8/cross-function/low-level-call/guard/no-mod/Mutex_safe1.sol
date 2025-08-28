@@ -2,26 +2,26 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    bool flag = false;
+    bool private flag = false;
     mapping (address => uint256) public balances;
 
-    function transfer(address to, uint256 amt) public { // transfer is not protected by a mutex
+    // all functions are protected by the mutex so an attacker can not reenter anywhere and the contract is safe
+
+    function transfer(address to, uint256 amt) public {
+        require(!flag, "Locked");
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
         balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) public {
+    function withdraw() public {
         require(!flag, "Locked");
         flag = true;
-
-
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        balances[msg.sender] -= amt;
-
-
+        balances[msg.sender] = 0;   // side effect is after call, though the mutex makes this safe
         flag = false;
     }
 
@@ -31,3 +31,4 @@ contract C {
     }
 
 }
+

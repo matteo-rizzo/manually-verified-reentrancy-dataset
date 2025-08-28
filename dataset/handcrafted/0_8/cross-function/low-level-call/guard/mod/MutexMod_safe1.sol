@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    bool flag = false;
+    bool private flag = false;
     mapping (address => uint256) public balances;
 
 
@@ -13,24 +13,20 @@ contract C {
         flag = false;
     }
 
-    function update(address a, int256 amt) internal {
-        if (amt < 0)
-            balances[a] -= uint256(amt);
-        else 
-            balances[a] += uint256(amt);
-    }
+    // all functions are protected by the modifier so an attacker can not reenter anywhere and the contract is safe
 
     function transfer(address to, uint256 amt) nonReentrant public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        update(to, int256(amt));
-        update(msg.sender, -int256(amt));
+        balances[to] += amt;
+        balances[msg.sender] -= amt;
     }
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() nonReentrant public {
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
-        update(msg.sender, -int256(amt));
+        balances[msg.sender] = 0;   // side effect is after call, though the modifier makes this safe
     }
 
     function deposit() nonReentrant public payable {
@@ -38,3 +34,4 @@ contract C {
     }
 
 }
+

