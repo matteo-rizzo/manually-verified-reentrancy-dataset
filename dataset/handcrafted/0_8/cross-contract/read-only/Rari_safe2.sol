@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 interface IAlpha {
-    function totalETHView() external returns (uint256);
-    function totalSupplyView() external returns (uint256);
+    function totalETHView() external view returns (uint256);
+    function totalSupplyView() external view returns (uint256);
     function work(address strategy) external payable;
 }
 
@@ -58,10 +58,10 @@ contract B is IAlpha {
         totalSupply += msg.value;
     }
 
-    function totalETHView() nonReentrant external returns (uint256) {
+    function totalETHView() external view returns (uint256) {
         return totalETH;
     }
-    function totalSupplyView() nonReentrant external returns (uint256) {
+    function totalSupplyView() external view returns (uint256) {
         return totalSupply;
     }
 }

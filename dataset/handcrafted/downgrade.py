@@ -1,8 +1,8 @@
 import os
 import re
 
-src_root = "handcrafted/0_8"
-dst_root = "handcrafted/0_5"
+src_root = "0_8"
+dst_root = "0_5"
 
 for dirpath, dirnames, filenames in os.walk(src_root):
     rel_path = os.path.relpath(dirpath, src_root)
@@ -28,7 +28,11 @@ for dirpath, dirnames, filenames in os.walk(src_root):
             content = re.sub(r"payable\(", "(", content)
             content = re.sub(r"receive", "function", content)
 
+            content = re.sub(r"virtual", "", content)
+            content = re.sub(r"override", "", content)
+
             content = re.sub(r'(\bconstructor\s*\([^)]*\))\s*(?={)', r'\1 public ',content)
+            #content = re.sub(r'\bunchecked\s*\{([^}]*)\s*\}', r'\1', content)
 
 
 
