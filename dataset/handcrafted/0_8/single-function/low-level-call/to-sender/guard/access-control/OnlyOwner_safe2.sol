@@ -3,6 +3,8 @@ pragma solidity ^0.8.0;
 
 contract ControlledPayout {
 
+
+    uint256 max_queued;
     struct PendingPayment {
         address payable recipient;
         uint256 amount;
@@ -11,8 +13,9 @@ contract ControlledPayout {
     address public owner;
     PendingPayment[] private pendingPayments;
 
-    constructor() {
+    constructor(uint256 _max_queued) {
         owner = msg.sender;
+        max_queued = _max_queued;
     }
 
     modifier onlyOwner() {
@@ -23,24 +26,25 @@ contract ControlledPayout {
     // while the owner is iterating within the payAll(), attackers may reenter into the requestPay()
     // and increase the array length
     function requestPay(address payable recipient) public payable {
+        require(max_queued < 100); // accepts at most max_queued payment requests at a time
         require(msg.value > 0, "No credit");
         pendingPayments.push(PendingPayment({recipient: recipient, amount: msg.value}));
+        max_queued += 1;
+
     }
 
-    function payAll() public {
-        for (uint256 i = 0; i < pendingPayments.length; ++i) // side-effect is on pendingPayments, which may change if an attacker reenters in requestPay()
+    function payAll() public onlyOwner() {
+        for (uint256 i = 0; i < pendingPayments.length; ++i) 
             pay(pendingPayments[i].recipient, pendingPayments[i].amount);
         delete pendingPayments; 
+        max_queued = 0; 
     }
 
-    function pay(address payable recipient, uint256 amount) public {
+    function pay(address payable recipient, uint256 amount) public onlyOwner() {
         require(address(this).balance >= amount, "Insufficient balance");
 
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success, ) = recipient.call{value: amount}(""); // if an attacker reenters requestPay before all payments have been processed, require(max_queued < 100) fails because it has not been set to 0 yet
         require(success, "Transfer failed");
     }
 }
 
-// this example is significant because performing the call in sequential order rather then with reentrancy changes the final state sigma:
-// with reentrancy:
-// attacker calls requestPay(), then has 
