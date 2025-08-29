@@ -16,15 +16,17 @@ contract C {
 
     function redeem(address payable to) external nonReentrant {
         vault.setEnabled(true); 
-        
-        uint256 amt = vault.takeAll(to);
-        
-        // this function has been fixed by setting the flag to false before the external call and agreeing to CIE pattern.
-        vault.setEnabled(false);
+
+        // this function has been fixed by changing the logic in Vault.
+        // Instead of using the takeAll function, we now use the combination of balanceOf and reset.
+        uint256 amt = vault.balanceOf(to);
 
         (bool success, ) = to.call{value: amt}("");
         require(success, "Refund failed");
 
+        vault.reset(to);    // zeroing the balance AFTER the call does not allow the attacked to corrupt the vault balance
+
+        vault.setEnabled(false);
     }
 
     receive() external payable {
@@ -53,10 +55,14 @@ contract Vault {
         balances[a] += amt;
     }
 
-    function takeAll(address a) external returns (uint256) {
+    // Here the takeAll function has been replaced with balanceOf and reset
+    function balanceOf(address a) external view returns (uint256) {
         require(enabled, "Vault disabled");
-        uint256 r = balances[a];
+        return balances[a];
+    }
+
+    function reset(address a) external {
+        require(enabled, "Vault disabled");
         balances[a] = 0;
-        return r;
     }
 }

