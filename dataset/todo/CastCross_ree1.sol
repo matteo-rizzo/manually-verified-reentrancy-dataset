@@ -10,6 +10,7 @@ contract C {
     mapping (address => uint256) public balances;
 
     function withdraw(address addr) public {
+        require(addr != msg.sender);
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         bool success = I(addr).transfer(amt);   // the implementation is unknown and could be malicious
@@ -23,5 +24,28 @@ contract C {
 
 }
 
+// contract Attacker{
+//     // missing logic
+//     function attack(){
+//         c.deposit(100);
+//         c.withdraw(Attacker2);
+//     }
+//     function attack2(){
+//         c.withdraw(Attacker3);
+//     }
+// }
 
+// contract Attacker2 is I {
+//     //missing logic
+//     function transfer(amt) returns (bool){
+//         Attacker2.attack2();
+//         return true;
+//     }
+// }
+
+// contract Attacker3 is I {
+//     function transfer(amt){
+//         // does nothing
+//     }
+// }
 
