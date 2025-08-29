@@ -14,14 +14,15 @@ contract C {
         require(success, "Call failed");
     }
 
-    function withdraw(address addr, uint256 amt) public {
-        require(check(amt), "Insufficient funds");
+    function withdraw(address addr) public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         pay(addr, amt);
-        update(amt);
+        update();
     }
 
-    function update(uint256 amt) internal {
-        balances[msg.sender] -= amt;    // side effect is folded and AFTER the folded call, making this vulnerable
+    function update() internal {
+        balances[msg.sender] = 0;    // side effect is folded and AFTER the folded call, making this vulnerable
     }
 
     function check(uint256 amt) internal view returns (bool) {

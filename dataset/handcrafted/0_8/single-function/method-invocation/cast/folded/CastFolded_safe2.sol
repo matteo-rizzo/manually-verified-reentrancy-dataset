@@ -14,14 +14,15 @@ contract C {
         require(success, "Call failed");
     }
 
-    function withdraw(address addr, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        update(amt);
+    function withdraw(address addr) public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        update();
         pay(addr, amt);
     }
 
-    function update(uint256 amt) internal {
-        balances[msg.sender] -= amt;    // side effect is folded and before the folded call, making this safe
+    function update() internal {
+        balances[msg.sender] = 0;    // side effect is folded and before the folded call, making this safe
     }
 
     function deposit() public payable {

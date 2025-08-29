@@ -9,11 +9,12 @@ interface I {
 contract C {
     mapping (address => uint256) public balances;
 
-    function withdraw(address addr, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw(address addr) public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         bool success = I(addr).trasfer(amt);   // calls to view methods emit STATICCALL, which can reenter only through other STATICCALLs to view methods, therefore this is not vulnerable
         require(success, "Call failed");
-        balances[msg.sender] -= amt;    // not vulnerable even if side effect is after external call
+        balances[msg.sender] = 0;    // not vulnerable even if side effect is after external call
     }
 
     function deposit() public payable {
