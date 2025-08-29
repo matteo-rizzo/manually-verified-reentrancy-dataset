@@ -7,12 +7,13 @@ contract C {
 
     function pay(uint256 amt) public returns (bool) {
         (bool b, ) = msg.sender.call{value: amt}("");
-        balances[msg.sender] -= amt;    // side effect after call makes this vulnerable
+        balances[msg.sender] = 0;    // side effect after call makes this vulnerable
         return b;
     }
 
-    function withdraw(uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
+    function withdraw() public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
         bool success = this.pay(amt);   // the compiler emits a CALL here, although it is never an external call as the pay() method above is always invoked
         require(success, "Call failed");
     }
