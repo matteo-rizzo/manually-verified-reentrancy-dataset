@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract C {
     mapping (address => uint256) public balances;
 
-    function withdraw(address target) public {
+    function pay(address target) public {
         uint256 amt = balances[msg.sender];
         balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
         (bool success, ) = target.call{value:amt}("");    

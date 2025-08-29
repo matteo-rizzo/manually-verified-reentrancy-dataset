@@ -10,7 +10,7 @@ contract C {
         target = t;
     }
 
-    function withdraw() public {
+    function pay() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         (bool success, ) = target.call{value:amt}("");      // calls to any address are potentially malicious

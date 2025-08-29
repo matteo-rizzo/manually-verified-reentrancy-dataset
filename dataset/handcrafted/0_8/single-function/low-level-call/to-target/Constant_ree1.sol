@@ -6,7 +6,8 @@ contract C {
 
     address private target = 0xD591678684E7c2f033b5eFF822553161bdaAd781; 
 
-    function withdraw() public {
+    function pay() public {
+        
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         (bool success, ) = target.call{value:amt}("");      // calls to a constant target address are potentially malicious
