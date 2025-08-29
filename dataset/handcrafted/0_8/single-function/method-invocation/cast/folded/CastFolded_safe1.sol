@@ -14,9 +14,10 @@ contract C {
         require(success, "Call failed");
     }
 
-    function withdraw(address addr, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[msg.sender] -= amt;    // side effect BEFORE the folded call makes this vulnerable
+    function withdraw(address addr) public {
+        uint256 amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        balances[msg.sender] = 0;    // side effect BEFORE the folded call makes this vulnerable
         pay(addr, amt);
     }
 
