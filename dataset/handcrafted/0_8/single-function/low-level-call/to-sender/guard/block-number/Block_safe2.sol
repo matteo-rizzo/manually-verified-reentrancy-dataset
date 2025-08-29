@@ -20,7 +20,7 @@ contract C {
     function withdraw() noSameBlock() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        balances[msg.sender] = 0;    // side effect BEFORE external call 
+        balances[msg.sender] = 0;    // side effect BEFORE external call make this even more safe
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");  
         

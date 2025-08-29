@@ -16,7 +16,6 @@ contract C {
         _;
     }
 
-
     // an attacker can reenter from here, but only using a different contract, thus it is not possible to change balances[msg.sender] of the initial call
     function withdraw() noSameBlock() public {
         uint256 amt = balances[msg.sender];

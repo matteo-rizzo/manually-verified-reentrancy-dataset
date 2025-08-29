@@ -7,20 +7,26 @@ interface IStrategy {
 
 
 contract Victim {
-    Oracle public o;
+    Oracle_ree public o;
     bool private flag = false;
 
     constructor(address _o) {
-        o = Oracle(_o);
+        o = Oracle_ree(_o);
     }
 
-
     function withdraw() external returns (uint256) {
-        uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
+        (bool success, bytes memory data) = address(o).staticcall("totalETHView");
+        require(success, "Staticcall failed");
+        uint256 t1 = abi.decode(data, (uint256));
+        
+        (success, data) = address(o).staticcall("totalSupplyView");
+        require(success, "Staticcall failed");
+        uint256 t2 = abi.decode(data, (uint256));
+        
+        uint256 rate = t1 * 1e18 / t2;
         uint256 amountETH = rate * 1000 / 1e18;
 
-        //payable(msg.sender).transfer(amountETH);
-        (bool success, ) = payable(msg.sender).call{value: amountETH}("");
+        (success, ) = payable(msg.sender).call{value: amountETH}("");
         require (success, "Failed to withdraw ETH");
 
         return amountETH;
@@ -30,14 +36,14 @@ contract Victim {
 }
 
 // THIS is the contract vulnerable to reentrancy
-contract Oracle {
+contract Oracle_ree {
     uint256 public totalETH;
     uint256 public totalSupply;
 
     function work(address strategy) external payable {
         totalETH += msg.value;
-        totalSupply += msg.value; // side-effect BEFORE external call makes this contract safe
         IStrategy(strategy).execute();
+        totalSupply += msg.value; // side-effect AFTER external call makes this contract vulnerable to reentrancy
 
     }
 
