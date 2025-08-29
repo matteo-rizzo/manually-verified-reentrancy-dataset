@@ -15,7 +15,7 @@ contract C {
     }
 
     function transfer(address to, uint amount) public returns (bool) {
-        uint bal = this.balanceOf(msg.sender);      // this is dynamically dispatched (obj.method() syntax always emits a CALL) but it always resolves the local method above, so this invocation not treated as an external call
+        uint bal = this.balanceOf(msg.sender);      // emits a CALL but it always resolves the local method above, so this invocation is not an actual external call
         require(bal >= amount, "Not enough tokens");   
         balances[msg.sender] -= amount;             // even if the side effect is after the method invocation, it is safe
         balances[to] += amount;
