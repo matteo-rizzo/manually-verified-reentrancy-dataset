@@ -21,7 +21,12 @@ for dirpath, dirnames, filenames in os.walk(src_root):
             content = re.sub(r"pragma solidity \^0\.8\.0;", "pragma solidity ^0.5.0;", content)
                         # 2. Rewrite call syntax: target.call{value:amt}("") -> target.call.value(amt)("")
             content = re.sub(
-                r'(\.call)\{value:\s*([^\}]+)\}',
+                r'(\.call)\{value:\s*([A-Za-z0-9]+)\,\s*gas:\s*([A-Za-z0-9]+)\}',
+                r'\1.value(\2).gas(\3)',
+                content
+            )
+            content = re.sub(
+                r'(\.call)\{value:\s*([^A-Za-z0-9]+)\}',
                 r'\1.value(\2)',
                 content
             )
