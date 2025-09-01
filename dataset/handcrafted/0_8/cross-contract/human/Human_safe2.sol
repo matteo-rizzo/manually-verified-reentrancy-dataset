@@ -7,7 +7,7 @@ contract C {
 
     // this implementation is safe as it does not allow calls from costructor bodies
     modifier isHuman() {
-        require(tx.origin != msg.sender, "Not EOA");
+        require(tx.origin == msg.sender, "Not EOA");
         _;
     }
 

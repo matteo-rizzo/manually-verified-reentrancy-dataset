@@ -5,7 +5,7 @@ contract C {
     mapping (address => uint256) private balances;
 
 
-    // this implementation is safe as it does not allow calls from costructor bodies
+    // this implementation does not allow calls from costructor bodies but it's wrong
     modifier isHuman() {
         require(tx.origin != msg.sender, "Not EOA");
         _;
