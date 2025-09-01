@@ -6,6 +6,7 @@ BASE_DIR="${1:-.}"
 # Trova tutti i file .sol ricorsivamente e invoca solc
 find "$BASE_DIR" -type f -name "*.sol" | while read -r file; do
     echo "Compilazione di: $file"
-    solc "$file" --bin -o bins   
+#    solcjs "$file" --bin -o bins   
+    solc "$file" --bin -o bins/${file%.*}
 done
 

@@ -26,7 +26,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
                 content
             )
             content = re.sub(
-                r'(\.call)\{value:\s*([^A-Za-z0-9]+)\}',
+                r'(\.call)\{value:\s*([A-Za-z0-9]+)\}',
                 r'\1.value(\2)',
                 content
             )
@@ -35,6 +35,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
 
             content = re.sub(r"virtual", "", content)
             content = re.sub(r"override", "", content)
+            content = re.sub(r"immutable", "", content)
 
             content = re.sub(r'(\bconstructor\s*\([^)]*\))\s*(?={)', r'\1 public ',content)
             #content = re.sub(r'\bunchecked\s*\{([^}]*)\s*\}', r'\1', content)
