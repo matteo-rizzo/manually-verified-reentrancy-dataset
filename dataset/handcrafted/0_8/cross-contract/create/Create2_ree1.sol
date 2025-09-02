@@ -12,7 +12,7 @@ contract C {
 		require(msg.value == 100);
 
 		// every 10 deploys, a prize of 200 is sent to the second argument 
-		if (counters[msg.sender] % 10 == 0) {
+		if ((counters[msg.sender] + 1) % 10 == 0) {
 			winner.transfer(200);	// cannot reenter from here due to low gas
 		}
 
@@ -53,6 +53,9 @@ contract C {
 //                 v.deploy_and_win{value: 100}(create_auxharmless_initcode, payable(address(this)), salt);
 //         }            
 //     }
+// 	function reenter() external {
+// 		C(victim).deploy_and_win{value: 100}(create_auxharmful_initcode, payable(address(this)), salt);
+// 	}
 //     receive() external payable {}
 // }
 
@@ -61,8 +64,8 @@ contract C {
 // }
 
 // contract AuxHarmful {
-//     constructor(address payable attacker, bytes memory create_auxharmful_initcode, uint salt) {
-// 		C(msg.sender).deploy_and_win(create_auxharmful_initcode, attacker, salt);
+//     constructor(address payable attacker) {
+// 		Attacker(attacker).reenter();
 //     }
 // }
 

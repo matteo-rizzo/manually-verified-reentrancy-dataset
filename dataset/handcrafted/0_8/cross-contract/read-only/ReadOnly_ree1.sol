@@ -5,7 +5,6 @@ interface IStrategy {
     function execute() external;
 }
 
-
 contract Victim {
     Oracle_ree public o;
     bool private flag = false;
@@ -14,12 +13,10 @@ contract Victim {
         o = Oracle_ree(_o);
     }
 
-
     function withdraw() external returns (uint256) {
         uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
         uint256 amountETH = rate * 1000 / 1e18;
 
-        //payable(msg.sender).transfer(amountETH);
         (bool success, ) = payable(msg.sender).call{value: amountETH}("");
         require (success, "Failed to withdraw ETH");
 
@@ -47,7 +44,6 @@ contract Oracle_ree {
         return totalSupply;
     }
 }
-// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
 // contract Attacker is IStrategy {
 //     Victim public v;

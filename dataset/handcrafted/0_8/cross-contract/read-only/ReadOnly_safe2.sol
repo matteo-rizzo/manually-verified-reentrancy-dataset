@@ -5,7 +5,6 @@ interface IStrategy {
     function execute() external;
 }
 
-
 contract Victim {
     Oracle public o;
 
@@ -13,12 +12,10 @@ contract Victim {
         o = Oracle(_o);
     }
 
-
     function withdraw() external returns (uint256) { // even if the victim correctly implements the reentracy guard, the attack still succeed
         uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
         uint256 amountETH = rate * 1000 / 1e18;
 
-        //payable(msg.sender).transfer(amountETH);
         (bool success, ) = payable(msg.sender).call{value: amountETH}("");
         require (success, "Failed to withdraw ETH");
 
@@ -44,18 +41,18 @@ contract Oracle {
     function work(address strategy) nonReentrant external payable {
         totalETH += msg.value;
         IStrategy(strategy).execute();
-        totalSupply += msg.value;  // side-effect AFTER external call is safe because 
+        totalSupply += msg.value;  // side-effect AFTER external call is safe because of the mutex shared between all methods
     }
 
     function totalETHView() external view returns (uint256) {
+        require(!flag);     // reading the flag is enough to grant shared locking in auxialiary methods
         return totalETH;
     }
     function totalSupplyView() external view returns (uint256) {
+        require(!flag);
         return totalSupply;
     }
 }
-
-// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
 // contract Attacker is IStrategy {
 //     Victim public v;

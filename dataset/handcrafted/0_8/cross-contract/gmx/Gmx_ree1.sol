@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract C {
+contract C_ree {
     Vault public immutable vault;
     bool private locked = false;
 

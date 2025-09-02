@@ -15,7 +15,7 @@ contract Victim {
     }
 
     function withdraw() external returns (uint256) {
-        (bool success, bytes memory data) = address(o).staticcall("totalETHView");
+        (bool success, bytes memory data) = address(o).staticcall("totalETHView");  // static calls are equivalent to view-method invocations
         require(success, "Staticcall failed");
         uint256 t1 = abi.decode(data, (uint256));
         
@@ -54,8 +54,6 @@ contract Oracle {
         return totalSupply;
     }
 }
-
-// CONTROL FLOW: A.execute() -> LOOP { V.withdraw() -> A.receive() -> O.work() -> A.execute() -> V.withdraw() ... }
 
 // contract Attacker is IStrategy {
 //     Victim public v;

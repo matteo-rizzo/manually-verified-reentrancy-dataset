@@ -12,7 +12,7 @@ contract C {
 		require(msg.value == 100);
 
 		// every 10 deploys, a prize of 200 is sent to the second argument 
-		if (counters[msg.sender] % 10 == 0) {
+		if ((counters[msg.sender] + 1) % 10 == 0) {
 			winner.transfer(200);	// cannot reenter from here due to low gas
 		}
 
