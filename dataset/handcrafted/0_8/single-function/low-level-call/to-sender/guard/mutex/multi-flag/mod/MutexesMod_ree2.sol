@@ -6,7 +6,7 @@ contract C {
     mapping (address => bool) private flags;    // mutex flags on a per-address basis
 
     modifier nonReentrant() {   //broken mutex implemented via modifier
-        require(!flags[msg.sender]);
+        // missing require(!flags[msg.sender]);
         flags[msg.sender] = true;
         _;
         // missing flags[msg.sender] = false;

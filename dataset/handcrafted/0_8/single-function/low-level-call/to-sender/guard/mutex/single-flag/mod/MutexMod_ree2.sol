@@ -7,7 +7,7 @@ contract C {
     bool private flag = false;
 
     modifier nonReentrant() {   // broken mutex implemented via modifier
-        require(!flag);
+        // missing require(!flag);
         flag = true;
         _;
         // missing flag = false

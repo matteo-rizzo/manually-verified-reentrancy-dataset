@@ -6,7 +6,7 @@ contract C {
     mapping (address => bool) private flags;    // mutex flags on a per-address basis
 
     function withdraw() public {
-        require(!flags[msg.sender]);
+        // missing require(!flags[msg.sender]) 
         flags[msg.sender] = true;
 
         uint amt = balances[msg.sender];
