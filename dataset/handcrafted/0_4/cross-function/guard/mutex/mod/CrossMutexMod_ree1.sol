@@ -1,4 +1,4 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.4.24;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
@@ -15,7 +15,7 @@ contract C {
 
     // this function is not protected by the modifier
     // so an attacker can reenter after the external call below and move the amount in balances[msg.sender] to another address (parameter 'to') owned by the attacker
-    // a subsequent invocation of withdraw() performed by 'to' will receive money that the attacker never deposited
+    // a subsequent invocation of withdraw() performed by 'to' will function money that the attacker never deposited
     function transfer(address to, uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
@@ -25,12 +25,12 @@ contract C {
     function withdraw() nonReentrant public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = msg.sender.call.value(amt)("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
     }
 
-    function deposit() nonReentrant public payable {
+    function deposit() nonReentrant public  {
         balances[msg.sender] += msg.value;       
     }
 
@@ -39,16 +39,16 @@ contract C {
 // contract Attacker {
 //     C private c;
 //     address to;
-//     constructor(address v, address _to) {
+//     constructor(address v, address _to)  public {
 //         to = _to;
 //         c = C(v);
 //     }
-//     function attack() public {
+//     function attacker() public {
 //         c.deposit{value: 100}();
 //         c.withdraw();
 //         // now, if the address 'to' calls withdraw() then both the attacker and 'to' will own 100 each
 //     }
-//     receive() external payable {
+//     function() external  {
 //         c.transfer(to, 100);
 //     } 
 // }
