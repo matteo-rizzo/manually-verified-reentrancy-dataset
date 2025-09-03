@@ -37,7 +37,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
             content = re.sub(r"override", "", content)
             content = re.sub(r"immutable", "", content)
 
-            content = re.sub(r'(\bconstructor\s*\([^)]*\))\s*(?={)', r'\1 public ',content)
+            content = re.sub(r'(\bconstructor\s*\([^)]*\)\s*(payable)?)', r'\1 public ', content)
             #content = re.sub(r'\bunchecked\s*\{([^}]*)\s*\}', r'\1', content)
 
 
