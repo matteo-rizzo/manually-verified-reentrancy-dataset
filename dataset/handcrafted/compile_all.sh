@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Directory di partenza (default: directory corrente)
 BASE_DIR="${1:-.}"
 
 rm -rf bins
