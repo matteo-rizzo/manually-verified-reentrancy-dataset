@@ -23,19 +23,27 @@ Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints bet
 supports Solidity up to 0.6.11
 
 # Ethainter
-todo
+analyzes (source, bytecode)
+
+rule in paper
+
+rule in implemetation (if possible)
+
+solidity version supported (if specified)
+
+
 
 # eThor
 todo
 
 # HoneyBadger
-todo?
+NO reentrancy
 
 # MadMax
 todo
 
 # Maian
-todo
+No reentrancy
 
 
 # Manticore
@@ -81,7 +89,7 @@ todo
 
 # Securify
 analyzes bytecode
-syntactic + contract call dependence analysus + fact checking
+syntactic + contract call dependence analysis + fact checking
 Securify is a java program that parses bytecode and detects potential vulnerabilities via some advanced syntax-based analysis aided by dataflow analysis.
 The program produces a .facts file that is the input of Soufflé (a Datalog variant), which completes the detection.
 
