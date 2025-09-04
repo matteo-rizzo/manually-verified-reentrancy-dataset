@@ -8,3 +8,13 @@ find "$BASE_DIR" -type f -name "*.bin" | while read -r file; do
     echo "Renaming: $file -> $newfile"
     mv "$file" "$newfile"
 done
+
+
+
+
+
+
+
+addr.call("f()");
+
+I(addr).f()
