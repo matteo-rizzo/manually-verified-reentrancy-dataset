@@ -1,152 +1,137 @@
-
 In this document we recap for each existing analyzer tool what kind of analysis it performs for Reentrancy.
 
-# CCC
-analyzes Solidity source code (incomplete snippets as well)
-pattern based analysis over a Code Property Graph (CPG)
+# CCC  
+- **Analysis target:** Solidity source code (including incomplete snippets)  
+- **Analysis performed on:** Code Property Graph (CPG) generated from source code  
+- **Techniques:** Pattern-based analysis expressed as queries on the CPG  
+- **Reentrancy detection criterion:** Matches a pattern where the contract makes an external call before completing its state updates, with the call target or value influenced by user input, and without safeguards or mitigating conditions to prevent reentry.
 
-pattern are expressed as queries, specifically the reentrancy pattern is matched if the contract makes an external call before completing its state updates, with the call target or value influenced by user input, and without safeguards or mitigating conditions to prevent reentry.
+# ConFuzzius  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Combination of syntactic analysis, symbolic execution, SAT solving, and fuzzing  
+- **Reentrancy detection criterion:** Detects CALL instructions preceded by SLOADs and followed by SSTOREs on the same storage slot. A call is considered reentrant if:  
+  - The gas forwarded is greater than 2300 (must be concrete, non-symbolic)  
+  - AND the transferred value is greater than zero or symbolic  
+  - AND the call target address is symbolic  
+  It is NOT considered reentrant if the value is zero or the address is constant.  
+- **Supported EVM versions:** Down to 2019 (Petersburg)
 
-# ConFuzzius
-analyzes bytecode
-syntactic + symbolic execution + sat solver + fuzzing
+# Conkas  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Syntactic and symbolic execution combined with SAT solving using Z3  
+- **Reentrancy detection criterion:** Detects SLOAD instructions before CALL and SSTORE instructions after CALL, then produces constraints between loads and stores to detect dependencies indicating reentrancy.
 
-- detects CALLs preceeded by SLOADS and followed by SSTOREs on the same slot
-- it is considered reentrant IF:
-	- gas >2300 (must be non-symbolic)
-	- AND: the money value > 0 OR is symbolic
-	- AND: the call target is symbolic
-- it is NOT reentrant when: value = 0 OR address is constant
+- **Supported Solidity versions:** Up to 0.6.11
 
-supports EVM down to 2019 (Petersburg)
+# Ethainter  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Not supported (no reentrancy detection implemented)
 
-# Conkas
-analyzes bytecode
-syntactic + symbolic execution + sat solver
+# eThor  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Abstract interpretation combined with Horn clauses and SMT reachability solving  
+- **Reentrancy detection criterion:** Detects reentrancy by checking for execution traces where, after a contract has been reentered, it can still perform another external call.
 
-Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints between loads and stores, uses Z3 as sat solver for detecting dependencies and excluding certain cases
+# HoneyBadger  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Not supported (no reentrancy detection implemented)
 
-supports Solidity up to 0.6.11
+# MadMax  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Not supported (no reentrancy detection implemented)
 
-# Ethainter
-NO reentrancy
+# Maian  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Not supported (no reentrancy detection implemented)
 
-# eThor
-analyzes bytecode
-abstract interpretation + horn clauses + smt reachability solver
+# Manticore  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Syntactic and symbolic execution combined with SAT solving  
+- **Reentrancy detection criterion:** Given an optional concrete list of attacker addresses, warns when:  
+  - A successful CALL is made to an attacker address (or any human account if no list is given) with gas greater than 2300  
+  - A SSTORE occurs after the CALL  
+  - The storage slot written by SSTORE is used in some control flow path, indicating potential vulnerability
 
-eThor detects reentrancy by checking whether there exists an execution trace in which, after a contract has been reentered, it can still perform another external call.
+# Mythril  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Syntactic and symbolic execution combined with SAT solving  
+- **Reentrancy detection criterion:** Considered reentrant if:  
+  - External calls (CALL, DELEGATECALL, CALLCODE) are made with more than 2300 gas  
+  - The call target is symbolic or dynamic  
+  - A state access (SLOAD, SSTORE, CREATE, CREATE2) occurs after the external call, including read accesses (SLOAD), which are considered risky
 
-# HoneyBadger
-NO reentrancy
+# Osiris  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Discarded because it does not detect reentrancy
 
-# MadMax
-NO reentrancy
+# Oyente  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Syntactic and symbolic execution combined with SAT solving, using path conditions solved by Z3  
+- **Reentrancy detection criterion:** Checks for SSTORE instructions after CALL or CALLCODE instructions on feasible paths. It is somewhat outdated as it checks CALLCODE (ancestor of DELEGATECALL) and some obsolete reentrancy patterns.
 
-# Maian
-No reentrancy
+# Pakala  
+- **Analysis target:** N/A for reentrancy detection  
+- **Reentrancy detection:** Not supported (no reentrancy detection implemented)
 
+# Securify  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Syntactic analysis combined with contract call dependency analysis and fact checking via Datalog (Soufflé)  
+- **Reentrancy detection criterion:** Detects CALL instructions with the following filters:  
+  - Discards CALLs with a constant zero value transfer  
+  - Discards CALLs whose gas argument does not have a dataflow dependency on a GAS instruction above in the bytecode  
+  Remaining CALLs are flagged as potential reentrancy vulnerabilities.
 
-# Manticore
-analyzes bytecode
-syntactic + symbolic execution + sat solver
+# Securify2  
+- **Analysis target:** Solidity source code  
+- **Analysis performed on:** Intermediate representation generated from source code  
+- **Techniques:** Pattern-based declarative analysis using Datalog rules  
+- **Reentrancy detection criterion:** Detects external calls that occur before state updates by matching patterns on the intermediate representation.
 
-Detector for reentrancy:
-- Given an optional concrete list of attacker addresses, warn on the following conditions.
-  - A successful call to an attacker address (address in attacker list), or any human account address (if no list is given). With enough gas (>2300).
-  - a SSTORE after the execution of the CALL.
-  - the storage slot of the SSTORE must be used in some path to control flow
+# Semgrep  
+- **Analysis target:** Solidity source code  
+- **Analysis performed on:** Source code  
+- **Techniques:** Pattern matching using semgrep rules for known method calls and small syntactic/lexical patterns  
+- **Reentrancy detection criterion:** Detects certain ERC-related reentrant calls but does not implement a general detector for real-world reentrant code. It is primarily a general-purpose grep-like tool and is not specialized for Solidity vulnerabilities.
 
+# sFuzz  
+- **Analysis target:** N/A (fuzzer, not static analyzer)  
+- **Analysis performed on:** Runs attacker contracts on a customized EVM  
+- **Techniques:** Fuzzing by generating attacker contracts and executing them  
+- **Reentrancy detection:** Not a static analysis tool; supports Solidity up to version 0.4.x
 
-# Mythril
-analyzes bytecode
-syntactic + symbolic execution + sat solver
+# Slither  
+- **Analysis target:** Solidity and Vyper source code  
+- **Analysis performed on:** Source code  
+- **Techniques:** Pattern-based detection for reentrancy; data flow and control flow analysis for other vulnerabilities  
+- **Reentrancy detection criterion:** Detects if a state variable is changed after an external call, indicating a potential reentrancy vulnerability.
 
-if the following conditions occurs, it is considered reentrant:
-- detects these external calls: CALL, DELEGATECALL, CALLCODE
-- an external call is made with >2300 gas
-- the call target is symbolic or dynamic
-- a state access occurs after the external call
-	- state accesses are: SLOAD, SSTORE, CREATE, CREATE2
-	- this means that read accesses are considered risky!
+# Smartcheck  
+- **Analysis target:** Solidity source code  
+- **Analysis performed on:** Source code parsed into XML AST using ANTLR for Java, then queried with XPath and regexps  
+- **Techniques:** Purely syntactic analysis  
+- **Reentrancy detection:** No rules explicitly defined for reentrancy detection, although the original paper mentions them.
 
-# Osiris
-discarded because it does not etect reentrancy
+# Solhint  
+- **Analysis target:** Solidity source code  
+- **Analysis performed on:** Source code  
+- **Techniques:** Linting rules that warn about potentially risky low-level calls  
+- **Reentrancy detection:** Does not detect reentrancy but warns if low-level calls are used, which could be risky.
 
-# Oyente
-analyzes bytecode
-syntactic + symbolic execution + sat solver
+# teEther  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Symbolic execution combined with SMT solvers  
+- **Reentrancy detection criterion:** Detects if an external CALL can be followed by reentering the vulnerable contract before its state is updated by symbolically executing all possible paths.
 
-outdated as it checks CALLCODE (ancestor of DELEGATECALL) and some obsolete reentrancy pattern/antipatterns
-
-uses symbolic execution and path conditions, which are predicates marking each statement telling whether that statement can be reached or not and under what assumptions (i.e. what values variables must assume to make the statement reachable)
-path conditions become lists of constraints solved by Z3
-
-for detecting reentrancy in particular it checks SSTOREs after CALLs/CALLCODEs. This is a syntactic mechanism that is enhanced by the symbolic execution and the sat solving, restricting case to reachable/feasible paths 
-
-# Pakala
-NO reentrancy
-
-# Securify
-analyzes bytecode
-syntactic + contract call dependence analysis + fact checking
-Securify is a java program that parses bytecode and detects potential vulnerabilities via some advanced syntax-based analysis aided by dataflow analysis.
-The program produces a .facts file that is the input of Soufflé (a Datalog variant), which completes the detection.
-
-To detected reentrancy, the following criteria are implemented:
-- CALL instructions are detected
-	- CALLs whose money value is a constant equal to 0 are discarded
-	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
-
-# Securify2
-analyzes bytecode
-
-pattern-based declarative analysis using Datalog 
-
-Securify2 is a static analysis tool that translates Solidity code into an intermediate representation and then applies Datalog rules to it. Reentrancy is detected when external calls before state updates are matched.
-
-
-# Semgrep -> todo: UPDATE WITH SECURITY
-first of all: semgrep is a general-purpose grep-like tool detecting complex syntactic schemes and has nothing to do with Solidity and vulnerabilities.
-rules for detecting vulnerabilities in Solidity have been defined for semgrep 
-
-analyzes source code
-uses semgrep for grepping known method calls and small syntactic/lexical patterns that are considered vulnerable
-detects a number of ERC-related reentrant calls but does not implement any general detector for real-world reentrant code
-should not even be included in smartbugs
-
-
-# sFuzz
-this is not a static analyzer, it's a fuzzer: it generates attacker contracts and runs them on a customized evm
-supports Solidity up to 0.4.x
-
-# Slither
-analyzes source code, both solidity and vyper
-
-for reentrancy detection it uses a pattern based detector, for other vulnerabilities uses data flow analysis or control flow analysis
-the pattern checks if is state variable changes after a call
-
-# Smartcheck
-analyzes source code
-uses ANTLR for Java and produces a XML AST, then performs queries on the tree using XPath and regexps - it is a purely syntactic tool.
-in the implementation there are no rules define for detecting reentrancy, though the paper mentions them.
-
-
-# Solhint
-NO reentrancy, it only warns the programmer if it is using a low level call as a potential risk.
-
-# teEther
-analyzes bytecode
-
-symbolic execution + SMT solvers
-
-TeEther symbolically executes EVM bytecode to search for execution paths that leak Ether, and then automatically generates concrete exploit transactions.
-In case of reentrancy, it uses symbolic execution to detect if an external CALL can be followed by reentering the vulnerable contract before its state is updated.
-
-# Vandal
-analyzes bytecode
-
-symbolic execution to comupte jump destinations when decompiling bytecode + pattern based reentrancy detection
-
-Vandal detects reentrancy by running Datalog queries over a model of EVM bytecode to identify external calls followed by state updates.
-From their paper: a CALL is flagged as reentrant if it forwards sufficient gas and is not protected by a mutex.
+# Vandal  
+- **Analysis target:** EVM bytecode  
+- **Analysis performed on:** Bytecode  
+- **Techniques:** Symbolic execution to compute jump destinations during bytecode decompilation, combined with pattern-based detection using Datalog queries  
+- **Reentrancy detection criterion:** Flags a CALL as reentrant if it forwards sufficient gas and is not protected by a mutex, based on Datalog queries identifying external calls followed by state updates.
