@@ -10,3 +10,9 @@ find "$BASE_DIR" -type f -name "*.sol" | while read -r file; do
     #solc "$file" --bin-runtime -o bins/${file%.*}
 done
 
+# rename all
+find "$BASE_DIR" -type f -name "*.bin" | while read -r file; do
+    newfile="${file%.bin}.hex"
+    echo "Renaming: $file -> $newfile"
+    mv "$file" "$newfile"
+done
