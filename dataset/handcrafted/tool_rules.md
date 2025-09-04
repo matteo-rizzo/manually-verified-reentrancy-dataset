@@ -1,6 +1,12 @@
 
 In this document we recap for each existing analyzer tool what kind of analysis it performs for Reentrancy.
 
+# CCC
+analyzes Solidity source code (incomplete snippets as well)
+pattern based analysis over a Code Property Graph (CPG)
+
+pattern are expressed as queries, specifically the reentrancy pattern is matched if the contract makes an external call before completing its state updates, with the call target or value influenced by user input, and without safeguards or mitigating conditions to prevent reentry.
+
 # ConFuzzius
 analyzes bytecode
 syntactic + symbolic execution + sat solver + fuzzing
@@ -23,24 +29,19 @@ Detects SLOADs before CALL, detects SSTOREs after CALL, produces constraints bet
 supports Solidity up to 0.6.11
 
 # Ethainter
-analyzes (source, bytecode)
-
-rule in paper
-
-rule in implemetation (if possible)
-
-solidity version supported (if specified)
-
-
+NO reentrancy
 
 # eThor
-todo
+analyzes bytecode
+abstract interpretation + horn clauses + smt reachability solver
+
+eThor detects reentrancy by checking whether there exists an execution trace in which, after a contract has been reentered, it can still perform another external call.
 
 # HoneyBadger
 NO reentrancy
 
 # MadMax
-todo
+NO reentrancy
 
 # Maian
 No reentrancy
@@ -84,8 +85,7 @@ path conditions become lists of constraints solved by Z3
 for detecting reentrancy in particular it checks SSTOREs after CALLs/CALLCODEs. This is a syntactic mechanism that is enhanced by the symbolic execution and the sat solving, restricting case to reachable/feasible paths 
 
 # Pakala
-todo
-
+NO reentrancy
 
 # Securify
 analyzes bytecode
@@ -99,8 +99,11 @@ To detected reentrancy, the following criteria are implemented:
 	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
 
 # Securify2
-	
+analyzes bytecode
 
+pattern-based declarative analysis using Datalog 
+
+Securify2 is a static analysis tool that translates Solidity code into an intermediate representation and then applies Datalog rules to it. Reentrancy is detected when external calls before state updates are matched.
 
 
 # Semgrep -> todo: UPDATE WITH SECURITY
@@ -118,7 +121,10 @@ this is not a static analyzer, it's a fuzzer: it generates attacker contracts an
 supports Solidity up to 0.4.x
 
 # Slither
-todo
+analyzes source code, both solidity and vyper
+
+for reentrancy detection it uses a pattern based detector, for other vulnerabilities uses data flow analysis or control flow analysis
+the pattern checks if is state variable changes after a call
 
 # Smartcheck
 analyzes source code
@@ -127,13 +133,20 @@ in the implementation there are no rules define for detecting reentrancy, though
 
 
 # Solhint
-todo
-
+NO reentrancy, it only warns the programmer if it is using a low level call as a potential risk.
 
 # teEther
-todo
+analyzes bytecode
 
+symbolic execution + SMT solvers
 
+TeEther symbolically executes EVM bytecode to search for execution paths that leak Ether, and then automatically generates concrete exploit transactions.
+In case of reentrancy, it uses symbolic execution to detect if an external CALL can be followed by reentering the vulnerable contract before its state is updated.
 
 # Vandal
-todo
+analyzes bytecode
+
+symbolic execution to comupte jump destinations when decompiling bytecode + pattern based reentrancy detection
+
+Vandal detects reentrancy by running Datalog queries over a model of EVM bytecode to identify external calls followed by state updates.
+From their paper: a CALL is flagged as reentrant if it forwards sufficient gas and is not protected by a mutex.
