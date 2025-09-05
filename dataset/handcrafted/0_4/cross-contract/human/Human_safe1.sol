@@ -2,25 +2,33 @@ pragma solidity ^0.4.24;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    mapping (address => uint256) private balances;
+    address[] private buyers;
 
+    uint public currentKeyPrice = 1;
+    address private lastBuyer;
+    uint private lastBuyTimestamp;
 
-    // this implementation is safe as it does not allow calls from costructor bodies
     modifier isHuman() {
-        require(tx.origin == msg.sender, "Not EOA");
+        require(tx.origin == msg.sender, "Not EOA");    // this implementation of the modifier does not allow reentrancy from constructors, hence the contract is safe
         _;
     }
 
-    function transfer(address from, address to) isHuman() public {
-        uint256 amt = balances[from];
-        require(amt > 0, "Insufficient funds");
-        (bool success, ) = to.call.value(amt)("");
-        require(success, "Call failed");
-        balances[from] = 0;    // side effect after call is safe thanks to the modifier, which prevents reentrancy
+    function buyKey(address refund_address) isHuman() public payable {
+        require(msg.value > currentKeyPrice, "Not enough to buy a key");
+        lastBuyer = msg.sender;
+        lastBuyTimestamp = block.timestamp;
+        currentKeyPrice = buyers.length * 100;
+        buyers.push(refund_address);
+
+        for (uint i = 0; i < buyers.length; i++) {
+            (bool success, ) = buyers[i].call.value(1)("");
+            require(success, "Refund failed");
+        }
     }
 
-    function deposit() public  isHuman() {
-        balances[msg.sender] += msg.value;       
+    function close() isHuman public {
+        require(block.timestamp > lastBuyTimestamp + 1 hours);
+        (bool success, ) = lastBuyer.call.value(currentKeyPrice * 2)("");
+        require(success, "Call failed");
     }
 }
-
