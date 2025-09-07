@@ -14,9 +14,9 @@ contract C {
     
     constructor(address _token, address to, uint256 initial_amount) {
         require(IERC20(_token).balanceOf(msg.sender) >= initial_amount, "Need at least double to donate");
-        bool success = IERC20(_token).transfer(to, initial_amount);       // this is an external call to unknown code that could possibly be reentrant, but the contract is safe anyway
+        bool success = IERC20(_token).transfer(to, initial_amount);       // this is an external call could possibly be reentrant, but the contract is safe anyway
         require(success, "Transfer failed");
-        donated[msg.sender] += initial_amount;                     // the side effect before the external call makes this safe
+        donated[msg.sender] += initial_amount;                     // the side effect after the external call does not make this vulnerable because the constructor cannot be reentered
         token = _token;
     }
 }
