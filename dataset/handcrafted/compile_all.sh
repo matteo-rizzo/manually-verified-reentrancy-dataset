@@ -7,11 +7,11 @@ rm -rf bins
 find "$BASE_DIR" -type f -name "*.sol" | while read -r file; do
     echo "Compilazione di: $file"
     solcjs "$file" --bin -o bins   
-    #solc "$file" --bin-runtime -o bins/${file%.*}
+    #solc "$file" --bin -o bins/${file%.*}
 done
 
 # rename all
-find "$BASE_DIR" -type f -name "*.bin" | while read -r file; do
+find "bins" -type f -name "*.bin" | while read -r file; do
     newfile="${file%.bin}.hex"
     echo "Renaming: $file -> $newfile"
     mv "$file" "$newfile"
