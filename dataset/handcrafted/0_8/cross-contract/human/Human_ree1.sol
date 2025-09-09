@@ -22,12 +22,12 @@ contract C {
         lastBuyer = msg.sender;
         lastBuyTimestamp = block.timestamp;
         currentKeyPrice = buyers.length * 100;
-        buyers.push(refund_address);
 
         for (uint i = 0; i < buyers.length; i++) {
             (bool success, ) = buyers[i].call{value:1}("");
             require(success, "Refund failed");
         }
+        buyers.push(refund_address);
     }
 
     function close() isHuman public {
