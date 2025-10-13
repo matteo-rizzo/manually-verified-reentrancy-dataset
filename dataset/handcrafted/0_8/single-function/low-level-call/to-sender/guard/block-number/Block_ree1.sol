@@ -12,21 +12,20 @@ contract C {
 
     modifier noSameBlock() {
         require(lastBlock[msg.sender] < block.number, "Reentrancy blocked");
-        lastBlock[msg.sender] = block.number;    // performing the update of the lastBlock in the prologue makes this safe
         _;
+        lastBlock[msg.sender] = block.number;   // performing the update of the lastBlock in the epilogue makes this vulnerable to reentrancy
     }
 
-    // an attacker can try to reenter from here, but lastBlock is updated and the attack is blocked
+    // an attacker can reenter from here
     function withdraw() noSameBlock public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        balances[msg.sender] = 0;    // side effect BEFORE external call makes this safe anyway
         (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");  
-        
+        require(success, "Call failed");
+        balances[msg.sender] = 0;    // side effect after the external call together with lastBlock update 
     }
 
     function deposit() public payable noSameBlock {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
 }

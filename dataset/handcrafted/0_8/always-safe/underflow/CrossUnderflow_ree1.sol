@@ -10,7 +10,7 @@ contract C {
         (bool success, ) = msg.sender.call{value:amt}("");  
         require(success, "Call failed");
         unchecked {
-            balances[msg.sender] -= amt;    // side effect AFTER call makes this subject to reentrancy
+            balances[msg.sender] -= amt;    /// disabling Solidity 0.8+ underflow check makes this vulnerable as in previous language versions
         }
     }
 
