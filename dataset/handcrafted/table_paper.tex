@@ -1,0 +1,44 @@
+\begin{table*}[ht]
+\centering
+\caption{Comparison of analyzers for reentrancy detection}
+\label{tab:reentrancy_tools_2}
+\resizebox{\textwidth}{!}{
+
+\begin{tabular}{p{1.8cm} p{1.3cm} p{3.1cm} p{10.5cm}}
+\toprule
+\textbf{Tool} & \textbf{Supported Input} & \textbf{Analyzes} & \textbf{Techniques} & \textbf{Reentrancy Detection Criteria} \\
+\midrule
+CCC & Source & Pattern-based queries on Code Property Graph & Detects reentrancy if an external \texttt{CALL}-like instruction occurs before a state update, with the call target influenced by user input and without explicit safeguards. Detects single-function reentrancy. \\
+\addlinespace
+ConFuzzius & Bytecode & Symbolic execution, syntactic analysis, SAT/SMT, fuzzing & Detects reentrancy if a \texttt{CALL} with $>$2,300 gas, non-zero or symbolic value, and symbolic target occurs with a preceding \texttt{SLOAD} and a following \texttt{SSTORE} on the same storage slot. Adds constraints on gas, value, and symbolic target. Excludes constant zero-value calls. Detects single and cross-function reentrancy. \\
+\addlinespace
+Conkas & Bytecode & Syntactic, symbolic execution, SMT (Z3) & Detects reentrancy if an \texttt{SSTORE} occurs after a \texttt{CALL}, with the stored value dependent on a preceding \texttt{SLOAD}. Uses Z3 to solve constraints. Supports Solidity $\leq$0.6.11. Detects single-function reentrancy. \\
+\addlinespace
+eThor & Bytecode & Abstract interpretation, Horn clauses, SMT reachability & Detects reentrancy if, after a contract is reentered, further \texttt{CALL} instructions can still occur, violating single-entrancy. Detects single and cross-function reentrancy, and some cross-contract cases if they manifest as reentry into the same contract. \\
+\addlinespace
+Manticore & Bytecode & Symbolic execution, SMT & Detects reentrancy if a \texttt{CALL} succeeds with $>$2,300 gas to an attacker address, followed by an \texttt{SSTORE} whose slot affects control flow. Adds constraints on gas and attacker address. Detects single and cross-function reentrancy (some cross-contract cases depending on scope). \\
+\addlinespace
+Mythril & Bytecode & Symbolic execution, SMT & Detects reentrancy if a \texttt{CALL}, \texttt{DELEGATECALL}, or \texttt{CALLCODE} with $>$2,300 gas to a symbolic or dynamic target is followed by state access (\texttt{SLOAD}, \texttt{SSTORE}, \texttt{CREATE}, or \texttt{CREATE2}), considering even state reads as risky. Adds constraints on call type and gas. Detects single and cross-function reentrancy (some cross-contract cases depending on scope). \\
+\addlinespace
+Oyente & Bytecode & Symbolic execution, SMT & Detects reentrancy if an \texttt{SSTORE} occurs after a \texttt{CALL} or \texttt{CALLCODE} on a feasible execution path. Detects single-function reentrancy. \\
+\addlinespace
+Securify & Bytecode & Dataflow, call dependency analysis, Datalog (Soufflé) & Detects reentrancy if an external \texttt{CALL} (excluding constant zero-value and gas-independent calls) is followed by an \texttt{SSTORE}. Detects single-function reentrancy. \\
+\addlinespace
+Securify2 & Source & Declarative analysis on IR, Datalog rules & Detects reentrancy if an external \texttt{CALL} occurs before a state update, using compliance and violation patterns. Detects single and cross-function reentrancy. \\
+\addlinespace
+Semgrep & Source & Pattern matching rules & Does not detect reentrancy; only matches specific ERC-related \texttt{CALL} patterns, not general reentrancy cases. Detects only single-function reentrancy. \\
+\addlinespace
+sFuzz & Dynamic (fuzzing) & Custom EVM + attacker generation & Detects reentrancy if a fuzzed attacker contract can reenter via the fallback function before a state update. Supports Solidity $\leq$0.4.x. Detects single-function reentrancy. \\
+\addlinespace
+Slither & Source & Pattern-based, dataflow and control-flow analysis & Detects reentrancy if an external \texttt{CALL} is followed by a state update. Detects single-function reentrancy. \\
+\addlinespace
+SmartCheck & Source & ANTLR + XPath/regex queries & Does not detect reentrancy; no explicit reentrancy detection rules implemented. Detects only single-function reentrancy (if at all). \\
+\addlinespace
+Solhint & Source & Linting rules & Does not detect reentrancy; only warns on risky low-level calls such as \texttt{call.value()} or \texttt{call}. Detects only simple single-function cases indirectly. \\
+\addlinespace
+teEther & Bytecode & Symbolic execution, SMT & Detects reentrancy if symbolic execution can generate an exploit where a \texttt{CALL} can reenter before a state update. Detects single and cross-function reentrancy (and some cross-contract cases, depending on scope). \\
+\addlinespace
+Vandal & Bytecode & Bytecode decompilation + Datalog queries & Detects reentrancy if an external \texttt{CALL} is followed by a state update without a mutex. Detects single and cross-function reentrancy. \\
+\bottomrule
+\end{tabular}}
+\end{table*}
