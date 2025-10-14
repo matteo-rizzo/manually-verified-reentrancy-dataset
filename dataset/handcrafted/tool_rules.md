@@ -1,5 +1,7 @@
 In this document we recap for each existing analyzer tool what kind of analysis it performs for Reentrancy.
 
+# Tools included in Smartbugs
+
 # CCC  
 - **Analysis target:** Solidity source code (including incomplete snippets)  
 - **Analysis performed on:** Code Property Graph (CPG) generated from source code  
@@ -158,18 +160,12 @@ In this document we recap for each existing analyzer tool what kind of analysis 
 - **Reentrancy types detected:** Single-function reentrancy
 
 # Smartcheck  
-- **Analysis target:** Solidity source code  
-- **Analysis performed on:** Source code parsed into XML AST using ANTLR for Java, then queried with XPath and regexps  
-- **Techniques:** Purely syntactic analysis  
-- **Reentrancy detection criterion:** No rules explicitly defined for reentrancy detection, although the original paper mentions them.  
-- **Notes:** No explicit reentrancy detection rules currently implemented.  
 - **Reentrancy types detected:** Single-function reentrancy
 
 # Solhint  
 - **Analysis target:** Solidity source code  
 - **Analysis performed on:** Source code  
 - **Techniques:** Linting rules that warn about potentially risky low-level calls  
-- **Reentrancy detection criterion:** Does not detect reentrancy but warns if low-level calls are used, which could be risky.  
 - **Notes:** No direct reentrancy detection; provides warnings on risky low-level calls.  
 - **Reentrancy types detected:** Single-function reentrancy
 
@@ -188,3 +184,114 @@ In this document we recap for each existing analyzer tool what kind of analysis 
 - **Reentrancy detection criterion:** Flags a CALL as reentrant if it forwards sufficient gas and is not protected by a mutex, based on Datalog queries identifying external calls followed by state updates.  
 - **Notes:** None  
 - **Reentrancy types detected:** Single-function and cross-function reentrancy
+
+
+
+# Tools *not* included in Smartbugs
+
+### Aderyn
+
+This tool seems pretty used and second to Slither only. It does not have a paper though.
+
+Repo: https://github.com/Cyfrin/aderyn
+Site: https://cyfrin.gitbook.io/cyfrin-docs/aderyn-cli/installation
+
+Written in Rust, it analyzes a wide number of Solidity vulnerabilities and supports programmable detectors (written in Rust ofc). Detectors have access to the AST, thus it is merely syntactic in nature. 
+The reentrancy-related builtin detectors seem limited to:
+- State change after external call (CEI violations)
+- Unchecked Low level calls
+- OpenZeppelin `nonReentrant` modifier occurs *for all* functions and stands *before* any other modifier
+
+*NOTE*: the documentation does not show all reentrancy-related detectors. In other words, running the tool detects more reentrancy-related issues than documented.
+
+The tool is well maintained and has an excellent CLI, report format and general quality, despite it does nothing truly special about reentrancy.
+
+*OVERALL*: already tried, consider its inclusion in the paper.
+
+
+
+### AutoAR
+
+Paper: https://www.ndss-symposium.org/wp-content/uploads/2025-167-paper.pdf
+Repo: https://github.com/h0tak88r/AutoAR
+
+It is a generic tool that works through a local REST API server written in Python.
+It is well maintained also nowadays.
+
+*OVERALL*: the doc on github is totally out of sync with the actual content of the repo. Cannot understand how to lauch it properly. 
+
+
+
+### TotalSol
+
+Paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10990789
+
+
+
+
+
+### Sereum
+
+Repo: https://github.com/uni-due-syssec/eth-reentrancy-attack-patterns
+Paper: https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_09-3_Rodler_paper.pdf 
+
+The tool is *unmaintained* and its last release dates back to 2018.
+
+It is essentially a runtime monitoring system that detects SSTORE instructions (effects) and *write-locks* memory locations in such a way that, once execution returns from reentrant calls, the system detects a violation.
+
+*OVERALL*: do not include this tool, it's too old.
+
+
+### DefectChecker
+
+Paper: https://ieeexplore.ieee.org/abstract/document/9337195
+
+The defectChecker tool takes bytecodes as input, disassembles them into opcodes, splits the opcodes into several basic blocks and symbolically executes instructions in each block.
+Then it generates the control flow graph (CFG) and records all stack events.
+Using CFG and stack events information, it detects three pre-defined features: 
+- money call
+- loop block 
+- payable function
+
+After feature detection, it applies rules to detect eight vulnerabilities: 
+- transaction state dependency
+- DoS under external influence
+- strict balance equality
+- *reentrancy*
+- nested call
+- greedy contract
+- *unchecked external calls*
+- block info dependency.
+
+*OVERALL*: try this.
+
+### ContractWard
+
+Paper: https://ieeexplore.ieee.org/abstract/document/8967006
+
+This is the official description, but it's unclear:
+"The contractWard applies supervised learning to find vulnerabilities. It extracts 1619 dimensional bigram features from opcodes using an n-gram algorithm and forms a feature space. 
+Then it labels contracts in training set with six types of vulnerabilities *using Oyente*. The label is stored in a six-dimension vector (e.g., [1 0 1 0 1 1]) where each bit stands for an existing vulnerability. Based on the feature space and labels of the training set, contractWard uses five classification algorithms to detect vulnerabilities."
+
+*OVERALL*: based on Oyente, perhaps it's worth trying.
+
+
+### NPChecker
+
+Paper: https://dl.acm.org/doi/abs/10.1145/3360615
+
+This tool analyzes the non-determinism in the smart-contract execution context and then performs systematic modelling to expose various non-deterministic factors in the contract execution context [46]. Non-deterministic factors are factors that could impact final results to the end-user and make them unforeseeable. Possible factors discussed in NPChecker are block and transaction state, transaction execution scheduling, and external callee. The NPChecker disassembles the EVM bytecode and translates them into LLVM intermediate representation (IR) code [96], recovers the control flow structures and enhances the LLVM IR with function information, identifies state and global variables, and performs information-flow tracking to analyze their influences on the fund’s transfer.
+
+*OVERALL*: based on Oyente, perhaps it's worth trying.
+
+
+
+### eBurger
+
+
+
+
+### Gas Gauge
+
+Detects only gas usage. Consider it for detecting some forms reentrancy.
+
