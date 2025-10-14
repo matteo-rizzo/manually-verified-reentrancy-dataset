@@ -5,7 +5,7 @@ contract C {
 
     mapping (address => uint256) public balances;
 
-    //OpenZeppelin-style flags
+    //OpenZeppelin-style flags make more sense here cause they need to be initialized
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
     uint256 private _status; // 0 if not intialized
@@ -18,6 +18,7 @@ contract C {
         currentVersion = 2;
     }
 
+    // this function was actually implemented as it is in a contract called Trustswap and allowed a one time reentrancy attack
     function initializePoolV2() external {
         if (initializedV2) {
             revert("Already IntializedV2");

@@ -5,7 +5,7 @@ contract C {
 
     mapping (address => uint256) public balances;
 
-    //OpenZeppelin-style flags
+    //OpenZeppelin-style flags make more sense here cause they need to be initialized
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
     uint256 private _status; // 0 if not intialized
@@ -18,7 +18,15 @@ contract C {
         currentVersion = 2;
     }
 
-    function initializePoolV2() external {
+    modifier nonReentrant() {
+        require(_status != _ENTERED, "ReentrancyGuard: reentrant call");
+        _status = _ENTERED;
+        _;
+        _status = _NOT_ENTERED;
+    }
+    
+    // using the nonReentrant modifier on initializePoolV2() protects the whole contract from reentrancy attacks
+    function initializePoolV2() external nonReentrant {
         if (initializedV2) {
             revert("Already IntializedV2");
         }
@@ -27,12 +35,6 @@ contract C {
         _status = _NOT_ENTERED;
     }
 
-    modifier nonReentrant() {
-        require(_status != _ENTERED, "ReentrancyGuard: reentrant call");
-        _status = _ENTERED;
-        _;
-        _status = _NOT_ENTERED;
-    }
 
     function withdraw() nonReentrant public {
         uint amt = balances[msg.sender];
@@ -47,21 +49,3 @@ contract C {
     }
 
 }
-
-// contract Attacker {
-//     C private c;
-//     address to;
-//     constructor(address v, address _to) {
-//         to = _to;
-//         c = C(v);
-//     }
-//     function attack() public {
-//         c.deposit{value: 100}();
-//         c.withdraw();
-//         // now, if the address 'to' calls withdraw() then both the attacker and 'to' will own 100 each
-//     }
-//     receive() external payable {
-//         c.initializePoolV2();
-//         c.withdraw();
-//     } 
-// }
