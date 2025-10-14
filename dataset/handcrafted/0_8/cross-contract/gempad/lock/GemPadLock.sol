@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.22;
 
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+
 import "../interfaces/IGempadLock.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 import "../interfaces/IUniswapV2Factory.sol";
@@ -12,9 +21,13 @@ import "./FullMath.sol";
 contract GempadLock is
     IGempadLock,
     IERC721Receiver,
+    Initializable,
     OwnableUpgradeable
 {
     using Address for address payable;
+    using EnumerableSet for EnumerableSet.AddressSet;
+    using EnumerableSet for EnumerableSet.UintSet;
+    using SafeERC20 for IERC20;
 
     struct Fee {
         uint256 projectCreationFee;
@@ -82,7 +95,10 @@ contract GempadLock is
 
     modifier isLockOwner(uint256 lockId) {
         Lock storage userLock = _locks[lockId];
-        require(userLock.owner == msg.sender, "You are not the owner of this lock");
+        require(
+            userLock.owner == msg.sender,
+            "You are not the owner of this lock"
+        );
         _;
     }
 
@@ -92,27 +108,12 @@ contract GempadLock is
         _;
     }
 
-    function updateAvailabilityForNFT(address nft, bool isAvailable) external onlyOwner {
+    function updateAvailabilityForNFT(
+        address nft,
+        bool isAvailable
+    ) external onlyOwner {
         require(isAvailableNFT[nft] != isAvailable, "the same");
         isAvailableNFT[nft] = isAvailable;
-        emit NFTAvailableUpdated(nft, isAvailable);
-    }
-
-    function updateFee(
-        uint256 projectCreationFee,
-        uint256 lpTokenNormalLockFee,
-        uint256 lpTokenVestingLockFee,
-        uint256 normalTokenNormalLockFee,
-        uint256 normalTokenVestingLockFee
-    ) external onlyOwner {
-        fee = Fee({
-            projectCreationFee: projectCreationFee,
-            lpTokenNormalLockFee: lpTokenNormalLockFee,
-            lpTokenVestingLockFee: lpTokenVestingLockFee,
-            normalTokenNormalLockFee: normalTokenNormalLockFee,
-            normalTokenVestingLockFee: normalTokenVestingLockFee
-        });
-        emit FeeUpdated(fee);
     }
 
     function excludeFromFee(
@@ -121,7 +122,6 @@ contract GempadLock is
     ) external onlyOwner {
         require(isExcludedFromFee[account] != isExcluded, "the same");
         isExcludedFromFee[account] = isExcluded;
-        emit FeeExcluded(account);
     }
 
     function _payFee(
@@ -135,8 +135,8 @@ contract GempadLock is
                     ? fee.lpTokenVestingLockFee
                     : fee.lpTokenNormalLockFee
                 : isVesting
-                ? fee.normalTokenVestingLockFee
-                : fee.normalTokenNormalLockFee;
+                    ? fee.normalTokenVestingLockFee
+                    : fee.normalTokenNormalLockFee;
             if (projects[projectToken].owner == address(0)) {
                 _fee += fee.projectCreationFee;
             }
@@ -157,7 +157,7 @@ contract GempadLock is
         address projectToken,
         address referrer
     ) external payable override returns (uint256[] memory) {
-        _payFee(projectToken, false, isLpToken);       
+        _payFee(projectToken, false, isLpToken);
         return
             _multipleLock(
                 owners,
@@ -224,7 +224,7 @@ contract GempadLock is
         address referrer
     ) external payable override validNFT(nftManager) returns (uint256 id) {
         _payFee(projectToken, false, true);
-        {            
+        {
             require(nftManager != address(0), "Invalid V3 LP manager");
             require(
                 unlockDate > block.timestamp,
@@ -300,15 +300,6 @@ contract GempadLock is
             nftId
         );
 
-        emit LockAdded(
-            id,
-            _locks[id],
-            tokenInfo,
-            projects[projectToken].owner,
-            projects[projectToken].metaData,
-            referrer,
-            msg.sender
-        );
         return id;
     }
 
@@ -355,15 +346,6 @@ contract GempadLock is
                 description,
                 metaData,
                 projectToken
-            );
-            emit LockAdded(
-                ids[i],
-                _locks[ids[i]],
-                cumulativeLockInfo[token],
-                projects[projectToken].owner,
-                projects[projectToken].metaData,
-                referrer,
-                msg.sender
             );
         }
 
@@ -546,9 +528,11 @@ contract GempadLock is
         _locks.push(newLock);
     }
 
-    function unlock(uint256 lockId) external override validLock(lockId) isLockOwner(lockId) {
+    function unlock(
+        uint256 lockId
+    ) external override validLock(lockId) isLockOwner(lockId) {
         Lock storage userLock = _locks[lockId];
-       
+
         if (userLock.tgeBps > 0) {
             _vestingUnlock(userLock, false);
         } else {
@@ -626,9 +610,7 @@ contract GempadLock is
         } else {
             IERC20(userLock.token).safeTransfer(msg.sender, unlockAmount);
         }
-        
 
-        emit LockRemoved(userLock.id, userLock, unlockAmount, block.timestamp);
     }
 
     function _vestingUnlock(Lock storage userLock, bool _noRevert) internal {
@@ -667,7 +649,6 @@ contract GempadLock is
         userLock.unlockedAmount = newTotalUnlockAmount;
 
         IERC20(userLock.token).safeTransfer(userLock.owner, withdrawable);
-        emit LockVested(userLock.id, userLock, withdrawable, block.timestamp);
         if (newTotalUnlockAmount == userLock.amount) {
             if (isLpToken) {
                 _userLpLockIds[msg.sender].remove(userLock.id);
@@ -675,12 +656,6 @@ contract GempadLock is
                 _userNormalLockIds[msg.sender].remove(userLock.id);
             }
             _tokenToLockIds[userLock.token].remove(userLock.id);
-            emit LockRemoved(
-                userLock.id,
-                userLock,
-                newTotalUnlockAmount,
-                block.timestamp
-            );
         }
     }
 
@@ -714,7 +689,7 @@ contract GempadLock is
             (((block.timestamp - userLock.tgeDate) / userLock.cycle) *
                 cycleReleaseAmount) +
             tgeReleaseAmount; // Truncation is expected here
-        
+
         uint256 withdrawable = 0;
         if (currentTotal > userLock.amount) {
             withdrawable = userLock.amount - userLock.unlockedAmount;
@@ -755,15 +730,19 @@ contract GempadLock is
                 );
             }
         }
-
-        emit LockUpdated(userLock.id, userLock);
     }
 
     function increaseLiquidityCurrentRange(
         uint256 lockId,
         uint256 amount0ToAdd,
         uint256 amount1ToAdd
-    ) external validLock(lockId) isLockOwner(lockId) validLockLPv3(lockId) returns (uint128 liquidity, uint256 amount0, uint256 amount1) {
+    )
+        external
+        validLock(lockId)
+        isLockOwner(lockId)
+        validLockLPv3(lockId)
+        returns (uint128 liquidity, uint256 amount0, uint256 amount1)
+    {
         Lock storage userLock = _locks[lockId];
         require(userLock.unlockedAmount == 0, "Lock was unlocked");
         (
@@ -817,13 +796,18 @@ contract GempadLock is
         ];
         tokenInfo.amount += liquidity;
         userLock.amount += liquidity;
-        emit LockUpdated(userLock.id, userLock);
     }
 
     function decreaseLiquidityCurrentRange(
         uint256 lockId,
         uint128 liquidity
-    ) external validLock(lockId) isLockOwner(lockId) validLockLPv3(lockId) returns (uint256 amount0, uint256 amount1) {
+    )
+        external
+        validLock(lockId)
+        isLockOwner(lockId)
+        validLockLPv3(lockId)
+        returns (uint256 amount0, uint256 amount1)
+    {
         Lock storage userLock = _locks[lockId];
         require(block.timestamp >= userLock.tgeDate, "Not unlocked yet");
         require(userLock.amount >= liquidity, "More then Locked");
@@ -875,12 +859,16 @@ contract GempadLock is
             );
         }
         userLock.amount -= liquidity;
-        emit LockUpdated(userLock.id, userLock);
     }
 
     function collectFees(
         uint256 lockId
-    ) external isLockOwner(lockId) validLockLPv3(lockId) returns (uint256 amount0, uint256 amount1) {
+    )
+        external
+        isLockOwner(lockId)
+        validLockLPv3(lockId)
+        returns (uint256 amount0, uint256 amount1)
+    {
         Lock storage userLock = _locks[lockId];
         // set amount0Max and amount1Max to uint256.max to collect all fees
         // alternatively can set recipient to msg.sender and avoid another transaction in `sendToOwner`
@@ -923,7 +911,6 @@ contract GempadLock is
     ) external validLock(lockId) isLockOwner(lockId) {
         Lock storage userLock = _locks[lockId];
         userLock.description = description;
-        emit LockDescriptionChanged(lockId, description);
     }
 
     function editProjectTokenMetaData(
@@ -935,7 +922,6 @@ contract GempadLock is
             "You are not the owner of this project"
         );
         projects[token].metaData = metaData;
-        emit LockProjectTokenMetaDataChanged(token, metaData);
     }
 
     function transferProjectOwnerShip(address token, address newOwner) public {
@@ -944,7 +930,6 @@ contract GempadLock is
             "You are not the owner of this project"
         );
         projects[token].owner = newOwner;
-        emit ProjectOwnerChanged(token, msg.sender, newOwner);
     }
 
     function transferLockOwnership(
@@ -953,7 +938,7 @@ contract GempadLock is
     ) public validLock(lockId) isLockOwner(lockId) {
         Lock storage userLock = _locks[lockId];
         address currentOwner = userLock.owner;
-        
+
         userLock.owner = newOwner;
         CumulativeLockInfo storage tokenInfo = cumulativeLockInfo[
             userLock.token
@@ -969,7 +954,6 @@ contract GempadLock is
             _userNormalLockIds[newOwner].add(lockId);
         }
 
-        emit LockOwnerChanged(lockId, currentOwner, newOwner);
     }
 
     function _safeTransferFromEnsureExactAmount(
