@@ -8,12 +8,14 @@ Requirements
 
 Summary
 
-- The contracts used here were copied from the dataset's `dataset/handcrafted/0_8` folder into this project's `contracts/` folder.
-- When cloning the dataset contracts they were:
-  - Renamed so every contract has a unique, identifiable name.
-  - Adapted to be compliant with the local interfaces in `contracts/interfaces` where required.
-  - Supplemented with attacker contracts placed under `contracts/attackers` (see `contracts/attackers/`).
-- Test and helper scripts are located in the `scripts/` folder. The scripts mirror the major categories of the `dataset/handcrafted/0_8` folder structure so they can run the same checks across `single-function`, `cross-function`, and `cross-contract` groups. The main orchestrator script is `scripts/main.ts` which runs the whole suite.
+This Hardhat project contains a curated subset of the dataset's Solidity contracts (sourced from `dataset/handcrafted/0_8`) placed under `contracts/` and prepared for automated testing:
+
+- Only reentrant contracts were kept; safe contracts were removed so the test suite focuses on reentrancy only.
+- Contracts were renamed to produce unique dentifiers so the framework can properly distinguish each of them.
+- Sources were adapted where necessary to implement the local interfaces in `contracts/interfaces`.
+- Attacker contracts used to reproduce reentrancy attack scenarios were added under `contracts/attackers`.
+
+Test and helper scripts live in `scripts/` and mirror the dataset layout (single-function, cross-function, cross-contract). The main orchestrator is `scripts/main.ts`, which runs the full suite.
 
 Purpose
 
