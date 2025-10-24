@@ -18,13 +18,13 @@ contract Locker {
 
     function deposit(address token, uint amt) public {
         deposited[msg.sender] += amt;
-        Token(token).safeTransferFrom(msg.sender, address(this), amt);
+        IERC20(token).safeTransferFrom(msg.sender, address(this), amt);
     }
 
     function withdraw(address token) public {
         uint amt = deposited[msg.sender];
         deposited[msg.sender] = 0;
-        Token(token).safeTransferFrom(address(this), msg.sender, amt);
+        IERC20(token).safeTransferFrom(address(this), msg.sender, amt);
     }
 
     function collectFees(address token) public {
@@ -53,7 +53,7 @@ contract Market {
     }
 }
 
-contract Token is IERC20 {
+contract MaliciousToken is IERC20 {
     mapping (address => uint) public balances;
     bool public condition;
     Locker public locker;
