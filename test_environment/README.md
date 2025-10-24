@@ -2,6 +2,10 @@
 
 This folder is a Hardhat v3 project used to automatically test the reentrant contracts contained in the dataset.
 
+Requirements
+
+- This project requires Node.js and npm to install dependencies and run the scripts. Use a recent Node.js LTS (Node 24 or later) and the matching npm version. You can check your installed versions with `node -v` and `npm -v`.
+
 Summary
 
 - The contracts used here were copied from the dataset's `dataset/handcrafted/0_8` folder into this project's `contracts/` folder.
@@ -9,7 +13,7 @@ Summary
   - Renamed so every contract has a unique, identifiable name.
   - Adapted to be compliant with the local interfaces in `contracts/interfaces` where required.
   - Supplemented with attacker contracts placed under `contracts/attackers` (see `contracts/attackers/`).
-- Test and helper scripts are located in the `scripts/` folder. The scripts mirror the dataset folder structure so they can run the same checks across `single-function`, `cross-function`, and `cross-contract` groups. The main orchestrator script is `scripts/main.ts` which runs the whole suite.
+- Test and helper scripts are located in the `scripts/` folder. The scripts mirror the major categories of the `dataset/handcrafted/0_8` folder structure so they can run the same checks across `single-function`, `cross-function`, and `cross-contract` groups. The main orchestrator script is `scripts/main.ts` which runs the whole suite.
 
 Purpose
 
