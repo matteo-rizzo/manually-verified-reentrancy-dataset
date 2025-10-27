@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-import '../../../../../interfaces/IMethodInvocation.sol';
+import '../../../../../interfaces/single-function/IMethodInvocation.sol';
 // SPDX-License-Identifier: GPL-3.0
 
 contract CastRee is IMethodInvocation {

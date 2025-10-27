@@ -3,7 +3,7 @@
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
 pragma solidity ^0.8.0;
-import '../../../../../../interfaces/ILowLevelCallToSender.sol';
+import '../../../../../../interfaces/single-function/ILowLevelCallToSender.sol';
 
 contract BlockRee1 is ILowLevelCallToSender {
     mapping (address => uint256) private balances;

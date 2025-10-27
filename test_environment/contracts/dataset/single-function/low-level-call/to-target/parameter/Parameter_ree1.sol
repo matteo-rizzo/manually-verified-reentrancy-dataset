@@ -1,5 +1,5 @@
 pragma solidity ^0.8.0;
-import "../../../../../interfaces/ILowLevelCallToTarget.sol";
+import "../../../../../interfaces/single-function/ILowLevelCallToTarget.sol";
  
 // SPDX-License-Identifier: GPL-3.0
 contract ParameterRee1 is ILowLevelCallToTarget2 {

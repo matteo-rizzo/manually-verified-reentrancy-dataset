@@ -1,5 +1,5 @@
 pragma solidity ^0.8.0;
-import '../../../../../../../../interfaces/ILowLevelCallToSender.sol';
+import '../../../../../../../../interfaces/single-function/ILowLevelCallToSender.sol';
 
 // SPDX-License-Identifier: GPL-3.0
 contract MutexesSingleNoModRee5 is ILowLevelCallToSender {
