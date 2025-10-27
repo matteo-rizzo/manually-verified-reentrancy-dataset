@@ -1,25 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface IERC20 {
-    function balanceOf(address account) external view returns (uint256);
-    function transfer(address to, uint256 amount) external returns (bool);
-}
+// interface IERC20 {
+//     function balanceOf(address account) external view returns (uint256);
+//     function transfer(address to, uint256 amount) external returns (bool);
+// }
 
-// this contract implements a donation logic by using ERC20 token
-contract C {
+// TODO This contract must be fixed cause this is not vulnerabile as it is now.
 
-    mapping (address => bool) private donated;
+// // this contract implements a donation logic by using ERC20 token
+// contract C {
 
-    function donate(address token, address to, uint256 amount) public {
-        require(to != msg.sender);
-        require(!donated[msg.sender]);
-        require(IERC20(token).balanceOf(msg.sender) >= amount * 2, "Need at least double to donate");
-        bool success = IERC20(token).transfer(to, amount);       // this is an external call to unknown code that could possibly be reentrant
-        require(success, "Donation failed");
-        donated[msg.sender] = true;     // the side effect after the external call makes this susceptible to reentrancy
-    }
-}
+//     mapping (address => bool) private donated;
+
+//     function donate(address token, address to, uint256 amount) public {
+//         require(to != msg.sender);
+//         require(!donated[msg.sender]);
+//         require(IERC20(token).balanceOf(msg.sender) >= amount * 2, "Need at least double to donate");
+//         bool success = IERC20(token).transfer(to, amount);       // this is an external call to unknown code that could possibly be reentrant
+//         require(success, "Donation failed");
+//         donated[msg.sender] = true;     // the side effect after the external call makes this susceptible to reentrancy
+//     }
+// }
 
 // contract Attacker is IERC20 {
 //     address private victim;
