@@ -1,4 +1,4 @@
-import { methodInvocationModuleBuilder } from "../../../../ignition/helpers/method-invocation.js";
+import { methodInvocationModuleBuilder } from "../../../../ignition/helpers/single-function/method-invocation.js";
 import { NetworkConnection } from "hardhat/types/network";
 import { printBalance } from "../../../lib.js";
 

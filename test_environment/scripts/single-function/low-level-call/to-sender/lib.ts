@@ -1,4 +1,4 @@
-import { lowLevelToSenderModuleBuilder, twoStepsAttackerModuleBuilder } from "../../../../ignition/helpers/low-level-call.js";
+import { lowLevelToSenderModuleBuilder, twoStepsAttackerModuleBuilder } from "../../../../ignition/helpers/single-function/low-level-call.js";
 import { ethers } from "ethers";
 import { NetworkConnection } from "hardhat/types/network";
 import { printBalance } from "../../../lib.js";

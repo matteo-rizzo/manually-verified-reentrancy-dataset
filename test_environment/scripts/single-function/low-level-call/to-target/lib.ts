@@ -1,4 +1,4 @@
-import { lowLevelToTargetModuleBuilder, moduleBuilder } from "../../../../ignition/helpers/low-level-call.js";
+import { lowLevelToTargetModuleBuilder, moduleBuilder } from "../../../../ignition/helpers/single-function/low-level-call.js";
 import { lowLevelToTargetConstructorModuleBuilder } from "../../../../ignition/modules/LowLevelToTargetContructor.js";
 import { NetworkConnection } from "hardhat/types/network";
 import { printBalance } from "../../../lib.js";
