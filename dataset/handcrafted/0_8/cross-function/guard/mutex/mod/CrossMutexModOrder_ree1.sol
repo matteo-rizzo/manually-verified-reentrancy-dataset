@@ -34,6 +34,26 @@ contract C {
         flag = false;
     }
 
+    //
+    //
+    //
+
+    modifier enoughBalance() {
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        _;
+
+        (bool success, ) = msg.sender.call{value:amt}("");
+        require(success, "Call failed");
+       
+        balances[msg.sender] = 0;
+    }
+
+    function withdraw3() enoughBalance nonReentrant public {
+    }
+
+
+
 
     // this function is not protected by the modifier
     // so an attacker can reenter after the external call below and move the amount in balances[msg.sender] to another address (parameter 'to') owned by the attacker

