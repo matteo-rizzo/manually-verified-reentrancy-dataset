@@ -221,18 +221,10 @@ It is well maintained also nowadays.
 *OVERALL*: the doc on github is totally out of sync with the actual content of the repo. Cannot understand how to lauch it properly. 
 
 
+
 ### Sailfish
 
 https://github.com/ucsb-seclab/sailfish
-
-
-
-
-### TotalSol
-
-Paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10990789
-
-
 
 
 
@@ -246,6 +238,14 @@ The tool is *unmaintained* and its last release dates back to 2018.
 It is essentially a runtime monitoring system that detects SSTORE instructions (effects) and *write-locks* memory locations in such a way that, once execution returns from reentrant calls, the system detects a violation.
 
 *OVERALL*: do not include this tool, it's too old.
+
+
+
+### TotalSol
+
+Paper: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10990789
+
+
 
 
 ### DefectChecker
@@ -290,9 +290,6 @@ This tool analyzes the non-determinism in the smart-contract execution context a
 
 *OVERALL*: based on Oyente, perhaps it's worth trying.
 
-
-
-### eBurger
 
 
 
