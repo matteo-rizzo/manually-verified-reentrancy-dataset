@@ -13,25 +13,17 @@ contract C {
         flag = false;
     }
 
-    modifier Sticazzi(address a, uint256 amt) {
-        //balances[a] += amt;
+    modifier MyMod(address a, uint256 amt) {
         a.call{value:amt}("");
         _;
     }
 
-    function withdraw2() Sticazzi(msg.sender, 10) nonReentrant public {
-        msg.sender.call{value:10}("");
-        
-        require(!flag, "Locked");
-        flag = true;
-
+    function withdraw() MyMod(msg.sender, 10) nonReentrant public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         (bool success, ) = msg.sender.call{value:amt}("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
-
-        flag = false;
     }
 
     //
@@ -92,7 +84,7 @@ contract Attacker {
     }
 
     receive() external payable {
-        withdraw2();
+        withdraw();
         // c.transfer(to, 100);
     } 
 }
