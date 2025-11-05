@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 
 // TODO This contract must be fixed cause this is not vulnerabile as it is now
