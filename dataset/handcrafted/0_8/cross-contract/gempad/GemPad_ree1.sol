@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.22;
+pragma solidity 0.8.20;
 
 // Simplified interface of the OpenZeppelin's IERC20 and SafeERC20 libraries for sake of example
 interface IERC20 {
