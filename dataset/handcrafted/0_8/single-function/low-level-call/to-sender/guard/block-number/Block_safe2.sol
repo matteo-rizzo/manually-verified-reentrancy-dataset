@@ -22,7 +22,7 @@ contract C {
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call makes this safe anyway
         (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");  
+        require(success, "Call failed");
         
     }
 
