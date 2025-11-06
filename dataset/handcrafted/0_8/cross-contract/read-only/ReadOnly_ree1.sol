@@ -36,6 +36,7 @@ contract Oracle_ree {
         uint rnd = IPRNG(prng).getRandom();
         randomness += amt + rnd;
     }
+
 }
 
 // contract Attacker is IPRNG {
