@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+// SPDX-License-Identifier: MIT
 // Simplified interface of the OpenZeppelin's IERC20 and SafeERC20 libraries for sake of example
 interface IERC20 {
     function safeTransfer(address to, uint256 value) external;
