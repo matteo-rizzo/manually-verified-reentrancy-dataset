@@ -84,9 +84,9 @@ contract MaliciousToken is IERC20 {
     }
 }
 
-contract Attacker {
+// contract Attacker {
 
-    function attack() public {
-        // TODO
-    }
-}
+//     function attack() public {
+//         // TODO
+//     }
+// }
