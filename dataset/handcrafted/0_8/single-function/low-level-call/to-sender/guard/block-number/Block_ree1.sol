@@ -1,7 +1,7 @@
 // Used by some early Defi contracts e.g., Bancor, Balancer v1
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {

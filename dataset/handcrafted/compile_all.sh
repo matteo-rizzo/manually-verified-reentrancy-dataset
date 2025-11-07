@@ -2,12 +2,12 @@
 
 BASE_DIR="${1:-.}"
 
-rm -rf bins
+rm -rf "$BIN_DIR"
 
 find "$BASE_DIR" -type f -name "*.sol" | while read -r file; do
     echo "Compilazione di: $file"
-    solcjs "$file" --bin -o bins   
-    #solc "$file" --bin -o bins/${file%.*}
+    #solcjs "$file" --bin -o bins   
+    solc "$file" --bin -o bins/${file%.*}
 done
 
 # rename all

@@ -1,59 +1,52 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.5.0;
 
-interface IStrategy {
-    function execute() external;
+interface IPRNG {
+    function getRandom() external returns (uint256);
 }
-
 
 contract Victim {
     Oracle_ree public o;
-    bool private flag = false;
+    mapping (address => uint) private balances;
+    bool private flag;
 
     constructor(address _o)  public {
         o = Oracle_ree(_o);
     }
 
     modifier nonReentrant() {
-        require(!flag, "Locked");
+        require(!flag, "Reentrant call");
         flag = true;
         _;
         flag = false;
     }
 
-    function withdraw() nonReentrant external returns (uint256) { // even if the victim correctly implements the reentracy guard, the attack still succeed
-        uint256 rate = o.totalETHView() * 1e18 / o.totalSupplyView();
-        uint256 amountETH = rate * 1000 / 1e18;
+    function withdraw() nonReentrant external {
+        uint256 bonus = o.fix() / o.randomness();
+        uint256 amt = balances[msg.sender] + bonus;
 
-        (bool success, ) = (msg.sender).call.value(amountETH)("");
-        require (success, "Failed to withdraw ETH");
-
-        return amountETH;
+        (bool success, ) = (msg.sender).call.value(amt)("");
+        require (success, "Failed");
     }
 
-    function() external payable {}
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
 }
 
 // THIS is the contract vulnerable to reentrancy
 contract Oracle_ree {
-    uint256 public totalETH;
-    uint256 public totalSupply;
+    uint256 public fix;
+    uint256 public randomness;
 
-    function work(address strategy) external payable {
-        totalETH += msg.value;
-        IStrategy(strategy).execute();
-        totalSupply += msg.value;  // side-effect AFTER external call makes this contract unsafe, even if the money theft is performed on Victim, not this contract
-    }
-
-    function totalETHView() external view returns (uint256) {
-        return totalETH;
-    }
-    function totalSupplyView() external view returns (uint256) {
-        return totalSupply;
+    function update(address prng, uint256 amt) external {
+        fix += amt;
+        uint rnd = IPRNG(prng).getRandom();
+        randomness += amt + rnd;
     }
 }
 
-// contract Attacker is IStrategy {
+// contract Attacker is IPRNG {
 //     Victim public v;
 //     Oracle_ree public o;
 
@@ -62,11 +55,12 @@ contract Oracle_ree {
 //         o = Oracle_ree(_o);
 //     }
 
-//     function execute() external {
+//     function getRandom() external returns (uint256) {
 //         v.withdraw();
+//         return 1;
 //     }
 
 //     function() external payable {
-//         o.work(address(this));
+//         o.update(address(this), 10);
 //     }
 // }

@@ -1,74 +1,77 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
-interface IStrategy {
-    function execute() external;
+interface IPRNG {
+    function getRandom() external returns (uint256);
 }
 
-
 contract Victim {
-    Oracle public o;
-    bool private flag = false;
+    Oracle_ree public o;
+    mapping (address => uint) private balances;
+    bool private flag;
 
     constructor(address _o) {
-        o = Oracle(_o);
+        o = Oracle_ree(_o);
     }
 
-    function withdraw() external returns (uint256) {
-        (bool success, bytes memory data) = address(o).staticcall("totalETHView");  // static calls are equivalent to view-method invocations
-        require(success, "Staticcall failed");
-        uint256 t1 = abi.decode(data, (uint256));
-        
-        (success, data) = address(o).staticcall("totalSupplyView");
-        require(success, "Staticcall failed");
-        uint256 t2 = abi.decode(data, (uint256));
-        
-        uint256 rate = t1 * 1e18 / t2;
-        uint256 amountETH = rate * 1000 / 1e18;
-
-        (success, ) = payable(msg.sender).call{value: amountETH}("");
-        require (success, "Failed to withdraw ETH");
-
-        return amountETH;
+    modifier nonReentrant() {
+        require(!flag, "Reentrant call");
+        flag = true;
+        _;
+        flag = false;
     }
 
-    receive() external payable {}
+    function withdraw() nonReentrant external {
+        (bool success, bytes memory data) = address(o).staticcall("fix");  // static calls are equivalent to view-method invocations
+        require(success, "Staticcall failed");
+        uint256 fix = abi.decode(data, (uint256));
+        
+        (success, data) = address(o).staticcall("randomness");
+        require(success, "Staticcall failed");
+        uint256 randomness = abi.decode(data, (uint256));
+
+        uint256 bonus = fix / randomness;
+        uint256 amt = balances[msg.sender] + bonus;
+
+        (success, ) = payable(msg.sender).call{value: amt}("");
+        require (success, "Failed");
+    }
+
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
 }
 
 // THIS is the contract vulnerable to reentrancy
-contract Oracle {
-    uint256 public totalETH;
-    uint256 public totalSupply;
+contract Oracle_ree {
+    uint256 private fix;
+    uint256 private randomness;
+    bool private flag;
 
-    function work(address strategy) external payable {
-        totalETH += msg.value;
-        totalSupply += msg.value; // side-effect BEFORE external call makes this contract safe
-        IStrategy(strategy).execute();
-
+    modifier nonReentrant() {
+        require(!flag, "Locked");
+        flag = true;
+        _;
+        flag = false;
     }
 
-    function totalETHView() external view returns (uint256) {
-        return totalETH;
+    modifier nonReentrantView() {
+        require(!flag, "Locked");
+        _;
     }
-    function totalSupplyView() external view returns (uint256) {
-        return totalSupply;
+
+    function update(address prng, uint256 amt) nonReentrant external {
+        uint rnd = IPRNG(prng).getRandom();
+        fix += amt;
+        randomness += amt + rnd;
+    }
+
+    function getFix() nonReentrantView view external returns (uint256) {
+        return fix;
+    }
+
+    function getRandomness() nonReentrantView view external returns (uint256) {
+        return randomness;
     }
 }
 
-// contract Attacker is IStrategy {
-//     Victim public v;
-//     Oracle_ree public o;
-
-//     constructor(address payable _v, address _o) {
-//         v = Victim(_v);
-//         o = Oracle_ree(_o);
-//     }
-
-//     function execute() external {
-//         v.withdraw();
-//     }
-
-//     receive() external payable {
-//         o.work(address(this));
-//     }
-// }
