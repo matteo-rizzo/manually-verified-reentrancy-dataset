@@ -1,6 +1,5 @@
-pragma solidity ^0.8.20;
-
 // SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.20;
 interface I {
     function pay(uint256 amt) external;
 }
