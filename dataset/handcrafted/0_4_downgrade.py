@@ -4,6 +4,7 @@ import re
 src_root = "0_8"
 dst_root = "0_4"
 
+blacklist = ['Create2', 'Staticcall']
 for dirpath, dirnames, filenames in os.walk(src_root):
     rel_path = os.path.relpath(dirpath, src_root)
     dst_dir = os.path.join(dst_root, rel_path)
@@ -11,7 +12,14 @@ for dirpath, dirnames, filenames in os.walk(src_root):
 
     for file in filenames:
         if file.endswith(".sol"):
-            
+            ignore = False
+            for el in blacklist:
+                if el in file:
+                    ignore = True
+                    break
+            if ignore:
+                break
+
             src_file = os.path.join(dirpath, file)
             dst_file = os.path.join(dst_dir, file)
 
@@ -41,7 +49,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
             content = re.sub(r"override", "", content)
             content = re.sub(r"immutable", "", content)
 
-            content = re.sub(r'(\bconstructor\s*\([^)]*\)\s*(payable)?)', r'\1 public ', content)
+            content = re.sub(r'(constructor\s*\(([^)]*)?\)\s*(payable)?)', r'\1 public ', content)
             
             #content = re.sub(r'\bunchecked\s*\{([^}]*)\s*\}', r'\1', content)
 
@@ -73,6 +81,8 @@ if os.path.exists(underflow_dir):
         if file in ["Underflow_ree1.sol", "CrossUnderflow_ree1.sol"]:
             print(f"Removing {file_path}")
             os.remove(file_path)
+        
+
 
         elif file == "Underflow_safe1.sol":
             dst = os.path.join(
