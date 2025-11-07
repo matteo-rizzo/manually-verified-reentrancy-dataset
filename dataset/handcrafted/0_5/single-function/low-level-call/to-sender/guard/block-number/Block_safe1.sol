@@ -1,9 +1,9 @@
 // Used by some early Defi contracts e.g., Bancor, Balancer v1
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-// SPDX-License-Identifier: GPL-3.0
 contract C {
     mapping (address => uint256) private balances;
 
