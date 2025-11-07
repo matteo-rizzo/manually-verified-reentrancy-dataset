@@ -3,18 +3,18 @@ pragma solidity ^0.8.20;
 
 
 interface I {
-    function trasfer(uint256 amt) external view returns (bool);
+    function transfer(uint256 amt) external returns (bool);
 }
 
-contract C {
+contract Cast_safe1 {
     mapping (address => uint256) public balances;
 
     function withdraw(address addr) public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = I(addr).trasfer(amt);   // calls to view methods emit STATICCALL, which can reenter only through other STATICCALLs to view methods, therefore this is not vulnerable
+        balances[msg.sender] = 0;        // side effect
+        bool success = I(addr).transfer(amt);   // the implementation is unknown and could be malicious, though the side effect is before, so it's safe
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // not vulnerable even if side effect is after external call
     }
 
     function deposit() public payable {

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 
-contract C {
+contract Create_safe2 {
 
     mapping (address => uint) public counters;
 

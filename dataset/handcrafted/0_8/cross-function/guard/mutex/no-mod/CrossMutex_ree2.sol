@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-contract C {
+contract CrossMutex_ree2 {
     bool private flag = false;
     mapping (address => uint256) public balances;
 

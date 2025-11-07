@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-contract C {
+contract ToTarget_safe1 {
     mapping (address => uint256) public balances;
 
     function pay(address target) public {

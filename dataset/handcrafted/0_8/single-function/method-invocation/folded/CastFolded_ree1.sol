@@ -6,7 +6,7 @@ interface I {
     function transfer(uint256 amt) external returns (bool);
 }
 
-contract C {
+contract CastFolded_ree1 {
     mapping (address => uint256) public balances;
 
     function pay(address addr, uint256 amt) internal {
@@ -18,11 +18,7 @@ contract C {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         pay(addr, amt);
-        update();
-    }
-
-    function update() internal {
-        balances[msg.sender] = 0;    // side effect is folded and AFTER the folded call, making this vulnerable
+        balances[msg.sender] = 0;    // side effect AFTER the folded call makes this vulnerable
     }
 
     function deposit() public payable {

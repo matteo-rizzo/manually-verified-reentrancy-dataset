@@ -5,12 +5,12 @@ interface IPRNG {
     function getRandom() external returns (uint256);
 }
 
-contract Victim {
-    Oracle_ree public o;
+contract ReadOnlyStaticCall_ree1 {
+    ReadOnlyStaticCall_ree1_Oracle public o;
     mapping (address => uint) private balances;
 
     constructor(address _o) {
-        o = Oracle_ree(_o);
+        o = ReadOnlyStaticCall_ree1_Oracle(_o);
     }
 
     function withdraw() external {
@@ -35,7 +35,7 @@ contract Victim {
 }
 
 // THIS is the contract vulnerable to reentrancy
-contract Oracle_ree {
+contract ReadOnlyStaticCall_ree1_Oracle {
     uint256 public fix;
     uint256 public randomness;
 

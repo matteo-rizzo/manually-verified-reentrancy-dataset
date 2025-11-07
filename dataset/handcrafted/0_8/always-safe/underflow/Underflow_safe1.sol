@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-contract C {
+contract Underflow_safe1 {
     mapping (address => uint256) public balances;
 
     // an attacker can reenter here, attempting a single-function attack that fails due to the underflow check

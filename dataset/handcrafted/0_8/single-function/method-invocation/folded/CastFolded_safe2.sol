@@ -6,7 +6,7 @@ interface I {
     function transfer(uint256 amt) external returns (bool);
 }
 
-contract C {
+contract CastFolded_safe2 {
     mapping (address => uint256) public balances;
 
     function pay(address addr, uint256 amt) internal {

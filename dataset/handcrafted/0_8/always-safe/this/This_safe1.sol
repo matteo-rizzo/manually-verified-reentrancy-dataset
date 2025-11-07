@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 
-contract C {
+contract This_safe1 {
     mapping (address => uint256) public balances;
 
     function withdraw() public {

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract C {
-    Vault public immutable vault;
+contract TemporalVault_safe1 {
+    TemporalVault_safe1_Vault public immutable vault;
     bool private locked = false;
 
     modifier nonReentrant() {
@@ -12,7 +12,7 @@ contract C {
         locked = false;
     }
 
-    constructor(address _vault) { vault = Vault(_vault); }
+    constructor(address _vault) { vault = TemporalVault_safe1_Vault(_vault); }
 
     function redeem(address payable to) external nonReentrant {
         vault.setEnabled(true); 
@@ -34,7 +34,7 @@ contract C {
     }
 }
 
-contract Vault {
+contract TemporalVault_safe1_Vault {
     mapping(address => uint256) private balances; 
     address private admin;
     bool private enabled;

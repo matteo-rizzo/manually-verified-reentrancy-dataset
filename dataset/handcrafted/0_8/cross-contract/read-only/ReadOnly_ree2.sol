@@ -2,16 +2,16 @@
 pragma solidity ^0.8.20;
 
 interface IPRNG {
-    function getRandom() external returns (uint256);
+    function rand() external returns (uint256);
 }
 
-contract Victim {
-    Oracle_ree public o;
+contract ReadOnly_ree2 {
+    ReadOnly_ree2_Oracle public o;
     mapping (address => uint) private balances;
     bool private flag;
 
     constructor(address _o) {
-        o = Oracle_ree(_o);
+        o = ReadOnly_ree2_Oracle(_o);
     }
 
     modifier nonReentrant() {
@@ -35,13 +35,13 @@ contract Victim {
 }
 
 // THIS is the contract vulnerable to reentrancy
-contract Oracle_ree {
+contract ReadOnly_ree2_Oracle {
     uint256 public fix;
     uint256 public randomness;
 
     function update(address prng, uint256 amt) external {
         fix += amt;
-        uint rnd = IPRNG(prng).getRandom();
+        uint rnd = IPRNG(prng).rand();
         randomness += amt + rnd;
     }
 }
@@ -55,7 +55,7 @@ contract Oracle_ree {
 //         o = Oracle_ree(_o);
 //     }
 
-//     function getRandom() external returns (uint256) {
+//     function rand() external returns (uint256) {
 //         v.withdraw();
 //         return 1;
 //     }

@@ -6,23 +6,23 @@ interface I {
     function transfer(uint256 amt) external returns (bool);
 }
 
-contract C {
+contract CastFolded_safe3 {
     mapping (address => uint256) public balances;
 
     function pay(address addr, uint256 amt) internal {
-        bool success = I(addr).transfer(amt);   // the implementation is unknown and could be malicious
+        bool success = I(addr).transfer(amt);   // the implementation is unknown and could be malicious, though the position of the side effect in the function below makes this safe
         require(success, "Call failed");
     }
 
     function withdraw(address addr) public {
         uint256 amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
-        pay(addr, amt);
+        require(check(amt), "Insufficient funds");
         update();
+        pay(addr, amt);
     }
 
     function update() internal {
-        balances[msg.sender] = 0;    // side effect is folded and AFTER the folded call, making this vulnerable
+        balances[msg.sender] = 0;    // side effect is folded and before the folded call, making this safe
     }
 
     function check(uint256 amt) internal view returns (bool) {

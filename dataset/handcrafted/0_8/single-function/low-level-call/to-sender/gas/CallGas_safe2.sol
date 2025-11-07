@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-contract C {
+contract CallGas_safe2 {
     mapping (address => uint256) public balances;
 
     function withdraw() public {

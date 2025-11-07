@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract C_ree {
-    Vault public immutable vault;
+contract TemporalVault_ree1 {
+    TemporalVault_ree1_Vault public immutable vault;
     bool private locked = false;
 
     modifier nonReentrant() {
@@ -12,7 +12,7 @@ contract C_ree {
         locked = false;
     }
 
-    constructor(address _vault) { vault = Vault(_vault); }
+    constructor(address _vault) { vault = TemporalVault_ree1_Vault(_vault); }
 
     // the following function is vulnerable to a cross-contract reentrancy attack
     function redeem(address payable to) external nonReentrant {
@@ -34,7 +34,7 @@ contract C_ree {
     }
 }
 
-contract Vault {
+contract TemporalVault_ree1_Vault {
     mapping(address => uint256) private balances; 
     address private admin;
     bool private enabled;

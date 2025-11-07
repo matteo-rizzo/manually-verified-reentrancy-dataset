@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 
-contract C {
+contract This_safe2 {
     
     mapping(address => uint) private balances;
 
