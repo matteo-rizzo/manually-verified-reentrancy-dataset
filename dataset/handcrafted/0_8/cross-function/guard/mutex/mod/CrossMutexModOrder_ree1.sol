@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-// SPDX-License-Identifier: GPL-3.0
 contract C {
     bool private flag = false;
     mapping (address => uint256) public balances;
@@ -30,7 +30,7 @@ contract C {
 
 }
 
-contract Attacker {
+/* contract Attacker {
     C private c;
     address to;
     constructor(address v, address _to) {
@@ -48,4 +48,4 @@ contract Attacker {
         c.withdraw();
         // c.transfer(to, 100);
     } 
-}
+} */

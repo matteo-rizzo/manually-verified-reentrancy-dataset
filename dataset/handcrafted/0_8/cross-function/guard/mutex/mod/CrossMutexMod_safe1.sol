@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-// SPDX-License-Identifier: GPL-3.0
 contract C {
     bool private flag = false;
     mapping (address => uint256) public balances;

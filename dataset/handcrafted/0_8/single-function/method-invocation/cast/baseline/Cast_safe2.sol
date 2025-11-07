@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.20;
 
-// SPDX-License-Identifier: GPL-3.0
 
 interface I {
     function trasfer(uint256 amt) external view returns (bool);

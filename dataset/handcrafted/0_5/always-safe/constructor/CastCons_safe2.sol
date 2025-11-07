@@ -1,6 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-// SPDX-License-Identifier: GPL-3.0
 
 interface IERC20 {
     function balanceOf(address account) external view returns (uint256);

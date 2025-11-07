@@ -11,6 +11,7 @@ for dirpath, dirnames, filenames in os.walk(src_root):
 
     for file in filenames:
         if file.endswith(".sol"):
+            
             src_file = os.path.join(dirpath, file)
             dst_file = os.path.join(dst_dir, file)
 
@@ -44,3 +45,61 @@ for dirpath, dirnames, filenames in os.walk(src_root):
 
             with open(dst_file, "w") as f:
                 f.write(content)
+
+
+
+
+import shutil
+
+underflow_dir = os.path.join(dst_root, "always-safe", "underflow")
+
+if os.path.exists(underflow_dir):
+    for file in os.listdir(underflow_dir):
+        file_path = os.path.join(underflow_dir, file)
+
+        if file in ["Underflow_ree1.sol", "CrossUnderflow_ree1.sol"]:
+            print(f"Removing {file_path}")
+            os.remove(file_path)
+
+        elif file == "Underflow_safe1.sol":
+            dst = os.path.join(
+                dst_root,
+                "single-function",
+                "low-level-call",
+                "to-sender",
+                "baseline",
+                file
+            )
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            print(f"Moving {file_path} -> {dst}")
+            shutil.move(file_path, dst)
+
+        elif file == "CrossUnderflow_safe1.sol":
+            dst = os.path.join(dst_root, "cross-function", "baseline", file)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            print(f"Moving {file_path} -> {dst}")
+            shutil.move(file_path, dst)
+
+        elif file == "Underflow_safe2.sol":
+            new_name = file.replace("safe2", "ree1")
+            dst = os.path.join(
+                dst_root,
+                "single-function",
+                "low-level-call",
+                "to-sender",
+                "baseline",
+                new_name
+            )
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            print(f"Renaming and moving {file_path} -> {dst}")
+            shutil.move(file_path, dst)
+
+        elif file == "CrossUnderflow_safe2.sol":
+            new_name = file.replace("safe2", "ree1")
+            dst = os.path.join(dst_root, "cross-function", "baseline", new_name)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            print(f"Renaming and moving {file_path} -> {dst}")
+            shutil.move(file_path, dst)
+
+    print(f"Removing folder {underflow_dir}")
+    shutil.rmtree(underflow_dir)
