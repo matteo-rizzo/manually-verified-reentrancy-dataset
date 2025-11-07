@@ -43,7 +43,7 @@ contract C {
 //         to = _to;
 //         c = C(v);
 //     }
-//     function attacker() public {
+//     function attack() public {
 //         c.deposit{value: 100}();
 //         c.withdraw();
 //         // now, if the address 'to' calls withdraw() then both the attacker and 'to' will own 100 each
