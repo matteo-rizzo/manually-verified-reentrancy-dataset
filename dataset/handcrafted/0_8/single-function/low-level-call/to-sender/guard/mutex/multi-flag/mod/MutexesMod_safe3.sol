@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
 contract MutexesMod_safe3 {
     mapping (address => uint256) private balances;

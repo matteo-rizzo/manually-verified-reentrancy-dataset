@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
 contract TemporalVault_safe1 {
     TemporalVault_safe1_Vault public immutable vault;

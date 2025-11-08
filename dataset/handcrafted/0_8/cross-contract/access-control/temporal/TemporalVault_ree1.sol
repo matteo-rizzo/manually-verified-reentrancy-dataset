@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
 contract TemporalVault_ree1 {
     TemporalVault_ree1_Vault public immutable vault;

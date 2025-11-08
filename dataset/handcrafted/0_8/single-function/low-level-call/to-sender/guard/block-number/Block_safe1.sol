@@ -2,7 +2,7 @@
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
 contract Block_safe1 {
     mapping (address => uint256) private balances;
