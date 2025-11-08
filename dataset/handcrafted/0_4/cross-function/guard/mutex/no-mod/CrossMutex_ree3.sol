@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CrossMutex_ree3 {
     bool private flag = false;
@@ -18,7 +18,7 @@ contract CrossMutex_ree3 {
         flag = true;
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         balances[msg.sender] = 0;   // side effect is after call making this unsafe because an attacker can reenter into transfer()
         flag = false;

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 // Simplified interface of the OpenZeppelin's IERC20 and SafeERC20 libraries for sake of example
 interface IERC20 {
@@ -16,7 +16,7 @@ contract TemporalLocker_ree1 {
     IPool private pool;
     mapping (address => uint) public deposited;
 
-    constructor (address _pool)  public {
+    constructor (address _pool) public{
         pool = IPool(_pool);
     }
 
@@ -45,7 +45,7 @@ contract TemporalLocker_ree1 {
 //     bool public condition;
 //     Locker public locker;
 
-//     constructor(address _locker)  public {
+//     constructor(address _locker) public{
 //         locker = Locker(_locker);
 //     }
 

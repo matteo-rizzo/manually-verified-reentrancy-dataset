@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CrossDoubleInit_safe1 {
 
@@ -15,7 +15,7 @@ contract CrossDoubleInit_safe1 {
         flag = false;
     }
 
-    constructor () public {
+    constructor () public{
         flag = false;
         currentVersion = 2;
     }
@@ -33,7 +33,7 @@ contract CrossDoubleInit_safe1 {
     function withdraw() nonReentrant public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         balances[msg.sender] = 0;
     }

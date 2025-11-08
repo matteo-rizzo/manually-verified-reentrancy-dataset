@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract Mutexes_safe3 {
     mapping (address => uint256) private balances;
@@ -12,7 +12,7 @@ contract Mutexes_safe3 {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call is safe even with broken mutex
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
 
         flags[msg.sender] = false;

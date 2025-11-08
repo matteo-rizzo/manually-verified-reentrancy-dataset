@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-contract C {
+contract MutexesMod_ree2 {
     mapping (address => uint256) private balances;
     mapping (address => bool) private flags;    // mutex flags on a per-address basis
 

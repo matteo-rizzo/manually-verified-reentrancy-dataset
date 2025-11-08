@@ -8,7 +8,7 @@ interface IERC20 {
 }
 
 // this contract implements a donation logic by using ERC20 token
-contract C {
+contract CastCons_safe2 {
     mapping (address => uint256) private donated;
     address private token;
     

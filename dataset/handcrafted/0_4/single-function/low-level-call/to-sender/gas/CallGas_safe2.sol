@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CallGas_safe2 {
     mapping (address => uint256) public balances;
@@ -7,7 +7,7 @@ contract CallGas_safe2 {
     function withdraw() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt).gas(2300)("");
+        bool success = msg.sender.value(amt).gas(2300)("");
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect AFTER external call is still safe because the attacker has not enough gas to re-enter
     }

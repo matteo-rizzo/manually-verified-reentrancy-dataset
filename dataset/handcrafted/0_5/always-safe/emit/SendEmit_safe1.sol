@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-contract C {
+contract SendEmit_safe1 {
     mapping (address => uint256) public balances;
 
     event Sent(uint256 amt);

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CallFolded_ree3 {
     mapping (address => uint256) public balances;
@@ -10,7 +10,7 @@ contract CallFolded_ree3 {
     }
 
     function call(uint256 amt) internal returns (bool) {
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         return success;
     }
 

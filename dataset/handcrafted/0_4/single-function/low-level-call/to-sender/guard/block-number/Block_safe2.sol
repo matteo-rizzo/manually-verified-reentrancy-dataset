@@ -2,7 +2,7 @@
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract Block_safe2 {
     mapping (address => uint256) private balances;
@@ -21,7 +21,7 @@ contract Block_safe2 {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call makes this safe anyway
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         
     }

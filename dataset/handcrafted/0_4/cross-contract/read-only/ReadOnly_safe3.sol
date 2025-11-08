@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 interface IAdjuster {
     function adjust(uint256 inc) external returns (uint256);
@@ -9,14 +9,14 @@ contract ReadOnly_safe2 {
     ReadOnly_safe2_Oracle public o;
     bool private flag = false;
 
-    constructor(address _o)  public {
+    constructor(address _o) public{
         o = ReadOnly_safe2_Oracle(_o);
     }
 
     function withdraw() external {
         uint256 amt = o.getUserShare(msg.sender) / o.getTotal();
 
-        bool success = (msg.sender).call.value(amt)("");
+        bool success = (msg.sender).call.value(amt)();
         require (success, "Failed to withdraw ETH");
     }
 
@@ -36,7 +36,7 @@ contract ReadOnly_safe2_Oracle {
     address private owner;
     bool private flag;
 
-    constructor(address _owner)  public {
+    constructor(address _owner) public{
         owner = _owner;
     }
 

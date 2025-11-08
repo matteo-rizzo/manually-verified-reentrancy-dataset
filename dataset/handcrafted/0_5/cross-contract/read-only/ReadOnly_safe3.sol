@@ -5,12 +5,12 @@ interface IAdjuster {
     function adjust(uint256 inc) external returns (uint256);
 }
 
-contract Victim {
-    Oracle_ree public o;
+contract ReadOnly_safe2 {
+    ReadOnly_safe2_Oracle public o;
     bool private flag = false;
 
     constructor(address _o)  public {
-        o = Oracle_ree(_o);
+        o = ReadOnly_safe2_Oracle(_o);
     }
 
     function withdraw() external {
@@ -24,7 +24,7 @@ contract Victim {
 }
 
 // THIS is the contract vulnerable to reentrancy
-contract Oracle_ree {
+contract ReadOnly_safe2_Oracle {
 
     struct Data {
         uint256 amt;

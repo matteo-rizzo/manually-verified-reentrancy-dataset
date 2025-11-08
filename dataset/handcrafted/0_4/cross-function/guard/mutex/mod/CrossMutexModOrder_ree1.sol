@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CrossMutexModOrder_ree1 {
     bool private flag = false;
@@ -15,7 +15,7 @@ contract CrossMutexModOrder_ree1 {
     modifier sendMoney() {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         _;
     }
@@ -33,7 +33,7 @@ contract CrossMutexModOrder_ree1 {
 /* contract Attacker {
     C private c;
     address to;
-    constructor(address v, address _to)  public {
+    constructor(address v, address _to) public{
         to = _to;
         c = C(v);
     }

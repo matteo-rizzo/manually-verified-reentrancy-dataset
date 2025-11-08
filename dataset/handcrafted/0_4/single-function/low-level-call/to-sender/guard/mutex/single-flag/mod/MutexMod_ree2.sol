@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract MutexMod_ree2 {
     mapping (address => uint256) private balances;
@@ -16,7 +16,7 @@ contract MutexMod_ree2 {
     function withdraw() public nonReentrant {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect after call
     }

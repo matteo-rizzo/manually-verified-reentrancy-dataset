@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 interface IPRNG {
     function getRandom() external returns (uint256);
@@ -10,7 +10,7 @@ contract ReadOnly_safe1 {
     mapping (address => uint) private balances;
     bool private flag;
 
-    constructor(address _o)  public {
+    constructor(address _o) public{
         o = ReadOnly_safe1_Oracle(_o);
     }
 
@@ -25,7 +25,7 @@ contract ReadOnly_safe1 {
         uint256 bonus = o.getFix() / o.getRandomness();
         uint256 amt = balances[msg.sender] + bonus;
 
-        bool success = (msg.sender).call.value(amt)("");
+        bool success = (msg.sender).call.value(amt)();
         require (success, "Failed");
     }
 

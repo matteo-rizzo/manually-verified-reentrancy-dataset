@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-contract C {
+contract Constant_safe1 {
     mapping (address => uint256) public balances;
 
     address private target = 0xD591678684E7c2f033b5eFF822553161bdaAd781; 

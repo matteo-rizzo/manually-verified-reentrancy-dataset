@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract TemporalVault_ree2 {
     TemporalVault_ree2_Vault public  vault;
@@ -12,7 +12,7 @@ contract TemporalVault_ree2 {
         locked = false;
     }
 
-    constructor(address _vault) payable public  { vault = TemporalVault_ree2_Vault(_vault); }
+    constructor(address _vault) public { vault = TemporalVault_ree2_Vault(_vault); }
 
     function redeem(address to) external nonReentrant {
         vault.setEnabled(true); 
@@ -21,7 +21,7 @@ contract TemporalVault_ree2 {
         // Instead of using the takeAll function, we now use the combination of balanceOf and reset.
         uint256 amt = vault.balanceOf(to);
 
-        bool success = to.call.value(amt)("");
+        bool success = to.call.value(amt)();
         require(success, "Refund failed");
 
         vault.reset(to);    // zeroing the balance AFTER the call does not prevent an attacker to steal money through a multi-contract attacking scheme
@@ -72,7 +72,7 @@ contract TemporalVault_ree2_Vault {
 //     C_ree public  c;
 //     Attacker2 public att2;
 
-//     constructor(address _vault, address _c) payable public  {
+//     constructor(address _vault, address _c) public {
 //         vault = Vault(_vault);
 //         c = C_ree(_c);
 //         att2 = new Attacker2((address(this)), _c);
@@ -97,7 +97,7 @@ contract TemporalVault_ree2_Vault {
 //     Attacker1 att1;
 //     C_ree c;
 
-//     constructor(address _att1, address _c)  public {
+//     constructor(address _att1, address _c) public{
 //         att1 = Attacker1(_att1);
 //         c = C_ree(_c);
 //     }

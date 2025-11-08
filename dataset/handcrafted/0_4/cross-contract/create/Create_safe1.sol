@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract Create_safe1 {
     mapping (address => uint256) public balances;
@@ -12,7 +12,7 @@ contract Create_safe1 {
         balances[msg.sender] = 0;    // side effect BEFORE constructor call prevents reentrancy
 
         // the following assembly block is equivalent to the classic external call
-        // bool success = msg.sender.call.value(amt)("");
+        // bool success = msg.sender.call.value(amt)();
 		address addr;
         assembly {
             addr := create(amt, add(initCode, 0x20), mload(initCode))   // this instantiates a new contract using the initCode argument as custom constructor code

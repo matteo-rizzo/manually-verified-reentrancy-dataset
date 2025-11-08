@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 
 contract This_safe2 {
     
     mapping(address => uint) private balances;
 
-    constructor(uint _initialSupply)  public {
+    constructor(uint _initialSupply) public{
         balances[msg.sender] = _initialSupply;
     }
 

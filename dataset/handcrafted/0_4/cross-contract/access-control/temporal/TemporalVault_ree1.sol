@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract TemporalVault_ree1 {
     TemporalVault_ree1_Vault public  vault;
@@ -12,7 +12,7 @@ contract TemporalVault_ree1 {
         locked = false;
     }
 
-    constructor(address _vault)  public { vault = TemporalVault_ree1_Vault(_vault); }
+    constructor(address _vault) public{ vault = TemporalVault_ree1_Vault(_vault); }
 
     // the following function is vulnerable to a cross-contract reentrancy attack
     function redeem(address to) external nonReentrant {
@@ -21,7 +21,7 @@ contract TemporalVault_ree1 {
         uint256 amt = vault.takeAll(to);
 
         // here an attacker can enter the Vault contract and call its functions that requires the enabled flag
-        bool success = to.call.value(amt)(""); 
+        bool success = to.call.value(amt)(); 
         require(success, "Refund failed");
 
         vault.setEnabled(false);
@@ -71,7 +71,7 @@ contract TemporalVault_ree1_Vault {
 //     C_ree public  c;
 //     bool flag = true;
 
-//     constructor(address _vault, address _c) payable public  {
+//     constructor(address _vault, address _c) public {
 //         vault = Vault(_vault);
 //         c = C_ree(_c);
 //     }

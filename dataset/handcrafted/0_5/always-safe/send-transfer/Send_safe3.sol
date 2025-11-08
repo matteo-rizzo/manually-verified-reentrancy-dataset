@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-contract C {
+contract Send_safe3 {
     mapping (address => uint256) public balances;
 
 

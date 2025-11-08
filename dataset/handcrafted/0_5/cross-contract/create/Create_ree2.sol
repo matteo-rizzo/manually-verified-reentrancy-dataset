@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-
-contract C {
+contract Create_ree2 {
 
     mapping (address => uint) public counters;
 

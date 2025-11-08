@@ -6,7 +6,7 @@ interface I {
     function getSomething() external returns (uint256);
 }
 
-contract C {
+contract CastCons_safe1 {
     uint256 private someValue;
 
     constructor(address to)  public {

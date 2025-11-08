@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract OnlyOwner_safe1 {
 
@@ -15,7 +15,7 @@ contract OnlyOwner_safe1 {
 
     PendingPayment[] private pendingPayments;
 
-    constructor()  public {
+    constructor() public{
         owner = msg.sender;
     }
 

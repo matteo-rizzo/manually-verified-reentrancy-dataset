@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract CrossUnderflow_safe1 {
     mapping (address => uint256) public balances;
@@ -7,7 +7,7 @@ contract CrossUnderflow_safe1 {
     // an attacker can reenter here, attempting a single-function attack that fails due to the underflow check
     function withdraw(uint256 amt) public {
         require(balances[msg.sender] >= amt, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");  
+        bool success = msg.sender.call.value(amt)();  
         require(success, "Call failed");
         balances[msg.sender] -= amt;    // Solidity 0.8+ checks underflows and reverts the whole transaction, that's why it is safe even though the side effect is after the external call 
     }

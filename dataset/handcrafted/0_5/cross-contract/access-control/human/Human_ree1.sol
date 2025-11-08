@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.5.0;
 
-contract C {
+contract Human_ree1 {
     mapping (address => uint256) private bids;
     uint highestBid;
     address highestBidder;

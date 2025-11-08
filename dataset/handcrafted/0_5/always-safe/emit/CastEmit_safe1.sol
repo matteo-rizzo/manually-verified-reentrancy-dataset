@@ -5,7 +5,7 @@ interface I {
     function pay(uint256 amt) external;
 }
 
-contract C {
+contract CastEmit_safe1 {
     mapping (address => uint256) public balances;
 
     event Paid(uint256 amt);

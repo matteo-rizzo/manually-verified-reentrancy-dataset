@@ -2,7 +2,7 @@
 // now deprecated cause it limits the throughput or disables features that need a user to perform more than one transaction in the same block
 
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract Block_ree1 {
     mapping (address => uint256) private balances;
@@ -20,7 +20,7 @@ contract Block_ree1 {
     function withdraw() noSameBlock public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)("");
+        bool success = msg.sender.call.value(amt)();
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect after the external call together with lastBlock update 
     }

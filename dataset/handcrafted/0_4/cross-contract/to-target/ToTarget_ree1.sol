@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract ToTarget_ree1 {
     mapping (address => uint256) public balances;
@@ -7,7 +7,7 @@ contract ToTarget_ree1 {
     function pay(address target) public {
         require(target != msg.sender);
         uint256 amt = balances[msg.sender];
-        bool success = target.call.value(amt)("");    
+        bool success = target.call.value(amt)();    
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect after the call makes this contract vulnerable to attacks
     }

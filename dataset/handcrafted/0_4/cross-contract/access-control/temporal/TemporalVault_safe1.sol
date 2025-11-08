@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract TemporalVault_safe1 {
     TemporalVault_safe1_Vault public  vault;
@@ -12,7 +12,7 @@ contract TemporalVault_safe1 {
         locked = false;
     }
 
-    constructor(address _vault)  public { vault = TemporalVault_safe1_Vault(_vault); }
+    constructor(address _vault) public{ vault = TemporalVault_safe1_Vault(_vault); }
 
     function redeem(address to) external nonReentrant {
         vault.setEnabled(true); 
@@ -22,7 +22,7 @@ contract TemporalVault_safe1 {
         // this function has been fixed by setting the flag to false before the external call and agreeing to CIE pattern.
         vault.setEnabled(false);
 
-        bool success = to.call.value(amt)("");
+        bool success = to.call.value(amt)();
         require(success, "Refund failed");
 
     }

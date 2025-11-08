@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.24;
 
 contract Constructor_safe1 {
     mapping (address => uint256) public balances;
 
     address private target;
     
-    constructor(address t)  public {
+    constructor(address t) public{
         target = t;
     }
 
@@ -14,7 +14,7 @@ contract Constructor_safe1 {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
-        bool success = target.call.value(amt)("");    
+        bool success = target.call.value(amt)();    
         require(success, "Call failed");
     }
 
