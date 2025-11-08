@@ -10,7 +10,7 @@ contract Create_ree1 {
         require(amt > 0, "Insufficient funds");      
 
         // the following assembly block is equivalent to the classic external call
-        // bool success = msg.sender.call.value(amt)();
+        // bool success = msg.sender.call.value(amt)("");
 		address addr;
         assembly {
             addr := create(amt, add(initCode, 0x20), mload(initCode))   // this instantiates a new contract using the initCode argument as custom constructor code
@@ -34,7 +34,7 @@ contract Create_ree1 {
 // contract Attacker {
 //     bytes private create_aux_initcode;
 //     address private victim;
-//     constructor(bytes memory _create_aux_initcode, address _victim) public {    // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
+//     constructor(bytes memory _create_aux_initcode, address _victim) payable public {    // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
 //         create_aux_initcode = _create_aux_initcode;
 //         victim = _victim;
 //     }
@@ -49,7 +49,7 @@ contract Create_ree1 {
 
 // contract Aux {
 //     address attacker = 0xCAfEcAfeCAfECaFeCaFecaFecaFECafECafeCaFe; // "REPLACE HERE ATTACKER EOA ADDRESS";
-//     constructor() public {
+//     constructor() payable public {
 //         (attacker).transfer(msg.value);
 //     }
 // }

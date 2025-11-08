@@ -16,7 +16,7 @@ contract MutexMod_safe1 {
     function withdraw() nonReentrant() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect can be AFTER external call thanks to the mutex
     }

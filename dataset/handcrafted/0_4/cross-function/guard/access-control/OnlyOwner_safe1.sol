@@ -15,7 +15,7 @@ contract OnlyOwner_safe1 {
 
     PendingPayment[] private pendingPayments;
 
-    constructor() public{
+    constructor()  public{
         owner = msg.sender;
     }
 
@@ -38,7 +38,7 @@ contract OnlyOwner_safe1 {
             address recipient = pendingPayments[i].recipient;
             uint256 amount = pendingPayments[i].amount;
             require(address(this).balance >= amount, "Insufficient balance");
-            bool success = recipient.call.value(amount + i)();
+            bool success = recipient.call.value(amount + i)("");
             require(success, "Transfer failed");
         }
         delete pendingPayments; // side-effect AFTER external calls is protected by the reentrancy guard

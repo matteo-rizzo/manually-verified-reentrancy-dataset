@@ -24,7 +24,7 @@ contract CrossMutexMod_safe4 {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;       // side effect before call makes this safe anyway
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
     }
 

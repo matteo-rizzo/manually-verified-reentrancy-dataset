@@ -8,7 +8,7 @@ contract CallGas_safe1 {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call makes this safe
-        bool success = msg.sender.value(amt).gas(2300)("");
+        bool success = msg.sender.call.value(amt).gas(2300)("");
         require(success, "Call failed");
     }
 

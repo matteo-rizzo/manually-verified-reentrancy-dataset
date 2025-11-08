@@ -32,7 +32,7 @@ contract Human_safe1 {
         uint256 amt = bids[from];
         require(amt > 0, "Insufficient funds");
         require(allowances[msg.sender][from] >= amt);
-        bool success = to.call.value(amt)();
+        bool success = to.call.value(amt)("");
         require(success, "Call failed");
         bids[from] = 0;    // side effect after call
         allowances[msg.sender][from] = 0;

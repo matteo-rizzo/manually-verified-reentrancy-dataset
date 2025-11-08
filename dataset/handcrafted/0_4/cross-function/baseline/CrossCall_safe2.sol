@@ -9,7 +9,7 @@ contract CrossCall_safe1 {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE call makes this safe
-        bool success = msg.sender.call.value(amt)();  
+        bool success = msg.sender.call.value(amt)("");  
         require(success, "Call failed");
     }
 

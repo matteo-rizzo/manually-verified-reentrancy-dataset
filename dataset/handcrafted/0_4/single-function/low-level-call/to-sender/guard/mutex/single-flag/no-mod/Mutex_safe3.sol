@@ -13,7 +13,7 @@ contract Mutex_safe3 {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call is safe anyway, even with broken mutex
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
 
         flag = false;

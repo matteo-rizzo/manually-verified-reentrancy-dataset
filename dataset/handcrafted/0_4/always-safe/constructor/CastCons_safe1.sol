@@ -9,7 +9,7 @@ interface I {
 contract CastCons_safe1 {
     uint256 private someValue;
 
-    constructor(address to) public{
+    constructor(address to)  public{
         someValue = I(to).getSomething();   // this external call is always safe, as reentrancy into constructor is not possibile
     }
 }

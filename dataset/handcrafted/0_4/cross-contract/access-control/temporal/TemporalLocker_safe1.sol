@@ -24,7 +24,7 @@ contract TemporalLocker_safe1 {
         _;
         flag = false;
     }
-    constructor (address _pool) public{
+    constructor (address _pool)  public{
         pool = IPool(_pool);
     }
 
@@ -53,7 +53,7 @@ contract TemporalLocker_safe1 {
 //     bool public condition;
 //     Locker public locker;
 
-//     constructor(address _locker) public{
+//     constructor(address _locker)  public{
 //         locker = Locker(_locker);
 //     }
 

@@ -10,7 +10,7 @@ contract Constant_safe1 {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
-        bool success = target.call.value(amt)();    
+        bool success = target.call.value(amt)("");    
         require(success, "Call failed");
     }
 

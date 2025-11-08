@@ -20,7 +20,7 @@ contract CrossMutex_ree1 {
         flag = true;
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
         flag = false;
@@ -36,7 +36,7 @@ contract CrossMutex_ree1 {
 // contract Attacker {
 //     C private c;
 //     address to;
-//     constructor(address v, address _to) public{
+//     constructor(address v, address _to)  public{
 //         to = _to;
 //         c = C(v);
 //     }

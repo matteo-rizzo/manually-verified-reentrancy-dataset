@@ -12,7 +12,7 @@ contract Mutexes_safe2 {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
         balances[msg.sender] = 0;    // side effect BEFORE external call respecting CEI is safe anyway
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
 
         flags[msg.sender] = false;

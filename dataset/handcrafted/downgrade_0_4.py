@@ -28,11 +28,11 @@ for dirpath, dirnames, filenames in os.walk(src_root):
 
             content = re.sub(r"pragma solidity \^0\.8\.20;", "pragma solidity ^0.4.24;", content)
 
-            content = re.sub(r'\.call\s*\{value:\s*([^\,]+)\,\s*gas:\s*([^\}]+)\}', r'.value(\1).gas(\2)', content)
+            content = re.sub(r'\.call\s*\{value:\s*([^\,]+)\,\s*gas:\s*([^\}]+)\}', r'.call.value(\1).gas(\2)', content)
 
-            content = re.sub(r'\.call\s*\{\s*value\s*:\s*([^\}]+)\s*\}\s*\(\s*""\s*\)', r'.call.value(\1)()', content)
+            content = re.sub(r'\.call\s*\{\s*value\s*:\s*([^\}]+)\s*\}\s*\(\s*""\s*\)', r'.call.value(\1)("")', content)
 
-            content = re.sub(r'(constructor\s*\([^\)]*\))\s*(payable)?', r'\1 public', content)
+            content = re.sub(r'(constructor\s*\([^\)]*\)\s*(payable)?)', r'\1 public', content)
 
             content = re.sub(r"payable\(", "(", content)
             content = re.sub(r'\baddress\s+payable\b', 'address', content)  

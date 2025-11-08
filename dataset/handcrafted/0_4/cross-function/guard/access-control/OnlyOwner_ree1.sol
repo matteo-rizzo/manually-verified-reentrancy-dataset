@@ -15,7 +15,7 @@ contract OnlyOwner_ree1 {
 
     PendingPayment[] private pendingPayments;
 
-    constructor() public{
+    constructor()  public{
         owner = msg.sender;
     }
 
@@ -29,7 +29,7 @@ contract OnlyOwner_ree1 {
             address recipient = pendingPayments[i].recipient;
             uint256 amount = pendingPayments[i].amount;
             require(address(this).balance >= amount, "Insufficient balance");
-            bool success = recipient.call.value(amount + i)();
+            bool success = recipient.call.value(amount + i)("");
             require(success, "Transfer failed");
         }
         delete pendingPayments; // side-effect after external calls on a state variable that can be modified by an attacker reentering in requestPay()

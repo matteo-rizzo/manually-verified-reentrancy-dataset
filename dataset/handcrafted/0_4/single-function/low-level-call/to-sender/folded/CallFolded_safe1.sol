@@ -5,7 +5,7 @@ contract CallFolded_safe1 {
     mapping (address => uint256) public balances;
 
     function pay(uint256 amt) internal {
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
     }
 

@@ -7,7 +7,7 @@ contract Create_ree2 {
 
     uint public entered;
 
-    constructor() public {}
+    constructor() payable public {}
 
     function deploy_and_win(bytes memory initCode, address winner) public payable returns (address) {
 		// to perform a deploy, 0.01 ether is required
@@ -43,7 +43,7 @@ contract Create_ree2 {
 //     bool public flag;
 
 //     // the first argument represents the (byte-encoded) code of the constructor of the Aux contract
-//     constructor(bytes memory _create_auxharmless_initcode, bytes memory _create_auxharmful_initcode, address _victim) public {    
+//     constructor(bytes memory _create_auxharmless_initcode, bytes memory _create_auxharmful_initcode, address _victim) payable public {    
 //         create_auxharmless_initcode = _create_auxharmless_initcode;
 //         create_auxharmful_initcode = _create_auxharmful_initcode;
 //         victim = _victim;
@@ -79,11 +79,11 @@ contract Create_ree2 {
 // }
 
 // contract AuxHarmless {
-//     constructor() public{}
+//     constructor()  public{}
 // }
 
 // contract AuxHarmful {
-//     constructor(address attacker) public{
+//     constructor(address attacker)  public{
 //         Attacker(attacker).reAttack();
 //     }
 // }

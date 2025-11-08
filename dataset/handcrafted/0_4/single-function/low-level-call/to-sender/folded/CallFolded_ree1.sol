@@ -6,7 +6,7 @@ contract CallFolded_ree1 {
 
 
     function pay(uint256 amt) internal {
-        bool success = msg.sender.call.value(amt)();
+        bool success = msg.sender.call.value(amt)("");
         require(success, "Call failed");
     }
 

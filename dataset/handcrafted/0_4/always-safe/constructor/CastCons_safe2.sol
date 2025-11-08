@@ -12,7 +12,7 @@ contract CastCons_safe2 {
     mapping (address => uint256) private donated;
     address private token;
     
-    constructor(address _token, address to, uint256 initial_amount) public{
+    constructor(address _token, address to, uint256 initial_amount)  public{
         require(IERC20(_token).balanceOf(msg.sender) >= initial_amount, "Need at least double to donate");
         bool success = IERC20(_token).transfer(to, initial_amount);       // this is an external call could possibly be reentrant, but the contract is safe anyway
         require(success, "Transfer failed");

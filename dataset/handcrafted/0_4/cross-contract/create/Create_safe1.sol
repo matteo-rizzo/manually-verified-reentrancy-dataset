@@ -12,7 +12,7 @@ contract Create_safe1 {
         balances[msg.sender] = 0;    // side effect BEFORE constructor call prevents reentrancy
 
         // the following assembly block is equivalent to the classic external call
-        // bool success = msg.sender.call.value(amt)();
+        // bool success = msg.sender.call.value(amt)("");
 		address addr;
         assembly {
             addr := create(amt, add(initCode, 0x20), mload(initCode))   // this instantiates a new contract using the initCode argument as custom constructor code

@@ -8,7 +8,7 @@ contract ToTarget_safe1 {
         require(target != msg.sender);
         uint256 amt = balances[msg.sender];
         balances[msg.sender] = 0;    // side effect BEFORE the call makes this contract safe
-        bool success = target.call.value(amt)();    
+        bool success = target.call.value(amt)("");    
         require(success, "Call failed");
     }
 

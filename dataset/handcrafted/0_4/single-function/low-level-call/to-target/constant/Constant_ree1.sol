@@ -10,7 +10,7 @@ contract Constant_ree1 {
         
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = target.call.value(amt)();      // calls to a constant target address are potentially malicious
+        bool success = target.call.value(amt)("");      // calls to a constant target address are potentially malicious
         require(success, "Call failed");
         balances[msg.sender] = 0;    // side effect AFTER the call makes the contract vulnerable to reentrancy
     }

@@ -9,7 +9,7 @@ contract ReadOnly_ree1 {
     ReadOnly_ree1_Oracle public o;
     mapping (address => uint) private balances;
 
-    constructor(address _o) public{
+    constructor(address _o)  public{
         o = ReadOnly_ree1_Oracle(_o);
     }
 
@@ -17,7 +17,7 @@ contract ReadOnly_ree1 {
         uint256 bonus = o.fix() / o.randomness();
         uint256 amt = balances[msg.sender] + bonus;
 
-        bool success = (msg.sender).call.value(amt)();
+        bool success = (msg.sender).call.value(amt)("");
         require (success, "Failed");
     }
 
@@ -42,7 +42,7 @@ contract ReadOnly_ree1_Oracle {
 //     Victim public v;
 //     Oracle_ree public o;
 
-//     constructor(address _v, address _o) public{
+//     constructor(address _v, address _o)  public{
 //         v = Victim(_v);
 //         o = Oracle_ree(_o);
 //     }

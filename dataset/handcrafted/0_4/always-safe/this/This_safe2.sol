@@ -6,7 +6,7 @@ contract This_safe2 {
     
     mapping(address => uint) private balances;
 
-    constructor(uint _initialSupply) public{
+    constructor(uint _initialSupply)  public{
         balances[msg.sender] = _initialSupply;
     }
 

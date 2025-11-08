@@ -9,14 +9,14 @@ contract ReadOnly_ree3 {
     ReadOnly_ree3_Oracle public o;
     bool private flag = false;
 
-    constructor(address _o) public{
+    constructor(address _o)  public{
         o = ReadOnly_ree3_Oracle(_o);
     }
 
     function withdraw() external {
         uint256 amt = o.getUserShare(msg.sender) / o.total();
 
-        bool success = (msg.sender).call.value(amt)();
+        bool success = (msg.sender).call.value(amt)("");
         require (success, "Failed to withdraw ETH");
     }
 
@@ -35,7 +35,7 @@ contract ReadOnly_ree3_Oracle {
     mapping (address => Data) private userShares;
     address private owner;
 
-    constructor(address _owner) public{
+    constructor(address _owner)  public{
         owner = _owner;
     }
 
@@ -65,7 +65,7 @@ contract ReadOnly_ree3_Oracle {
 //     Victim public v;
 //     Oracle_ree public o;
 
-//     constructor(address _v, address _o) public{
+//     constructor(address _v, address _o)  public{
 //         v = Victim(_v);
 //         o = Oracle_ree(_o);
 //     }
