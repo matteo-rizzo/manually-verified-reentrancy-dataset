@@ -1,0 +1,495 @@
+{
+    "file": "ReadOnly_safe1.sol",
+    "global_structs": [
+        {
+            "name": "struct_block",
+            "fields": {
+                "coinbase": [
+                    "integer"
+                ],
+                "difficulty": [
+                    "integer"
+                ],
+                "gaslimit": [
+                    "integer"
+                ],
+                "number": [
+                    "integer"
+                ],
+                "timestamp": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_msg",
+            "fields": {
+                "data": [
+                    "integer"
+                ],
+                "sender": [
+                    "integer"
+                ],
+                "sig": [
+                    "integer"
+                ],
+                "value": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_tx",
+            "fields": {
+                "gasprice": [
+                    "integer"
+                ],
+                "origin": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_this",
+            "fields": {
+                "balance": [
+                    "integer"
+                ],
+                "address": [
+                    "integer"
+                ]
+            }
+        }
+    ],
+    "global_variables": [
+        {
+            "name": "block",
+            "type": [
+                "struct_block"
+            ],
+            "init": []
+        },
+        {
+            "name": "msg",
+            "type": [
+                "struct_msg"
+            ],
+            "init": [
+                "0x1f"
+            ]
+        },
+        {
+            "name": "now",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "tx",
+            "type": [
+                "struct_tx"
+            ],
+            "init": []
+        },
+        {
+            "name": "this",
+            "type": [
+                "struct_this"
+            ],
+            "init": [
+                "0x20"
+            ]
+        },
+        {
+            "name": "msg_sender",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0x21"
+            ]
+        },
+        {
+            "name": "addmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "mulmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "keccak",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha256",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ripemd160",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "ecrecover",
+            "type": [
+                "function4"
+            ],
+            "init": []
+        },
+        {
+            "name": "blockhash",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "o",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "balances",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "flag",
+            "type": [
+                "boolean"
+            ],
+            "init": []
+        },
+        {
+            "name": "fix",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "randomness",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "IPRNG",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ReadOnly_safe1",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ReadOnly_safe1_Oracle",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        }
+    ],
+    "global_blocks": [
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xd",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xe",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xf",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x1f",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x20",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x21",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        }
+    ],
+    "range_variables": [
+        {
+            "name": "fix",
+            "addrs": [
+                "0x2",
+                "0x6"
+            ]
+        },
+        {
+            "name": "randomness",
+            "addrs": [
+                "0x2",
+                "0x8"
+            ]
+        },
+        {
+            "name": "flag",
+            "addrs": [
+                "0x2",
+                "0xa",
+                "0xc"
+            ]
+        }
+    ],
+    "range_blocks": [
+        {
+            "scope": "__RANGE__",
+            "addr": "0x1",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x6",
+            "instructions": [
+                "RTMP_31 = ! flag",
+                "CONDITION RTMP_31 0x5 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x5",
+            "instructions": [
+                "fix = U"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x8",
+            "instructions": [
+                "RTMP_32 = ! flag",
+                "CONDITION RTMP_32 0x7 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x7",
+            "instructions": [
+                "randomness = U"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xc",
+            "instructions": [
+                "RTMP_34 = ! flag",
+                "CONDITION RTMP_34 0xb 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xb",
+            "instructions": [
+                "flag = false"
+            ]
+        }
+    ],
+    "root_addr": "0x25",
+    "dest_addrs": [
+        "0x2d"
+    ],
+    "normal_blocks": [
+        {
+            "scope": "update",
+            "addr": "0x22",
+            "instructions": [
+                "NOP",
+                "JUMP 0x23"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x23",
+            "instructions": [
+                "TMP_7 = NEW_VAL unknown",
+                "ATTACK",
+                "TMP_8 = NEW_VAL integer",
+                "JUMP 0x24"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x25",
+            "instructions": [
+                "NOP",
+                "amt = NEW_VAL integer",
+                "prng = NEW_VAL integer",
+                "rnd = NEW_VAL integer",
+                "JUMP 0x26"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x26",
+            "instructions": [
+                "TMP_16 = ! flag",
+                "CONDITION TMP_16 0x26_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x26_r0",
+            "instructions": [
+                "JUMP 0x27"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x27",
+            "instructions": [
+                "flag = true",
+                "NOP",
+                "JUMP 0x22"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x24",
+            "instructions": [
+                "NOP",
+                "JUMP 0x28"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x29",
+            "instructions": [
+                "NOP",
+                "JUMP 0x2a"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x2a",
+            "instructions": [
+                "NOP",
+                "JUMP 0x2b"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x28",
+            "instructions": [
+                "TMP_18 = ! flag",
+                "CONDITION TMP_18 0x28_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x28_r0",
+            "instructions": [
+                "JUMP 0x2c"
+            ]
+        },
+        {
+            "scope": "getFix",
+            "addr": "0x2c",
+            "instructions": [
+                "NOP",
+                "JUMP 0x29"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x2d",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "update",
+            "addr": "0x2b",
+            "instructions": [
+                "rnd = TMP_8",
+                "fix = fix + amt",
+                "TMP_9 = amt + rnd",
+                "randomness = randomness + TMP_9",
+                "JUMP 0x2d"
+            ]
+        },
+        {
+            "scope": "trap",
+            "addr": "0x2e",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "RequireTrap",
+            "addr": "0xRequireTrap",
+            "instructions": [
+                "NOP"
+            ]
+        }
+    ]
+}

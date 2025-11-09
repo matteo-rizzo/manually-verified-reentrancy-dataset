@@ -1,0 +1,32 @@
+{
+    "tod_symex_path_1.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "to_function": "pay",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 13\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 19\nCall context: \nTrue\nREF_0 -> balances[msg.sender]\namt := REF_0\nREF_1 -> balances[msg.sender]\nREF_1 := 0\nNEW VARIABLE None\nTUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 38,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_2.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "to_function": "deposit",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 24\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 26\nCall context: \nTrue\nREF_0 -> balances[msg.sender]\namt := REF_0\nREF_1 -> balances[msg.sender]\nREF_1 := 0\nNEW VARIABLE None\nTUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 21,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    }
+}

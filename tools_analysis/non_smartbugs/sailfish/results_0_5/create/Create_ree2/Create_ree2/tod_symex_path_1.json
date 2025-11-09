@@ -1,0 +1,330 @@
+{
+    "file": "Create_ree2.sol",
+    "global_structs": [
+        {
+            "name": "struct_block",
+            "fields": {
+                "coinbase": [
+                    "integer"
+                ],
+                "difficulty": [
+                    "integer"
+                ],
+                "gaslimit": [
+                    "integer"
+                ],
+                "number": [
+                    "integer"
+                ],
+                "timestamp": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_msg",
+            "fields": {
+                "data": [
+                    "integer"
+                ],
+                "sender": [
+                    "integer"
+                ],
+                "sig": [
+                    "integer"
+                ],
+                "value": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_tx",
+            "fields": {
+                "gasprice": [
+                    "integer"
+                ],
+                "origin": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_this",
+            "fields": {
+                "balance": [
+                    "integer"
+                ],
+                "address": [
+                    "integer"
+                ]
+            }
+        }
+    ],
+    "global_variables": [
+        {
+            "name": "block",
+            "type": [
+                "struct_block"
+            ],
+            "init": []
+        },
+        {
+            "name": "msg",
+            "type": [
+                "struct_msg"
+            ],
+            "init": [
+                "0x5"
+            ]
+        },
+        {
+            "name": "now",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "tx",
+            "type": [
+                "struct_tx"
+            ],
+            "init": []
+        },
+        {
+            "name": "this",
+            "type": [
+                "struct_this"
+            ],
+            "init": [
+                "0x6"
+            ]
+        },
+        {
+            "name": "msg_sender",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0x7"
+            ]
+        },
+        {
+            "name": "addmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "mulmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "keccak",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha256",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ripemd160",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "ecrecover",
+            "type": [
+                "function4"
+            ],
+            "init": []
+        },
+        {
+            "name": "blockhash",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "counters",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "entered",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "Create_ree2",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        }
+    ],
+    "global_blocks": [
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x5",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x6",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x7",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        }
+    ],
+    "range_variables": [
+        {
+            "name": "counters",
+            "addrs": [
+                "0x2",
+                "0x4"
+            ]
+        }
+    ],
+    "range_blocks": [
+        {
+            "scope": "__RANGE__",
+            "addr": "0x1",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x4",
+            "instructions": [
+                "CLR_0 = msg.value",
+                "RTMP_10 = CLR_0 == 10000000000000000",
+                "CONDITION RTMP_10 0x3 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x3",
+            "instructions": [
+                "CLR_1 = msg.sender",
+                "CLR_2 = counters[CLR_1]",
+                "REF_3 = CLR_2",
+                "TMP_9 = REF_3 + 1",
+                "CLR_3 = msg.sender",
+                "counters[CLR_3] = TMP_9"
+            ]
+        }
+    ],
+    "root_addr": "0x8",
+    "dest_addrs": [
+        "0xb"
+    ],
+    "normal_blocks": [
+        {
+            "scope": "deploy_and_win",
+            "addr": "0x8",
+            "instructions": [
+                "NOP",
+                "addr = NEW_VAL integer",
+                "winner = NEW_VAL integer",
+                "JUMP 0x9"
+            ]
+        },
+        {
+            "scope": "deploy_and_win",
+            "addr": "0x9",
+            "instructions": [
+                "CLR_4 = msg.value",
+                "TMP_0 = CLR_4 == 10000000000000000",
+                "CONDITION TMP_0 0x9_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "deploy_and_win",
+            "addr": "0x9_r0",
+            "instructions": [
+                "JUMP 0xa"
+            ]
+        },
+        {
+            "scope": "deploy_and_win",
+            "addr": "0xa",
+            "instructions": [
+                "CLR_5 = msg.sender",
+                "CLR_6 = counters[CLR_5]",
+                "REF_0 = CLR_6",
+                "TMP_2 = REF_0 + 1",
+                "TMP_3 = TMP_2 % 10",
+                "TMP_4 = TMP_3 == 0",
+                "CONDITION TMP_4 0xb 0xc"
+            ]
+        },
+        {
+            "scope": "deploy_and_win",
+            "addr": "0xb",
+            "instructions": [
+                "CLR_7 = this.balance",
+                "WRP_0 = CLR_7 - 20000000000000000",
+                "this.balance = WRP_0"
+            ]
+        },
+        {
+            "scope": "deploy_and_win",
+            "addr": "0xc",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "RequireTrap",
+            "addr": "0xRequireTrap",
+            "instructions": [
+                "NOP"
+            ]
+        }
+    ]
+}

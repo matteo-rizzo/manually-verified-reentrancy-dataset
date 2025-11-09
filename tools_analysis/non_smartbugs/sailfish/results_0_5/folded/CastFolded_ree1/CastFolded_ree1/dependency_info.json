@@ -1,0 +1,29 @@
+{
+    "CastFolded_ree1.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "from_function": "withdraw",
+            "to_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_4 = SOLIDITY_CALL require(bool,string)(TMP_3,Insufficient funds)\"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 11\nFunction: pay\nNode: \nNEW VARIABLE success = I(addr).transfer(amt)\nIRS: \nTMP_1(bool) = HIGH_LEVEL_CALL, dest:TMP_0(I), function:transfer, arguments:['amt']  \"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

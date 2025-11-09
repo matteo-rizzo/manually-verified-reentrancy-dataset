@@ -1,0 +1,635 @@
+{
+    "file": "Block_ree1.sol",
+    "global_structs": [
+        {
+            "name": "struct_block",
+            "fields": {
+                "coinbase": [
+                    "integer"
+                ],
+                "difficulty": [
+                    "integer"
+                ],
+                "gaslimit": [
+                    "integer"
+                ],
+                "number": [
+                    "integer"
+                ],
+                "timestamp": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_msg",
+            "fields": {
+                "data": [
+                    "integer"
+                ],
+                "sender": [
+                    "integer"
+                ],
+                "sig": [
+                    "integer"
+                ],
+                "value": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_tx",
+            "fields": {
+                "gasprice": [
+                    "integer"
+                ],
+                "origin": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_this",
+            "fields": {
+                "balance": [
+                    "integer"
+                ],
+                "address": [
+                    "integer"
+                ]
+            }
+        }
+    ],
+    "global_variables": [
+        {
+            "name": "block",
+            "type": [
+                "struct_block"
+            ],
+            "init": []
+        },
+        {
+            "name": "msg",
+            "type": [
+                "struct_msg"
+            ],
+            "init": [
+                "0x4d"
+            ]
+        },
+        {
+            "name": "now",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "tx",
+            "type": [
+                "struct_tx"
+            ],
+            "init": []
+        },
+        {
+            "name": "this",
+            "type": [
+                "struct_this"
+            ],
+            "init": [
+                "0x4e"
+            ]
+        },
+        {
+            "name": "msg_sender",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0x4f"
+            ]
+        },
+        {
+            "name": "addmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "mulmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "keccak",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha256",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ripemd160",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "ecrecover",
+            "type": [
+                "function4"
+            ],
+            "init": []
+        },
+        {
+            "name": "blockhash",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "balances",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "lastBlock",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "Block_ree1",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        }
+    ],
+    "global_blocks": [
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xd",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xe",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xf",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x22",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x23",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x24",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x37",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x38",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x39",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x4d",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x4e",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x4f",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        }
+    ],
+    "range_variables": [
+        {
+            "name": "balances",
+            "addrs": [
+                "0x2",
+                "0x4",
+                "0xa"
+            ]
+        },
+        {
+            "name": "lastBlock",
+            "addrs": [
+                "0x2",
+                "0x7",
+                "0xc"
+            ]
+        }
+    ],
+    "range_blocks": [
+        {
+            "scope": "__RANGE__",
+            "addr": "0x1",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x4",
+            "instructions": [
+                "CLR_0 = msg.sender",
+                "CLR_1 = balances[CLR_0]",
+                "REF_10 = CLR_1",
+                "RTMP_15 = REF_10 > 0",
+                "CONDITION RTMP_15 0x5 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x5",
+            "instructions": [
+                "CLR_2 = msg.sender",
+                "CLR_3 = lastBlock[CLR_2]",
+                "REF_11 = CLR_3",
+                "CLR_4 = block.number",
+                "RTMP_16 = REF_11 < CLR_4",
+                "CONDITION RTMP_16 0x3 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x3",
+            "instructions": [
+                "CLR_5 = msg.sender",
+                "CLR_6 = balances[CLR_5]",
+                "REF_9 = CLR_6",
+                "CLR_7 = msg.sender",
+                "balances[CLR_7] = 0"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x7",
+            "instructions": [
+                "CLR_8 = msg.sender",
+                "CLR_9 = balances[CLR_8]",
+                "REF_13 = CLR_9",
+                "RTMP_17 = REF_13 > 0",
+                "CONDITION RTMP_17 0x8 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x8",
+            "instructions": [
+                "CLR_10 = msg.sender",
+                "CLR_11 = lastBlock[CLR_10]",
+                "REF_14 = CLR_11",
+                "CLR_12 = block.number",
+                "RTMP_18 = REF_14 < CLR_12",
+                "CONDITION RTMP_18 0x6 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x6",
+            "instructions": [
+                "CLR_13 = msg.sender",
+                "CLR_14 = lastBlock[CLR_13]",
+                "REF_12 = CLR_14",
+                "CLR_15 = msg.sender",
+                "CLR_16 = block.number",
+                "lastBlock[CLR_15] = CLR_16"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xa",
+            "instructions": [
+                "CLR_17 = msg.sender",
+                "CLR_18 = lastBlock[CLR_17]",
+                "REF_16 = CLR_18",
+                "CLR_19 = block.number",
+                "RTMP_20 = REF_16 < CLR_19",
+                "CONDITION RTMP_20 0x9 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x9",
+            "instructions": [
+                "CLR_20 = msg.sender",
+                "CLR_21 = balances[CLR_20]",
+                "REF_15 = CLR_21",
+                "CLR_22 = msg.value",
+                "TMP_19 = REF_15 + CLR_22",
+                "CLR_23 = msg.sender",
+                "balances[CLR_23] = TMP_19"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xc",
+            "instructions": [
+                "CLR_24 = msg.sender",
+                "CLR_25 = lastBlock[CLR_24]",
+                "REF_18 = CLR_25",
+                "CLR_26 = block.number",
+                "RTMP_21 = REF_18 < CLR_26",
+                "CONDITION RTMP_21 0xb 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xb",
+            "instructions": [
+                "CLR_27 = msg.sender",
+                "CLR_28 = lastBlock[CLR_27]",
+                "REF_17 = CLR_28",
+                "CLR_29 = msg.sender",
+                "CLR_30 = block.number",
+                "lastBlock[CLR_29] = CLR_30"
+            ]
+        }
+    ],
+    "root_addr": "0x54",
+    "dest_addrs": [
+        "0x5d"
+    ],
+    "normal_blocks": [
+        {
+            "scope": "withdraw",
+            "addr": "0x50",
+            "instructions": [
+                "NOP",
+                "JUMP 0x51"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x51",
+            "instructions": [
+                "CLR_31 = msg.sender",
+                "CLR_32 = balances[CLR_31]",
+                "REF_0 = CLR_32",
+                "amt = REF_0",
+                "TMP_0 = amt > 0",
+                "CONDITION TMP_0 0x51_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x51_r0",
+            "instructions": [
+                "JUMP 0x52"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x52",
+            "instructions": [
+                "ATTACK",
+                "TMP_3 = NEW_VAL boolean",
+                "JUMP 0x53"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x54",
+            "instructions": [
+                "NOP",
+                "amt = NEW_VAL integer",
+                "success = NEW_VAL boolean",
+                "JUMP 0x55"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x55",
+            "instructions": [
+                "CLR_33 = msg.sender",
+                "CLR_34 = lastBlock[CLR_33]",
+                "REF_5 = CLR_34",
+                "CLR_35 = block.number",
+                "TMP_9 = REF_5 < CLR_35",
+                "CONDITION TMP_9 0x55_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x55_r0",
+            "instructions": [
+                "JUMP 0x56"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x56",
+            "instructions": [
+                "NOP",
+                "JUMP 0x50"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x53",
+            "instructions": [
+                "NOP",
+                "JUMP 0x57"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x58",
+            "instructions": [
+                "NOP",
+                "JUMP 0x59"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x59",
+            "instructions": [
+                "CLR_36 = msg.sender",
+                "CLR_37 = balances[CLR_36]",
+                "REF_4 = CLR_37",
+                "CLR_38 = msg.sender",
+                "CLR_39 = msg.value",
+                "WRP_0 = REF_4 + CLR_39",
+                "balances[CLR_38] = WRP_0",
+                "JUMP 0x5a"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x57",
+            "instructions": [
+                "CLR_40 = msg.sender",
+                "CLR_41 = lastBlock[CLR_40]",
+                "REF_5 = CLR_41",
+                "CLR_42 = block.number",
+                "TMP_9 = REF_5 < CLR_42",
+                "CONDITION TMP_9 0x57_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x57_r0",
+            "instructions": [
+                "JUMP 0x5b"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x5a",
+            "instructions": [
+                "CLR_43 = msg.sender",
+                "CLR_44 = lastBlock[CLR_43]",
+                "REF_6 = CLR_44",
+                "CLR_45 = msg.sender",
+                "CLR_46 = block.number",
+                "lastBlock[CLR_45] = CLR_46",
+                "JUMP 0x5c"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x5b",
+            "instructions": [
+                "NOP",
+                "JUMP 0x58"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5d",
+            "instructions": [
+                "CLR_47 = msg.sender",
+                "CLR_48 = lastBlock[CLR_47]",
+                "REF_6 = CLR_48",
+                "CLR_49 = msg.sender",
+                "CLR_50 = block.number",
+                "lastBlock[CLR_49] = CLR_50"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5e",
+            "instructions": [
+                "CLR_51 = msg.sender",
+                "CLR_52 = balances[CLR_51]",
+                "REF_3 = CLR_52",
+                "CLR_53 = msg.sender",
+                "balances[CLR_53] = 0",
+                "JUMP 0x5d"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5c",
+            "instructions": [
+                "success = TMP_3",
+                "CONDITION success 0x5c_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5c_r0",
+            "instructions": [
+                "JUMP 0x5e"
+            ]
+        },
+        {
+            "scope": "trap",
+            "addr": "0x5f",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "RequireTrap",
+            "addr": "0xRequireTrap",
+            "instructions": [
+                "NOP"
+            ]
+        }
+    ]
+}

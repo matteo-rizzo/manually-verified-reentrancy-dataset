@@ -1,0 +1,54 @@
+{
+    "TransferEmit_safe1.sol": [
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "First_function": "withdraw",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 12\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\"",
+                        "\"BlockID: 2\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 12\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION (msg.sender).transfer(amt)\nIRS: \nTransfer dest:msg.sender value:amt\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 7\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_3 = REF_3 + msg.value\"",
+                        "\"BlockID: 2\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 7\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_3 = REF_3 + msg.value\"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION (msg.sender).transfer(amt)\nIRS: \nTransfer dest:msg.sender value:amt\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

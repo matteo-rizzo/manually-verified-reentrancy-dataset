@@ -1,0 +1,47 @@
+{
+    "TemporalVault_ree2.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "redeem",
+                "redeem"
+            ],
+            "from_function": "redeem",
+            "to_function": "redeem",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 44\nFunction: nonReentrant\nNode: \nEXPRESSION require(bool,string)(! locked,Locked)\nIRS: \nTMP_14 = SOLIDITY_CALL require(bool,string)(TMP_13,Locked)\"",
+                        "\"BlockID: 11\nFunction: nonReentrant\nNode: \nEXPRESSION locked = false\nIRS: \nlocked := false\""
+                    ],
+                    "state_variable": "locked"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "redeem",
+                "redeem"
+            ],
+            "First_function": "redeem",
+            "Second_function": "redeem",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 55\nFunction: nonReentrant\nNode: \nEXPRESSION locked = false\nIRS: \nlocked := false\"",
+                        "\"BlockID: 10\nFunction: nonReentrant\nNode: \nEXPRESSION require(bool,string)(! locked,Locked)\nIRS: \nTMP_14 = SOLIDITY_CALL require(bool,string)(TMP_13,Locked)\""
+                    ],
+                    "state_variable": "locked"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 56\nFunction: nonReentrant\nNode: \nEXPRESSION locked = true\nIRS: \nlocked := true\"",
+                        "\"BlockID: 10\nFunction: nonReentrant\nNode: \nEXPRESSION require(bool,string)(! locked,Locked)\nIRS: \nTMP_14 = SOLIDITY_CALL require(bool,string)(TMP_13,Locked)\""
+                    ],
+                    "state_variable": "locked"
+                }
+            ]
+        }
+    ]
+}

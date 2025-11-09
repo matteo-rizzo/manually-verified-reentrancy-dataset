@@ -1,0 +1,74 @@
+{
+    "tod_symex_path_1.json": {
+        "file_name": "",
+        "from_function": "withdraw",
+        "bug_type": "tod_transfer",
+        "src_node": "\"BlockID: 55\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 56\nCall context: \nNone\nREF_0 -> flags[msg.sender]\nTMP_0 = ! REF_0 \nTMP_1 = SOLIDITY_CALL require(bool)(TMP_0)\""
+        ],
+        "executable_instructions": 32,
+        "state_variable": "flags",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_2.json": {
+        "file_name": "",
+        "from_function": "withdraw",
+        "bug_type": "tod_transfer",
+        "src_node": "\"BlockID: 63\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 65\nCall context: \nTrue\nREF_1 -> balances[msg.sender]\namt := REF_1\nTMP_2 = amt > 0\nTMP_3 = SOLIDITY_CALL require(bool,string)(TMP_2,Insufficient funds)\""
+        ],
+        "executable_instructions": 37,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_3.json": {
+        "file_name": "",
+        "from_function": "withdraw",
+        "to_function": "withdraw",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 70\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 79\nCall context: \nTrue\nREF_2 -> balances[msg.sender]\nREF_2 := 0\nTMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 64,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_4.json": {
+        "file_name": "",
+        "from_function": "withdraw",
+        "bug_type": "tod_transfer",
+        "src_node": "\"BlockID: 84\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 86\nCall context: \nTrue\nREF_1 -> balances[msg.sender]\namt := REF_1\nTMP_2 = amt > 0\nTMP_3 = SOLIDITY_CALL require(bool,string)(TMP_2,Insufficient funds)\""
+        ],
+        "executable_instructions": 37,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_5.json": {
+        "file_name": "",
+        "from_function": "withdraw",
+        "to_function": "deposit",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 94\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 97\nCall context: \nTrue\nREF_2 -> balances[msg.sender]\nREF_2 := 0\nTMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 41,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    }
+}

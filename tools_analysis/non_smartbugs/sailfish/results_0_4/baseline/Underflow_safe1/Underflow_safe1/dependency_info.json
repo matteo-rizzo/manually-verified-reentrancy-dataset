@@ -1,0 +1,58 @@
+{
+    "Underflow_safe1.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "from_function": "withdraw",
+            "to_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(balances[msg.sender] >= amt,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\"",
+                        "\"BlockID: 5\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] -= amt\nIRS: \nREF_3 = REF_3 - amt\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "First_function": "withdraw",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 17\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] -= amt\nIRS: \nREF_3 = REF_3 - amt\"",
+                        "\"BlockID: 2\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(balances[msg.sender] >= amt,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 7\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 2\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(balances[msg.sender] >= amt,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

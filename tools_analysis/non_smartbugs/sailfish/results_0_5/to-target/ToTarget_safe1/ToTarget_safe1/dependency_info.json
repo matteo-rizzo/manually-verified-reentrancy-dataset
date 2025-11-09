@@ -1,0 +1,40 @@
+{
+    "ToTarget_safe1.sol": [
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "pay",
+                "pay"
+            ],
+            "First_function": "pay",
+            "Second_function": "pay",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 15\nFunction: pay\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_1 := 0\"",
+                        "\"BlockID: 4\nFunction: pay\nNode: \nEXPRESSION (success) = target.call.value(amt)()\nIRS: \nTUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "pay",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "pay",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 7\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 4\nFunction: pay\nNode: \nEXPRESSION (success) = target.call.value(amt)()\nIRS: \nTUPLE_0(bool,bytes) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

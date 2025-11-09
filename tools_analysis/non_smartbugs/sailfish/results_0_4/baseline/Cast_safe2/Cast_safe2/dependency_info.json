@@ -1,0 +1,29 @@
+{
+    "Cast_safe2.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "from_function": "withdraw",
+            "to_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\"",
+                        "\"BlockID: 5\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 10\nFunction: withdraw\nNode: \nNEW VARIABLE success = I(addr).trasfer(amt)\nIRS: \nTMP_3(bool) = HIGH_LEVEL_CALL, dest:TMP_2(I), function:trasfer, arguments:['amt']  \"",
+                        "\"BlockID: 5\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_2 := 0\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

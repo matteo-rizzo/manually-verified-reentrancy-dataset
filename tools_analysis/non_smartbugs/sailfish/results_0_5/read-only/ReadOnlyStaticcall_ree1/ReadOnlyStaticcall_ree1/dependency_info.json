@@ -1,0 +1,22 @@
+{
+    "ReadOnlyStaticcall_ree1.sol": [
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 13\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_7 = REF_7 + msg.value\"",
+                        "\"BlockID: 10\nFunction: withdraw\nNode: \nEXPRESSION (success,None) = (msg.sender).call.value(amt)()\nIRS: \nTUPLE_2(bool,bytes) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

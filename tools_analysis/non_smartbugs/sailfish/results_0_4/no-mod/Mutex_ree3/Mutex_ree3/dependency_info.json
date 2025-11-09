@@ -1,0 +1,111 @@
+{
+    "Mutex_ree3.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "from_function": "withdraw",
+            "to_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 12\nFunction: withdraw\nNode: \nEXPRESSION require(bool)(! flag)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool)(TMP_0)\"",
+                        "\"BlockID: 7\nFunction: withdraw\nNode: \nEXPRESSION flag = false\nIRS: \nflag := false\""
+                    ],
+                    "state_variable": "flag"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 13\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_3 = SOLIDITY_CALL require(bool,string)(TMP_2,Insufficient funds)\"",
+                        "\"BlockID: 6\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: withdraw\nNode: \nNEW VARIABLE success = msg.sender.call.value(amt)()\nIRS: \nTMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \"",
+                        "\"BlockID: 6\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "withdraw",
+                "deposit"
+            ],
+            "from_function": "deposit",
+            "to_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: deposit\nNode: \nEXPRESSION require(bool)(! flag)\nIRS: \nTMP_8 = SOLIDITY_CALL require(bool)(TMP_7)\"",
+                        "\"BlockID: 7\nFunction: withdraw\nNode: \nEXPRESSION flag = false\nIRS: \nflag := false\""
+                    ],
+                    "state_variable": "flag"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "withdraw"
+            ],
+            "First_function": "withdraw",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 24\nFunction: withdraw\nNode: \nEXPRESSION flag = false\nIRS: \nflag := false\"",
+                        "\"BlockID: 2\nFunction: withdraw\nNode: \nEXPRESSION require(bool)(! flag)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool)(TMP_0)\""
+                    ],
+                    "state_variable": "flag"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 23\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_3 = SOLIDITY_CALL require(bool,string)(TMP_2,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 23\nFunction: withdraw\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\"",
+                        "\"BlockID: 4\nFunction: withdraw\nNode: \nNEW VARIABLE success = msg.sender.call.value(amt)()\nIRS: \nTMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "withdraw",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "withdraw",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 10\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 3\nFunction: withdraw\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_3 = SOLIDITY_CALL require(bool,string)(TMP_2,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 10\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 4\nFunction: withdraw\nNode: \nNEW VARIABLE success = msg.sender.call.value(amt)()\nIRS: \nTMP_5(bool) = LOW_LEVEL_CALL, dest:msg.sender, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

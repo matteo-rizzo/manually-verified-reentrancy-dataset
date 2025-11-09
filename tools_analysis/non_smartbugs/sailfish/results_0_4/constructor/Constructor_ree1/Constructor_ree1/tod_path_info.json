@@ -1,0 +1,60 @@
+{
+    "tod_symex_path_1.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "bug_type": "tod_transfer",
+        "src_node": "\"BlockID: 20\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 21\nCall context: \nNone\nREF_0 -> balances[msg.sender]\namt := REF_0\nTMP_0 = amt > 0\nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+        ],
+        "executable_instructions": 19,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_2.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "to_function": "pay",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 31\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 33\nCall context: \nTrue\nTMP_3(bool) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 21,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_3.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "bug_type": "tod_transfer",
+        "src_node": "\"BlockID: 38\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 39\nCall context: \nNone\nREF_0 -> balances[msg.sender]\namt := REF_0\nTMP_0 = amt > 0\nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+        ],
+        "executable_instructions": 19,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    },
+    "tod_symex_path_4.json": {
+        "file_name": "",
+        "from_function": "pay",
+        "to_function": "deposit",
+        "bug_type": "tod_amount_or_receiver",
+        "src_node": "\"BlockID: 46\nCall context: \nNone\nENTRY_POINT None\"",
+        "dest_node": [
+            "\"BlockID: 48\nCall context: \nTrue\nTMP_3(bool) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+        ],
+        "executable_instructions": 21,
+        "state_variable": "balances",
+        "error": "",
+        "result": "",
+        "execution_details": ""
+    }
+}

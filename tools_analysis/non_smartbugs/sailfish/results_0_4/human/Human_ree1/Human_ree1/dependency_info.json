@@ -1,0 +1,416 @@
+{
+    "Human_ree1.sol": [
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "transfer",
+                "transfer"
+            ],
+            "from_function": "transfer",
+            "to_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 31\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 32\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 33\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 32\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 15\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "transfer",
+                "transferFrom"
+            ],
+            "from_function": "transferFrom",
+            "to_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 19\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 21\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \"",
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 15\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "transferFrom",
+                "transfer"
+            ],
+            "from_function": "transfer",
+            "to_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 10\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 12\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 24\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "DAO",
+            "composed_functions": [
+                "transferFrom",
+                "transferFrom"
+            ],
+            "from_function": "transferFrom",
+            "to_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 47\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 48\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 49\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \"",
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 48\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\"",
+                        "\"BlockID: 24\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transfer",
+                "bid"
+            ],
+            "First_function": "bid",
+            "Second_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 10\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 12\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transfer",
+                "transfer"
+            ],
+            "First_function": "transfer",
+            "Second_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 44\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 10\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 44\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 44\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 12\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 45\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transfer",
+                "setAllowance"
+            ],
+            "First_function": "setAllowance",
+            "Second_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 18\nFunction: setAllowance\nNode: \nEXPRESSION allowances[msg.sender][a] = amt\nIRS: \nREF_2 := amt\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transfer",
+                "transferFrom"
+            ],
+            "First_function": "transferFrom",
+            "Second_function": "transfer",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 10\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 23\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 12\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 24\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\"",
+                        "\"BlockID: 11\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transferFrom",
+                "bid"
+            ],
+            "First_function": "bid",
+            "Second_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 19\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 5\nFunction: bid\nNode: \nEXPRESSION bids[msg.sender] += msg.value\nIRS: \nREF_0 = REF_0 + msg.value\"",
+                        "\"BlockID: 21\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transferFrom",
+                "transfer"
+            ],
+            "First_function": "transfer",
+            "Second_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 19\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 21\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 15\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transferFrom",
+                "setAllowance"
+            ],
+            "First_function": "setAllowance",
+            "Second_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 18\nFunction: setAllowance\nNode: \nEXPRESSION allowances[msg.sender][a] = amt\nIRS: \nREF_2 := amt\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "transferFrom",
+                "transferFrom"
+            ],
+            "First_function": "transferFrom",
+            "Second_function": "transferFrom",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 59\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 19\nFunction: transferFrom\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_10 = SOLIDITY_CALL require(bool,string)(TMP_9,Insufficient funds)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 59\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 59\nFunction: transferFrom\nNode: \nEXPRESSION bids[from] = 0\nIRS: \nREF_8 := 0\"",
+                        "\"BlockID: 21\nFunction: transferFrom\nNode: \nNEW VARIABLE success = to.call.value(amt)()\nIRS: \nTMP_14(bool) = LOW_LEVEL_CALL, dest:to, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "bids"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 60\nFunction: transferFrom\nNode: \nEXPRESSION allowances[msg.sender][from] = 0\nIRS: \nREF_10 := 0\"",
+                        "\"BlockID: 20\nFunction: transferFrom\nNode: \nEXPRESSION require(bool)(allowances[msg.sender][from] >= amt)\nIRS: \nTMP_12 = SOLIDITY_CALL require(bool)(TMP_11)\""
+                    ],
+                    "state_variable": "allowances"
+                }
+            ]
+        }
+    ]
+}

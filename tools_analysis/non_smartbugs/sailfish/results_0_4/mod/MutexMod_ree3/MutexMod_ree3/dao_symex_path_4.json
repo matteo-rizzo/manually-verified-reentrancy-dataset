@@ -1,0 +1,598 @@
+{
+    "file": "MutexMod_ree3.sol",
+    "global_structs": [
+        {
+            "name": "struct_block",
+            "fields": {
+                "coinbase": [
+                    "integer"
+                ],
+                "difficulty": [
+                    "integer"
+                ],
+                "gaslimit": [
+                    "integer"
+                ],
+                "number": [
+                    "integer"
+                ],
+                "timestamp": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_msg",
+            "fields": {
+                "data": [
+                    "integer"
+                ],
+                "sender": [
+                    "integer"
+                ],
+                "sig": [
+                    "integer"
+                ],
+                "value": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_tx",
+            "fields": {
+                "gasprice": [
+                    "integer"
+                ],
+                "origin": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_this",
+            "fields": {
+                "balance": [
+                    "integer"
+                ],
+                "address": [
+                    "integer"
+                ]
+            }
+        }
+    ],
+    "global_variables": [
+        {
+            "name": "block",
+            "type": [
+                "struct_block"
+            ],
+            "init": []
+        },
+        {
+            "name": "msg",
+            "type": [
+                "struct_msg"
+            ],
+            "init": [
+                "0x4e"
+            ]
+        },
+        {
+            "name": "now",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "tx",
+            "type": [
+                "struct_tx"
+            ],
+            "init": []
+        },
+        {
+            "name": "this",
+            "type": [
+                "struct_this"
+            ],
+            "init": [
+                "0x4f"
+            ]
+        },
+        {
+            "name": "msg_sender",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0x50"
+            ]
+        },
+        {
+            "name": "addmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "mulmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "keccak",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha256",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ripemd160",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "ecrecover",
+            "type": [
+                "function4"
+            ],
+            "init": []
+        },
+        {
+            "name": "blockhash",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "balances",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "flag",
+            "type": [
+                "boolean"
+            ],
+            "init": [
+                "0x3"
+            ]
+        },
+        {
+            "name": "MutexMod_ree3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        }
+    ],
+    "global_blocks": [
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x3",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xe",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xf",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x10",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x23",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x24",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x25",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x38",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x39",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x3a",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x4e",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x4f",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x50",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        }
+    ],
+    "range_variables": [
+        {
+            "name": "balances",
+            "addrs": [
+                "0x2",
+                "0x5",
+                "0xb"
+            ]
+        },
+        {
+            "name": "flag",
+            "addrs": [
+                "0x2",
+                "0x8",
+                "0xd"
+            ]
+        }
+    ],
+    "range_blocks": [
+        {
+            "scope": "__RANGE__",
+            "addr": "0x1",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x5",
+            "instructions": [
+                "RTMP_16 = ! flag",
+                "CONDITION RTMP_16 0x6 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x6",
+            "instructions": [
+                "CLR_0 = msg.sender",
+                "CLR_1 = balances[CLR_0]",
+                "REF_6 = CLR_1",
+                "RTMP_17 = REF_6 > 0",
+                "CONDITION RTMP_17 0x4 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x4",
+            "instructions": [
+                "CLR_2 = msg.sender",
+                "CLR_3 = balances[CLR_2]",
+                "REF_5 = CLR_3",
+                "CLR_4 = msg.sender",
+                "balances[CLR_4] = 0"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x8",
+            "instructions": [
+                "RTMP_18 = ! flag",
+                "CONDITION RTMP_18 0x9 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x9",
+            "instructions": [
+                "CLR_5 = msg.sender",
+                "CLR_6 = balances[CLR_5]",
+                "REF_7 = CLR_6",
+                "RTMP_19 = REF_7 > 0",
+                "CONDITION RTMP_19 0x7 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x7",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xb",
+            "instructions": [
+                "RTMP_21 = ! flag",
+                "CONDITION RTMP_21 0xa 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xa",
+            "instructions": [
+                "CLR_7 = msg.sender",
+                "CLR_8 = balances[CLR_7]",
+                "REF_8 = CLR_8",
+                "CLR_9 = msg.value",
+                "TMP_20 = REF_8 + CLR_9",
+                "CLR_10 = msg.sender",
+                "balances[CLR_10] = TMP_20"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xd",
+            "instructions": [
+                "RTMP_22 = ! flag",
+                "CONDITION RTMP_22 0xc 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xc",
+            "instructions": [
+                "flag = false"
+            ]
+        }
+    ],
+    "root_addr": "0x55",
+    "dest_addrs": [
+        "0x5e"
+    ],
+    "normal_blocks": [
+        {
+            "scope": "withdraw",
+            "addr": "0x51",
+            "instructions": [
+                "NOP",
+                "JUMP 0x52"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x52",
+            "instructions": [
+                "CLR_11 = msg.sender",
+                "CLR_12 = balances[CLR_11]",
+                "REF_0 = CLR_12",
+                "amt = REF_0",
+                "TMP_0 = amt > 0",
+                "CONDITION TMP_0 0x52_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x52_r0",
+            "instructions": [
+                "JUMP 0x53"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x53",
+            "instructions": [
+                "ATTACK",
+                "TMP_3 = NEW_VAL boolean",
+                "JUMP 0x54"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x55",
+            "instructions": [
+                "NOP",
+                "success = NEW_VAL boolean",
+                "amt = NEW_VAL integer",
+                "JUMP 0x56"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x56",
+            "instructions": [
+                "TMP_9 = ! flag",
+                "CONDITION TMP_9 0x56_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x56_r0",
+            "instructions": [
+                "JUMP 0x57"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x57",
+            "instructions": [
+                "NOP",
+                "JUMP 0x51"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x54",
+            "instructions": [
+                "NOP",
+                "JUMP 0x58"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x59",
+            "instructions": [
+                "NOP",
+                "JUMP 0x5a"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x5a",
+            "instructions": [
+                "CLR_13 = msg.sender",
+                "CLR_14 = balances[CLR_13]",
+                "REF_4 = CLR_14",
+                "CLR_15 = msg.sender",
+                "CLR_16 = msg.value",
+                "WRP_0 = REF_4 + CLR_16",
+                "balances[CLR_15] = WRP_0",
+                "JUMP 0x5b"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x58",
+            "instructions": [
+                "TMP_9 = ! flag",
+                "CONDITION TMP_9 0x58_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x58_r0",
+            "instructions": [
+                "JUMP 0x5c"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x5b",
+            "instructions": [
+                "flag = false",
+                "JUMP 0x5d"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0x5c",
+            "instructions": [
+                "NOP",
+                "JUMP 0x59"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5e",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5d",
+            "instructions": [
+                "success = TMP_3",
+                "CONDITION success 0x5d_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5d_r0",
+            "instructions": [
+                "JUMP 0x5f"
+            ]
+        },
+        {
+            "scope": "withdraw",
+            "addr": "0x5f",
+            "instructions": [
+                "CLR_17 = msg.sender",
+                "CLR_18 = balances[CLR_17]",
+                "REF_3 = CLR_18",
+                "CLR_19 = msg.sender",
+                "balances[CLR_19] = 0",
+                "JUMP 0x5e"
+            ]
+        },
+        {
+            "scope": "trap",
+            "addr": "0x60",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "RequireTrap",
+            "addr": "0xRequireTrap",
+            "instructions": [
+                "NOP"
+            ]
+        }
+    ]
+}

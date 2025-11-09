@@ -1,0 +1,54 @@
+{
+    "Constructor_ree1.sol": [
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "pay",
+                "pay"
+            ],
+            "First_function": "pay",
+            "Second_function": "pay",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: pay\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\"",
+                        "\"BlockID: 4\nFunction: pay\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 14\nFunction: pay\nNode: \nEXPRESSION balances[msg.sender] = 0\nIRS: \nREF_3 := 0\"",
+                        "\"BlockID: 5\nFunction: pay\nNode: \nNEW VARIABLE success = target.call.value(amt)()\nIRS: \nTMP_3(bool) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        },
+        {
+            "attack_type": "TOD",
+            "composed_functions": [
+                "pay",
+                "deposit"
+            ],
+            "First_function": "deposit",
+            "Second_function": "pay",
+            "dependencies": [
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 4\nFunction: pay\nNode: \nEXPRESSION require(bool,string)(amt > 0,Insufficient funds)\nIRS: \nTMP_1 = SOLIDITY_CALL require(bool,string)(TMP_0,Insufficient funds)\""
+                    ],
+                    "state_variable": "balances"
+                },
+                {
+                    "path": [
+                        "\"BlockID: 9\nFunction: deposit\nNode: \nEXPRESSION balances[msg.sender] += msg.value\nIRS: \nREF_4 = REF_4 + msg.value\"",
+                        "\"BlockID: 5\nFunction: pay\nNode: \nNEW VARIABLE success = target.call.value(amt)()\nIRS: \nTMP_3(bool) = LOW_LEVEL_CALL, dest:target, function:call, arguments:[''] value:amt \""
+                    ],
+                    "state_variable": "balances"
+                }
+            ]
+        }
+    ]
+}

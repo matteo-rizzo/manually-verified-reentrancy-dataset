@@ -1,0 +1,709 @@
+{
+    "file": "TemporalLocker_safe1.sol",
+    "global_structs": [
+        {
+            "name": "struct_block",
+            "fields": {
+                "coinbase": [
+                    "integer"
+                ],
+                "difficulty": [
+                    "integer"
+                ],
+                "gaslimit": [
+                    "integer"
+                ],
+                "number": [
+                    "integer"
+                ],
+                "timestamp": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_msg",
+            "fields": {
+                "data": [
+                    "integer"
+                ],
+                "sender": [
+                    "integer"
+                ],
+                "sig": [
+                    "integer"
+                ],
+                "value": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_tx",
+            "fields": {
+                "gasprice": [
+                    "integer"
+                ],
+                "origin": [
+                    "integer"
+                ]
+            }
+        },
+        {
+            "name": "struct_this",
+            "fields": {
+                "balance": [
+                    "integer"
+                ],
+                "address": [
+                    "integer"
+                ]
+            }
+        }
+    ],
+    "global_variables": [
+        {
+            "name": "block",
+            "type": [
+                "struct_block"
+            ],
+            "init": []
+        },
+        {
+            "name": "msg",
+            "type": [
+                "struct_msg"
+            ],
+            "init": [
+                "0xa0"
+            ]
+        },
+        {
+            "name": "now",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "tx",
+            "type": [
+                "struct_tx"
+            ],
+            "init": []
+        },
+        {
+            "name": "this",
+            "type": [
+                "struct_this"
+            ],
+            "init": [
+                "0xa1"
+            ]
+        },
+        {
+            "name": "msg_sender",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0xa2"
+            ]
+        },
+        {
+            "name": "addmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "mulmod",
+            "type": [
+                "function3"
+            ],
+            "init": []
+        },
+        {
+            "name": "keccak",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha256",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "sha3",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "ripemd160",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "ecrecover",
+            "type": [
+                "function4"
+            ],
+            "init": []
+        },
+        {
+            "name": "blockhash",
+            "type": [
+                "function1"
+            ],
+            "init": []
+        },
+        {
+            "name": "deposited",
+            "type": [
+                "array",
+                "integer",
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "flag",
+            "type": [
+                "boolean"
+            ],
+            "init": []
+        },
+        {
+            "name": "pool",
+            "type": [
+                "integer"
+            ],
+            "init": [
+                "0x3"
+            ]
+        },
+        {
+            "name": "IERC20",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "IPool",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        },
+        {
+            "name": "TemporalLocker_safe1",
+            "type": [
+                "integer"
+            ],
+            "init": []
+        }
+    ],
+    "global_blocks": [
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x3",
+            "instructions": [
+                "pool = U"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x14",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x15",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x16",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x24",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x25",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x26",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x34",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x35",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x36",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x47",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x48",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x49",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x57",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x58",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x59",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x67",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x68",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x69",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x7a",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x7b",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x7c",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x8d",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x8e",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0x8f",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xa0",
+            "instructions": [
+                "msg.sender = 0x6"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xa1",
+            "instructions": [
+                "this.address = 0x5"
+            ]
+        },
+        {
+            "scope": "__GLOBAL__",
+            "addr": "0xa2",
+            "instructions": [
+                "msg_sender = 0x4"
+            ]
+        }
+    ],
+    "range_variables": [
+        {
+            "name": "deposited",
+            "addrs": [
+                "0x2",
+                "0x5",
+                "0xb"
+            ]
+        },
+        {
+            "name": "flag",
+            "addrs": [
+                "0x2",
+                "0x7",
+                "0x9",
+                "0xd",
+                "0xf",
+                "0x11",
+                "0x13"
+            ]
+        }
+    ],
+    "range_blocks": [
+        {
+            "scope": "__RANGE__",
+            "addr": "0x1",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x5",
+            "instructions": [
+                "RTMP_33 = ! flag",
+                "CONDITION RTMP_33 0x4 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x4",
+            "instructions": [
+                "CLR_0 = msg.sender",
+                "deposited[CLR_0] = U"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x9",
+            "instructions": [
+                "RTMP_35 = ! flag",
+                "CONDITION RTMP_35 0x8 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x8",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xb",
+            "instructions": [
+                "RTMP_36 = ! flag",
+                "CONDITION RTMP_36 0xa 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xa",
+            "instructions": [
+                "CLR_1 = msg.sender",
+                "CLR_2 = deposited[CLR_1]",
+                "REF_9 = CLR_2",
+                "CLR_3 = msg.sender",
+                "deposited[CLR_3] = 0"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xf",
+            "instructions": [
+                "RTMP_38 = ! flag",
+                "CONDITION RTMP_38 0xe 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0xe",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x13",
+            "instructions": [
+                "RTMP_40 = ! flag",
+                "CONDITION RTMP_40 0x12 0x1"
+            ]
+        },
+        {
+            "scope": "__RANGE__",
+            "addr": "0x12",
+            "instructions": [
+                "flag = false"
+            ]
+        }
+    ],
+    "root_addr": "0xa9",
+    "dest_addrs": [
+        "0xb1"
+    ],
+    "normal_blocks": [
+        {
+            "scope": "collectFees",
+            "addr": "0xa3",
+            "instructions": [
+                "NOP",
+                "JUMP 0xa4"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xa4",
+            "instructions": [
+                "TMP_11 = NEW_VAL unknown",
+                "TMP_12 = NEW_VAL unknown",
+                "TMP_13 = NEW_VAL integer",
+                "JUMP 0xa5"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xa5",
+            "instructions": [
+                "n1 = TMP_13",
+                "NOP",
+                "JUMP 0xa6"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xa6",
+            "instructions": [
+                "TMP_15 = NEW_VAL unknown",
+                "TMP_16 = NEW_VAL unknown",
+                "TMP_17 = NEW_VAL integer",
+                "JUMP 0xa7"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xa7",
+            "instructions": [
+                "n2 = TMP_17",
+                "TMP_18 = NEW_VAL unknown",
+                "TMP_19 = NEW_VAL unknown",
+                "TMP_20 = n2 - n1",
+                "ATTACK",
+                "JUMP 0xa8"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xa9",
+            "instructions": [
+                "NOP",
+                "token = NEW_VAL integer",
+                "n2 = NEW_VAL integer",
+                "n1 = NEW_VAL integer",
+                "JUMP 0xaa"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xaa",
+            "instructions": [
+                "TMP_24 = ! flag",
+                "CONDITION TMP_24 0xaa_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xaa_r0",
+            "instructions": [
+                "JUMP 0xab"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xab",
+            "instructions": [
+                "flag = true",
+                "NOP",
+                "JUMP 0xa3"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xa8",
+            "instructions": [
+                "NOP",
+                "token = NEW_VAL integer",
+                "amt = NEW_VAL integer",
+                "JUMP 0xac"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xad",
+            "instructions": [
+                "NOP",
+                "JUMP 0xae"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xae",
+            "instructions": [
+                "CLR_4 = msg.sender",
+                "CLR_5 = deposited[CLR_4]",
+                "REF_0 = CLR_5",
+                "CLR_6 = msg.sender",
+                "WRP_0 = REF_0 + amt",
+                "deposited[CLR_6] = WRP_0",
+                "TMP_1 = NEW_VAL unknown",
+                "TMP_2 = NEW_VAL unknown",
+                "NOP",
+                "JUMP 0xaf"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xac",
+            "instructions": [
+                "TMP_24 = ! flag",
+                "CONDITION TMP_24 0xac_r0 0xRequireTrap"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xac_r0",
+            "instructions": [
+                "JUMP 0xb0"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xaf",
+            "instructions": [
+                "flag = false",
+                "JUMP 0xb1"
+            ]
+        },
+        {
+            "scope": "deposit",
+            "addr": "0xb0",
+            "instructions": [
+                "flag = true",
+                "NOP",
+                "JUMP 0xad"
+            ]
+        },
+        {
+            "scope": "collectFees",
+            "addr": "0xb1",
+            "instructions": [
+                "flag = false"
+            ]
+        },
+        {
+            "scope": "trap",
+            "addr": "0xb2",
+            "instructions": [
+                "NOP"
+            ]
+        },
+        {
+            "scope": "RequireTrap",
+            "addr": "0xRequireTrap",
+            "instructions": [
+                "NOP"
+            ]
+        }
+    ]
+}
