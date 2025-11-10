@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-contract CrossMutex_ree1 {
+import "../../../../interfaces/cross-function/ICrossFunction.sol";
+
+contract CrossMutex_ree1 is ICrossFunction {
     bool private flag = false;
     mapping(address => uint256) public balances;
 
