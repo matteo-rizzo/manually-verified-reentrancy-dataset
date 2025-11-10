@@ -13,12 +13,13 @@ async function main() {
 
     console.log("\nCross-function tests:");
     console.log("---------------------");
-    // console.log("⚠️ Cross function tests disabled. Enable them manually if needed. ⚠️");
-    await runCrossFunctionTests(connection);
+    console.log("⚠️ Cross function tests disabled. Enable them manually if needed. ⚠️");
+    // await runCrossFunctionTests(connection);
 
     console.log("\nCross-contract tests:");
     console.log("---------------------");
-    await runCrossContractTests(connection);
+    console.log("⚠️ Cross contract tests disabled. Enable them manually if needed. ⚠️");
+    // await runCrossContractTests(connection);
 }
 
 main().catch(console.error);

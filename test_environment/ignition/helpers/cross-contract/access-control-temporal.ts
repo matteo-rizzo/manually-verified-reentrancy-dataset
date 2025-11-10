@@ -1,15 +1,19 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
-export function crossContractAccessControlToggle1ModuleBuilder(victimContract: string) {
-    return Toggle1ModuleBuilder(victimContract, "ToggleRee1Attacker");
+export function crossContractAccessTemporalVault1ModuleBuilder(victimContract: string) {
+    return TemporalVault1ModuleBuilder(victimContract, "TemporalVault_ree1_Attacker");
 }
 
-export function crossContractAccessControlToggle2ModuleBuilder(victimContract: string) {
-    return Toggle2ModuleBuilder(victimContract, "ToggleRee2Attacker");
+export function crossContractAccessTemporalVault2ModuleBuilder(victimContract: string) {
+    return TemporalVault2ModuleBuilder(victimContract, "TemporalVault_ree2_Attacker");
 }
 
-export function Toggle1ModuleBuilder(victimContract: string, attackerContract: string) {
+export function crossContractAccessTemporalLocker1ModuleBuilder(victimContract: string) {
+    return TemporalLocker1ModuleBuilder(victimContract, "TemporalLocker_ree1_Attacker");
+}
+
+export function TemporalVault1ModuleBuilder(victimContract: string, attackerContract: string) {
     return buildModule(victimContract, (m) => {
         const oneEther = ethers.parseEther("1.0");
 
@@ -33,7 +37,7 @@ export function Toggle1ModuleBuilder(victimContract: string, attackerContract: s
     });
 }
 
-export function Toggle2ModuleBuilder(victimContract: string, attackerContract: string) {
+export function TemporalVault2ModuleBuilder(victimContract: string, attackerContract: string) {
     return buildModule(victimContract, (m) => {
         const oneEther = ethers.parseEther("1.0");
 
@@ -54,5 +58,18 @@ export function Toggle2ModuleBuilder(victimContract: string, attackerContract: s
         m.call(crossContractAttacker, "collectEther", [], { from: attacker });
 
         return { crossContractree, crossContractAttacker };
+    });
+}
+
+export function TemporalLocker1ModuleBuilder(victimContract: string, attackerContract: string) {
+    return buildModule(victimContract, (m) => {
+        const deployer = m.getAccount(0);
+
+        // TODO 
+
+        console.warn("TemporalLocker1ModuleBuilder is not yet implemented.");
+
+        const crossContractree = m.contract(victimContract, [], { from: deployer });
+        return { crossContractree };
     });
 }

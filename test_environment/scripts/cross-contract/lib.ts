@@ -1,27 +1,24 @@
 import { NetworkConnection } from "hardhat/types/network";
 import { runContractWithBuilder } from "../lib.js";
-import { crossContractModuleBuilder } from "../../ignition/helpers/cross-contract/cross-contract-call.js";
-import { crossContractAccessControlToggle1ModuleBuilder, crossContractAccessControlToggle2ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-toggle.js";
-import { crossContractAccessControlHuman2ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-human.js";
+import { crossContractAccessTemporalVault1ModuleBuilder, crossContractAccessTemporalVault2ModuleBuilder, crossContractAccessTemporalLocker1ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-temporal.js";
+import { crossContractAccessControlHuman1ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-human.js";
 import { crossContractCreateModuleBuilder, crossContractCreateModuleBuilder2, crossContractCreate2ModuleBuilder } from "../../ignition/helpers/cross-contract/create.js";
 import { crossContractToTargetModuleBuilder } from "../../ignition/helpers/cross-contract/to-target.js";
 
-export async function runCrossContractContracts(connection: NetworkConnection, contractNames: string[]) {
-    for (const name of contractNames) {
-        await runContractWithBuilder(connection, name, crossContractModuleBuilder);
-    }
+export async function runCrossContractTemporalVault1Contract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractAccessTemporalVault1ModuleBuilder);
 }
 
-export async function runCrossContractAccessControlToggle1Contract(connection: NetworkConnection, name: string) {
-    await runContractWithBuilder(connection, name, crossContractAccessControlToggle1ModuleBuilder);
+export async function runCrossContractTemporalVault2Contract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractAccessTemporalVault2ModuleBuilder);
 }
 
-export async function runCrossContractAccessControlToggle2Contract(connection: NetworkConnection, name: string) {
-    await runContractWithBuilder(connection, name, crossContractAccessControlToggle2ModuleBuilder);
+export async function runCrossContractTemporalLocker1Contract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractAccessTemporalLocker1ModuleBuilder);
 }
 
-export async function runCrossContractAccessControlHuman2Contract(connection: NetworkConnection, name: string) {
-    await runContractWithBuilder(connection, name, crossContractAccessControlHuman2ModuleBuilder);
+export async function runCrossContractAccessControlHuman1Contract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractAccessControlHuman1ModuleBuilder);
 }
 
 export async function runCrossContractCreateContract(connection: NetworkConnection, name: string) {
