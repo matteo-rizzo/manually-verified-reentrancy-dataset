@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-contract Constructor_ree1 {
-    mapping (address => uint256) public balances;
+import "../../../../interfaces/single-function/ILowLevelCallToTarget.sol";
+
+contract Constructor_ree1 is ILowLevelCallToTarget {
+    mapping(address => uint256) public balances;
 
     address private target;
-    
+
     constructor(address t) {
         target = t;
     }
@@ -13,15 +15,14 @@ contract Constructor_ree1 {
     function pay() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = target.call{value:amt}("");      // calls to any address are potentially malicious
+        (bool success, ) = target.call{value: amt}(""); // calls to any address are potentially malicious
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect AFTER the call makes the contract vulnerable to reentrancy
+        balances[msg.sender] = 0; // side effect AFTER the call makes the contract vulnerable to reentrancy
     }
 
     function deposit() public payable {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
-
 }
 
 // sample target contract at address given at construction time

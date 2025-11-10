@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract Mutex_safe3 {
-    mapping (address => uint256) private balances;
+    mapping(address => uint256) private balances;
 
     bool private flag = false;
 
@@ -12,8 +12,8 @@ contract Mutex_safe3 {
 
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        balances[msg.sender] = 0;    // side effect BEFORE external call is safe anyway, even with broken mutex
-        (bool success, ) = msg.sender.call{value:amt}("");
+        balances[msg.sender] = 0; // side effect BEFORE external call is safe anyway, even with broken mutex
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
 
         flag = false;
@@ -21,6 +21,6 @@ contract Mutex_safe3 {
 
     function deposit() public payable {
         require(!flag);
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
 }

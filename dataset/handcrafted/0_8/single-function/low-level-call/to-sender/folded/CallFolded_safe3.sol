@@ -2,15 +2,14 @@
 pragma solidity ^0.8.0;
 
 contract CallFolded_safe3 {
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
 
-
-    function pay(uint256 amt) internal {        
+    function pay(uint256 amt) internal {
         require(call(amt), "Call failed");
     }
 
     function call(uint256 amt) internal returns (bool) {
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = msg.sender.call{value: amt}("");
         return success;
     }
 
@@ -26,11 +25,10 @@ contract CallFolded_safe3 {
     }
 
     function update() internal {
-        balances[msg.sender] = 0;    // side effect is folded and BEFORE the folded call, making this safe
+        balances[msg.sender] = 0; // side effect is folded and BEFORE the folded call, making this safe
     }
 
     function deposit() public payable {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
-
 }
