@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../../interfaces/single-function/IMethodInvocation.sol";
-
 contract CastFolded_safe3 {
     mapping(address => uint256) public balances;
 

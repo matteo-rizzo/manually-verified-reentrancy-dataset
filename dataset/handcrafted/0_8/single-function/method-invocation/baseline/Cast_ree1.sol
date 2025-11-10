@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../../interfaces/single-function/IMethodInvocation.sol";
-
-contract Cast_ree1 is IMethodInvocation {
+contract Cast_ree1 {
     mapping(address => uint256) public balances;
 
     function withdraw(address addr) public {
