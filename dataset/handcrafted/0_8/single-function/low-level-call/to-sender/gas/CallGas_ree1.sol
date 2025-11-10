@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../../../interfaces/single-function/ILowLevelCallToSender.sol";
-
-contract CallGas_ree1 is ILowLevelCallToSender {
+contract CallGas_ree1 {
     mapping(address => uint256) public balances;
 
     function withdraw() public {

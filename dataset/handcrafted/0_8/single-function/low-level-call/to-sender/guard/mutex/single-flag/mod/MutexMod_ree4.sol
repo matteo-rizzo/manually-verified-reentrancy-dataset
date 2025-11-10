@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../../../../../../interfaces/single-function/ILowLevelCallToSender.sol";
-
-contract MutexMod_ree4 is ILowLevelCallToSender {
+contract MutexMod_ree4 {
     mapping(address => uint256) private balances;
 
     bool private flag = false;

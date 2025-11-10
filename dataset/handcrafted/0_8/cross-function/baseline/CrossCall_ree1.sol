@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../interfaces/cross-function/ICrossFunction.sol";
-
-contract CrossCall_ree1 is ICrossFunction {
+contract CrossCall_ree1 {
     mapping(address => uint256) public balances;
 
     // an attacker can reenter here, producing a classic single-function reentrancy scenario

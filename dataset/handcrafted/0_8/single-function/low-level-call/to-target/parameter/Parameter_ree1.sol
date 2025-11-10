@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "../../../../interfaces/single-function/ILowLevelCallToTarget.sol";
-
-contract Parameter_ree1 is ILowLevelCallToTargetWithParameter {
+contract Parameter_ree1 {
     mapping(address => uint256) public balances;
 
     function pay(address target) public {
