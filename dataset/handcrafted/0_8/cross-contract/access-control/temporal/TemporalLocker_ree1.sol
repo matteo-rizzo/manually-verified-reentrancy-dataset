@@ -14,9 +14,9 @@ interface IPool {
 
 contract TemporalLocker_ree1 {
     IPool private pool;
-    mapping (address => uint) public deposited;
+    mapping(address => uint) public deposited;
 
-    constructor (address _pool) {
+    constructor(address _pool) {
         pool = IPool(_pool);
     }
 
@@ -38,7 +38,6 @@ contract TemporalLocker_ree1 {
         IERC20(token).safeTransferFrom(address(this), msg.sender, n2 - n1);
     }
 }
-
 
 // contract MaliciousToken is IERC20 {
 //     mapping (address => uint) public balances;
@@ -70,4 +69,3 @@ contract TemporalLocker_ree1 {
 //         condition = _condition;
 //     }
 // }
-

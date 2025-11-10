@@ -7,17 +7,17 @@ interface IPRNG {
 
 contract ReadOnlyStaticCall_ree1 {
     ReadOnlyStaticCall_ree1_Oracle public o;
-    mapping (address => uint) private balances;
+    mapping(address => uint) private balances;
 
     constructor(address _o) {
         o = ReadOnlyStaticCall_ree1_Oracle(_o);
     }
 
     function withdraw() external {
-        (bool success, bytes memory data) = address(o).staticcall("fix");  // static calls are equivalent to view-method invocations
+        (bool success, bytes memory data) = address(o).staticcall("fix"); // static calls are equivalent to view-method invocations
         require(success, "Staticcall failed");
         uint256 fix = abi.decode(data, (uint256));
-        
+
         (success, data) = address(o).staticcall("randomness");
         require(success, "Staticcall failed");
         uint256 randomness = abi.decode(data, (uint256));
@@ -26,7 +26,7 @@ contract ReadOnlyStaticCall_ree1 {
         uint256 amt = balances[msg.sender] + bonus;
 
         (success, ) = payable(msg.sender).call{value: amt}("");
-        require (success, "Failed");
+        require(success, "Failed");
     }
 
     function deposit() external payable {

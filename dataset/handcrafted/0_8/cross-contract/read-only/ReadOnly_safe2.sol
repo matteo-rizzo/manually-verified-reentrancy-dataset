@@ -7,7 +7,7 @@ interface IPRNG {
 
 contract ReadOnly_safe1 {
     ReadOnly_safe1_Oracle public o;
-    mapping (address => uint) private balances;
+    mapping(address => uint) private balances;
     bool private flag;
 
     constructor(address _o) {
@@ -21,12 +21,12 @@ contract ReadOnly_safe1 {
         flag = false;
     }
 
-    function withdraw() nonReentrant external {
+    function withdraw() external nonReentrant {
         uint256 bonus = o.getFix() / o.getRandomness();
         uint256 amt = balances[msg.sender] + bonus;
 
         (bool success, ) = payable(msg.sender).call{value: amt}("");
-        require (success, "Failed");
+        require(success, "Failed");
     }
 
     function deposit() external payable {
@@ -52,18 +52,17 @@ contract ReadOnly_safe1_Oracle {
         _;
     }
 
-    function update(address prng, uint256 amt) nonReentrant external {
+    function update(address prng, uint256 amt) external nonReentrant {
         uint rnd = IPRNG(prng).getRandom();
         fix += amt;
         randomness += amt + rnd;
     }
 
-    function getFix() nonReentrantView view external returns (uint256) {
+    function getFix() external view nonReentrantView returns (uint256) {
         return fix;
     }
 
-    function getRandomness() nonReentrantView view external returns (uint256) {
+    function getRandomness() external view nonReentrantView returns (uint256) {
         return randomness;
     }
 }
-

@@ -14,7 +14,7 @@ interface IPool {
 
 contract TemporalLocker_safe1 {
     IPool private pool;
-    mapping (address => uint) public deposited;
+    mapping(address => uint) public deposited;
 
     bool private flag;
 
@@ -24,29 +24,28 @@ contract TemporalLocker_safe1 {
         _;
         flag = false;
     }
-    constructor (address _pool) {
+    constructor(address _pool) {
         pool = IPool(_pool);
     }
 
-    function deposit(address token, uint amt) nonReentrant public {
+    function deposit(address token, uint amt) public nonReentrant {
         deposited[msg.sender] += amt;
         IERC20(token).safeTransferFrom(msg.sender, address(this), amt);
     }
 
-    function withdraw(address token) nonReentrant public {
+    function withdraw(address token) public nonReentrant {
         uint amt = deposited[msg.sender];
         deposited[msg.sender] = 0;
         IERC20(token).safeTransferFrom(address(this), msg.sender, amt);
     }
 
-    function collectFees(address token) nonReentrant public {
+    function collectFees(address token) public nonReentrant {
         uint n1 = IERC20(token).balanceOf(address(this));
         pool.withdrawFee(token);
         uint n2 = IERC20(token).balanceOf(address(this));
         IERC20(token).safeTransferFrom(address(this), msg.sender, n2 - n1);
     }
 }
-
 
 // contract MaliciousToken is IERC20 {
 //     mapping (address => uint) public balances;
@@ -78,4 +77,3 @@ contract TemporalLocker_safe1 {
 //         condition = _condition;
 //     }
 // }
-

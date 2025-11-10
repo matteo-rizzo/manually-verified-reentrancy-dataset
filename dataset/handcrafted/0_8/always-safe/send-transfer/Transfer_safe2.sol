@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 contract Transfer_safe2 {
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
 
     function withdraw() public {
         uint256 amt = balances[msg.sender];
@@ -12,7 +12,6 @@ contract Transfer_safe2 {
     }
 
     function deposit() public payable {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
-
 }

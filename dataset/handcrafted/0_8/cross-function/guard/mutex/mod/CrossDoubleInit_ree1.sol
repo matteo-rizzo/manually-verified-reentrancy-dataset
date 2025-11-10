@@ -2,9 +2,8 @@
 pragma solidity ^0.8.0;
 
 contract CrossDoubleInit_ree1 {
-
     bool private flag;
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
     uint256 public currentVersion;
     bool private initializedV2;
 
@@ -15,7 +14,7 @@ contract CrossDoubleInit_ree1 {
         flag = false;
     }
 
-    constructor (){
+    constructor() {
         flag = false;
         currentVersion = 2;
     }
@@ -31,18 +30,17 @@ contract CrossDoubleInit_ree1 {
         flag = false;
     }
 
-    function withdraw() nonReentrant public {
+    function withdraw() public nonReentrant {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
     }
 
-    function deposit() nonReentrant public payable {
-        balances[msg.sender] += msg.value;       
+    function deposit() public payable nonReentrant {
+        balances[msg.sender] += msg.value;
     }
-
 }
 
 // contract Attacker {
@@ -60,5 +58,5 @@ contract CrossDoubleInit_ree1 {
 //     receive() external payable {
 //         c.initializePoolV2(); // setting the flag back to false allows to reenter withdraw exactly once
 //         c.withdraw();
-//     } 
+//     }
 // }

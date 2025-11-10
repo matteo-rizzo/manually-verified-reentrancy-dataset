@@ -7,7 +7,7 @@ interface IPRNG {
 
 contract ReadOnly_ree2 {
     ReadOnly_ree2_Oracle public o;
-    mapping (address => uint) private balances;
+    mapping(address => uint) private balances;
     bool private flag;
 
     constructor(address _o) {
@@ -21,12 +21,12 @@ contract ReadOnly_ree2 {
         flag = false;
     }
 
-    function withdraw() nonReentrant external {
+    function withdraw() external nonReentrant {
         uint256 bonus = o.fix() / o.randomness();
         uint256 amt = balances[msg.sender] + bonus;
 
         (bool success, ) = payable(msg.sender).call{value: amt}("");
-        require (success, "Failed");
+        require(success, "Failed");
     }
 
     function deposit() external payable {

@@ -3,8 +3,7 @@ pragma solidity ^0.8.0;
 
 contract CrossMutex_ree1 {
     bool private flag = false;
-    mapping (address => uint256) public balances;
-
+    mapping(address => uint256) public balances;
 
     // this function is not protected by the mutex
     // so an attacker can reenter after the external call below and move the amount in balances[msg.sender] to another address (parameter 'to') owned by the attacker
@@ -20,7 +19,7 @@ contract CrossMutex_ree1 {
         flag = true;
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
         flag = false;
@@ -28,9 +27,8 @@ contract CrossMutex_ree1 {
 
     function deposit() public payable {
         require(!flag, "Locked");
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
-
 }
 
 // contract Attacker {
@@ -47,5 +45,5 @@ contract CrossMutex_ree1 {
 //     }
 //     receive() external payable {
 //         c.transfer(to, 100);
-//     } 
+//     }
 // }

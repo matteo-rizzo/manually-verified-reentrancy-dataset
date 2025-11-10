@@ -3,8 +3,7 @@ pragma solidity ^0.8.0;
 
 contract CrossMutexMod_ree1 {
     bool private flag = false;
-    mapping (address => uint256) public balances;
-
+    mapping(address => uint256) public balances;
 
     modifier nonReentrant() {
         require(!flag, "Locked");
@@ -22,18 +21,17 @@ contract CrossMutexMod_ree1 {
         balances[msg.sender] -= amt;
     }
 
-    function withdraw() nonReentrant public {
+    function withdraw() public nonReentrant {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
         balances[msg.sender] = 0;
     }
 
-    function deposit() nonReentrant public payable {
-        balances[msg.sender] += msg.value;       
+    function deposit() public payable nonReentrant {
+        balances[msg.sender] += msg.value;
     }
-
 }
 
 // contract Attacker {
@@ -50,5 +48,5 @@ contract CrossMutexMod_ree1 {
 //     }
 //     receive() external payable {
 //         c.transfer(to, 100);
-//     } 
+//     }
 // }

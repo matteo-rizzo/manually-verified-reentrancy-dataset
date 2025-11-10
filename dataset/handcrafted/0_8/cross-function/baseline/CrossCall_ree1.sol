@@ -2,15 +2,15 @@
 pragma solidity ^0.8.0;
 
 contract CrossCall_ree1 {
-    mapping (address => uint256) public balances;
+    mapping(address => uint256) public balances;
 
     // an attacker can reenter here, producing a classic single-function reentrancy scenario
     function withdraw() public {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        (bool success, ) = msg.sender.call{value:amt}("");  
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
-        balances[msg.sender] = 0;    // side effect AFTER call makes this subject to reentrancy
+        balances[msg.sender] = 0; // side effect AFTER call makes this subject to reentrancy
     }
 
     // or can reenter here, producing a cross-function scenario
@@ -21,7 +21,6 @@ contract CrossCall_ree1 {
     }
 
     function deposit() public payable {
-        balances[msg.sender] += msg.value;       
+        balances[msg.sender] += msg.value;
     }
-
 }

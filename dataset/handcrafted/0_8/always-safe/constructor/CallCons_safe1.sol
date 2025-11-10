@@ -11,5 +11,4 @@ contract CallCons_safe1 {
         require(success, "Call failed");
         done = true;
     }
-
 }

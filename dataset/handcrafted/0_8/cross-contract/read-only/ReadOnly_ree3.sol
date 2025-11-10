@@ -17,7 +17,7 @@ contract ReadOnly_ree3 {
         uint256 amt = o.getUserShare(msg.sender) / o.total();
 
         (bool success, ) = payable(msg.sender).call{value: amt}("");
-        require (success, "Failed to withdraw ETH");
+        require(success, "Failed to withdraw ETH");
     }
 
     receive() external payable {}
@@ -25,14 +25,13 @@ contract ReadOnly_ree3 {
 
 // THIS is the contract vulnerable to reentrancy
 contract ReadOnly_ree3_Oracle {
-
     struct Data {
         uint256 amt;
         IAdjuster adj;
     }
 
     uint256 public total;
-    mapping (address => Data) private userShares;
+    mapping(address => Data) private userShares;
     address private owner;
 
     constructor(address _owner) {
@@ -45,10 +44,10 @@ contract ReadOnly_ree3_Oracle {
     }
 
     function register(address a) public {
-        userShares[msg.sender] = Data (0, IAdjuster(a));
+        userShares[msg.sender] = Data(0, IAdjuster(a));
     }
 
-    function updateUserShare(address user, uint inc) onlyOwner external {
+    function updateUserShare(address user, uint inc) external onlyOwner {
         userShares[user].amt += inc;
         uint256 a = userShares[user].adj.adjust(inc);
         // putting the side effect of the total AFTER the external call makes the division at line 17 diverge
@@ -58,7 +57,6 @@ contract ReadOnly_ree3_Oracle {
     function getUserShare(address a) external view returns (uint256) {
         return userShares[a].amt;
     }
-
 }
 
 // contract Attacker is IAdjuster {

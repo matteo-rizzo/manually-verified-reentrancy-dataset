@@ -3,8 +3,7 @@ pragma solidity ^0.8.0;
 
 contract CrossMutexMod_safe4 {
     bool private flag = false;
-    mapping (address => uint256) public balances;
-
+    mapping(address => uint256) public balances;
 
     modifier nonReentrant() {
         require(!flag, "Locked");
@@ -12,25 +11,23 @@ contract CrossMutexMod_safe4 {
         _;
         flag = false;
     }
-   
-    function transfer(address to, uint256 amt) nonReentrant public {
+
+    function transfer(address to, uint256 amt) public nonReentrant {
         require(balances[msg.sender] >= amt, "Insufficient funds");
         balances[to] += amt;
         balances[msg.sender] -= amt;
     }
 
     // this function is protected by a broken modifier, although the side effect is BEFORE the call and the contract is safe anyway
-    function withdraw() nonReentrant public {
+    function withdraw() public nonReentrant {
         uint amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        balances[msg.sender] = 0;       // side effect before call makes this safe anyway
-        (bool success, ) = msg.sender.call{value:amt}("");
+        balances[msg.sender] = 0; // side effect before call makes this safe anyway
+        (bool success, ) = msg.sender.call{value: amt}("");
         require(success, "Call failed");
     }
 
-    function deposit() nonReentrant public payable {
-        balances[msg.sender] += msg.value;       
+    function deposit() public payable nonReentrant {
+        balances[msg.sender] += msg.value;
     }
-
 }
-
