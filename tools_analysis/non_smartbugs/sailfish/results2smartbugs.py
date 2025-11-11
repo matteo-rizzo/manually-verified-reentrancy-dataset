@@ -90,9 +90,11 @@ def main():
 
             bug_types = collect_bug_types(p)
 
+            tmp_path = p.name.replace("__", "/")
+
             row = {
-                "filename": str(p),
-                "basename": p.name,
+                "filename": p.parts[-3].removesuffix("_flat") + "/" + tmp_path + ".sol",
+                "basename": tmp_path.split("/")[-1] + ".sol",
                 "toolid": "sailfish",
                 "toolmode": "",
                 "parser_version": "",
