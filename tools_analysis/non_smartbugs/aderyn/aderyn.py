@@ -30,7 +30,7 @@ DEFAULT_EXT = os.getenv("ADERYN_EXT", ".json")
 DEFAULT_TIMEOUT = int(os.getenv("ADERYN_TIMEOUT", "900"))
 DEFAULT_WORKERS = min(int(os.getenv("ADERYN_WORKERS", os.cpu_count() or 2)), 4)
 DEFAULT_OUTDIR = Path(os.getenv("ADERYN_OUTDIR", "./results"))
-DEFAULT_FALLBACK_SOLC = os.getenv("ADERYN_FALLBACK_SOLC", "0.8.28")
+DEFAULT_FALLBACK_SOLC = os.getenv("ADERYN_FALLBACK_SOLC", "0.5.17")
 DEFAULT_EVM_VERSION = os.getenv("ADERYN_EVM_VERSION", "")  # override; else auto-pick
 DEFAULT_SVM_CACHE = os.getenv("ADERYN_SVM_CACHE", str(Path.home() / ".svm"))
 DEFAULT_AGG_NAME = os.getenv("ADERYN_SMARTBUGS_CSV", "smartbugs_summary.csv")
@@ -38,6 +38,7 @@ DEFAULT_AGG_NAME = os.getenv("ADERYN_SMARTBUGS_CSV", "smartbugs_summary.csv")
 
 # Known, good solc patch versions to choose from when pragma gives a range.
 KNOWN_SOLC = [
+    "0.4.24",
     "0.4.26",
     "0.5.17",
     "0.6.12",
@@ -126,9 +127,9 @@ def pick_solc_from_pragmas(specs: List[str], fallback: str) -> str:
         plain = re.match(r"^\s*(\d+\.\d+\.\d+)\s*$", spec)
         return v == _vtuple(plain.group(1)) if plain else True
 
-    for ver in reversed(KNOWN_SOLC):  # prefer newest that satisfies all specs
-        if all(satisfies(ver, s) for s in specs):
-            return ver
+    # for ver in reversed(KNOWN_SOLC):  # prefer newest that satisfies all specs
+    #     if all(satisfies(ver, s) for s in specs):
+    #         return ver
     return fallback
 
 
@@ -154,13 +155,6 @@ def build_docker_cmd(
         extra_args: List[str],
         svm_cache: Optional[str] = None,
 ) -> List[str]:
-    """
-    docker run --rm \
-      -v <project>:/workspace -v <outdir>:/out [-v <svm_cache>:/root/.svm] \
-      -w /workspace \
-      -e FOUNDRY_SOLC_VERSION=<ver> -e FOUNDRY_SOLC=solc:<ver> -e FOUNDRY_EVM_VERSION=<evm> \
-      --entrypoint /bin/sh <image> -lc 'svm install <ver>; aderyn . -o /out/<file> ...'
-    """
     envs = [
         "-e", f"FOUNDRY_SOLC_VERSION={solc_version}",
         "-e", f"FOUNDRY_EVM_VERSION={evm_version}",
@@ -173,14 +167,65 @@ def build_docker_cmd(
     if svm_cache:
         mounts += ["-v", f"{svm_cache}:/root/.svm"]
 
-    inner = f"svm install {shlex.quote(solc_version)} >/dev/null 2>&1 || true; aderyn . -o /out/reports/{report_name}"
+    aderyn_args = " ".join(shlex.quote(a) for a in extra_args) if extra_args else ""
+
+    inner = f"""#!/usr/bin/env bash
+set -euo pipefail
+
+mkdir -p /out/reports
+export PATH="/usr/local/bin:/root/.svm/bin:$PATH"
+
+want="{solc_version}"
+
+# 1) Best effort: install with svm (no-op if present)
+svm install "$want" >/dev/null 2>&1 || true
+
+# 2) If svm can tell us the exact binary, prefer that and expose it at /usr/local/bin/solc
+if SOLC_BIN="$(svm which "$want" 2>/dev/null)"; then
+  if [ -n "$SOLC_BIN" ] && [ -x "$SOLC_BIN" ]; then
+    ln -sf "$SOLC_BIN" /usr/local/bin/solc
+  fi
+fi
+
+# 3) If version still mismatches (or solc missing), fetch static binary from Solidity releases
+have="$(solc --version 2>/dev/null | sed -n 's/^Version: \\([0-9.]*\\).*/\\1/p' | head -n1 || true)"
+if [ "${{have:-}}" != "$want" ]; then
+  echo "[setup] Installing solc $want …"
+
+  # Ensure we have a downloader in this base image
+  if ! command -v curl >/dev/null 2>&1 && ! command -v wget >/dev/null 2>&1; then
+    (apt-get update -y && apt-get install -y curl) >/dev/null 2>&1 || \
+    (apk add --no-cache curl) >/dev/null 2>&1 || \
+    (microdnf install -y curl) >/dev/null 2>&1 || \
+    (yum install -y curl) >/dev/null 2>&1 || true
+  fi
+
+  url="https://github.com/ethereum/solidity/releases/download/v$want/solc-static-linux"
+  if command -v curl >/dev/null 2>&1; then
+    curl -fsSL "$url" -o /usr/local/bin/solc
+  elif command -v wget >/dev/null 2>&1; then
+    wget -qO /usr/local/bin/solc "$url"
+  else
+    echo "ERROR: neither curl nor wget available to download solc $want" >&2
+    exit 12
+  fi
+  chmod +x /usr/local/bin/solc
+fi
+
+echo "[env] solc full version:"
+solc --version || true
+echo "[env] aderyn: $(aderyn --version 2>/dev/null || echo unknown)"
+
+cd /workspace
+aderyn . -o /out/reports/{shlex.quote(report_name)} {aderyn_args}
+"""
 
     return [
         "docker", "run", "--rm",
         *mounts,
         "-w", "/workspace",
         *envs,
-        "--entrypoint", "/bin/sh",
+        "--entrypoint", "/bin/bash",
         image, "-lc", inner,
     ]
 

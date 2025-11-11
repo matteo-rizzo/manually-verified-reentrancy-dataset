@@ -1,0 +1,503 @@
+{
+  "files_summary": {
+    "total_source_units": 6,
+    "total_sloc": 134
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "Create2_ree1.sol",
+        "n_sloc": 26
+      },
+      {
+        "file_path": "Create2_safe1.sol",
+        "n_sloc": 23
+      },
+      {
+        "file_path": "Create_ree1.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "Create_ree2.sol",
+        "n_sloc": 25
+      },
+      {
+        "file_path": "Create_safe1.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "Create_safe2.sol",
+        "n_sloc": 22
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 3,
+    "low": 7
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "ETH transferred without address checks",
+        "description": "Consider introducing checks for `msg.sender` to ensure the recipient of the money is as intended.",
+        "detector_name": "eth-send-unchecked-address",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 7,
+            "src": "146:14",
+            "src_char": "146:14"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 11,
+            "src": "200:14",
+            "src_char": "200:14"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          }
+        ]
+      },
+      {
+        "title": "Contract locks Ether without a withdraw function",
+        "description": "It appears that the contract includes a payable function to accept Ether but lacks a corresponding function to withdraw it, which leads to the Ether being locked in the contract. To resolve this issue, please implement a public or external function that allows for the withdrawal of Ether from the contract.",
+        "detector_name": "contract-locks-ether",
+        "instances": [
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 4,
+            "src": "70:11",
+            "src_char": "70:11"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 4,
+            "src": "70:12",
+            "src_char": "70:12"
+          }
+        ]
+      },
+      {
+        "title": "Reentrancy: State change after external call",
+        "description": "Changing state after an external call can lead to re-entrancy attacks.Use the checks-effects-interactions pattern to avoid this issue.",
+        "detector_name": "reentrancy-state-change",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 17,
+            "src": "527:27",
+            "src_char": "527:27",
+            "hint": "State is changed at: `counters[msg.sender] += 1`"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 17,
+            "src": "507:20",
+            "src_char": "507:20",
+            "hint": "State is changed at: `counters[msg.sender] += 1`"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 20,
+            "src": "563:27",
+            "src_char": "563:27",
+            "hint": "State is changed at: `counters[msg.sender] += 1`"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 16,
+            "src": "481:20",
+            "src_char": "481:20",
+            "hint": "State is changed at: `counters[msg.sender] += 1`"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unsafe ERC20 Operation",
+        "description": "ERC20 functions may not behave as expected. For example: return values are not always meaningful. It is recommended to use OpenZeppelin's SafeERC20 library.",
+        "detector_name": "unsafe-erc20-operation",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 17,
+            "src": "527:15",
+            "src_char": "527:15"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 17,
+            "src": "507:15",
+            "src_char": "507:15"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 20,
+            "src": "563:15",
+            "src_char": "563:15"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 16,
+            "src": "481:15",
+            "src_char": "481:15"
+          }
+        ]
+      },
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          },
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 32,
+            "src": "1008:10",
+            "src_char": "1008:10"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 7,
+            "src": "146:14",
+            "src_char": "146:14"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 7,
+            "src": "147:19",
+            "src_char": "147:19"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 24,
+            "src": "849:7",
+            "src_char": "849:7"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 11,
+            "src": "200:14",
+            "src_char": "200:14"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 7,
+            "src": "148:19",
+            "src_char": "148:19"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 24,
+            "src": "835:7",
+            "src_char": "835:7"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          }
+        ]
+      },
+      {
+        "title": "Empty `require()` / `revert()` Statement",
+        "description": "Use descriptive reason strings or custom errors for revert paths.",
+        "detector_name": "empty-require-revert",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 13,
+            "src": "346:7",
+            "src_char": "346:7"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 13,
+            "src": "340:7",
+            "src_char": "340:7"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 16,
+            "src": "382:7",
+            "src_char": "382:7"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 12,
+            "src": "320:7",
+            "src_char": "320:7"
+          }
+        ]
+      },
+      {
+        "title": "PUSH0 Opcode",
+        "description": "Solc compiler version 0.8.20 switches the default target EVM version to Shanghai, which means that the generated bytecode will include PUSH0 opcodes. Be sure to select the appropriate EVM version in case you intend to deploy on a chain other than mainnet like L2 chains that may not support PUSH0, otherwise deployment of your contracts will fail.",
+        "detector_name": "push-zero-opcode",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Inconsistent uint256/uint (or) int256/int types",
+        "description": "Inconsistency in declaring uint256/uint (or) int256/int variables within a contract. Use explicit size declarations (uint256 or int256). Consider keeping the naming convention consistent in a given contract. Explicit size declarations are preferred (uint256, int256) over implicit ones (uint, int) to avoid confusion.",
+        "detector_name": "inconsistent-type-names",
+        "instances": [
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 8,
+            "src": "212:3",
+            "src_char": "212:3"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 8,
+            "src": "213:3",
+            "src_char": "213:3"
+          }
+        ]
+      },
+      {
+        "title": "State Change Without Event",
+        "description": "There are state variable changes in this function but no event is emitted. Consider emitting an event to enable offchain indexers to track the changes.",
+        "detector_name": "state-change-without-event",
+        "instances": [
+          {
+            "contract_path": "Create2_ree1.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          },
+          {
+            "contract_path": "Create2_safe1.sol",
+            "line_no": 7,
+            "src": "146:14",
+            "src_char": "146:14"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 7,
+            "src": "147:19",
+            "src_char": "147:19"
+          },
+          {
+            "contract_path": "Create_ree1.sol",
+            "line_no": 24,
+            "src": "849:7",
+            "src_char": "849:7"
+          },
+          {
+            "contract_path": "Create_ree2.sol",
+            "line_no": 11,
+            "src": "200:14",
+            "src_char": "200:14"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 7,
+            "src": "148:19",
+            "src_char": "148:19"
+          },
+          {
+            "contract_path": "Create_safe1.sol",
+            "line_no": 24,
+            "src": "835:7",
+            "src_char": "835:7"
+          },
+          {
+            "contract_path": "Create_safe2.sol",
+            "line_no": 7,
+            "src": "145:14",
+            "src_char": "145:14"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

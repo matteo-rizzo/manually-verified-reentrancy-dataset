@@ -1,0 +1,730 @@
+{
+  "files_summary": {
+    "total_source_units": 8,
+    "total_sloc": 143
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "Mutex_ree1.sol",
+        "n_sloc": 17
+      },
+      {
+        "file_path": "Mutex_ree2.sol",
+        "n_sloc": 17
+      },
+      {
+        "file_path": "Mutex_ree3.sol",
+        "n_sloc": 18
+      },
+      {
+        "file_path": "Mutex_ree4.sol",
+        "n_sloc": 17
+      },
+      {
+        "file_path": "Mutex_ree5.sol",
+        "n_sloc": 18
+      },
+      {
+        "file_path": "Mutex_safe1.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "Mutex_safe2.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "Mutex_safe3.sol",
+        "n_sloc": 18
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 2,
+    "low": 7
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "ETH transferred without address checks",
+        "description": "Consider introducing checks for `msg.sender` to ensure the recipient of the money is as intended.",
+        "detector_name": "eth-send-unchecked-address",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          }
+        ]
+      },
+      {
+        "title": "Reentrancy: State change after external call",
+        "description": "Changing state after an external call can lead to re-entrancy attacks.Use the checks-effects-interactions pattern to avoid this issue.",
+        "detector_name": "reentrancy-state-change",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 16,
+            "src": "353:50",
+            "src_char": "353:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 16,
+            "src": "354:50",
+            "src_char": "354:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 16,
+            "src": "353:50",
+            "src_char": "353:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`, `flag = false`"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 15,
+            "src": "362:50",
+            "src_char": "362:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`, `flag = false`"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 16,
+            "src": "353:50",
+            "src_char": "353:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`, `flag = false`"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 15,
+            "src": "343:50",
+            "src_char": "343:50",
+            "hint": "State is changed at: `balances[msg.sender] = 0`, `flag = false`"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 16,
+            "src": "428:50",
+            "src_char": "428:50",
+            "hint": "State is changed at: `flag = false`"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 16,
+            "src": "475:50",
+            "src_char": "475:50",
+            "hint": "State is changed at: `flag = false`"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 23,
+            "src": "559:7",
+            "src_char": "559:7"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 23,
+            "src": "561:7",
+            "src_char": "561:7"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 23,
+            "src": "549:7",
+            "src_char": "549:7"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 22,
+            "src": "558:7",
+            "src_char": "558:7"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 23,
+            "src": "549:7",
+            "src_char": "549:7"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 22,
+            "src": "575:7",
+            "src_char": "575:7"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 22,
+            "src": "564:7",
+            "src_char": "564:7"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 22,
+            "src": "611:7",
+            "src_char": "611:7"
+          }
+        ]
+      },
+      {
+        "title": "Empty `require()` / `revert()` Statement",
+        "description": "Use descriptive reason strings or custom errors for revert paths.",
+        "detector_name": "empty-require-revert",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 10,
+            "src": "207:7",
+            "src_char": "207:7"
+          },
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 24,
+            "src": "594:7",
+            "src_char": "594:7"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 24,
+            "src": "596:7",
+            "src_char": "596:7"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 10,
+            "src": "207:7",
+            "src_char": "207:7"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 24,
+            "src": "584:7",
+            "src_char": "584:7"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 23,
+            "src": "593:7",
+            "src_char": "593:7"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 24,
+            "src": "584:7",
+            "src_char": "584:7"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 10,
+            "src": "208:7",
+            "src_char": "208:7"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 23,
+            "src": "610:7",
+            "src_char": "610:7"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 10,
+            "src": "208:7",
+            "src_char": "208:7"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 23,
+            "src": "599:7",
+            "src_char": "599:7"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 10,
+            "src": "208:7",
+            "src_char": "208:7"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 23,
+            "src": "646:7",
+            "src_char": "646:7"
+          }
+        ]
+      },
+      {
+        "title": "PUSH0 Opcode",
+        "description": "Solc compiler version 0.8.20 switches the default target EVM version to Shanghai, which means that the generated bytecode will include PUSH0 opcodes. Be sure to select the appropriate EVM version in case you intend to deploy on a chain other than mainnet like L2 chains that may not support PUSH0, otherwise deployment of your contracts will fail.",
+        "detector_name": "push-zero-opcode",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Inconsistent uint256/uint (or) int256/int types",
+        "description": "Inconsistency in declaring uint256/uint (or) int256/int variables within a contract. Use explicit size declarations (uint256 or int256). Consider keeping the naming convention consistent in a given contract. Explicit size declarations are preferred (uint256, int256) over implicit ones (uint, int) to avoid confusion.",
+        "detector_name": "inconsistent-type-names",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 14,
+            "src": "269:3",
+            "src_char": "269:3"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 14,
+            "src": "270:3",
+            "src_char": "270:3"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 14,
+            "src": "269:3",
+            "src_char": "269:3"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 13,
+            "src": "278:3",
+            "src_char": "278:3"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 14,
+            "src": "269:3",
+            "src_char": "269:3"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 13,
+            "src": "259:3",
+            "src_char": "259:3"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 13,
+            "src": "259:3",
+            "src_char": "259:3"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 13,
+            "src": "282:3",
+            "src_char": "282:3"
+          }
+        ]
+      },
+      {
+        "title": "State Variable Could Be Constant",
+        "description": "State variables that are not updated following deployment should be declared constant to save gas. Add the `constant` attribute to state variables that never change.",
+        "detector_name": "state-variable-could-be-constant",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 7,
+            "src": "151:4",
+            "src_char": "151:4"
+          }
+        ]
+      },
+      {
+        "title": "State Change Without Event",
+        "description": "There are state variable changes in this function but no event is emitted. Consider emitting an event to enable offchain indexers to track the changes.",
+        "detector_name": "state-change-without-event",
+        "instances": [
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree1.sol",
+            "line_no": 23,
+            "src": "559:7",
+            "src_char": "559:7"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree2.sol",
+            "line_no": 23,
+            "src": "561:7",
+            "src_char": "561:7"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree3.sol",
+            "line_no": 23,
+            "src": "549:7",
+            "src_char": "549:7"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree4.sol",
+            "line_no": 22,
+            "src": "558:7",
+            "src_char": "558:7"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 9,
+            "src": "179:8",
+            "src_char": "179:8"
+          },
+          {
+            "contract_path": "Mutex_ree5.sol",
+            "line_no": 23,
+            "src": "549:7",
+            "src_char": "549:7"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe1.sol",
+            "line_no": 22,
+            "src": "575:7",
+            "src_char": "575:7"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe2.sol",
+            "line_no": 22,
+            "src": "564:7",
+            "src_char": "564:7"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 9,
+            "src": "180:8",
+            "src_char": "180:8"
+          },
+          {
+            "contract_path": "Mutex_safe3.sol",
+            "line_no": 22,
+            "src": "611:7",
+            "src_char": "611:7"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

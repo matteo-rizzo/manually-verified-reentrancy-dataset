@@ -1,0 +1,247 @@
+{
+  "files_summary": {
+    "total_source_units": 2,
+    "total_sloc": 69
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "OnlyOwner_ree1.sol",
+        "n_sloc": 31
+      },
+      {
+        "file_path": "OnlyOwner_safe1.sol",
+        "n_sloc": 38
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 1,
+    "low": 5
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Reentrancy: State change after external call",
+        "description": "Changing state after an external call can lead to re-entrancy attacks.Use the checks-effects-interactions pattern to avoid this issue.",
+        "detector_name": "reentrancy-state-change",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 32,
+            "src": "777:55",
+            "src_char": "777:55",
+            "hint": "State is changed at: `delete pendingPayments`"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 41,
+            "src": "1023:55",
+            "src_char": "1023:55",
+            "hint": "State is changed at: `delete pendingPayments`"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Centralization Risk",
+        "description": "Contracts have owners with privileged rights to perform admin tasks and need to be trusted to not perform malicious updates or drain funds.",
+        "detector_name": "centralization-risk",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 27,
+            "src": "485:9",
+            "src_char": "485:9"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 36,
+            "src": "733:9",
+            "src_char": "733:9"
+          }
+        ]
+      },
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 27,
+            "src": "460:589",
+            "src_char": "460:589"
+          },
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 39,
+            "src": "1186:233",
+            "src_char": "1186:233"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 36,
+            "src": "695:554",
+            "src_char": "695:554"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 48,
+            "src": "1256:245",
+            "src_char": "1256:245"
+          }
+        ]
+      },
+      {
+        "title": "Modifier Invoked Only Once",
+        "description": "Consider removing the modifier or inlining the logic into the calling function.",
+        "detector_name": "modifier-used-only-once",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 22,
+            "src": "359:95",
+            "src_char": "359:95"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 22,
+            "src": "386:95",
+            "src_char": "386:95"
+          }
+        ]
+      },
+      {
+        "title": "Inconsistent uint256/uint (or) int256/int types",
+        "description": "Inconsistency in declaring uint256/uint (or) int256/int variables within a contract. Use explicit size declarations (uint256 or int256). Consider keeping the naming convention consistent in a given contract. Explicit size declarations are preferred (uint256, int256) over implicit ones (uint, int) to avoid confusion.",
+        "detector_name": "inconsistent-type-names",
+        "instances": [
+          {
+            "contract_path": "OnlyOwner_ree1.sol",
+            "line_no": 14,
+            "src": "210:32",
+            "src_char": "210:32"
+          },
+          {
+            "contract_path": "OnlyOwner_safe1.sol",
+            "line_no": 14,
+            "src": "237:32",
+            "src_char": "237:32"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

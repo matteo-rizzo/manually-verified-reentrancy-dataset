@@ -2,15 +2,15 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function crossContractCreateModuleBuilder(victimContract: string) {
-    return createModuleBuilder1(victimContract, "CreateRee1Attacker");
+    return createModuleBuilder1(victimContract, "Create_ree1_Attacker");
 }
 
 export function crossContractCreateModuleBuilder2(victimContract: string) {
-    return createModuleBuilder2(victimContract, "CreateRee2Attacker");
+    return createModuleBuilder2(victimContract, "Create_ree2_Attacker");
 }
 
 export function crossContractCreate2ModuleBuilder(victimContract: string) {
-    return create2ModuleBuilder(victimContract, "Create2ReeAttacker");
+    return create2ModuleBuilder(victimContract, "Create2_ree1_Attacker");
 }
 
 function createModuleBuilder1(victimContract: string, attackerContract: string) {

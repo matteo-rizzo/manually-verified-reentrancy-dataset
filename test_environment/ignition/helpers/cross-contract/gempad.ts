@@ -1,0 +1,31 @@
+import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
+import { ethers } from "ethers";
+
+
+export function crossContractGemPadModuleBuilder(victimContract: string) {
+    return readOnlyModuleBuilder(victimContract, "GemPadAttacker");
+}
+
+function readOnlyModuleBuilder(victimContract: string, attackerContract: string) {
+    return buildModule(victimContract, (m) => {
+        const oneEther = ethers.parseEther("1.0");
+
+        const deployer = m.getAccount(0);
+        const crossContractreeAux = m.contract("Pool", [], { from: deployer });
+        const crossContractree = m.contract(victimContract, [crossContractreeAux], { from: deployer });
+
+        const victim = m.getAccount(1);
+        // TODO FIXME from here need to be fixed 
+        m.call(crossContractree, "deposit", [], { value: oneEther, from: victim, id: "victimDeposit" });
+
+        const victim2 = m.getAccount(2);
+        m.call(crossContractree, "deposit", [], { value: oneEther, from: victim2, id: "victim2Deposit" });
+
+        const attacker = m.getAccount(3);
+        const crossContractAttacker = m.contract(attackerContract, [crossContractree], { from: attacker });
+        m.call(crossContractAttacker, "attack", [], { value: oneEther, from: attacker });
+        m.call(crossContractAttacker, "collectEther", [], { from: attacker });
+
+        return { crossContractree, crossContractAttacker };
+    });
+}

@@ -1,0 +1,340 @@
+{
+  "files_summary": {
+    "total_source_units": 5,
+    "total_sloc": 207
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "TemporalLocker_ree1.sol",
+        "n_sloc": 31
+      },
+      {
+        "file_path": "TemporalLocker_safe1.sol",
+        "n_sloc": 38
+      },
+      {
+        "file_path": "TemporalVault_ree1.sol",
+        "n_sloc": 45
+      },
+      {
+        "file_path": "TemporalVault_ree2.sol",
+        "n_sloc": 48
+      },
+      {
+        "file_path": "TemporalVault_safe1.sol",
+        "n_sloc": 45
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 1,
+    "low": 4
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Contract Name Reused in Different Files",
+        "description": "When compiling contracts with certain development frameworks (for example: Truffle), having contracts with the same name across different files can lead to one being overwritten.",
+        "detector_name": "reused-contract-name",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 5,
+            "src": "154:237",
+            "src_char": "154:237"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 11,
+            "src": "393:69",
+            "src_char": "393:69"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 5,
+            "src": "154:237",
+            "src_char": "154:237"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 11,
+            "src": "393:69",
+            "src_char": "393:69"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          }
+        ]
+      },
+      {
+        "title": "Address State Variable Set Without Checks",
+        "description": "Check for `address(0)` when assigning values to address state variables.",
+        "detector_name": "state-no-address-check",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 20,
+            "src": "618:19",
+            "src_char": "618:19"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 28,
+            "src": "775:19",
+            "src_char": "775:19"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 15,
+            "src": "338:40",
+            "src_char": "338:40"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 46,
+            "src": "1352:9",
+            "src_char": "1352:9"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 15,
+            "src": "346:40",
+            "src_char": "346:40"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 48,
+            "src": "1494:9",
+            "src_char": "1494:9"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 15,
+            "src": "340:41",
+            "src_char": "340:41"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 46,
+            "src": "1302:9",
+            "src_char": "1302:9"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 23,
+            "src": "650:166",
+            "src_char": "650:166"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 28,
+            "src": "822:196",
+            "src_char": "822:196"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 34,
+            "src": "1024:275",
+            "src_char": "1024:275"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 31,
+            "src": "807:179",
+            "src_char": "807:179"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 36,
+            "src": "992:209",
+            "src_char": "992:209"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 42,
+            "src": "1207:288",
+            "src_char": "1207:288"
+          }
+        ]
+      },
+      {
+        "title": "Modifier Invoked Only Once",
+        "description": "Consider removing the modifier or inlining the logic into the calling function.",
+        "detector_name": "modifier-used-only-once",
+        "instances": [
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 8,
+            "src": "169:125",
+            "src_char": "169:125"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 42,
+            "src": "1153:88",
+            "src_char": "1153:88"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 8,
+            "src": "169:125",
+            "src_char": "169:125"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 44,
+            "src": "1295:88",
+            "src_char": "1295:88"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 8,
+            "src": "171:125",
+            "src_char": "171:125"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 42,
+            "src": "1103:88",
+            "src_char": "1103:88"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

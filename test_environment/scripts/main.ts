@@ -8,16 +8,17 @@ async function main() {
     console.log("Running tests...");
     console.log("\nSingle-function tests:");
     console.log("----------------------");
-    // console.log("⚠️ Single function tests disabled. Enable them manually if needed. ⚠️");
-    await runSingleFunctionTests(connection);
+    console.log("⚠️ Single function tests disabled. Enable them manually if needed. ⚠️");
+    // await runSingleFunctionTests(connection);
 
     console.log("\nCross-function tests:");
     console.log("---------------------");
-    // console.log("⚠️ Cross function tests disabled. Enable them manually if needed. ⚠️");
-    await runCrossFunctionTests(connection);
+    console.log("⚠️ Cross function tests disabled. Enable them manually if needed. ⚠️");
+    //await runCrossFunctionTests(connection);
 
     console.log("\nCross-contract tests:");
     console.log("---------------------");
+    // console.log("⚠️ Cross contract tests disabled. Enable them manually if needed. ⚠️");
     await runCrossContractTests(connection);
 }
 

@@ -6,7 +6,7 @@ interface ILowLevelCallToTarget {
     function pay() external;
 }
 
-interface ILowLevelCallToTarget2 {
+interface ILowLevelCallToTargetWithParameter {
     function deposit() external payable;
     function pay(address) external; // receiver via parameter
 }
