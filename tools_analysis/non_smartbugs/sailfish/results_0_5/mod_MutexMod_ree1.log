@@ -1,0 +1,104 @@
+PROJECT_DIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_5/single-function/low-level-call/to-sender/guard/mutex/single-flag/mod
+CONTRACT: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_5/single-function/low-level-call/to-sender/guard/mutex/single-flag/mod/MutexMod_ree1.sol
+IMAGE: holmessherlock/sailfish:latest
+COMMAND: docker run --rm --platform linux/amd64 -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_5/single-function/low-level-call/to-sender/guard/mutex/single-flag/mod:/workspace -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/results_0_5/mod/MutexMod_ree1:/out -w / --entrypoint /bin/bash holmessherlock/sailfish:latest -lc '\
+set -Eeuo pipefail
+
+# 1) Locate Sailfish
+SCRIPT=""
+for p in /sailfish/code/static_analysis/analysis/contractlint.py \
+         /root/sailfish/code/static_analysis/analysis/contractlint.py \
+         /opt/sailfish/code/static_analysis/analysis/contractlint.py; do
+  [ -f "$p" ] && SCRIPT="$p" && break
+done
+[ -z "$SCRIPT" ] && echo "ERROR: contractlint.py not found" >&2 && exit 2
+
+# 2) Find python
+PYBIN="python3"; command -v python3 >/dev/null 2>&1 || PYBIN="python"
+
+# 3) Run Sailfish from its directory
+SRCDIR="$(dirname "$SCRIPT")"
+cd "$SRCDIR"
+export PYTHONPATH="${SRCDIR}:${PYTHONPATH-}"
+
+# 4) Execute analysis
+set +e
+$PYBIN contractlint.py \
+  -c /workspace/MutexMod_ree1.sol \
+  -o /out \
+  -r range \
+  -p DAO,TOD \
+  -sv cvc4 \
+  -oo 2>&1 | tee /tmp/sf.out
+RC=${PIPESTATUS[0]}
+set -e
+exit $RC
+'
+MODE: range
+POLICIES: DAO,TOD
+SOLVER: cvc4
+OUT_SUBDIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/results_0_5/mod/MutexMod_ree1
+STATUS: success
+RETURN_CODE: 1
+ELAPSED_SECONDS: 2.69
+PRAGMA_SPECS: ^0.5.0
+
+=== CONTAINER OUTPUT ===
+mesg: ttyname failed: Inappropriate ioctl for device
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Analysis started at: 2025-11-09 11:21:34 AM
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Version constraints: ['^0.5.0']
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | solc version: v0.5.0
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Callgraph generation started!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Callgraph generation finished!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Interprocedural CFG generation started!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Interprocedural CFG generation finished!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Storage dependency graph generation started!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Storage dependency graph generation finished!
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Value Range Analysis started
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Generating return summary for slitherConstructorVariables
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Return summary generated for slitherConstructorVariables
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Range graph generated
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Processed function slitherConstructorVariables
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Generating return summary for nonReentrant
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Return summary generated for nonReentrant
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | State variable assignement do not exist
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Processed function nonReentrant
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Generating return summary for withdraw
+[INFO] | 2025-11-09 11:21:34 AM | analyzer.MutexMod_ree1 | Return summary generated for withdraw
+Traceback (most recent call last):
+  File "contractlint.py", line 96, in analyze_contracts
+    generated_vrg = VRG(slither_obj, callgraph, sdg_objects, target_contracts, graph_dir, dump_graph, log)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 74, in __init__
+    self.setup()
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 162, in setup
+    self.process_bottom_up(leaf_nodes, self.callgraph._callgraph)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 194, in process_bottom_up
+    self.process_nonleaf_functions(cfg_obj)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 265, in process_nonleaf_functions
+    self.generate_range_graph(cfg_obj, parameters, return_values)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 324, in generate_range_graph
+    self.process_statevar_assignment(cfg_obj, parameters, return_values)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 607, in process_statevar_assignment
+    self.collect_conditional_pre_dominators(container_bb, cfg_obj, graph[0], graph[1], parameters)
+  File "/root/sailfish/code/static_analysis/analysis/range_graph.py", line 444, in collect_conditional_pre_dominators
+    range_node = RangeNode(s_lvar, parent, 'true', '==')
+  File "/root/sailfish/code/static_analysis/analysis/range_node.py", line 31, in __init__
+    self.setup()
+  File "/root/sailfish/code/static_analysis/analysis/range_node.py", line 80, in setup
+    left_expression = self.process_value_expressions(self._variable)
+  File "/root/sailfish/code/static_analysis/analysis/range_node.py", line 295, in process_value_expressions
+    assert real_count_or == right_count_or, "ORed count does not match, debug!"
+AssertionError: ORed count does not match, debug!
+[36m[#] Analysing started: MutexMod_ree1.sol[0m
+[36m[#] Interprocedural CFG generation started for modifier nonReentrant[0m
+[36m[#] Interprocedural CFG generated for modifer nonReentrant[0m
+[36m[#] Interprocedural CFG generation started for withdraw[0m
+[36m[#] Interprocedural CFG generated for withdraw[0m
+[36m[#] Interprocedural CFG generation started for deposit[0m
+[36m[#] Interprocedural CFG generated for deposit[0m
+[36m[#] SDG generation started for withdraw[0m
+[36m[#] SDG generated for withdraw[0m
+[36m[#] SDG generation started for deposit[0m
+[36m[#] SDG generated for deposit[0m
+[36m[#] SDG generation started for modifier nonReentrant[0m
+[36m[#] SDG generated for modifier nonReentrant[0m

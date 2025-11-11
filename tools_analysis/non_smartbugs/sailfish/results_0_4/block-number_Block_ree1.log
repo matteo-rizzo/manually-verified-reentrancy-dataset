@@ -1,0 +1,102 @@
+PROJECT_DIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/single-function/low-level-call/to-sender/guard/block-number
+CONTRACT: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/single-function/low-level-call/to-sender/guard/block-number/Block_ree1.sol
+IMAGE: holmessherlock/sailfish:latest
+COMMAND: docker run --rm --platform linux/amd64 -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/single-function/low-level-call/to-sender/guard/block-number:/workspace -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/caz/block-number/Block_ree1:/out -w / --entrypoint /bin/bash holmessherlock/sailfish:latest -lc '\
+set -Eeuo pipefail
+
+# 1) Locate Sailfish
+SCRIPT=""
+for p in /sailfish/code/static_analysis/analysis/contractlint.py \
+         /root/sailfish/code/static_analysis/analysis/contractlint.py \
+         /opt/sailfish/code/static_analysis/analysis/contractlint.py; do
+  [ -f "$p" ] && SCRIPT="$p" && break
+done
+[ -z "$SCRIPT" ] && echo "ERROR: contractlint.py not found" >&2 && exit 2
+
+# 2) Find python
+PYBIN="python3"; command -v python3 >/dev/null 2>&1 || PYBIN="python"
+
+# 3) Run Sailfish from its directory
+SRCDIR="$(dirname "$SCRIPT")"
+cd "$SRCDIR"
+export PYTHONPATH="${SRCDIR}:${PYTHONPATH-}"
+
+# 4) Execute analysis
+set +e
+$PYBIN contractlint.py \
+  -c /workspace/Block_ree1.sol \
+  -o /out \
+  -r range \
+  -p DAO,TOD \
+  -sv cvc4 \
+  -oo 2>&1 | tee /tmp/sf.out
+RC=${PIPESTATUS[0]}
+set -e
+exit $RC
+'
+MODE: range
+POLICIES: DAO,TOD
+SOLVER: cvc4
+OUT_SUBDIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/caz/block-number/Block_ree1
+STATUS: success
+RETURN_CODE: 0
+ELAPSED_SECONDS: 5.20
+PRAGMA_SPECS: ^0.4.24
+
+=== CONTAINER OUTPUT ===
+mesg: ttyname failed: Inappropriate ioctl for device
+[INFO] | 2025-11-09 11:13:40 AM | analyzer.Block_ree1 | Analysis started at: 2025-11-09 11:13:40 AM
+[INFO] | 2025-11-09 11:13:40 AM | analyzer.Block_ree1 | Version constraints: ['^0.4.24']
+[INFO] | 2025-11-09 11:13:40 AM | analyzer.Block_ree1 | solc version: v0.4.24
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Callgraph generation started!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Callgraph generation finished!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Interprocedural CFG generation started!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Interprocedural CFG generation finished!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Storage dependency graph generation started!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Storage dependency graph generation finished!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Value Range Analysis started
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Generating return summary for noSameBlock
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Return summary generated for noSameBlock
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Range graph generated
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Processed function noSameBlock
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Generating return summary for withdraw
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Return summary generated for withdraw
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Range graph generated
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Processed function withdraw
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Generating return summary for deposit
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Return summary generated for deposit
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Range graph generated
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Processed function deposit
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Value Range Analysis took 0.004658 seconds
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Value Range Analysis finished
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Storage dependency graph compostion started!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Storage dependency graph compostion finished!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Dependency detection started!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | DAO dependency detected in file Block_ree1.sol in contract Block_ree1 in by composing functions withdraw and withdraw
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | DAO dependency detected in file Block_ree1.sol in contract Block_ree1 in by composing functions withdraw and deposit
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | TOD dependency detected in file Block_ree1.sol in contract Block_ree1 in by composing functions withdraw and withdraw
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | TOD dependency detected in file Block_ree1.sol in contract Block_ree1 in by composing functions withdraw and deposit
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Dependency detection finished!
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Static Analysis took 0.414098 seconds
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Dependency exists
+[INFO] | 2025-11-09 11:13:41 AM | analyzer.Block_ree1 | Invoking symbolic executor!
+[36m[#] Analysing started: Block_ree1.sol[0m
+[36m[#] Interprocedural CFG generation started for modifier noSameBlock[0m
+[36m[#] Interprocedural CFG generated for modifer noSameBlock[0m
+[36m[#] Interprocedural CFG generation started for withdraw[0m
+[36m[#] Interprocedural CFG generated for withdraw[0m
+[36m[#] Interprocedural CFG generation started for deposit[0m
+[36m[#] Interprocedural CFG generated for deposit[0m
+[36m[#] SDG generation started for withdraw[0m
+[36m[#] SDG generated for withdraw[0m
+[36m[#] SDG generation started for deposit[0m
+[36m[#] SDG generated for deposit[0m
+[36m[#] SDG generation started for modifier noSameBlock[0m
+[36m[#] SDG generated for modifier noSameBlock[0m
+[INFO] | 2025-11-09 11:13:43 AM | analyzer.Block_ree1 | Symbolic execution took 1.886328 seconds
+[INFO] | 2025-11-09 11:13:43 AM | analyzer.Block_ree1 | Symbolic execution finished!
+[INFO] | 2025-11-09 11:13:43 AM | analyzer.Block_ree1 | Analysis finished!
+[INFO] | 2025-11-09 11:13:43 AM | analyzer.Block_ree1 | Analysis took 2.307532 seconds
+[INFO] | 2025-11-09 11:13:43 AM | analyzer.Block_ree1 | Analysis finished at: 2025-11-09 11:13:43 AM
+[36m[#] Analysis took 2.307532 seconds[0m
+[36m[#] Analysis completed: Block_ree1.sol [0m

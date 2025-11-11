@@ -1,0 +1,116 @@
+PROJECT_DIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/cross-function/guard/mutex/mod
+CONTRACT: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/cross-function/guard/mutex/mod/CrossMutexMod_ree3.sol
+IMAGE: holmessherlock/sailfish:latest
+COMMAND: docker run --rm --platform linux/amd64 -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_4/cross-function/guard/mutex/mod:/workspace -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/caz/mod/CrossMutexMod_ree3:/out -w / --entrypoint /bin/bash holmessherlock/sailfish:latest -lc '\
+set -Eeuo pipefail
+
+# 1) Locate Sailfish
+SCRIPT=""
+for p in /sailfish/code/static_analysis/analysis/contractlint.py \
+         /root/sailfish/code/static_analysis/analysis/contractlint.py \
+         /opt/sailfish/code/static_analysis/analysis/contractlint.py; do
+  [ -f "$p" ] && SCRIPT="$p" && break
+done
+[ -z "$SCRIPT" ] && echo "ERROR: contractlint.py not found" >&2 && exit 2
+
+# 2) Find python
+PYBIN="python3"; command -v python3 >/dev/null 2>&1 || PYBIN="python"
+
+# 3) Run Sailfish from its directory
+SRCDIR="$(dirname "$SCRIPT")"
+cd "$SRCDIR"
+export PYTHONPATH="${SRCDIR}:${PYTHONPATH-}"
+
+# 4) Execute analysis
+set +e
+$PYBIN contractlint.py \
+  -c /workspace/CrossMutexMod_ree3.sol \
+  -o /out \
+  -r range \
+  -p DAO,TOD \
+  -sv cvc4 \
+  -oo 2>&1 | tee /tmp/sf.out
+RC=${PIPESTATUS[0]}
+set -e
+exit $RC
+'
+MODE: range
+POLICIES: DAO,TOD
+SOLVER: cvc4
+OUT_SUBDIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/caz/mod/CrossMutexMod_ree3
+STATUS: success
+RETURN_CODE: 0
+ELAPSED_SECONDS: 5.28
+PRAGMA_SPECS: ^0.4.24
+
+=== CONTAINER OUTPUT ===
+mesg: ttyname failed: Inappropriate ioctl for device
+[INFO] | 2025-11-09 11:13:11 AM | analyzer.CrossMutexMod_ree3 | Analysis started at: 2025-11-09 11:13:11 AM
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Version constraints: ['^0.4.24']
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | solc version: v0.4.24
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Callgraph generation started!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Callgraph generation finished!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Interprocedural CFG generation started!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Interprocedural CFG generation finished!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Storage dependency graph generation started!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Storage dependency graph generation finished!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Value Range Analysis started
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Generating return summary for slitherConstructorVariables
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Return summary generated for slitherConstructorVariables
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Range graph generated
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Processed function slitherConstructorVariables
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Generating return summary for nonReentrant
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Return summary generated for nonReentrant
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Range graph generated
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Processed function nonReentrant
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Generating return summary for transfer
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Return summary generated for transfer
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Range graph generated
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Processed function transfer
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Generating return summary for withdraw
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Return summary generated for withdraw
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Range graph generated
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Processed function withdraw
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Generating return summary for deposit
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Return summary generated for deposit
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Range graph generated
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Processed function deposit
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Value Range Analysis took 0.010513 seconds
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Value Range Analysis finished
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Storage dependency graph compostion started!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Storage dependency graph compostion finished!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Dependency detection started!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | DAO dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and transfer
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | DAO dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and withdraw
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | DAO dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and deposit
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | TOD dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and transfer
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | TOD dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and withdraw
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | TOD dependency detected in file CrossMutexMod_ree3.sol in contract CrossMutexMod_ree3 in by composing functions withdraw and deposit
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Dependency detection finished!
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Static Analysis took 0.680953 seconds
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Dependency exists
+[INFO] | 2025-11-09 11:13:12 AM | analyzer.CrossMutexMod_ree3 | Invoking symbolic executor!
+[36m[#] Analysing started: CrossMutexMod_ree3.sol[0m
+[36m[#] Interprocedural CFG generation started for modifier nonReentrant[0m
+[36m[#] Interprocedural CFG generated for modifer nonReentrant[0m
+[36m[#] Interprocedural CFG generation started for transfer[0m
+[36m[#] Interprocedural CFG generated for transfer[0m
+[36m[#] Interprocedural CFG generation started for withdraw[0m
+[36m[#] Interprocedural CFG generated for withdraw[0m
+[36m[#] Interprocedural CFG generation started for deposit[0m
+[36m[#] Interprocedural CFG generated for deposit[0m
+[36m[#] SDG generation started for transfer[0m
+[36m[#] SDG generated for transfer[0m
+[36m[#] SDG generation started for withdraw[0m
+[36m[#] SDG generated for withdraw[0m
+[36m[#] SDG generation started for deposit[0m
+[36m[#] SDG generated for deposit[0m
+[36m[#] SDG generation started for modifier nonReentrant[0m
+[36m[#] SDG generated for modifier nonReentrant[0m
+[INFO] | 2025-11-09 11:13:14 AM | analyzer.CrossMutexMod_ree3 | Symbolic execution took 1.994256 seconds
+[INFO] | 2025-11-09 11:13:14 AM | analyzer.CrossMutexMod_ree3 | Symbolic execution finished!
+[INFO] | 2025-11-09 11:13:14 AM | analyzer.CrossMutexMod_ree3 | Analysis finished!
+[INFO] | 2025-11-09 11:13:14 AM | analyzer.CrossMutexMod_ree3 | Analysis took 2.682678 seconds
+[INFO] | 2025-11-09 11:13:14 AM | analyzer.CrossMutexMod_ree3 | Analysis finished at: 2025-11-09 11:13:14 AM
+[36m[#] Analysis took 2.682678 seconds[0m
+[36m[#] Analysis completed: CrossMutexMod_ree3.sol [0m

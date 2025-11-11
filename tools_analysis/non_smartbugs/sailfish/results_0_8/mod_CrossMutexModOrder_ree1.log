@@ -1,0 +1,58 @@
+PROJECT_DIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_8/cross-function/guard/mutex/mod
+CONTRACT: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_8/cross-function/guard/mutex/mod/CrossMutexModOrder_ree1.sol
+IMAGE: holmessherlock/sailfish:latest
+COMMAND: docker run --rm --platform linux/amd64 -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/dataset/handcrafted/0_8/cross-function/guard/mutex/mod:/workspace -v /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/results_0_8/mod/CrossMutexModOrder_ree1:/out -w / --entrypoint /bin/bash holmessherlock/sailfish:latest -lc '\
+set -Eeuo pipefail
+
+# 1) Locate Sailfish
+SCRIPT=""
+for p in /sailfish/code/static_analysis/analysis/contractlint.py \
+         /root/sailfish/code/static_analysis/analysis/contractlint.py \
+         /opt/sailfish/code/static_analysis/analysis/contractlint.py; do
+  [ -f "$p" ] && SCRIPT="$p" && break
+done
+[ -z "$SCRIPT" ] && echo "ERROR: contractlint.py not found" >&2 && exit 2
+
+# 2) Find python
+PYBIN="python3"; command -v python3 >/dev/null 2>&1 || PYBIN="python"
+
+# 3) Run Sailfish from its directory
+SRCDIR="$(dirname "$SCRIPT")"
+cd "$SRCDIR"
+export PYTHONPATH="${SRCDIR}:${PYTHONPATH-}"
+
+# 4) Execute analysis
+set +e
+$PYBIN contractlint.py \
+  -c /workspace/CrossMutexModOrder_ree1.sol \
+  -o /out \
+  -r range \
+  -p DAO,TOD \
+  -sv cvc4 \
+  -oo 2>&1 | tee /tmp/sf.out
+RC=${PIPESTATUS[0]}
+set -e
+exit $RC
+'
+MODE: range
+POLICIES: DAO,TOD
+SOLVER: cvc4
+OUT_SUBDIR: /mnt/c/Users/spano/Documents/GitHub/manually-verified-reentrancy-dataset/tools_analysis/non_smartbugs/sailfish/results_0_8/mod/CrossMutexModOrder_ree1
+STATUS: success
+RETURN_CODE: 1
+ELAPSED_SECONDS: 2.73
+PRAGMA_SPECS: ^0.8.0
+
+=== CONTAINER OUTPUT ===
+mesg: ttyname failed: Inappropriate ioctl for device
+[INFO] | 2025-11-09 11:22:39 AM | analyzer.CrossMutexModOrder_ree1 | Analysis started at: 2025-11-09 11:22:39 AM
+[INFO] | 2025-11-09 11:22:40 AM | analyzer.CrossMutexModOrder_ree1 | Version constraints: ['^0.8.0']
+Traceback (most recent call last):
+  File "contractlint.py", line 63, in analyze_contracts
+    _, solc_path = get_solc_path(contract_path, log)
+  File "../lib/solidity.py", line 287, in get_solc_path
+    max_version_string = get_latest_patch_version(min_version_string)
+  File "../lib/solidity.py", line 169, in get_latest_patch_version
+    raise SolcVersionUnavailableException(version_string)
+lib.solidity.SolcVersionUnavailableException: solc v0.8.0 not available
+[36m[#] Analysing started: CrossMutexModOrder_ree1.sol[0m
