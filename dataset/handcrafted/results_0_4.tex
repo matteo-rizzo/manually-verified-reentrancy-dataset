@@ -1,0 +1,12 @@
+\begin{table}
+\caption{Reentrancy detection results for Solidity 0_4}
+\label{tab:0_4}
+\begin{tabular}{lllllllllllllllllllllll}
+\toprule
+ & \rotatebox{90}{cross-contract/access-control/human} & \rotatebox{90}{cross-contract/access-control/temporal} & \rotatebox{90}{cross-contract/create} & \rotatebox{90}{cross-contract/read-only} & \rotatebox{90}{cross-contract/to-target} & \rotatebox{90}{cross-function/baseline} & \rotatebox{90}{cross-function/guard/access-control} & \rotatebox{90}{cross-function/guard/mutex/mod} & \rotatebox{90}{cross-function/guard/mutex/no-mod} & \rotatebox{90}{single-function/low-level-call/to-sender/baseline} & \rotatebox{90}{single-function/low-level-call/to-sender/folded} & \rotatebox{90}{single-function/low-level-call/to-sender/gas} & \rotatebox{90}{single-function/low-level-call/to-sender/guard/block-number} & \rotatebox{90}{single-function/low-level-call/to-sender/guard/mutex/multi-flag/mod} & \rotatebox{90}{single-function/low-level-call/to-sender/guard/mutex/multi-flag/no-mod} & \rotatebox{90}{single-function/low-level-call/to-sender/guard/mutex/single-flag/mod} & \rotatebox{90}{single-function/low-level-call/to-sender/guard/mutex/single-flag/no-mod} & \rotatebox{90}{single-function/low-level-call/to-target/constant} & \rotatebox{90}{single-function/low-level-call/to-target/constructor} & \rotatebox{90}{single-function/low-level-call/to-target/parameter} & \rotatebox{90}{single-function/method-invocation/baseline} & \rotatebox{90}{single-function/method-invocation/folded} \\
+toolid &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  &  \\
+\midrule
+vandal & 1/1 & 3/5 & 0/2 & 6/6 & 1/1 & 1/1 & 1/1 & 6/6 & 3/3 & 1/1 & 3/3 & 0/1 & 1/1 & 5/5 & 5/5 & 5/5 & 5/5 & 1/1 & 1/1 & 1/1 & 1/1 & 3/3 \\
+\bottomrule
+\end{tabular}
+\end{table}
