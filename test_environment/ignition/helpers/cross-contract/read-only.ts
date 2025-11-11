@@ -2,7 +2,7 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function crossContractReadOnlyModuleBuilder(victimContract: string) {
-    return readOnlyModuleBuilder(victimContract, "ReadOnllyRee1Attacker");
+    return readOnlyModuleBuilder(victimContract, "ReadOnly_ree1_Attacker");
 }
 
 function readOnlyModuleBuilder(victimContract: string, attackerContract: string) {

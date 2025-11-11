@@ -18,7 +18,7 @@ export function TemporalVault1ModuleBuilder(victimContract: string, attackerCont
         const oneEther = ethers.parseEther("1.0");
 
         const deployer = m.getAccount(0);
-        const vaultContract = m.contract("Vault", [], { from: deployer });
+        const vaultContract = m.contract("TemporalVault_ree1_Vault", [], { from: deployer });
         const crossContractree = m.contract(victimContract, [vaultContract], { from: deployer });
         m.call(vaultContract, "setAdmin", [crossContractree], { from: deployer });
 
@@ -42,7 +42,7 @@ export function TemporalVault2ModuleBuilder(victimContract: string, attackerCont
         const oneEther = ethers.parseEther("1.0");
 
         const deployer = m.getAccount(0);
-        const vaultContract = m.contract("Vault2", [], { from: deployer });
+        const vaultContract = m.contract("TemporalVault_ree2_Vault", [], { from: deployer });
         const crossContractree = m.contract(victimContract, [vaultContract], { from: deployer });
         m.call(vaultContract, "setAdmin", [crossContractree], { from: deployer });
 
@@ -69,7 +69,7 @@ export function TemporalLocker1ModuleBuilder(victimContract: string, attackerCon
 
         console.warn("TemporalLocker1ModuleBuilder is not yet implemented.");
 
-        const crossContractree = m.contract(victimContract, [], { from: deployer });
+        const crossContractree = m.contract(victimContract, [deployer], { from: deployer });
         return { crossContractree };
     });
 }

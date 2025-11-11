@@ -2,10 +2,10 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function crossFunctionModuleBuilder(victimContract: string) {
-    return moduleBuilder(victimContract, "CrossCallAttacker");
+    return moduleBuilder(victimContract, "CrossCall_Attacker");
 }
 
-export function crossFunctionTrustSwapModuleBuilder(victimContract: string) {
+export function crossFunctionDoubleInitModuleBuilder(victimContract: string) {
     return buildModule(victimContract, (m) => {
         const oneEther = ethers.parseEther("1.0");
 
@@ -19,7 +19,7 @@ export function crossFunctionTrustSwapModuleBuilder(victimContract: string) {
         m.call(crossCallCallree, "deposit", [], { value: oneEther, from: victim2, id: "victim2Deposit" });
 
         const attacker = m.getAccount(3);
-        const crossCallAttacker = m.contract("TrustSwapAttacker", [crossCallCallree], { from: attacker });
+        const crossCallAttacker = m.contract("CrossDoubleInit_Attacker", [crossCallCallree], { from: attacker });
         m.call(crossCallAttacker, "attack", [], { value: oneEther, from: attacker });
         m.call(crossCallAttacker, "collectEther", [], { from: attacker });
 

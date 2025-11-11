@@ -2,11 +2,11 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function lowLevelToSenderModuleBuilder(victimContract: string) {
-    return moduleBuilder(victimContract, "LowLevelCallToSenderAttacker");
+    return moduleBuilder(victimContract, "LowLevelCallToSender_Attacker");
 }
 
 export function lowLevelToTargetModuleBuilder(victimContract: string) {
-    return moduleBuilder(victimContract, "LowLevelCallToTargetAttacker");
+    return moduleBuilder(victimContract, "LowLevelCallToTarget_Attacker");
 }
 
 export function moduleBuilder(victimContract: string, attackerContract: string) {
@@ -45,7 +45,7 @@ export function twoStepsAttackerModuleBuilder(victimContract: string) {
         m.call(lowLevelCallree, "deposit", [], { value: oneEther, from: victim2, id: "victim2Deposit" });
 
         const attacker = m.getAccount(3);
-        const lowLevelCallAttacker = m.contract("LowLevelCallToSenderAttackerTwoSteps", [lowLevelCallree], { from: attacker });
+        const lowLevelCallAttacker = m.contract("LowLevelCallToSender_AttackerTwoSteps", [lowLevelCallree], { from: attacker });
         m.call(lowLevelCallAttacker, "attackStep1", [], { value: oneEther, from: attacker });
         m.call(lowLevelCallAttacker, "attackStep2", [], { from: attacker });
         m.call(lowLevelCallAttacker, "collectEther", [], { from: attacker });
