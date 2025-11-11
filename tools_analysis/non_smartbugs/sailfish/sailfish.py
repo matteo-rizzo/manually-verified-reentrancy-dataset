@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import csv
 import os
 import re
 import shlex
@@ -281,29 +280,6 @@ def run_one(
     )
 
 
-def smartbugs_append(summary_csv: Path, r: RunResult, toolid: str, toolmode: str, parser_version: str, runid: str):
-    is_new = not summary_csv.exists()
-    summary_csv.parent.mkdir(parents=True, exist_ok=True)
-    with open(summary_csv, "a", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        if is_new:
-            w.writerow(["filename", "basename", "toolid", "toolmode", "parser_version", "runid", "start", "duration",
-                        "exit_code", "findings", "infos", "errors", "fails"])
-        w.writerow([
-            str(r.contract_path.resolve()),
-            r.contract_path.name,
-            toolid,
-            toolmode,
-            parser_version,
-            runid,
-            r.started_at_iso,
-            f"{r.elapsed_s:.2f}",
-            r.return_code,
-            r.findings,
-            "", "", ""
-        ])
-
-
 def present_table(results: List[RunResult], outdir: Path) -> None:
     ok = sum(1 for r in results if r.status == "success")
     if RICH:
@@ -393,7 +369,6 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     ap.add_argument("--include-hidden", action="store_true")
     ap.add_argument("--platform", default=DEFAULT_PLATFORM,
                     help="Force a docker platform, e.g. 'linux/amd64'. Recommended.")
-    ap.add_argument("--smartbugs-summary", default="smartbugs_summary.csv")
     ap.add_argument("--toolid", default=DEFAULT_TOOLID)
     ap.add_argument("--toolmode", default=DEFAULT_TOOLMODE)
     ap.add_argument("--parser-version", default=DEFAULT_PARSER_VERSION)
@@ -424,13 +399,9 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
 
     results = run_parallel(_runner, contracts, args.workers)
 
-    sb_csv = outdir / args.smartbugs_summary
-    for r in results:
-        smartbugs_append(sb_csv, r, args.toolid, args.toolmode, args.parser_version, args.runid)
-
     present_table(results, outdir)
     if any(r.status != "success" for r in results):
-        print(f"One or more runs failed. See logs in {outdir} and summary {sb_csv}", file=sys.stderr)
+        print(f"One or more runs failed. See logs in {outdir}", file=sys.stderr)
         return 1
     return 0
 

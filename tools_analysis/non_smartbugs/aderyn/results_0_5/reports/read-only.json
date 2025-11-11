@@ -1,0 +1,648 @@
+{
+  "files_summary": {
+    "total_source_units": 8,
+    "total_sloc": 361
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "ReadOnlyStaticcall_ree1.sol",
+        "n_sloc": 35
+      },
+      {
+        "file_path": "ReadOnlyStaticcall_safe1.sol",
+        "n_sloc": 59
+      },
+      {
+        "file_path": "ReadOnly_ree1.sol",
+        "n_sloc": 29
+      },
+      {
+        "file_path": "ReadOnly_ree2.sol",
+        "n_sloc": 36
+      },
+      {
+        "file_path": "ReadOnly_ree3.sol",
+        "n_sloc": 44
+      },
+      {
+        "file_path": "ReadOnly_safe1.sol",
+        "n_sloc": 47
+      },
+      {
+        "file_path": "ReadOnly_safe2.sol",
+        "n_sloc": 53
+      },
+      {
+        "file_path": "ReadOnly_safe3.sol",
+        "n_sloc": 58
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 2,
+    "low": 9
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Contract Name Reused in Different Files",
+        "description": "When compiling contracts with certain development frameworks (for example: Truffle), having contracts with the same name across different files can lead to one being overwritten.",
+        "detector_name": "reused-contract-name",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 4,
+            "src": "57:72",
+            "src_char": "57:72"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 4,
+            "src": "57:72",
+            "src_char": "57:72"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 4,
+            "src": "57:67",
+            "src_char": "57:67"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 4,
+            "src": "57:67",
+            "src_char": "57:67"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 4,
+            "src": "57:84",
+            "src_char": "57:84"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 4,
+            "src": "57:72",
+            "src_char": "57:72"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 8,
+            "src": "131:559",
+            "src_char": "131:559"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 31,
+            "src": "741:714",
+            "src_char": "741:714"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 4,
+            "src": "57:72",
+            "src_char": "57:72"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 8,
+            "src": "131:705",
+            "src_char": "131:705"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 38,
+            "src": "887:714",
+            "src_char": "887:714"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 4,
+            "src": "57:84",
+            "src_char": "57:84"
+          }
+        ]
+      },
+      {
+        "title": "Reentrancy: State change after external call",
+        "description": "Changing state after an external call can lead to re-entrancy attacks.Use the checks-effects-interactions pattern to avoid this issue.",
+        "detector_name": "reentrancy-state-change",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 44,
+            "src": "1319:34",
+            "src_char": "1319:34",
+            "hint": "State is changed at: `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 64,
+            "src": "1721:34",
+            "src_char": "1721:34",
+            "hint": "State is changed at: `fix += amt`, `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 36,
+            "src": "878:29",
+            "src_char": "878:29",
+            "hint": "State is changed at: `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 44,
+            "src": "1047:29",
+            "src_char": "1047:29",
+            "hint": "State is changed at: `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 53,
+            "src": "1211:44",
+            "src_char": "1211:44",
+            "hint": "State is changed at: `total += a + inc`"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 49,
+            "src": "1145:34",
+            "src_char": "1145:34",
+            "hint": "State is changed at: `fix += amt`, `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 56,
+            "src": "1291:34",
+            "src_char": "1291:34",
+            "hint": "State is changed at: `fix += amt`, `randomness += amt + rnd`"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 66,
+            "src": "1480:44",
+            "src_char": "1480:44",
+            "hint": "State is changed at: `total += a + inc`"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Centralization Risk",
+        "description": "Contracts have owners with privileged rights to perform admin tasks and need to be trusted to not perform malicious updates or drain funds.",
+        "detector_name": "centralization-risk",
+        "instances": [
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 51,
+            "src": "1145:9",
+            "src_char": "1145:9"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 64,
+            "src": "1401:9",
+            "src_char": "1401:9"
+          }
+        ]
+      },
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          }
+        ]
+      },
+      {
+        "title": "Address State Variable Set Without Checks",
+        "description": "Check for `address(0)` when assigning values to address state variables.",
+        "detector_name": "state-no-address-check",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 13,
+            "src": "306:38",
+            "src_char": "306:38"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 14,
+            "src": "331:39",
+            "src_char": "331:39"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 13,
+            "src": "281:28",
+            "src_char": "281:28"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 14,
+            "src": "304:28",
+            "src_char": "304:28"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 13,
+            "src": "281:28",
+            "src_char": "281:28"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 39,
+            "src": "880:14",
+            "src_char": "880:14"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 14,
+            "src": "311:29",
+            "src_char": "311:29"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 14,
+            "src": "311:29",
+            "src_char": "311:29"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 13,
+            "src": "283:29",
+            "src_char": "283:29"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 40,
+            "src": "911:14",
+            "src_char": "911:14"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 47,
+            "src": "990:100",
+            "src_char": "990:100"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 60,
+            "src": "1233:113",
+            "src_char": "1233:113"
+          }
+        ]
+      },
+      {
+        "title": "Empty `require()` / `revert()` Statement",
+        "description": "Use descriptive reason strings or custom errors for revert paths.",
+        "detector_name": "empty-require-revert",
+        "instances": [
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 43,
+            "src": "938:7",
+            "src_char": "938:7"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 44,
+            "src": "969:7",
+            "src_char": "969:7"
+          }
+        ]
+      },
+      {
+        "title": "`nonReentrant` is Not the First Modifier",
+        "description": "To protect against reentrancy in other modifiers, the `nonReentrant` modifier should be the first modifier in the list of modifiers.",
+        "detector_name": "non-reentrant-not-first",
+        "instances": [
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 64,
+            "src": "1411:12",
+            "src_char": "1411:12"
+          }
+        ]
+      },
+      {
+        "title": "Modifier Invoked Only Once",
+        "description": "Consider removing the modifier or inlining the logic into the calling function.",
+        "detector_name": "modifier-used-only-once",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 17,
+            "src": "383:127",
+            "src_char": "383:127"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 51,
+            "src": "1435:119",
+            "src_char": "1435:119"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 17,
+            "src": "345:127",
+            "src_char": "345:127"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 42,
+            "src": "907:77",
+            "src_char": "907:77"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 36,
+            "src": "859:119",
+            "src_char": "859:119"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 17,
+            "src": "353:127",
+            "src_char": "353:127"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 43,
+            "src": "1005:119",
+            "src_char": "1005:119"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 43,
+            "src": "938:77",
+            "src_char": "938:77"
+          }
+        ]
+      },
+      {
+        "title": "Inconsistent uint256/uint (or) int256/int types",
+        "description": "Inconsistency in declaring uint256/uint (or) int256/int variables within a contract. Use explicit size declarations (uint256 or int256). Consider keeping the naming convention consistent in a given contract. Explicit size declarations are preferred (uint256, int256) over implicit ones (uint, int) to avoid confusion.",
+        "detector_name": "inconsistent-type-names",
+        "instances": [
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 10,
+            "src": "215:42",
+            "src_char": "215:42"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_ree1.sol",
+            "line_no": 44,
+            "src": "1319:8",
+            "src_char": "1319:8"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 10,
+            "src": "217:42",
+            "src_char": "217:42"
+          },
+          {
+            "contract_path": "ReadOnlyStaticcall_safe1.sol",
+            "line_no": 64,
+            "src": "1721:8",
+            "src_char": "1721:8"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 10,
+            "src": "190:42",
+            "src_char": "190:42"
+          },
+          {
+            "contract_path": "ReadOnly_ree1.sol",
+            "line_no": 36,
+            "src": "878:8",
+            "src_char": "878:8"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 10,
+            "src": "190:42",
+            "src_char": "190:42"
+          },
+          {
+            "contract_path": "ReadOnly_ree2.sol",
+            "line_no": 44,
+            "src": "1047:8",
+            "src_char": "1047:8"
+          },
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 51,
+            "src": "1135:8",
+            "src_char": "1135:8"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 10,
+            "src": "197:42",
+            "src_char": "197:42"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 49,
+            "src": "1145:8",
+            "src_char": "1145:8"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 10,
+            "src": "197:42",
+            "src_char": "197:42"
+          },
+          {
+            "contract_path": "ReadOnly_safe2.sol",
+            "line_no": 56,
+            "src": "1291:8",
+            "src_char": "1291:8"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 64,
+            "src": "1391:8",
+            "src_char": "1391:8"
+          }
+        ]
+      },
+      {
+        "title": "Unused State Variable",
+        "description": "State variable appears to be unused. No analysis has been performed to see if any inline assembly references it. Consider removing this unused variable.",
+        "detector_name": "unused-state-variable",
+        "instances": [
+          {
+            "contract_path": "ReadOnly_ree3.sol",
+            "line_no": 10,
+            "src": "207:25",
+            "src_char": "207:25"
+          },
+          {
+            "contract_path": "ReadOnly_safe1.sol",
+            "line_no": 11,
+            "src": "245:17",
+            "src_char": "245:17"
+          },
+          {
+            "contract_path": "ReadOnly_safe3.sol",
+            "line_no": 10,
+            "src": "209:25",
+            "src_char": "209:25"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

@@ -1,0 +1,530 @@
+{
+  "files_summary": {
+    "total_source_units": 5,
+    "total_sloc": 228
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "TemporalLocker_ree1.sol",
+        "n_sloc": 31
+      },
+      {
+        "file_path": "TemporalLocker_safe1.sol",
+        "n_sloc": 38
+      },
+      {
+        "file_path": "TemporalVault_ree1.sol",
+        "n_sloc": 52
+      },
+      {
+        "file_path": "TemporalVault_ree2.sol",
+        "n_sloc": 55
+      },
+      {
+        "file_path": "TemporalVault_safe1.sol",
+        "n_sloc": 52
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 2,
+    "low": 7
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Contract Name Reused in Different Files",
+        "description": "When compiling contracts with certain development frameworks (for example: Truffle), having contracts with the same name across different files can lead to one being overwritten.",
+        "detector_name": "reused-contract-name",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 5,
+            "src": "164:6",
+            "src_char": "164:6"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 11,
+            "src": "403:5",
+            "src_char": "403:5"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 5,
+            "src": "164:6",
+            "src_char": "164:6"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 11,
+            "src": "403:5",
+            "src_char": "403:5"
+          }
+        ]
+      },
+      {
+        "title": "ETH transferred without address checks",
+        "description": "Consider introducing checks for `msg.sender` to ensure the recipient of the money is as intended.",
+        "detector_name": "eth-send-unchecked-address",
+        "instances": [
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 20,
+            "src": "491:6",
+            "src_char": "491:6"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 19,
+            "src": "417:6",
+            "src_char": "417:6"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 19,
+            "src": "412:6",
+            "src_char": "412:6"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          }
+        ]
+      },
+      {
+        "title": "Address State Variable Set Without Checks",
+        "description": "Check for `address(0)` when assigning values to address state variables.",
+        "detector_name": "state-no-address-check",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 20,
+            "src": "608:19",
+            "src_char": "608:19"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 28,
+            "src": "765:19",
+            "src_char": "765:19"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 51,
+            "src": "1381:9",
+            "src_char": "1381:9"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 53,
+            "src": "1521:9",
+            "src_char": "1521:9"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 50,
+            "src": "1315:9",
+            "src_char": "1315:9"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 23,
+            "src": "649:7",
+            "src_char": "649:7"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 28,
+            "src": "821:8",
+            "src_char": "821:8"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 34,
+            "src": "1023:11",
+            "src_char": "1023:11"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 31,
+            "src": "806:7",
+            "src_char": "806:7"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 36,
+            "src": "991:8",
+            "src_char": "991:8"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 42,
+            "src": "1206:11",
+            "src_char": "1206:11"
+          }
+        ]
+      },
+      {
+        "title": "PUSH0 Opcode",
+        "description": "Solc compiler version 0.8.20 switches the default target EVM version to Shanghai, which means that the generated bytecode will include PUSH0 opcodes. Be sure to select the appropriate EVM version in case you intend to deploy on a chain other than mainnet like L2 chains that may not support PUSH0, otherwise deployment of your contracts will fail.",
+        "detector_name": "push-zero-opcode",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 2,
+            "src": "32:23",
+            "src_char": "32:23"
+          }
+        ]
+      },
+      {
+        "title": "Modifier Invoked Only Once",
+        "description": "Consider removing the modifier or inlining the logic into the calling function.",
+        "detector_name": "modifier-used-only-once",
+        "instances": [
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 8,
+            "src": "187:12",
+            "src_char": "187:12"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 44,
+            "src": "1171:9",
+            "src_char": "1171:9"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 8,
+            "src": "187:12",
+            "src_char": "187:12"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 46,
+            "src": "1311:9",
+            "src_char": "1311:9"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 8,
+            "src": "189:12",
+            "src_char": "189:12"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 43,
+            "src": "1105:9",
+            "src_char": "1105:9"
+          }
+        ]
+      },
+      {
+        "title": "State Change Without Event",
+        "description": "There are state variable changes in this function but no event is emitted. Consider emitting an event to enable offchain indexers to track the changes.",
+        "detector_name": "state-change-without-event",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 23,
+            "src": "649:7",
+            "src_char": "649:7"
+          },
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 28,
+            "src": "821:8",
+            "src_char": "821:8"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 31,
+            "src": "806:7",
+            "src_char": "806:7"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 36,
+            "src": "991:8",
+            "src_char": "991:8"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 42,
+            "src": "1206:11",
+            "src_char": "1206:11"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 20,
+            "src": "491:6",
+            "src_char": "491:6"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 49,
+            "src": "1285:8",
+            "src_char": "1285:8"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 54,
+            "src": "1412:10",
+            "src_char": "1412:10"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 58,
+            "src": "1493:8",
+            "src_char": "1493:8"
+          },
+          {
+            "contract_path": "TemporalVault_ree1.sol",
+            "line_no": 63,
+            "src": "1629:7",
+            "src_char": "1629:7"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 19,
+            "src": "417:6",
+            "src_char": "417:6"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 51,
+            "src": "1425:8",
+            "src_char": "1425:8"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 56,
+            "src": "1552:10",
+            "src_char": "1552:10"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 60,
+            "src": "1633:8",
+            "src_char": "1633:8"
+          },
+          {
+            "contract_path": "TemporalVault_ree2.sol",
+            "line_no": 71,
+            "src": "1992:5",
+            "src_char": "1992:5"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 19,
+            "src": "412:6",
+            "src_char": "412:6"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 48,
+            "src": "1219:8",
+            "src_char": "1219:8"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 53,
+            "src": "1346:10",
+            "src_char": "1346:10"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 57,
+            "src": "1427:8",
+            "src_char": "1427:8"
+          },
+          {
+            "contract_path": "TemporalVault_safe1.sol",
+            "line_no": 62,
+            "src": "1563:7",
+            "src_char": "1563:7"
+          }
+        ]
+      },
+      {
+        "title": "State Variable Could Be Immutable",
+        "description": "State variables that are only changed in the constructor should be declared immutable to save gas. Add the `immutable` attribute to state variables that are only changed in the constructor",
+        "detector_name": "state-variable-could-be-immutable",
+        "instances": [
+          {
+            "contract_path": "TemporalLocker_ree1.sol",
+            "line_no": 16,
+            "src": "513:4",
+            "src_char": "513:4"
+          },
+          {
+            "contract_path": "TemporalLocker_safe1.sol",
+            "line_no": 16,
+            "src": "514:4",
+            "src_char": "514:4"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

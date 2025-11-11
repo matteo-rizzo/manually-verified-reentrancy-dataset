@@ -1,0 +1,429 @@
+{
+  "files_summary": {
+    "total_source_units": 6,
+    "total_sloc": 138
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "CastFolded_ree1.sol",
+        "n_sloc": 20
+      },
+      {
+        "file_path": "CastFolded_ree2.sol",
+        "n_sloc": 23
+      },
+      {
+        "file_path": "CastFolded_ree3.sol",
+        "n_sloc": 26
+      },
+      {
+        "file_path": "CastFolded_safe1.sol",
+        "n_sloc": 20
+      },
+      {
+        "file_path": "CastFolded_safe2.sol",
+        "n_sloc": 23
+      },
+      {
+        "file_path": "CastFolded_safe3.sol",
+        "n_sloc": 26
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 1,
+    "low": 5
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Contract Name Reused in Different Files",
+        "description": "When compiling contracts with certain development frameworks (for example: Truffle), having contracts with the same name across different files can lead to one being overwritten.",
+        "detector_name": "reused-contract-name",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 5,
+            "src": "62:75",
+            "src_char": "62:75"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unsafe ERC20 Operation",
+        "description": "ERC20 functions may not behave as expected. For example: return values are not always meaningful. It is recommended to use OpenZeppelin's SafeERC20 library.",
+        "detector_name": "unsafe-erc20-operation",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 13,
+            "src": "295:16",
+            "src_char": "295:16"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 13,
+            "src": "295:16",
+            "src_char": "295:16"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 13,
+            "src": "295:16",
+            "src_char": "295:16"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 13,
+            "src": "296:16",
+            "src_char": "296:16"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 13,
+            "src": "296:16",
+            "src_char": "296:16"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 13,
+            "src": "296:16",
+            "src_char": "296:16"
+          }
+        ]
+      },
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 17,
+            "src": "428:258",
+            "src_char": "428:258"
+          },
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 24,
+            "src": "692:91",
+            "src_char": "692:91"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 17,
+            "src": "428:180",
+            "src_char": "428:180"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 28,
+            "src": "766:91",
+            "src_char": "766:91"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 17,
+            "src": "428:180",
+            "src_char": "428:180"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 32,
+            "src": "880:91",
+            "src_char": "880:91"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 17,
+            "src": "507:259",
+            "src_char": "507:259"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 24,
+            "src": "772:91",
+            "src_char": "772:91"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 17,
+            "src": "508:180",
+            "src_char": "508:180"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 28,
+            "src": "841:91",
+            "src_char": "841:91"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 17,
+            "src": "507:183",
+            "src_char": "507:183"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 32,
+            "src": "957:91",
+            "src_char": "957:91"
+          }
+        ]
+      },
+      {
+        "title": "Internal Function Used Only Once",
+        "description": "Instead of separating the logic into a separate function, consider inlining the logic into the calling function. This can reduce the number of function calls and improve readability.",
+        "detector_name": "internal-function-used-once",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree1.sol",
+            "line_no": 12,
+            "src": "221:201",
+            "src_char": "221:201"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 12,
+            "src": "221:201",
+            "src_char": "221:201"
+          },
+          {
+            "contract_path": "CastFolded_ree2.sol",
+            "line_no": 24,
+            "src": "614:146",
+            "src_char": "614:146"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 12,
+            "src": "221:201",
+            "src_char": "221:201"
+          },
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 24,
+            "src": "614:146",
+            "src_char": "614:146"
+          },
+          {
+            "contract_path": "CastFolded_safe1.sol",
+            "line_no": 12,
+            "src": "222:279",
+            "src_char": "222:279"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 12,
+            "src": "222:280",
+            "src_char": "222:280"
+          },
+          {
+            "contract_path": "CastFolded_safe2.sol",
+            "line_no": 24,
+            "src": "694:141",
+            "src_char": "694:141"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 12,
+            "src": "222:279",
+            "src_char": "222:279"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 24,
+            "src": "696:141",
+            "src_char": "696:141"
+          },
+          {
+            "contract_path": "CastFolded_safe3.sol",
+            "line_no": 28,
+            "src": "843:108",
+            "src_char": "843:108"
+          }
+        ]
+      },
+      {
+        "title": "Dead Code",
+        "description": "Functions that are not used. Consider removing them.",
+        "detector_name": "dead-code",
+        "instances": [
+          {
+            "contract_path": "CastFolded_ree3.sol",
+            "line_no": 28,
+            "src": "766:108",
+            "src_char": "766:108"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}

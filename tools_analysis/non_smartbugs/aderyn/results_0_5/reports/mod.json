@@ -1,0 +1,387 @@
+{
+  "files_summary": {
+    "total_source_units": 8,
+    "total_sloc": 159
+  },
+  "files_details": {
+    "files_details": [
+      {
+        "file_path": "MutexMod_ree1.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "MutexMod_ree2.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "MutexMod_ree3.sol",
+        "n_sloc": 20
+      },
+      {
+        "file_path": "MutexMod_ree4.sol",
+        "n_sloc": 19
+      },
+      {
+        "file_path": "MutexMod_ree5.sol",
+        "n_sloc": 20
+      },
+      {
+        "file_path": "MutexMod_safe1.sol",
+        "n_sloc": 21
+      },
+      {
+        "file_path": "MutexMod_safe2.sol",
+        "n_sloc": 21
+      },
+      {
+        "file_path": "MutexMod_safe3.sol",
+        "n_sloc": 20
+      }
+    ]
+  },
+  "issue_count": {
+    "high": 1,
+    "low": 3
+  },
+  "high_issues": {
+    "issues": [
+      {
+        "title": "Reentrancy: State change after external call",
+        "description": "Changing state after an external call can lead to re-entrancy attacks.Use the checks-effects-interactions pattern to avoid this issue.",
+        "detector_name": "reentrancy-state-change",
+        "instances": [
+          {
+            "contract_path": "MutexMod_ree1.sol",
+            "line_no": 19,
+            "src": "494:49",
+            "src_char": "494:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "MutexMod_ree2.sol",
+            "line_no": 19,
+            "src": "495:49",
+            "src_char": "495:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "MutexMod_ree3.sol",
+            "line_no": 19,
+            "src": "484:49",
+            "src_char": "484:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "MutexMod_ree4.sol",
+            "line_no": 19,
+            "src": "495:49",
+            "src_char": "495:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "MutexMod_ree5.sol",
+            "line_no": 19,
+            "src": "485:49",
+            "src_char": "485:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          },
+          {
+            "contract_path": "MutexMod_safe1.sol",
+            "line_no": 19,
+            "src": "470:49",
+            "src_char": "470:49",
+            "hint": "State is changed at: `balances[msg.sender] = 0`"
+          }
+        ]
+      }
+    ]
+  },
+  "low_issues": {
+    "issues": [
+      {
+        "title": "Unspecific Solidity Pragma",
+        "description": "Consider using a specific version of Solidity in your contracts instead of a wide version. For example, instead of `pragma solidity ^0.8.0;`, use `pragma solidity 0.8.0;`",
+        "detector_name": "unspecific-solidity-pragma",
+        "instances": [
+          {
+            "contract_path": "MutexMod_ree1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_ree2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_ree3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_ree4.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_ree5.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_safe1.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_safe2.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          },
+          {
+            "contract_path": "MutexMod_safe3.sol",
+            "line_no": 2,
+            "src": "36:23",
+            "src_char": "36:23"
+          }
+        ]
+      },
+      {
+        "title": "Public Function Not Used Internally",
+        "description": "If a function is marked public but is not used internally, consider marking it as `external`.",
+        "detector_name": "unused-public-function",
+        "instances": [
+          {
+            "contract_path": "MutexMod_ree1.sol",
+            "line_no": 16,
+            "src": "352:302",
+            "src_char": "352:302"
+          },
+          {
+            "contract_path": "MutexMod_ree1.sol",
+            "line_no": 24,
+            "src": "660:104",
+            "src_char": "660:104"
+          },
+          {
+            "contract_path": "MutexMod_ree2.sol",
+            "line_no": 16,
+            "src": "353:302",
+            "src_char": "353:302"
+          },
+          {
+            "contract_path": "MutexMod_ree2.sol",
+            "line_no": 24,
+            "src": "661:104",
+            "src_char": "661:104"
+          },
+          {
+            "contract_path": "MutexMod_ree3.sol",
+            "line_no": 16,
+            "src": "342:302",
+            "src_char": "342:302"
+          },
+          {
+            "contract_path": "MutexMod_ree3.sol",
+            "line_no": 24,
+            "src": "650:104",
+            "src_char": "650:104"
+          },
+          {
+            "contract_path": "MutexMod_ree4.sol",
+            "line_no": 16,
+            "src": "353:302",
+            "src_char": "353:302"
+          },
+          {
+            "contract_path": "MutexMod_ree4.sol",
+            "line_no": 24,
+            "src": "661:104",
+            "src_char": "661:104"
+          },
+          {
+            "contract_path": "MutexMod_ree5.sol",
+            "line_no": 16,
+            "src": "343:302",
+            "src_char": "343:302"
+          },
+          {
+            "contract_path": "MutexMod_ree5.sol",
+            "line_no": 24,
+            "src": "651:104",
+            "src_char": "651:104"
+          },
+          {
+            "contract_path": "MutexMod_safe1.sol",
+            "line_no": 16,
+            "src": "326:340",
+            "src_char": "326:340"
+          },
+          {
+            "contract_path": "MutexMod_safe1.sol",
+            "line_no": 24,
+            "src": "672:106",
+            "src_char": "672:106"
+          },
+          {
+            "contract_path": "MutexMod_safe2.sol",
+            "line_no": 16,
+            "src": "326:329",
+            "src_char": "326:329"
+          },
+          {
+            "contract_path": "MutexMod_safe2.sol",
+            "line_no": 24,
+            "src": "661:106",
+            "src_char": "661:106"
+          },
+          {
+            "contract_path": "MutexMod_safe3.sol",
+            "line_no": 16,
+            "src": "336:345",
+            "src_char": "336:345"
+          },
+          {
+            "contract_path": "MutexMod_safe3.sol",
+            "line_no": 24,
+            "src": "687:106",
+            "src_char": "687:106"
+          }
+        ]
+      },
+      {
+        "title": "Empty `require()` / `revert()` Statement",
+        "description": "Use descriptive reason strings or custom errors for revert paths.",
+        "detector_name": "empty-require-revert",
+        "instances": [
+          {
+            "contract_path": "MutexMod_ree1.sol",
+            "line_no": 10,
+            "src": "251:7",
+            "src_char": "251:7"
+          },
+          {
+            "contract_path": "MutexMod_ree3.sol",
+            "line_no": 10,
+            "src": "251:7",
+            "src_char": "251:7"
+          },
+          {
+            "contract_path": "MutexMod_safe1.sol",
+            "line_no": 10,
+            "src": "245:7",
+            "src_char": "245:7"
+          },
+          {
+            "contract_path": "MutexMod_safe2.sol",
+            "line_no": 10,
+            "src": "245:7",
+            "src_char": "245:7"
+          },
+          {
+            "contract_path": "MutexMod_safe3.sol",
+            "line_no": 10,
+            "src": "245:7",
+            "src_char": "245:7"
+          }
+        ]
+      }
+    ]
+  },
+  "detectors_used": [
+    "delegatecall-in-loop",
+    "centralization-risk",
+    "solmate-safe-transfer-lib",
+    "abi-encode-packed-hash-collision",
+    "ecrecover",
+    "deprecated-oz-function",
+    "unsafe-erc20-operation",
+    "unspecific-solidity-pragma",
+    "state-no-address-check",
+    "unused-public-function",
+    "literal-instead-of-constant",
+    "empty-require-revert",
+    "non-reentrant-not-first",
+    "block-timestamp-deadline",
+    "unsafe-oz-erc721-mint",
+    "push-zero-opcode",
+    "arbitrary-transfer-from",
+    "modifier-used-only-once",
+    "empty-block",
+    "large-numeric-literal",
+    "internal-function-used-once",
+    "todo",
+    "inconsistent-type-names",
+    "unprotected-initializer",
+    "unused-error",
+    "require-revert-in-loop",
+    "division-before-multiplication",
+    "unsafe-casting",
+    "enumerable-loop-removal",
+    "experimental-encoder",
+    "incorrect-shift-order",
+    "storage-array-memory-edit",
+    "multiple-constructors",
+    "reused-contract-name",
+    "nested-struct-in-mapping",
+    "selfdestruct",
+    "dynamic-array-length-assignment",
+    "incorrect-caret-operator",
+    "yul-return",
+    "state-variable-shadowing",
+    "unchecked-send",
+    "misused-boolean",
+    "eth-send-unchecked-address",
+    "delegate-call-unchecked-address",
+    "tautological-compare",
+    "rtlo",
+    "dangerous-unary-operator",
+    "tautology-or-contradiction",
+    "strict-equality-contract-balance",
+    "signed-integer-storage-array",
+    "redundant-statement",
+    "state-variable-read-external",
+    "weak-randomness",
+    "pre-declared-local-variable-usage",
+    "delete-nested-mapping",
+    "unused-state-variable",
+    "constant-function-contains-assembly",
+    "boolean-equality",
+    "tx-origin-used-for-auth",
+    "msg-value-in-loop",
+    "contract-locks-ether",
+    "local-variable-shadowing",
+    "incorrect-erc721-interface",
+    "incorrect-erc20-interface",
+    "uninitialized-local-variable",
+    "return-bomb",
+    "out-of-order-retryable",
+    "function-initializing-state",
+    "dead-code",
+    "storage-array-length-not-cached",
+    "assert-state-change",
+    "costly-loop",
+    "constant-function-changes-state",
+    "builtin-symbol-shadowing",
+    "void-constructor",
+    "function-selector-collision",
+    "missing-inheritance",
+    "unused-import",
+    "unchecked-low-level-call",
+    "function-pointer-in-constructor",
+    "state-variable-could-be-constant",
+    "state-change-without-event",
+    "state-variable-could-be-immutable",
+    "multiple-placeholders",
+    "reentrancy-state-change",
+    "incorrect-use-of-modifier",
+    "unchecked-return"
+  ]
+}
