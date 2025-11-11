@@ -9,12 +9,12 @@ contract Create2_ree1 {
         address payable winner,
         uint salt
     ) public payable returns (address) {
-        // to perform a deploy, 0.01 ether is required
-        require(msg.value == 0.01 ether);
+        // to perform a deploy, 1 ether is required
+        require(msg.value == 1 ether);
 
-        // every 10 deploys, a prize of 0.02 ether is sent to the second argument
+        // every 10 deploys, a prize of 2 ether is sent to the second argument
         if ((counters[msg.sender] + 1) % 10 == 0) {
-            winner.transfer(0.02 ether); // cannot reenter from here due to low gas
+            winner.transfer(2 ether); // cannot reenter from here due to low gas
         }
 
         address addr;
