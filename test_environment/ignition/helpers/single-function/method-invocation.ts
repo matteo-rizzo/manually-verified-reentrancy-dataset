@@ -2,7 +2,7 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function methodInvocationModuleBuilder(victimContract: string) {
-    return moduleBuilder(victimContract, "MethodInvocationAttacker");
+    return moduleBuilder(victimContract, "MethodInvocation_Attacker");
 }
 
 // export function lowLevelToTargetModuleBuilder(victimContract: string) {

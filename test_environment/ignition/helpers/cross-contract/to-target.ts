@@ -2,7 +2,7 @@ import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 import { ethers } from "ethers";
 
 export function crossContractToTargetModuleBuilder(victimContract: string) {
-    return toTargetModuleBuilder(victimContract, "ToTargetRee1Attacker");
+    return toTargetModuleBuilder(victimContract, "ToTarget_ree1_Attacker");
 }
 
 function toTargetModuleBuilder(victimContract: string, attackerContract: string) {

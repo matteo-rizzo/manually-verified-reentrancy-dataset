@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import "../../cross-function/guard/mutex/mod/CrossDoubleInit_ree1.sol";
 
-contract TrustSwapAttacker {
+contract CrossDoubleInit_Attacker {
     CrossDoubleInit_ree1 private c;
     bool private attackPerformed;
 
