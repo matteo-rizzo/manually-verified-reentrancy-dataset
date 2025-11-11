@@ -3,6 +3,7 @@ import argparse
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import textwrap
@@ -55,6 +56,98 @@ class RunResult:
     findings: str
     started_at_iso: str
     pragma_specs: str
+
+
+def flatten_directory(input_dir):
+    """
+    Creates a "flattened" clone of a directory.
+
+    It walks through the input_dir, finds all files, and copies them
+    to a new directory named '{input_dir}_flat'.
+
+    To avoid name collisions, files are renamed based on their
+    relative path. For example, 'subdir/image.jpg' becomes
+    'subdir_image.jpg'.
+
+    Args:
+        input_dir (str): The path to the directory you want to flatten.
+    """
+
+    # --- 1. Validate Input ---
+    if not os.path.isdir(input_dir):
+        print(f"Error: Path '{input_dir}' is not a valid directory.")
+        return
+
+    # Normalize paths to remove any trailing slashes
+    input_dir = os.path.normpath(input_dir)
+
+    # --- 2. Define Output Directory ---
+    # Create the output directory path (e.g., 'my_files' becomes 'my_files_flat')
+    output_dir = f"{input_dir}_flat"
+
+    try:
+        # Create the output directory, including any necessary parent dirs.
+        # 'exist_ok=True' means it won't raise an error if it already exists.
+        os.makedirs(output_dir, exist_ok=True)
+        print(f"Created temp flat directory: {output_dir}")
+
+        # --- 3. Walk and Copy ---
+        file_count = 0
+
+        # os.walk is a generator that recursively walks the directory tree
+        # root: The current directory path
+        # dirs: A list of subdirectory names in 'root'
+        # files: A list of file names in 'root'
+        for root, dirs, files in os.walk(input_dir):
+
+            # Don't try to walk the output directory if it's inside the input dir
+            if root.startswith(output_dir):
+                continue
+
+            for filename in files:
+                # Get the full path to the original file
+                original_path = os.path.join(root, filename)
+
+                # Get the file's path relative to the input_dir
+                # e.g., 'subdir/another/file.txt'
+                relative_path = os.path.relpath(original_path, input_dir)
+
+                # Get just the relative directory path
+                # e.g., 'subdir/another' or '' if file is in root
+                relative_dir = os.path.dirname(relative_path)
+
+                # Create the new "flat" filename based on user's request:
+                # "original name with prefix = the original path"
+
+                if relative_dir:
+                    # Create the prefix from the path, e.g., 'subdir/another' -> 'subdir_another_'
+                    prefix = relative_dir.replace(os.sep, '__') + '__'
+                else:
+                    # File is in the root of input_dir, so no prefix
+                    prefix = ''
+
+                # Combine the prefix and the original filename
+                flat_name = f"{prefix}{filename}"
+
+                # Define the full path for the new, copied file
+                dest_path = os.path.join(output_dir, flat_name)
+
+                try:
+                    # Copy the file, preserving metadata (like creation time)
+                    shutil.copy2(original_path, dest_path)
+                    file_count += 1
+
+                except shutil.Error as e:
+                    print(f"Warning: Could not copy '{original_path}'. Error: {e}")
+                except IOError as e:
+                    print(f"Warning: IO Error copying '{original_path}'. Error: {e}")
+
+        print(f"Done. Successfully copied {file_count} files to '{output_dir}'.")
+
+    except OSError as e:
+        print(f"Error: Could not create output directory '{output_dir}'. Error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 
 def require_docker() -> None:
@@ -373,6 +466,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     ap.add_argument("--toolmode", default=DEFAULT_TOOLMODE)
     ap.add_argument("--parser-version", default=DEFAULT_PARSER_VERSION)
     ap.add_argument("--runid", default=DEFAULT_RUNID)
+    ap.add_argument("--keep-flat-dir", action="store_true")
     args = ap.parse_args(argv)
 
     require_docker()
@@ -380,6 +474,10 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     if not root.is_dir():
         print(f"ERROR: Root does not exist or is not a directory: {root}", file=sys.stderr)
         return 2
+
+    flatten_directory(root)
+
+    root = str(root) + "_flat"
 
     outdir = args.outdir.resolve()
     outdir.mkdir(parents=True, exist_ok=True)
@@ -403,6 +501,12 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     if any(r.status != "success" for r in results):
         print(f"One or more runs failed. See logs in {outdir}", file=sys.stderr)
         return 1
+
+    print("Deleting temp flat directory...")
+    if not args.keep_flat_dir:
+        shutil.rmtree(root)
+
+    print("Done!")
     return 0
 
 
