@@ -8,24 +8,20 @@ interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
 }
 
-interface IPool {
-    function withdrawFee(address token) external;
-}
-
 contract TemporalLocker_safe1 {
-    IPool private pool;
+    Pool private pool;
     mapping(address => uint) public deposited;
 
     bool private flag;
 
     modifier nonReentrant() {
-        require(!flag, "Reentrant call");
+        require(!flag, "Locked");
         flag = true;
         _;
         flag = false;
     }
     constructor(address _pool) {
-        pool = IPool(_pool);
+        pool = Pool(_pool);
     }
 
     function deposit(address token, uint amt) public nonReentrant {
@@ -44,6 +40,22 @@ contract TemporalLocker_safe1 {
         pool.withdrawFee(token);
         uint n2 = IERC20(token).balanceOf(address(this));
         IERC20(token).safeTransferFrom(address(this), msg.sender, n2 - n1);
+    }
+}
+
+contract Pool {
+
+    mapping (address => uint) public fees;
+
+    function dummySwap() public {
+        // perform some swap logic
+        fees[msg.sender] += 1;
+    }
+
+    function withdrawFee(address token) public {
+        uint amt = fees[msg.sender];
+        fees[msg.sender] = 0;
+        IERC20(token).safeTransferFrom(address(this), msg.sender, amt);
     }
 }
 
