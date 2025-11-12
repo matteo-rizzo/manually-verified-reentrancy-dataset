@@ -333,7 +333,7 @@ supports Solidity up to 0.6.11
 ## Ethainter
 NO reentrancy
 
-## eThor
+## eThor ?
 analyzes bytecode
 abstract interpretation + horn clauses + smt reachability solver
 
@@ -349,7 +349,7 @@ NO reentrancy
 No reentrancy
 
 
-## Manticore
+## Manticore ?
 analyzes bytecode
 syntactic + symbolic execution + sat solver
 
@@ -360,7 +360,7 @@ Detector for reentrancy:
   - the storage slot of the SSTORE must be used in some path to control flow
 
 
-## Mythril
+## Mythril 
 analyzes bytecode
 syntactic + symbolic execution + sat solver
 
@@ -400,7 +400,7 @@ To detected reentrancy, the following criteria are implemented:
 	- CALLs whose money value is a constant equal to 0 are discarded
 	- CALLs whose gas argument does NOT have some dataflow dependency with some GAS instruction above are discarded
 
-## Securify2
+## Securify2 ?
 analyzes bytecode
 
 pattern-based declarative analysis using Datalog 
@@ -435,9 +435,9 @@ in the implementation there are no rules define for detecting reentrancy, though
 
 
 ## Solhint
-NO reentrancy, it only warns the programmer if it is using a low level call as a potential risk.
+it only warns the programmer if it is using a low level call as a potential risk.
 
-## teEther
+## teEther ?
 analyzes bytecode
 
 symbolic execution + SMT solvers

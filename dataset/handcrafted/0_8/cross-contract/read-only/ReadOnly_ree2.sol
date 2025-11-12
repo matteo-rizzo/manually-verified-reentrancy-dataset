@@ -25,6 +25,7 @@ contract ReadOnly_ree2 {
         uint256 bonus = o.fix() / o.randomness();
         uint256 amt = balances[msg.sender] + bonus;
 
+        balances[msg.sender] = 0;
         (bool success, ) = payable(msg.sender).call{value: amt}("");
         require(success, "Failed");
     }
