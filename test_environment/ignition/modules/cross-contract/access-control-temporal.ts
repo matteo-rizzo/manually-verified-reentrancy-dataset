@@ -67,7 +67,7 @@ export function TemporalLocker1ModuleBuilder(victimContract: string, attackerCon
 
         // TODO 
 
-        console.warn("TemporalLocker1ModuleBuilder is not yet implemented.");
+        console.warn("⚠️ TemporalLocker1ModuleBuilder is not yet implemented. ⚠️a");
 
         const crossContractree = m.contract(victimContract, [deployer], { from: deployer });
         return { crossContractree };

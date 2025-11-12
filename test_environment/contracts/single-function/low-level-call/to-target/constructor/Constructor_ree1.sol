@@ -24,19 +24,3 @@ contract Constructor_ree1 is ILowLevelCallToTarget {
         balances[msg.sender] += msg.value;
     }
 }
-
-// sample target contract at address given at construction time
-// this contract seems trustful but it is actually vulnerable
-// contract Target {
-//     address private owner;
-
-//     // this is public and could be called by anyone, including malicious entities reassigning the onwer address
-//     function changeOwner() public {
-//         owner = msg.sender;
-//     }
-
-//     receive() external payable {
-//         (bool success, ) = owner.call("");  // a malicious owner may reenter in C.withdraw()
-//         require(success, "Call failed");
-//     }
-// }

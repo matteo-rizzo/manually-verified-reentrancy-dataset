@@ -4,15 +4,15 @@ pragma solidity ^0.8.0;
 import "../../interfaces/cross-function/ICrossFunction.sol";
 
 // This attacker contract exploits a vulnerability in most of the cases of cross-function reentrant contracts.
-contract CrossCall_Attacker {
+contract CrossFunction_Attacker {
     ICrossFunction public c;
     address public owner;
-    CrossCall_AttackerAux public aux;
+    CrossFunction_AttackerAux public aux;
 
     constructor(address _c) {
         c = ICrossFunction(_c);
         owner = msg.sender;
-        aux = new CrossCall_AttackerAux(_c, msg.sender);
+        aux = new CrossFunction_AttackerAux(_c, msg.sender);
     }
 
     function attackStep1() external payable {
@@ -43,7 +43,7 @@ contract CrossCall_Attacker {
     }
 }
 
-contract CrossCall_AttackerAux {
+contract CrossFunction_AttackerAux {
     ICrossFunction public c;
     address public owner;
     address public ownerEOA;

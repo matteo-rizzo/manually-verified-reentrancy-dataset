@@ -1,4 +1,4 @@
-import { crossFunctionModuleBuilder, crossFunctionDoubleInitModuleBuilder } from "../../ignition/helpers/cross-function/cross-function-call.js";
+import { crossFunctionModuleBuilder, crossFunctionDoubleInitModuleBuilder, crossFunctionMutexOrderModuleBuilder } from "../../ignition/modules/cross-function/cross-function-call.js";
 import { NetworkConnection } from "hardhat/types/network";
 import { printBalance, runContractWithBuilder } from "../lib.js";
 
@@ -12,4 +12,8 @@ export async function runDoubleInitContracts(connection: NetworkConnection, cont
     for (const name of contractNames) {
         await runContractWithBuilder(connection, name, crossFunctionDoubleInitModuleBuilder);
     }
+}
+
+export async function runCrossFunctionMutexOrderContracts(connection: NetworkConnection, contractName: string) {
+    await runContractWithBuilder(connection, contractName, crossFunctionMutexOrderModuleBuilder);
 }

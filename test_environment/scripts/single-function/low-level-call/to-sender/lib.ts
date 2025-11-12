@@ -1,6 +1,6 @@
 import { NetworkConnection } from "hardhat/types/network";
 import { printBalance, runContractWithBuilder } from "../../../lib.js";
-import { lowLevelToSenderModuleBuilder, twoStepsAttackerModuleBuilder } from "../../../../ignition/helpers/single-function/low-level-call.js";
+import { lowLevelToSenderModuleBuilder, twoStepsAttackerModuleBuilder } from "../../../../ignition/modules/single-function/low-level-call.js";
 
 export async function runSingleFunctionToSenderContracts(connection: NetworkConnection, contractNames: string[]) {
     for (const name of contractNames) {

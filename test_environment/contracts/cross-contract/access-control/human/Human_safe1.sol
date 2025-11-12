@@ -5,7 +5,7 @@ contract Human_safe1 {
     mapping(address => uint256) private bids;
     uint highestBid;
     address highestBidder;
-    mapping(address => mapping(address => uint256)) private allowances;
+    mapping(address => mapping(address => bool)) private allowances;
 
     modifier isHuman() {
         require(tx.origin == msg.sender, "Not EOA"); // this implementation of the modifier does not allow reentrancy from constructors, hence the contract is safe
@@ -21,20 +21,24 @@ contract Human_safe1 {
     }
 
     function transfer(address to) public isHuman {
-        transferFrom(msg.sender, to);
+        _transfer(msg.sender, to);
     }
 
-    function setAllowance(address a, uint256 amt) public {
-        allowances[msg.sender][a] = amt;
+    function setAllowance(address a) public {
+        allowances[msg.sender][a] = true;
     }
 
     function transferFrom(address from, address to) public isHuman {
+        require(allowances[from][msg.sender] == true, "Not allowed");
+        _transfer(from, to);
+        allowances[from][msg.sender] = false;
+    }
+
+    function _transfer(address from, address to) internal {
         uint256 amt = bids[from];
         require(amt > 0, "Insufficient funds");
-        require(allowances[msg.sender][from] >= amt);
         (bool success, ) = to.call{value: amt}("");
         require(success, "Call failed");
         bids[from] = 0; // side effect after call
-        allowances[msg.sender][from] = 0;
     }
 }

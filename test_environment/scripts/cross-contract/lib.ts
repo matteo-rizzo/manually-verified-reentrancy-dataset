@@ -1,9 +1,9 @@
 import { NetworkConnection } from "hardhat/types/network";
 import { runContractWithBuilder } from "../lib.js";
-import { crossContractAccessTemporalVault1ModuleBuilder, crossContractAccessTemporalVault2ModuleBuilder, crossContractAccessTemporalLocker1ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-temporal.js";
-import { crossContractAccessControlHuman1ModuleBuilder } from "../../ignition/helpers/cross-contract/access-control-human.js";
-import { crossContractCreateModuleBuilder, crossContractCreateModuleBuilder2, crossContractCreate2ModuleBuilder } from "../../ignition/helpers/cross-contract/create.js";
-import { crossContractToTargetModuleBuilder } from "../../ignition/helpers/cross-contract/to-target.js";
+import { crossContractAccessTemporalVault1ModuleBuilder, crossContractAccessTemporalVault2ModuleBuilder, crossContractAccessTemporalLocker1ModuleBuilder } from "../../ignition/modules/cross-contract/access-control-temporal.js";
+import { crossContractAccessControlHuman1ModuleBuilder } from "../../ignition/modules/cross-contract/access-control-human.js";
+import { crossContractCreateModuleBuilder, crossContractCreateModuleBuilder2, crossContractCreate2ModuleBuilder } from "../../ignition/modules/cross-contract/create.js";
+import { crossContractToTargetModuleBuilder } from "../../ignition/modules/cross-contract/to-target.js";
 
 export async function runCrossContractTemporalVault1Contract(connection: NetworkConnection, name: string) {
     await runContractWithBuilder(connection, name, crossContractAccessTemporalVault1ModuleBuilder);
