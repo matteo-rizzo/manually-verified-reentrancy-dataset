@@ -25,6 +25,7 @@ contract ReadOnlyStaticCall_ree1 {
         uint256 bonus = fix / randomness;
         uint256 amt = balances[msg.sender] + bonus;
 
+        balances[msg.sender] = 0;
         (success, ) = payable(msg.sender).call{value: amt}("");
         require(success, "Failed");
     }
