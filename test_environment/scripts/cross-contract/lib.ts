@@ -4,6 +4,7 @@ import { crossContractAccessTemporalVault1ModuleBuilder, crossContractAccessTemp
 import { crossContractAccessControlHuman1ModuleBuilder } from "../../ignition/modules/cross-contract/access-control-human.js";
 import { crossContractCreateModuleBuilder, crossContractCreateModuleBuilder2, crossContractCreate2ModuleBuilder } from "../../ignition/modules/cross-contract/create.js";
 import { crossContractToTargetModuleBuilder } from "../../ignition/modules/cross-contract/to-target.js";
+import { crossContractReadOnly3ModuleBuilder, crossContractReadOnlyModuleBuilder } from "../../ignition/modules/cross-contract/read-only.js";
 
 export async function runCrossContractTemporalVault1Contract(connection: NetworkConnection, name: string) {
     await runContractWithBuilder(connection, name, crossContractAccessTemporalVault1ModuleBuilder);
@@ -31,6 +32,14 @@ export async function runCrossContractCreateContract2(connection: NetworkConnect
 
 export async function runCrossContractCreate2Contract(connection: NetworkConnection, name: string) {
     await runContractWithBuilder(connection, name, crossContractCreate2ModuleBuilder);
+}
+
+export async function runCrossContractReadOnlyContract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractReadOnlyModuleBuilder);
+}
+
+export async function runCrossContractReadOnly3Contract(connection: NetworkConnection, name: string) {
+    await runContractWithBuilder(connection, name, crossContractReadOnly3ModuleBuilder);
 }
 
 export async function runCrossContractToTargetContract(connection: NetworkConnection, name: string) {

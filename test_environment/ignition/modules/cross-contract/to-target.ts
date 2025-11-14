@@ -22,7 +22,7 @@ function toTargetModuleBuilder(victimContract: string, attackerContract: string)
         const crossContractAttacker = m.contract(attackerContract, [crossContractree], { from: attacker });
         m.call(crossContractAttacker, "attack", [], { value: oneEther, from: attacker });
         m.call(crossContractAttacker, "collectEther", [], { from: attacker });
-
+        m.send
         return { crossContractree, crossContractAttacker };
     });
 }

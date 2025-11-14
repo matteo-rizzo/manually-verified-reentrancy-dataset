@@ -9,18 +9,28 @@ contract ReadOnly_ree3 {
     ReadOnly_ree3_Oracle public o;
     bool private flag = false;
 
+    event Deposited(address indexed user, uint256 amount);
+
     constructor(address _o) {
         o = ReadOnly_ree3_Oracle(_o);
     }
 
     function withdraw() external {
-        uint256 amt = o.getUserShare(msg.sender) / o.total();
+        uint256 amt = getWithdrawableAmount();
 
         (bool success, ) = payable(msg.sender).call{value: amt}("");
         require(success, "Failed to withdraw ETH");
     }
 
-    receive() external payable {}
+    function getWithdrawableAmount() public view returns (uint256) {
+        return
+            o.getUserShare(msg.sender) +
+            ((o.getUserShare(msg.sender) * 0.01 ether) / o.total());
+    }
+
+    receive() external payable {
+        emit Deposited(msg.sender, msg.value);
+    }
 }
 
 // THIS is the contract vulnerable to reentrancy
@@ -34,12 +44,12 @@ contract ReadOnly_ree3_Oracle {
     mapping(address => Data) private userShares;
     address private owner;
 
-    constructor(address _owner) {
-        owner = _owner;
+    constructor() {
+        owner = msg.sender;
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Only owner can call this function");
         _;
     }
 
@@ -47,11 +57,11 @@ contract ReadOnly_ree3_Oracle {
         userShares[msg.sender] = Data(0, IAdjuster(a));
     }
 
-    function updateUserShare(address user, uint inc) external onlyOwner {
-        userShares[user].amt += inc;
-        uint256 a = userShares[user].adj.adjust(inc);
+    function updateUserShare(address user, uint increment) external onlyOwner {
+        userShares[user].amt += increment;
+        uint256 a = userShares[user].adj.adjust(increment);
         // putting the side effect of the total AFTER the external call makes the division at line 17 diverge
-        total += a + inc;
+        total += a + increment;
     }
 
     function getUserShare(address a) external view returns (uint256) {
@@ -59,23 +69,10 @@ contract ReadOnly_ree3_Oracle {
     }
 }
 
-// contract Attacker is IAdjuster {
-//     Victim public v;
-//     Oracle_ree public o;
+contract ReadOnly_ree3_DummyAdjuster is IAdjuster {
+    uint256 private counter = 1;
 
-//     constructor(address payable _v, address _o) {
-//         v = Victim(_v);
-//         o = Oracle_ree(_o);
-//     }
-
-//     function attack() public {
-//         o.register(address(this));
-//     }
-
-//     function adjust(uint256 inc) external override returns (uint256) {
-//         v.withdraw();
-//         return inc;
-//     }
-
-//     receive() external payable {}
-// }
+    function adjust(uint256 inc) external pure override returns (uint256) {
+        return inc * 0;
+    }
+}
