@@ -9,6 +9,8 @@ contract ReadOnly_ree3 {
     ReadOnly_ree3_Oracle public o;
     bool private flag = false;
 
+    event Deposited(address indexed user, uint256 amount);
+
     constructor(address _o) {
         o = ReadOnly_ree3_Oracle(_o);
     }
@@ -20,7 +22,9 @@ contract ReadOnly_ree3 {
         require(success, "Failed to withdraw ETH");
     }
 
-    receive() external payable {}
+    receive() external payable {
+        emit Deposited(msg.sender, msg.value);
+    }
 }
 
 // THIS is the contract vulnerable to reentrancy
@@ -47,11 +51,11 @@ contract ReadOnly_ree3_Oracle {
         userShares[msg.sender] = Data(0, IAdjuster(a));
     }
 
-    function updateUserShare(address user, uint inc) external onlyOwner {
-        userShares[user].amt += inc;
-        uint256 a = userShares[user].adj.adjust(inc);
+    function updateUserShare(address user, uint increment) external onlyOwner {
+        userShares[user].amt += increment;
+        uint256 a = userShares[user].adj.adjust(increment);
         // putting the side effect of the total AFTER the external call makes the division at line 17 diverge
-        total += a + inc;
+        total += a + increment;
     }
 
     function getUserShare(address a) external view returns (uint256) {
