@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IPRNG {
-    function rand() external returns (uint256);
+    function rand(uint256) external returns (uint256);
 }
 
 contract ReadOnly_ree1 {
@@ -14,7 +14,7 @@ contract ReadOnly_ree1 {
     }
 
     function withdraw() external {
-        uint256 bonus = o.fix() / o.randomness();
+        uint256 bonus = (o.fix() * 0.01 ether) / o.randomness();
         uint256 amt = balances[msg.sender] + bonus;
 
         balances[msg.sender] = 0;
@@ -22,19 +22,20 @@ contract ReadOnly_ree1 {
         require(success, "Failed");
     }
 
-    function deposit() external payable {
+    function deposit(address randomizer) external payable {
         balances[msg.sender] += msg.value;
+        o.update(randomizer, msg.value);
     }
 }
 
 // THIS is the contract vulnerable to reentrancy
 contract ReadOnly_ree1_Oracle {
     uint256 public fix;
-    uint256 public randomness;
+    uint256 public randomness = 1;
 
     function update(address prng, uint256 amt) external {
         fix += amt;
-        uint rnd = IPRNG(prng).rand();
+        uint rnd = IPRNG(prng).rand(amt);
         randomness += amt + rnd;
     }
 }

@@ -1,11 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
+interface I {
+    function transfer() external payable returns (bool);
+}
+
 contract CastFolded_ree2 {
     mapping(address => uint256) public balances;
 
     function pay(address addr, uint256 amt) internal {
-        bool success = IMethodCallee(addr).transfer{value: amt}(); // the implementation is unknown and could be malicious
+        bool success = I(addr).transfer{value: amt}(); // the implementation is unknown and could be malicious
         require(success, "Call failed");
     }
 
