@@ -452,3 +452,31 @@ symbolic execution to comupte jump destinations when decompiling bytecode + patt
 
 Vandal detects reentrancy by running Datalog queries over a model of EVM bytecode to identify external calls followed by state updates.
 From their paper: a CALL is flagged as reentrant if it forwards sufficient gas and is not protected by a mutex.
+
+
+
+
+
+Aderyn 
+AutoAR 
+CCC 
+ConFuzzius
+Conkas
+ContractWard
+eThor 
+DefectChecker
+Manticore 
+Mythril 
+NPChecker
+Oyente+ 
+Sailfish
+Securify 
+Securify2 
+Sereum
+sFuzz 
+Slither 
+Smartcheck
+Solhint 
+teEther
+TotalSol
+Vandal 
