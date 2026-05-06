@@ -7,7 +7,7 @@ contract This_safe1 {
     function withdraw() public {
         uint256 amt = balances[msg.sender];
         require(amt > 0, "Insufficient funds");
-        bool success = this.pay(amt); // emits a CALL but it always resolves the local method above, so this invocation is not an actual external call
+        bool success = this.pay(amt); // emits a CALL but it always resolves the local method below, so this invocation is not an actual external call
         balances[msg.sender] = 0; // the position of the side effect is irrelevant, as the contract is safe anyway
         require(success, "Call failed");
     }
