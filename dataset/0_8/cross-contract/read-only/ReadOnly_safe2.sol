@@ -2,16 +2,16 @@
 pragma solidity ^0.8.0;
 
 interface IPRNG {
-    function getRandom() external returns (uint256);
+    function rand() external returns (uint256);
 }
 
-contract ReadOnly_safe1 {
-    ReadOnly_safe1_Oracle public o;
-    mapping(address => uint) private balances;
+contract ReadOnly_safe2 {
+    ReadOnly_safe2_Oracle public o;
+    mapping(address => uint256) private balances;
     bool private flag;
 
     constructor(address _o) {
-        o = ReadOnly_safe1_Oracle(_o);
+        o = ReadOnly_safe2_Oracle(_o);
     }
 
     modifier nonReentrant() {
@@ -35,10 +35,9 @@ contract ReadOnly_safe1 {
     }
 }
 
-// THIS is the contract vulnerable to reentrancy
-contract ReadOnly_safe1_Oracle {
-    uint256 private fix;
-    uint256 private randomness;
+contract ReadOnly_safe2_Oracle {
+    uint256 private fix = 100;
+    uint256 private randomness = 10;
     bool private flag;
 
     modifier nonReentrant() {
@@ -53,9 +52,11 @@ contract ReadOnly_safe1_Oracle {
         _;
     }
 
+    // Same update order as the vulnerable counterpart. The view guard prevents
+    // a nested reader from observing the intermediate state while update runs.
     function update(address prng, uint256 amt) external nonReentrant {
-        uint rnd = IPRNG(prng).getRandom();
         fix += amt;
+        uint256 rnd = IPRNG(prng).rand();
         randomness += amt + rnd;
     }
 

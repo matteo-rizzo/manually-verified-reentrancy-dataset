@@ -2,16 +2,16 @@
 pragma solidity ^0.4.24;
 
 interface IPRNG {
-    function getRandom() external returns (uint256);
+    function rand() external returns (uint256);
 }
 
-contract ReadOnly_safe1 {
-    ReadOnly_safe1_Oracle public o;
-    mapping (address => uint) private balances;
+contract ReadOnly_safe2 {
+    ReadOnly_safe2_Oracle public o;
+    mapping(address => uint256) private balances;
     bool private flag;
 
-    constructor(address _o)  public{
-        o = ReadOnly_safe1_Oracle(_o);
+    constructor(address _o) public {
+        o = ReadOnly_safe2_Oracle(_o);
     }
 
     modifier nonReentrant() {
@@ -21,12 +21,13 @@ contract ReadOnly_safe1 {
         flag = false;
     }
 
-    function withdraw() nonReentrant external {
+    function withdraw() external nonReentrant {
         uint256 bonus = o.getFix() / o.getRandomness();
         uint256 amt = balances[msg.sender] + bonus;
 
-        bool success = (msg.sender).call.value(amt)("");
-        require (success, "Failed");
+        balances[msg.sender] = 0;
+        bool success = msg.sender.call.value(amt)("");
+        require(success, "Failed");
     }
 
     function deposit() external payable {
@@ -34,10 +35,9 @@ contract ReadOnly_safe1 {
     }
 }
 
-// THIS is the contract vulnerable to reentrancy
-contract ReadOnly_safe1_Oracle {
-    uint256 private fix;
-    uint256 private randomness;
+contract ReadOnly_safe2_Oracle {
+    uint256 private fix = 100;
+    uint256 private randomness = 10;
     bool private flag;
 
     modifier nonReentrant() {
@@ -52,18 +52,17 @@ contract ReadOnly_safe1_Oracle {
         _;
     }
 
-    function update(address prng, uint256 amt) nonReentrant external {
-        uint rnd = IPRNG(prng).getRandom();
+    function update(address prng, uint256 amt) external nonReentrant {
         fix += amt;
+        uint256 rnd = IPRNG(prng).rand();
         randomness += amt + rnd;
     }
 
-    function getFix() nonReentrantView view external returns (uint256) {
+    function getFix() external view nonReentrantView returns (uint256) {
         return fix;
     }
 
-    function getRandomness() nonReentrantView view external returns (uint256) {
+    function getRandomness() external view nonReentrantView returns (uint256) {
         return randomness;
     }
 }
-

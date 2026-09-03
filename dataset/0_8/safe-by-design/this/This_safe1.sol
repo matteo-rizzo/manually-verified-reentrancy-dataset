@@ -6,15 +6,25 @@ contract This_safe1 {
 
     function withdraw() public {
         uint256 amt = balances[msg.sender];
-        require(amt > 0, "Insufficient funds");
-        bool success = this.pay(amt); // emits a CALL but it always resolves the local method below, so this invocation is not an actual external call
-        balances[msg.sender] = 0; // the position of the side effect is irrelevant, as the contract is safe anyway
+        require(amt > 0, "No funds");
+
+        // this.authorize is externally dispatched, but its target is the
+        // current contract and therefore does not transfer control to
+        // attacker-controlled code in this MWE.
+        bool ok = this.authorize(msg.sender, amt);
+        require(ok, "Unauthorized");
+
+        balances[msg.sender] = 0;
+
+        // The actual attacker-controlled interaction occurs only after the
+        // recorded balance has been cleared.
+        (bool success, ) = payable(msg.sender).call{value: amt}("");
         require(success, "Call failed");
     }
 
-    function pay(uint256 amt) public returns (bool) {
-        require(msg.sender == address(this)); // only this can call pay()
-        return payable(msg.sender).send(amt); // send() has too few gas to allow reentrancy
+    function authorize(address a, uint256 amt) external returns (bool) {
+        require(msg.sender == address(this));
+        return balances[a] >= amt;
     }
 
     function deposit() public payable {

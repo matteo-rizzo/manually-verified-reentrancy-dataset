@@ -2,12 +2,12 @@
 pragma solidity ^0.8.0;
 
 interface IPRNG {
-    function rand(uint256) external returns (uint256);
+    function rand() external returns (uint256);
 }
 
 contract ReadOnly_ree2 {
     ReadOnly_ree2_Oracle public o;
-    mapping(address => uint) private balances;
+    mapping(address => uint256) private balances;
     bool private flag;
 
     constructor(address _o) {
@@ -22,7 +22,7 @@ contract ReadOnly_ree2 {
     }
 
     function withdraw() external nonReentrant {
-        uint256 bonus = (o.fix() * 0.01 ether) / o.randomness();
+        uint256 bonus = o.fix() / o.randomness();
         uint256 amt = balances[msg.sender] + bonus;
 
         balances[msg.sender] = 0;
@@ -30,39 +30,21 @@ contract ReadOnly_ree2 {
         require(success, "Failed");
     }
 
-    function deposit(address randomizer) external payable {
+    // Used to fund the victim in the executable witness. The read-only exploit
+    // itself is triggered through Oracle.update and does not re-enter deposit.
+    function deposit() external payable {
         balances[msg.sender] += msg.value;
-        o.update(randomizer, msg.value);
     }
 }
 
-// THIS is the contract vulnerable to reentrancy
+// The intermediate state of this oracle is the source of the read-only reentrancy.
 contract ReadOnly_ree2_Oracle {
-    uint256 public fix;
-    uint256 public randomness;
+    uint256 public fix = 100;
+    uint256 public randomness = 10;
 
     function update(address prng, uint256 amt) external {
         fix += amt;
-        uint rnd = IPRNG(prng).rand(amt);
+        uint256 rnd = IPRNG(prng).rand();
         randomness += amt + rnd;
     }
 }
-
-// contract Attacker is IPRNG {
-//     Victim public v;
-//     Oracle_ree public o;
-
-//     constructor(address payable _v, address _o) {
-//         v = Victim(_v);
-//         o = Oracle_ree(_o);
-//     }
-
-//     function rand() external returns (uint256) {
-//         v.withdraw();
-//         return 1;
-//     }
-
-//     receive() external payable {
-//         o.update(address(this), 10);
-//     }
-// }
